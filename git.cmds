@@ -1,0 +1,10 @@
+git remote add origin https://github.com/12379Monty/reAnalysis.git
+git branch -M main
+git push -u origin main
+
+# A Step-by-Step Guide: Deploying on Netlify
+
+Step 1: Add Your New Site
+
+...
+

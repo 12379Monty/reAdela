@@ -1,0 +1,19 @@
+
+
+processing file: _Adela_vs_GRAIL_MCED_Comparison.Rmd
+1/11                    
+2/11 [sidenote]         
+3/11                    
+4/11 [setup]            
+5/11                    
+6/11 [m2b-GlobalOptions]
+7/11                    
+8/11 [m2b-Prelims]      
+9/11                    
+10/11 [m2b-utilityFns]   
+11/11                    
+output file: _Adela_vs_GRAIL_MCED_Comparison.knit.md
+
+/usr/local/bin/pandoc +RTS -K512m -RTS _Adela_vs_GRAIL_MCED_Comparison.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output _Adela_vs_GRAIL_MCED_Comparison.html --lua-filter /Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/bookdown/rmarkdown/lua/custom-environment.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --wrap preserve --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 2 --template /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --variable theme=bootstrap --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpkUifMT/rmarkdown-str21d27bbeeaa8.html --variable code_folding=hide --variable source_embed=_Adela_vs_GRAIL_MCED_Comparison.Rmd --include-after-body /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpkUifMT/file21d2331ffb10.html --variable code_menu=1 --citeproc 
+
+Output created: _Adela_vs_GRAIL_MCED_Comparison.html

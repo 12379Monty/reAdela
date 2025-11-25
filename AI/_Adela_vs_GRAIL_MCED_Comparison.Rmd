@@ -1,0 +1,532 @@
+---
+title:  "Comparison of Adela and GRAIL Multi-Cancer Early Detection (MCED) Assays"
+#subtitle: "a tale o two schools"
+author: "Francois Collin ([CV](https://francoiscollin-cv.netlify.app), [linkedin](https://www.linkedin.com/in/francoisz/))"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+always_allow_html: yes
+output:
+  # for use of .tabset
+  bookdown::html_document2:
+  #bookdown::html_book:
+  #html_document:
+    code_folding: hide
+    code_download: true
+    toc: true
+    toc_depth: 2
+    # does this have an effect
+    fig_caption: yes
+    # this has no effect
+    number_sections: yes
+    # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
+bibliography: [../_bibFiles/_healthy_aging.bib, ../_bibFiles/_ref_free_genom_inf.bib, ../../_bibFiles/_Breiman.bib, ../../_bibFiles/_Yu.bib, ../../_bibFiles/_Freedman.bib, ../../_bibFiles/_RUV.bib, ../../_bibFiles/_Yu.bib]
+csl: ../_csl/cell-numeric.csl
+link-citations: true
+---
+
+```{css sidenote, echo = FALSE}
+
+.main-container {
+    margin-left: 250px;
+}
+.sidenote, .marginnote { 
+  float: right;
+  clear: right;
+  margin-right: -40%;
+  width: 37%;         # best between 50% and 60%
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  vertical-align: baseline;
+  position: relative;
+  }
+```
+
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Oxygen');
+@import url('https://fonts.googleapis.com/css?family=Raleway:bold');
+@import url('https://fonts.googleapis.com/css?family=Oxygen:bold');
+
+.main-container {
+  max-width: 1400px !important;
+}
+
+body{
+  font-family: 'Oxygen', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+h1,h2,h3,h4 {
+  font-family: 'Raleway', sans-serif;
+}
+
+.container { width: 1400px; }
+
+caption {
+  font-size: 20px;
+  caption-side: top;
+  text-indent: 30px;
+  background-color: lightgrey;
+  color: black;
+  margin-top: 5px;
+}
+
+g-table-intro h4 {
+  text-indent: 0px;
+}
+</style>
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      comment = NA,
+                      warning = FALSE,
+                      error = FALSE,
+                      message = FALSE,
+                      cache = FALSE,
+                      fig.width = 8,
+                      fig.height = 4)
+```
+
+```{r m2b-GlobalOptions, results="hide", include=FALSE, cache=FALSE}
+
+knitr::opts_knit$set(stop_on_error = 2L) #really make it stop
+options(knitr.table.format = 'html')
+
+options(stringsAsFactors=F)
+
+ #knitr::dep_auto()
+
+```
+<!-- ######################################################################## -->
+
+
+```{r m2b-Prelims,  include=FALSE, echo=FALSE, results='hide', message=FALSE} 
+
+FN <- "_Adela_vs_GRAIL_MCED_Comparison"
+if(sum(grepl(FN, list.files()))==0) stop("Check FN")
+
+ suppressMessages(require(rmarkdown))
+ suppressMessages(require(knitr))
+
+ suppressPackageStartupMessages(require(methods))
+ suppressPackageStartupMessages(require(bookdown))
+
+ suppressPackageStartupMessages(require(data.table))
+ options(datatable.fread.datatable=F)
+
+ suppressPackageStartupMessages(require(plyr))
+ suppressPackageStartupMessages(require(dplyr))
+ suppressPackageStartupMessages(require(magrittr))
+
+ # Shotcuts for knitting and rendering while in R session (Invoke interactive R from R/Scripts folder)
+ kk <- function(n='') knitr::knit2html(paste("t", n, sep=''), envir=globalenv(),
+       output=paste(FN,".html", sep=''))
+
+ rr <- function(n='') rmarkdown::render(paste("t", n, sep=''), envir=globalenv(),
+       output_file=paste(FN,".html", sep='')) ##, output_dir='Scripts')
+
+ bb <- function(n='') browseURL(paste(FN,".html", sep=''))
+
+ # The usual shortcuts
+ zz <- function(n='') source(paste("t", n, sep=''))
+
+
+ WRKDIR <- '..'
+ if(!file.exists(WRKDIR)) stop("WRKDIR ERROR", WRKDIR)
+
+ # file rmarkdown file management options: cache, figures
+ cache_DIR <- file.path(WRKDIR,'Scripts', 'cache/M2B/')
+ suppressMessages(dir.create(cache_DIR, recursive=T))
+ opts_chunk$set(cache.path=cache_DIR)
+
+ figures_DIR <- file.path(WRKDIR,'Scripts', 'figures/M2B/')
+ suppressMessages(dir.create(figures_DIR, recursive=T))
+ opts_chunk$set(fig.path=figures_DIR)
+
+ #tables_DIR <- file.path(WRKDIR,'Scripts', 'tables/M2B/')
+ #suppressMessages(dir.create(table_DIR, recursive=T))
+ #opts_chunk$set(fig.path=table_DIR)
+ 
+ # need a local copy of help_DIR
+ #help_DIR <- file.path(WRKDIR,'Scripts', 'help_files')
+ help_DIR <- file.path('.', 'help_files')
+ suppressMessages(dir.create(help_DIR, recursive=T))
+ 
+ temp_DIR <- file.path(WRKDIR,'Scripts', 'temp_files')
+ suppressMessages(dir.create(temp_DIR, recursive=T))
+
+```
+<!-- ######################################################################## -->
+
+*** 
+
+```{r m2b-utilityFns, echo=FALSE, eval=F}
+ # Here we define some utility functions
+source('r/utilityFns.r')
+
+```
+
+<!-- ######################################################################## -->
+
+
+<style>
+    hr {
+        border: none;
+        height: 2px;
+        background: none;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+</style>
+
+
+<br/>
+
+# Executive Summary {-}
+
+This document provides a comprehensive technical comparison of two leading multi-cancer early detection (MCED) blood testing platforms: Adela's cfMeDIP-seq-based assay and GRAIL's Galleri test. Both utilize DNA methylation patterns in cell-free DNA (cfDNA) for cancer detection, but employ fundamentally different technical approaches.
+
+---
+
+# Technology Platform
+
+## Adela: cfMeDIP-seq Technology
+
+Adela's platform is based on **cell-free methylated DNA immunoprecipitation and high-throughput sequencing (cfMeDIP-seq)**, a genome-wide methylome enrichment approach developed at the Princess Margaret Cancer Centre by Daniel De Carvalho and colleagues [1, 2].
+
+**Key Technical Features:**
+
+- The platform isolates methylated regions through a **high-affinity enrichment process** using antibodies targeting 5-methylcytosine, without requiring bisulfite conversion [3, 4]
+- cfMeDIP-seq is described as "an ultra-sensitive methylation pattern detection technology which, combined with AI, is designed to help detect cancer and other high-morbidity, high-mortality conditions through a single blood draw" [5]
+- The method efficiently captures **genome-wide methylome information from small quantities of cell-free DNA** (ranging from 1 to 10 ng of input DNA) [6, 7]
+- cfMeDIP-seq offers "higher coverage and sensitivity of methylated CpG dinucleotides throughout the genome with lower input requirements compared to bisulfite-based methods" [8]
+
+**Technical Advantage - No Bisulfite Conversion:**
+
+A key differentiator is that cfMeDIP-seq "does not rely on bisulfite conversion to detect methylation, a sample preparation process that destroys cell-free DNA" [9]. The platform "specifically isolates the highly-informative (methylated) regions of the genome through a high-affinity enrichment process, enabling it to more efficiently capture broad genomic information and preserve it during sequencing compared to other platforms that use enzymatic or chemical treatment (bisulfite conversion)" [3].
+
+## GRAIL: Targeted Bisulfite Sequencing
+
+GRAIL's Galleri test uses **targeted bisulfite sequencing** combined with machine learning to analyze methylation patterns in cfDNA [10, 11].
+
+**Key Technical Features:**
+
+- "By using highly efficient targeted bisulfite sequencing and machine learning, we can read methylated DNA sequences and identify those that are abnormally methylated" [12]
+- The test analyzes "more than 100,000 methylation regions (covering ~1 million CpG sites) in the genome to assess methylation patterns that indicate the presence or absence of cancer" [12]
+- Plasma cfDNA (up to 75 ng) undergoes "customized bisulfite conversion reaction prepared as a dual indexed sequencing library, and enriched using standard hybridization capture conditions, for 150-bp paired-end sequencing on the Illumina NovaSeq" [11]
+- GRAIL's sequencing database "covers approximately 30 million methylation sites across the genome" and is believed to be "the largest of its kind" [13]
+
+---
+
+# Detection Capabilities
+
+## Adela Performance Data
+
+**Multi-Cancer Detection (Retrospective Data):**
+
+- In a retrospective case-control study of approximately 4,000 individuals, Adela tested 12 cancer types including "bladder, breast, colorectal, endometrial, esophageal, lung, ovarian, pancreatic, prostate, kidney, head and neck, and the liver, gallbladder and bile ducts" [14]
+- Approximately 50% of cancer cases were stage I and II, which "were correctly spotted 92% and 95% of the time, respectively. Stage III and IV cancers were identified at rates of 95% and 97%" [14]
+- The CAMPERR study is enrolling "over 5,000 participants at multiple centers across the United States" with "cancer types that represent >90% of cancer incidence and >85% of cancer mortality" [3]
+
+**MRD Performance (Clinically Validated):**
+
+- Clinical validation for head & neck cancer MRD was published in *Annals of Oncology* (2024) [15]
+- "The clinical validation results from Adela's MRD test demonstrate that the test identified recurrences up to 14.9 months earlier than standard of care clinical exam and imaging" [15]
+- "Sensitivity for recurrence in the surveillance setting was 91% at 88% specificity" [16]
+- In lung cancer, Adela's test "demonstrated the ability to identify recurrences up to 35.9 months before standard of care clinical exam and imaging, with a mean lead time of 16.6 months" [17]
+
+## GRAIL Galleri Performance Data
+
+**PATHFINDER 2 Study Results (October 2025):**
+
+- PATHFINDER 2 is "the largest interventional study of an MCED test in the United States to date" with 35,878 enrolled participants [18]
+- "Galleri demonstrated strong performance, with 73.7% episode sensitivity for the 12 cancers responsible for two-thirds of cancer deaths in the U.S. For all cancers, episode sensitivity was 40.4%" [18]
+- "Specificity was 99.6%, translating to a false positive rate of only 0.4%" [18]
+- "Adding Galleri to recommended screenings for breast, cervical, colorectal, and lung cancers (USPSTF A and B recommendations) led to a more than seven-fold increase in the number of cancers found within a year" [18]
+
+**Cancer Signal Origin Prediction:**
+
+- "When a cancer signal is found, Galleri provides a cancer signal of origin with high accuracy to help guide an efficient diagnostic work-up" [18]
+- The test can detect "more than 50 types of cancer before symptoms appear" [19]
+
+---
+
+# Algorithm and Machine Learning Approaches
+
+## Adela's Algorithmic Approach
+
+**Foundation:**
+
+Adela's platform builds on the foundational 2018 *Nature* paper by Shen et al. [1], which established key methodological approaches for cfMeDIP-seq-based classification.
+
+**Original Classifier Methodology:**
+
+- "GLMnet was originally proposed for cfMeDIP-seq based cancer classification" [20]
+- "cfMeDIP-seq paired end data was reduced to 300 bp windows of the genome that map to CpG islands, shores, shelves, and FANTOM5 enhancers; a classifier was then built using the top 1,000 most variable fragments between pts with [cancer] and cancer-free controls" [21]
+- "Two statistical classifiers were trained based on the GLMnet and random forest model" for discriminating cancer from healthy samples [22]
+
+**Feature Selection Methods:**
+
+Various statistical methods have been explored for cfMeDIP-seq classification:
+
+- "t-tests and the Fisher's exact test for feature selection"
+- "principal component analysis (PCA) as well as iterative supervised PCA (ISPCA) for feature generation"
+- "GLMnet and logistic regression methods with sparsity promoting priors for classification" [20]
+
+Research has found that "methods that seem robust and promising include Fisher's exact test and ISPCA for feature selection as well as a simple logistic regression model with the number of hyper and hypo-methylated regions as features" [20]
+
+**Differentially Methylated Regions (DMRs):**
+
+- "Using a discovery cohort, the top 300 differentially methylated regions (DMRs) are identified and used to build a classifier that assigns a methylation score" [23]
+- The approach was validated across multiple cancer types: "Using this strategy, it is possible to discriminate between different cancer types... disease types could be differentiated based on the plasma cfDNA methylation" [24]
+
+**Multi-Cancer Classifier Development:**
+
+- Adela "reported on a cross-validation using a subset of about 2,000 samples in which they initially trained a machine learning classifier and then tested it" [25]
+- "We launched the company with a lot of academic data demonstrating high performance in single cancers and in different cancer management applications. But this is really the first data looking at 12 cancers collectively and building a classifier that can detect all of them" - Anne-Renee Hartman, CMO [25]
+
+**Platform Efficiency:**
+
+A key advantage is that "we are using the same wet lab assay for each application, and all that differs is the classifier development for each application, so it allows us to be very efficient in our product development and to scale more quickly than if we had another technology where we were required to create targeted panels" [25]
+
+## GRAIL's Algorithmic Approach
+
+**Machine Learning Framework:**
+
+- "We developed computer models called classifiers to distinguish cancer-specific signals (abnormal methylation patterns) from non-cancer signals (normal methylation patterns) using machine learning" [12]
+- The test comprises "a targeted methylation assay of cell-free DNA (cfDNA) and a machine learning-based algorithm to detect a shared cancer signal across multiple cancer types" [26]
+
+**Training and Development:**
+
+- "To learn which cfDNA fragments may have originated from cancerous cells, the classifier algorithm was initially trained on sequencing data from more than 15,000 individuals in the CCGA study that enrolled participants between 2016 and 2018" [26]
+- Training included "6670 individuals without cancer and 8584 individuals with cancer for whom the cancer type was also recorded along with any comorbidities" [26]
+
+**Classifier Steps:**
+
+1. **Representation**: "Deciding the right way to encode DNA methylation status so that it is computer-readable"
+2. **Learning**: "The algorithm compared the patterns of methylation from individuals without cancer in CCGA to the individuals known to have cancer and derived a shared cancer signal"
+3. **Scoring**: "The algorithm assigned a score to each individual that estimated the likelihood that they had cancer" [26]
+
+**Validation:**
+
+- "This targeted methylation approach interrogated approximately 1 million informative CpG sites out of the roughly 30 million CpGs across the genome"
+- This approach "allowed deeper sequencing of those informative regions compared with WGBS and may overcome expected cost and efficiency limitations of WGS or WGBS approaches" [27]
+
+---
+
+
+# Clinical Status and Regulatory
+
+## Adela
+
+| Aspect | Status |
+|--------|--------|
+| MCED Test | In development; CAMPERR study ongoing (5,000+ participants) [3] |
+| MRD Test | Clinically validated for head & neck cancer; published in *Annals of Oncology* (2024) [15] |
+| Commercial Availability | MRD test planned for commercialization in 2025 [28]; RUO version currently available [16] |
+| FDA Status | Not FDA approved/cleared |
+| CLIA Certification | Yes (CLIA ID: 05D2297636) [28] |
+
+## GRAIL Galleri
+
+| Aspect | Status |
+|--------|--------|
+| MCED Test | Commercially available since 2021 [9] |
+| Clinical Trials | PATHFINDER 2 (35,878 participants); NHS-Galleri (140,000 participants) [29] |
+| Commercial Availability | Yes, with prescription |
+| FDA Status | Not FDA approved/cleared; laboratory-developed test (LDT) [26] |
+| CLIA/CAP | CLIA certified, CAP accredited [19] |
+
+---
+
+# Key Technical Differences
+
+| Feature | Adela (cfMeDIP-seq) | GRAIL (Galleri) |
+|---------|---------------------|-----------------|
+| **Methylation Detection Method** | Immunoprecipitation-based enrichment | Bisulfite conversion + targeted sequencing |
+| **Genomic Coverage** | Whole methylome (genome-wide) | Targeted (~100,000 regions, ~1 million CpGs) |
+| **DNA Preservation** | Preserves DNA (no chemical modification) | Bisulfite damages/fragments DNA |
+| **Input Requirements** | 1-10 ng cfDNA [7] | Up to 75 ng cfDNA [11] |
+| **Cancer Types** | 12 types in development; 50+ planned | 50+ types validated |
+| **Tissue-of-Origin** | In development | High accuracy prediction [18] |
+| **MRD Application** | Tissue-agnostic, validated for H&N cancer | Platform supports MRD |
+| **Commercial Status** | Pre-commercial (MRD launching 2025) | Commercially available |
+
+---
+
+# Unique Platform Advantages
+
+## Adela Advantages
+
+1. **No Bisulfite Conversion**: Preserves DNA integrity during processing [9]
+2. **Tissue-Agnostic MRD**: "Eliminating the burden of acquiring a tumor sample" [16]
+3. **Platform Flexibility**: "Because we're looking at the whole methylome, we don't need to create targeted panels for multi-cancer early detection or for MRD" [25]
+4. **Low-Input Capability**: Enables testing with limited sample volumes [7]
+5. **Detection of Difficult Tumors**: Demonstrated performance in "low-shedding and early-stage tumors" including brain cancers and renal cell carcinoma [9, 23]
+
+## GRAIL Advantages
+
+1. **Extensive Clinical Validation**: Over 300,000 participants enrolled across clinical studies [29]
+2. **Commercial Maturity**: Launched in 2021 with established clinical workflows [9]
+3. **Largest Methylation Database**: ~30 million methylation sites characterized [13]
+4. **High Specificity**: 99.6% specificity with 0.4% false positive rate [18]
+5. **Cancer Signal Origin**: High accuracy tissue-of-origin prediction [18]
+6. **Real-World Evidence**: REFLECTION study demonstrating consistent performance in routine clinical settings [30]
+
+---
+
+# Publicly Accessible Data from cfMeDIP-seq Publications
+
+Several publications on the cfMeDIP-seq platform (the technology underlying Adela's assay) include publicly accessible data, code, and analysis tools.
+
+## Shen et al. 2018 (Nature) - Foundational Paper
+
+The foundational cfMeDIP-seq paper includes the following publicly available resources:
+
+- **Cell line data**: Available in the Gene Expression Omnibus (GEO) repository under accession code **GSE79838** [1]
+- **Patient cfMeDIP-seq data**: Available upon request from the corresponding author to comply with institutional ethics regulations [1]
+- **Machine Learning Models**: Available on Zenodo at http://doi.org/10.5281/zenodo.1242697 [31]
+- **Intermediate data objects**: Available on Zenodo at http://doi.org/10.5281/zenodo.1490920 [32]
+- **R markdowns and scripts**: Deposited on Zenodo (DOIs listed in Supplementary Table 13 of the publication) [1]
+
+## Nassiri et al. 2020 (Nature Medicine) - Intracranial Tumors
+
+- **Reproducibility archive**: Available on Zenodo for MeDIP analyses of plasma DNA from brain tumour patients [33]
+- **Demonstration dataset**: The 163-sample dataset from 6 brain cancer subtypes is used as a demonstration dataset for the MEDIPIPE pipeline [8]
+
+## Nuzzo et al. 2020 (Nature Medicine) - Renal Cell Carcinoma
+
+- **Patient cfMeDIP-seq data**: Available upon request from the corresponding author (M.L.F.) to comply with the ethical and patient privacy regulations of the Dana-Farber Cancer Institute [34]
+
+## Nature Protocols 2019 - Protocol Paper
+
+- **Processed tables**: Available at https://github.com/bratmanlab/cfMeDIP_Protocol (raw BAM/WIG files restricted due to privacy concerns) [2]
+
+## European Genome-Phenome Archive (EGA) Datasets
+
+Several cfMeDIP-seq datasets are available through controlled access on EGA:
+
+| Dataset ID | Description | Samples |
+|------------|-------------|---------|
+| EGAD50000000652 | Healthy control cfMeDIP-seq | 23 plasma cfDNA samples from healthy donors (46 FASTQ files) [35] |
+| EGAD00001011312 | INSPIRE study multi-timepoint cfMeDIP | Plasma samples from patients with head & neck SCC, triple-negative breast cancer, ovarian cancer, melanoma, and mixed solid tumors treated with pembrolizumab [36] |
+
+## Open-Source Analysis Tools
+
+| Resource | Description | URL |
+|----------|-------------|-----|
+| MEDIPIPE | Automated pipeline for cfMeDIP-seq QC, methylation quantification, and sample aggregation | https://github.com/pughlab/MEDIPIPE [8] |
+| cfMeDIP-seq analysis pipeline | Post-processing pipeline for circulating methylome data | https://github.com/pughlab/cfMeDIP-seq-analysis-pipeline [37] |
+| Halla-aho scripts | Scripts for probabilistic modeling methods for cfMeDIP-seq classification | https://github.com/hallav/cfMeDIP-seq [31] |
+
+## Summary of Data Availability
+
+| Publication | Data Type | Access Level |
+|-------------|-----------|--------------|
+| Shen et al. 2018 (*Nature*) | Cell line data | Public (GEO: GSE79838) |
+| Shen et al. 2018 (*Nature*) | Patient cfMeDIP-seq | Upon request |
+| Shen et al. 2018 (*Nature*) | ML models & code | Public (Zenodo) |
+| Nassiri et al. 2020 (*Nat Med*) | Brain tumor data | Public (Zenodo) |
+| Nuzzo et al. 2020 (*Nat Med*) | RCC data | Upon request |
+| Nature Protocols 2019 | Processed tables | Public (GitHub) |
+| Healthy controls | Raw FASTQ files | Controlled access (EGA) |
+| INSPIRE study | Multi-timepoint data | Controlled access (EGA) |
+
+**Note**: Most raw patient sequencing data requires controlled access requests due to privacy regulations. However, cell line data, machine learning models, processed tables, and analysis pipelines are publicly available. The academic studies from the De Carvalho lab (Princess Margaret Cancer Centre) that form the scientific foundation for Adela's technology have deposited substantial supporting materials on Zenodo and GitHub.
+
+---
+
+# References
+
+1. Shen SY, Singhania R, Fehringer G, et al. Sensitive tumour detection and classification using plasma cell-free DNA methylomes. *Nature*. 2018;563(7732):579-583. doi:10.1038/s41586-018-0703-0
+
+2. Shen SY, Burgener JM, Bratman SV, De Carvalho DD. Preparation of cfMeDIP-seq libraries for methylome profiling of plasma cell-free DNA. *Nat Protoc*. 2019;14(10):2749-2780. doi:10.1038/s41596-019-0202-2
+
+3. Adela, Inc. Adela Initiates Key Study for Cancer Early Detection Program. Press Release. May 25, 2022. https://www.adelabio.com/press/adela-initiates-key-study-for-cancer-early-detection-program
+
+4. Adela, Inc. About - A breakthrough approach to early detection. https://www.adelabio.com/about
+
+5. UHN Commercialization. Story Adela. https://www.uhncommercialization.ca/about/story-adela
+
+6. Shen SY, Burgener JM, Bratman SV, De Carvalho DD. Preparation of cfMeDIP-seq libraries for methylome profiling of plasma cell-free DNA. *Nat Protoc*. 2019;14(10):2749-2780.
+
+7. Springer Nature Experiments. Preparation of cfMeDIP-seq libraries for methylome profiling of plasma cell-free DNA. https://experiments.springernature.com/articles/10.1038/s41596-019-0202-2
+
+8. Zeng Y, Ye W, Stutheit-Zhao EY, et al. MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis. *Bioinformatics*. 2023;39(7):btad423. doi:10.1093/bioinformatics/btad423
+
+9. GenomeWeb. Canadian Liquid Biopsy Startup Adela to Pursue Cancer Early Detection Tests. July 2, 2021. https://www.genomeweb.com/liquid-biopsy/canadian-liquid-biopsy-startup-adela-pursue-cancer-early-detection-tests
+
+10. Liu MC, Oxnard GR, Klein EA, et al. Sensitive and specific multi-cancer detection and localization using methylation signatures in cell-free DNA. *Ann Oncol*. 2020;31(6):745-759. doi:10.1016/j.annonc.2020.02.011
+
+11. Klein EA, Richards D, Cohn A, et al. Clinical validation of a targeted methylation-based multi-cancer early detection test using an independent validation set. *Ann Oncol*. 2021;32(9):1167-1177. doi:10.1016/j.annonc.2021.05.806
+
+12. GRAIL. GRAIL and the quest for earlier multi-cancer detection. *Nature*. https://www.nature.com/articles/d42473-020-00079-y
+
+13. GRAIL. GRAIL Announces Positive Validation Data for its Multi-Cancer Early Detection Test. Press Release. October 7, 2019. https://grail.com/press-releases/grail-announces-positive-validation-data-for-its-multi-cancer-early-detection-test/
+
+14. Fierce Biotech. AACR: Adela's multi-cancer blood test shows promise in detecting early stage tumors. April 20, 2023. https://www.fiercebiotech.com/medtech/aacr-adelas-multi-cancer-blood-test-shows-promise-detecting-early-stage-tumors
+
+15. Adela, Inc. Adela Announces Clinical Validation Results for Head & Neck Cancer MRD Test Simultaneously Published in Annals of Oncology and Presented at ESMO 2024. Press Release. September 14, 2024. https://www.adelabio.com/press/adela-announces-clinical-validation-results-for-head-neck-cancer-mrd-test
+
+16. Liu G, et al. Clinical validation of a tissue-agnostic genome-wide methylome enrichment MRD assay for head and neck malignancies. *Ann Oncol*. 2024.
+
+17. Adela, Inc. Adela Presents Data Demonstrating Ability of Tissue-Free MRD Test to Predict Recurrence in Lung Cancer at AACR 2025. Press Release. April 28, 2025. https://www.prnewswire.com/news-releases/adela-presents-data-demonstrating-ability-of-tissue-free-mrd-test-to-predict-recurrence-in-lung-cancer
+
+18. GRAIL. GRAIL PATHFINDER 2 Results Show Galleri Multi-Cancer Early Detection Blood Test Increased Cancer Detection More Than Seven-Fold. Press Release. October 17, 2025. https://grail.com/press-releases/grail-pathfinder-2-results
+
+19. Galleri. What is the Galleri Multi-Cancer Early Detection Test? https://www.galleri.com/what-is-galleri
+
+20. Halla-aho V, Lähdesmäki H. Probabilistic modeling methods for cell-free DNA methylation based cancer classification. *BMC Bioinformatics*. 2022;23:138. doi:10.1186/s12859-022-04651-9
+
+21. Nuzzo P, Spisak S, Chakravarthy A, et al. Cell-free methylated DNA (cfMeDNA) immunoprecipitation and high throughput sequencing technology (cfMeDIP-seq) in patients with clear cell renal cell carcinoma (ccRCC). *J Clin Oncol*. 2019;37(15_suppl):3052.
+
+22. De Pascali SA, et al. Differential methylation of circulating free DNA assessed through cfMeDiP as a new tool for breast cancer diagnosis and detection of BRCA1/2 mutation. *J Transl Med*. 2024;22:934. doi:10.1186/s12967-024-05734-2
+
+23. Epigenie. Two studies validate the use of an optimized MeDIP-seq method on cell-free DNA from plasma to detect and discriminate renal and CNS tumors. August 10, 2020. https://epigenie.com/cell-free-dna-medip-seq-is-a-molecular-methylation-magnet-for-machine-learning-cancer-detection/
+
+24. De Carvalho DD. cfMeDIP-seq Provides Opportunity for Early Cancer Detection, Classification, and Monitoring. Presentation at 2021 AACR Annual Meeting. OncLive. May 19, 2021. https://www.onclive.com/view/cfmedip-seq-provides-opportunity-for-early-cancer-detection-classification-and-monitoring
+
+25. GenomeWeb. Adela Ramps up Data Development for Epigenetic Multi-Cancer Detection, MRD Applications. May 3, 2023. https://www.genomeweb.com/liquid-biopsy/adela-ramps-data-development-epigenetic-multi-cancer-detection-mrd-applications
+
+26. Dressman D, et al. A multi-cancer early detection blood test using machine learning detects early-stage cancers lacking USPSTF-recommended screening. *npj Precis Oncol*. 2024;8:89. PMC11024170.
+
+27. Primary Care Notebook. GRAIL blood test for identifying multiple cancer types. https://primarycarenotebook.com/simplepage.cfm?ID=x2021042765753651098
+
+28. Adela, Inc. Adela to Present Data from Tissue-Agnostic MRD Assay at AACR 2024. Press Release. March 19, 2024. https://www.prnewswire.com/news-releases/adela-to-present-data-from-tissue-agnostic-mrd-assay
+
+29. GRAIL. Clinical Studies. https://grail.com/clinical-expertise/
+
+30. GRAIL. GRAIL Presents Initial Results From REFLECTION Real-World Evidence Study. Press Release. October 23, 2024. https://grail.com/press-releases/grail-presents-initial-results-from-reflection-real-world-evidence-study
+
+31. Chakravarthy A. Machine Learning Models for cfMeDIP data from Shen et al. [Data set]. Zenodo. 2018. http://doi.org/10.5281/zenodo.1242697
+
+32. Chakravarthy A. Intermediate data objects from running the machine learning code for Shen et al, Nature, 2018 [Data set]. Zenodo. 2018. http://doi.org/10.5281/zenodo.1490920
+
+33. Chakravarthy A. Reproducibility archive for MeDIP analyses of plasma DNA from brain tumour patients. Zenodo. 2020.
+
+34. Nuzzo PV, Berchuck JE, Korthauer K, et al. Detection of renal cell carcinoma using plasma and urine cell-free DNA methylomes. *Nat Med*. 2020;26(7):1041-1043. doi:10.1038/s41591-020-0933-1
+
+35. European Genome-Phenome Archive. Healthy control cfMeDIP-seq. Dataset EGAD50000000652. https://ega-archive.org/datasets/EGAD50000000652
+
+36. European Genome-Phenome Archive. INSPIRE multi-timepoint cfMeDIP dataset. Dataset EGAD00001011312. https://ega-archive.org/datasets/EGAD00001011312
+
+37. Pugh Lab. cfMeDIP-seq-analysis-pipeline: Post-processing pipeline for next-generation circulating methylome data. GitHub. https://github.com/pughlab/cfMeDIP-seq-analysis-pipeline
+
+---
+
+*Document prepared: November 2025*
+
+*Note: This document is intended for informational purposes. Neither the Adela nor GRAIL tests have been FDA approved or cleared. Clinical decisions should be made in consultation with healthcare providers.*
+
+
+
+<!-- To run
+## nohup Rscript -e "knitr::knit2html('_Adela_vs_GRAIL_MCED_Comparison.Rmd')" > _Adela_vs_GRAIL_MCED_Comparison.log  &
+
+## Or
+## nohup Rscript -e "rmarkdown::render('_Adela_vs_GRAIL_MCED_Comparison.Rmd')" > _Adela_vs_GRAIL_MCED_Comparison.log  &
+
+-->
+
