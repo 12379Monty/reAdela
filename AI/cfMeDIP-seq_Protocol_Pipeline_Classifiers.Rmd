@@ -353,6 +353,7 @@ The cfMeDIP-seq protocol consists of four major stages:
   - Quality thresholds affect decision to proceed
 
 **Step 12: PCR Amplification**
+
 - Amplify library using indexed primers
 - Typically 12-15 cycles of PCR
 - Use high-fidelity polymerase
@@ -364,6 +365,7 @@ The cfMeDIP-seq protocol consists of four major stages:
   - Polymerase fidelity and processivity
 
 **Step 13: Final Purification and Size Selection**
+
 - Purify PCR products with SPRI beads
 - Perform size selection (typically 200-600 bp)
 - Time: ~1 hour
@@ -481,6 +483,7 @@ Based on the protocol and subsequent validation studies, the major sources of va
 **Synthetic Spike-In Controls (Wilson et al., 2022)**
 
 A major improvement to the protocol was the development of synthetic spike-in controls with defined characteristics:
+
 - 54 DNA fragments with combinations of:
   - Methylation status (methylated and unmethylated)
   - Fragment length (80, 160, 320 bp)
@@ -493,6 +496,7 @@ A major improvement to the protocol was the development of synthetic spike-in co
   - Quality control per sample
 
 **Benefits Demonstrated:**
+
 - Mitigates batch effects between laboratories
 - Corrects for filler DNA type (methylated vs unmethylated)
 - Provides absolute quantification standard
@@ -501,6 +505,7 @@ A major improvement to the protocol was the development of synthetic spike-in co
 **Unique Molecular Identifiers (UMIs) (Burgener et al., 2021)**
 
 Addition of UMIs to sequencing adapters enables:
+
 - Removal of PCR duplicates while preserving biological duplicates
 - Correction for sequence errors
 - Improved quantification accuracy
@@ -515,6 +520,7 @@ Addition of UMIs to sequencing adapters enables:
 MEDIPIPE is an automated, end-to-end pipeline for cfMeDIP-seq data quality control, methylation quantification, and sample aggregation, published by Zeng et al. in Bioinformatics (2023). The pipeline was developed using Snakemake for reproducibility and scalability.
 
 **Key Features:**
+
 - Automated dependency installation via Conda
 - Support for single-end or paired-end sequencing
 - Handles spike-in controls and UMIs
@@ -542,6 +548,7 @@ Output: QC reports, BAM files, Methylation matrices
 ## Module 1: Read Trimming and Quality Control
 
 **Tools Used:**
+
 - **UMI-tools** (v1.0.1): Extract UMI barcodes if present
   - Uses regex method for variable barcode length
   - Filters reads without expected barcode
@@ -554,11 +561,13 @@ Output: QC reports, BAM files, Methylation matrices
   - Generates quality metrics and visualizations
 
 **Outputs:**
+
 - Trimmed FASTQ files
 - FastQC reports (HTML and data files)
 - UMI extraction statistics (if UMIs present)
 
 **Key Metrics:**
+
 - Read counts before and after trimming
 - Base quality distributions
 - Adapter content
@@ -567,6 +576,7 @@ Output: QC reports, BAM files, Methylation matrices
 ## Module 2: Processed Read Alignment and QC
 
 **Tools Used:**
+
 - **BWA-MEM** (v0.7.17): Read alignment
   - Maps processed reads to reference genome
   - For spike-in experiments, spike-in sequences appended to reference
@@ -589,6 +599,7 @@ Output: QC reports, BAM files, Methylation matrices
   - Spike-in control quantification
 
 **Outputs:**
+
 - Aligned BAM files (sorted and indexed)
 - Alignment statistics
 - Duplication metrics
@@ -597,6 +608,7 @@ Output: QC reports, BAM files, Methylation matrices
 - Extracted spike-in reads (if applicable)
 
 **Key Metrics:**
+
 - Mapping rate
 - Duplication rate
 - Fragment size distribution (paired-end)
@@ -611,22 +623,26 @@ MEDIPIPE implements three methods for methylation estimation, each using differe
 ### **Method 1: MEDIPS (v1.46.0) - Linear Regression Model**
 
 **Approach:**
+
 - Divides genome into fixed-size windows (typically 300-500 bp)
 - Counts reads in each window
 - Applies linear regression to model relationship between read counts and CpG density
 - Calculates Relative Methylation Score (RMS) for each window
 
 **Normalization:**
+
 - Can normalize using spike-in controls
 - Corrects for sequencing depth
 - Adjusts for CpG density
 
 **Output:**
+
 - Methylation values per genomic window
 - CpG enrichment scores
 - Saturation metrics
 
 **Best For:**
+
 - Initial methylation profiling
 - When spike-in controls are available
 - Comparative studies
@@ -634,6 +650,7 @@ MEDIPIPE implements three methods for methylation estimation, each using differe
 ### **Method 2: QSEA (v1.20.0) - Sigmoidal Model with Empirical Knowledge**
 
 **Approach:**
+
 - Uses sigmoidal model to capture non-linear relationship between enrichment and CpG density
 - Incorporates empirical calibration curve
 - Models enrichment as function of:
@@ -642,15 +659,18 @@ MEDIPIPE implements three methods for methylation estimation, each using differe
   - GC content
 
 **Advantages:**
+
 - Better handling of CpG-poor regions
 - More accurate absolute methylation estimates
 - Reduced bias in low-density regions
 
 **Output:**
+
 - Calibrated methylation scores
 - Can estimate absolute methylation levels
 
 **Best For:**
+
 - Studies requiring absolute methylation quantification
 - Analysis of CpG-poor regions
 - Cross-study comparisons
@@ -658,20 +678,24 @@ MEDIPIPE implements three methods for methylation estimation, each using differe
 ### **Method 3: MEDStrand (v0.0.0.9000) - Stranded Sigmoid Model**
 
 **Approach:**
+
 - Extension of sigmoidal model that accounts for strand-specific effects
 - Models forward and reverse strand separately
 - Improves accuracy for asymmetric methylation patterns
 
 **Advantages:**
+
 - Most sophisticated modeling approach
 - Accounts for strand-specific biases
 - Highest accuracy for absolute methylation
 
 **Output:**
+
 - Strand-aware methylation estimates
 - Improved absolute quantification
 
 **Best For:**
+
 - High-precision applications
 - Studies investigating strand-specific methylation
 - Clinical diagnostic applications
@@ -708,6 +732,7 @@ MEDIPIPE implements three methods for methylation estimation, each using differe
    - Facilitates downstream analysis
 
 **Outputs:**
+
 - Comprehensive MultiQC report (HTML)
 - Summarized QC metrics spreadsheet
 - Aggregated methylation matrices (original and filtered)
@@ -745,6 +770,7 @@ output/
 MEDIPIPE tracks comprehensive QC metrics throughout the pipeline:
 
 **Sequencing Quality:**
+
 - Total read counts
 - Read quality scores (Q20, Q30)
 - Adapter content
@@ -752,12 +778,14 @@ MEDIPIPE tracks comprehensive QC metrics throughout the pipeline:
 - UMI diversity (if applicable)
 
 **Alignment Quality:**
+
 - Mapping rate
 - Properly paired rate (paired-end)
 - Secondary alignment rate
 - Supplementary alignment rate
 
 **cfMeDIP-seq Specific:**
+
 - CpG enrichment score
 - Saturation estimates
 - Spike-in recovery rates
@@ -765,6 +793,7 @@ MEDIPIPE tracks comprehensive QC metrics throughout the pipeline:
 - Fold-enrichment ratios
 
 **Fragment Characteristics:**
+
 - Fragment size distribution
 - Short-to-long fragment ratios
 - Fragmentation patterns
@@ -774,24 +803,28 @@ MEDIPIPE tracks comprehensive QC metrics throughout the pipeline:
 MEDIPIPE uses a single YAML configuration file that specifies:
 
 **Experimental Settings:**
+
 - Single-end or paired-end sequencing
 - Presence of UMIs
 - Presence of spike-in controls
 - Window size for quantification
 
 **File Paths:**
+
 - Input FASTQ files
 - Reference genome
 - Spike-in sequences (if applicable)
 - Output directory
 
 **Parameters:**
+
 - Trimming parameters
 - Alignment parameters
 - Quantification method selection
 - Filtering thresholds
 
 **Computational Resources:**
+
 - Number of threads per step
 - Memory allocation
 - Cluster submission parameters
@@ -823,6 +856,7 @@ Multiple machine learning approaches have been developed for cancer classificati
 ### **Data Processing**
 
 **Feature Definition:**
+
 - Genome divided into 300 bp non-overlapping windows
 - Windows mapped to:
   - CpG islands
@@ -832,6 +866,7 @@ Multiple machine learning approaches have been developed for cancer classificati
 - This captures ~2.8 million windows genome-wide
 
 **Feature Selection:**
+
 - Identified Differentially Methylated Regions (DMRs) between cancer and controls
 - Selected top 1,000 most variable windows
 - Variability measured by median absolute deviation (MAD)
@@ -842,6 +877,7 @@ Multiple machine learning approaches have been developed for cancer classificati
 **Algorithm**: Elastic Net Regularized Logistic Regression (GLMnet)
 
 **Model Details:**
+
 - GLMnet combines L1 (Lasso) and L2 (Ridge) regularization
 - Regularization path: α = 0.5 (equal weight to L1 and L2)
 - λ (regularization strength) selected by cross-validation
@@ -849,6 +885,7 @@ Multiple machine learning approaches have been developed for cancer classificati
 - Typically retains 50-200 features from the 1,000 input features
 
 **Training:**
+
 - 10-fold cross-validation for hyperparameter tuning
 - Nested cross-validation for performance estimation
 - Class imbalance handled by:
@@ -856,10 +893,12 @@ Multiple machine learning approaches have been developed for cancer classificati
   - Or downsampling of majority class
 
 **Output:**
+
 - Probability score (0-1) for cancer presence
 - Feature coefficients (which DMRs are most informative)
 
 **Performance (Pancreatic Cancer Example):**
+
 - Discovery cohort AUROC: 0.96
 - Validation cohort AUROC: 0.94
 - Sensitivity at 98% specificity: 69%
@@ -869,23 +908,27 @@ Multiple machine learning approaches have been developed for cancer classificati
 **Algorithm**: Ensemble of Decision Trees
 
 **Model Details:**
+
 - Number of trees: 500-1000
 - mtry (features per split): √(number of features) ≈ 31 for 1,000 features
 - Minimum node size: 5
 - Out-of-bag (OOB) error used for internal validation
 
 **Training:**
+
 - Bootstrap sampling for each tree
 - Features randomly selected at each split
 - Majority voting for final prediction
 - Variable importance calculated by permutation
 
 **Output:**
+
 - Probability score (proportion of trees voting for cancer)
 - Variable importance rankings
 - Proximity matrix (sample similarity)
 
 **Performance:**
+
 - Similar to GLMnet in most cancer types
 - More robust to outliers
 - Better captures non-linear relationships
@@ -893,21 +936,25 @@ Multiple machine learning approaches have been developed for cancer classificati
 ### **Multi-Cancer Classification**
 
 **Approach:**
+
 - Hierarchical classification strategy:
   1. **Binary Classifier**: Cancer vs. Non-Cancer
   2. **Multi-Class Classifier**: Classify cancer type
 
 **Cancer vs. Non-Cancer:**
+
 - Used same GLMnet approach
 - Top 1,000 DMRs distinguishing cancer from healthy
 
 **Cancer Type Classification:**
+
 - Separate GLMnet model
 - Top 300 DMRs for each pairwise cancer type comparison
 - One-vs-rest strategy for multi-class
 - Combined probabilities using softmax
 
 **Performance:**
+
 - Cancer detection AUROC: 0.90-0.99 across types
 - Tissue-of-origin prediction accuracy: 80-95%
 
@@ -922,18 +969,21 @@ This study systematically compared various statistical methods for cfMeDIP-seq c
 ### **Feature Selection Methods Evaluated**
 
 **1. t-Test**
+
 - Classical two-sample t-test
 - Identifies regions with significant mean differences
 - Fast and simple
 - Assumes normality
 
 **2. Moderated t-Test (limma)**
+
 - Borrows information across features
 - More stable with small sample sizes
 - Better false discovery rate control
 - Implementation: Bioconductor limma package
 
 **3. Fisher's Exact Test**
+
 - Non-parametric approach
 - Converts continuous methylation to binary (hyper/hypomethylated)
 - Tests association using contingency tables
@@ -941,22 +991,26 @@ This study systematically compared various statistical methods for cfMeDIP-seq c
 - **Finding: Most robust feature selection method**
 
 **Differentially Methylated Regions (DMRs)**
+
 - Top N regions by test statistic
 - Typical N: 300-1,000
 - Selected separately for each cancer type
 
 **1. Raw Features**
+
 - Direct use of read counts in genomic windows
 - No dimensionality reduction
 - seline approach
 
 **2. Principal Component Analysis (PCA)**
+
 - Unsupervised dimensionality reduction
 - Projects features onto principal components
 - Captures maximum variance
 - Limitation: May not capture cancer-relevant variation
 
 **3. Iterative Supervised PCA (ISPCA)**
+
 - Supervised variant of PCA
 - Iteratively selects features most associated with outcome
 - Performs PCA on selected features
@@ -964,6 +1018,7 @@ This study systematically compared various statistical methods for cfMeDIP-seq c
 - **Finding: Most robust feature generation method**
 
 **ISPCA Algorithm:**
+
 ```
 1. Initialize: Select features by univariate test
 2. Iteration:
@@ -978,16 +1033,19 @@ This study systematically compared various statistical methods for cfMeDIP-seq c
 ### **Classification Methods Evaluated**
 
 **1. GLMnet (Elastic Net)**
+
 - Same as Shen et al. 2018
 - Best with raw features
 - Automatic feature selection
 
 **2. Logistic Regression with L1 Penalty (Lasso)**
+
 - Simpler than GLMnet (α = 1)
 - Performs feature selection
 - More interpretable coefficients
 
 **3. Logistic Regression with L2 Penalty (Ridge)**
+
 - No feature selection (α = 0)
 - All features retained with shrinkage
 - Better with highly correlated features
@@ -995,17 +1053,20 @@ This study systematically compared various statistical methods for cfMeDIP-seq c
 **4. Logistic Regression with Bayesian Priors**
 
 a) **Horseshoe Prior:**
+
 - Heavily shrinks uninformative features to zero
 - Minimal shrinkage for informative features
 - Automatic feature selection
 - Implemented in rstanarm package
 
 b) **Regularized Horseshoe Prior:**
+
 - Extension with additional regularization
 - Better finite-sample properties
 - More stable than standard horseshoe
 
 **5. Simple Logistic Regression**
+
 - Features: Number of hyper- and hypomethylated regions
 - Only 2 features!
 - Regions defined by Fisher's exact test
@@ -1015,23 +1076,27 @@ b) **Regularized Horseshoe Prior:**
 ### **Key Findings from Systematic Comparison**
 
 **Best Overall Methods:**
+
 1. **Fisher's Exact Test + ISPCA + Logistic Regression**: Most robust across datasets
 2. **Simple Logistic Regression** (2 features): Nearly as good, much simpler
 3. **GLMnet**: Good performance but more variable
 
 **Effect of Sequencing Depth:**
+
 - All methods degrade with lower depth
 - Fisher's exact test most robust to low depth
 - ISPCA maintains performance better than PCA
 - Depth < 5M reads significantly impacts sensitivity
 
 **Effect of Tumor Fraction:**
+
 - Critical factor for all methods
 - <1% tumor fraction: All methods struggle
 - 1-5% tumor fraction: Best methods achieve 70-90% sensitivity
 - >5% tumor fraction: >95% sensitivity achievable
 
 **Recommendations:**
+
 - Use Fisher's exact test for feature selection
 - Consider ISPCA for dimensionality reduction
 - Simple logistic regression sufficient for many applications
@@ -1042,42 +1107,50 @@ b) **Regularized Horseshoe Prior:**
 ## Nuzzo et al. 2019/2020 - Renal Cell Carcinoma Classifier
 
 **Studies**: 
+
 - ASCO 2019 Abstract: "Cell-free methylated DNA immunoprecipitation and high throughput sequencing technology in patients with clear cell renal cell carcinoma"
 - Nature Medicine 2020: "Detection of renal cell carcinoma using plasma and urine cell-free DNA methylomes"
 
 ### **Model Architecture**
 
 **Feature Definition:**
+
 - 300 bp genomic windows
 - Mapped to CpG islands, shores, shelves, FANTOM5 enhancers
 - Same as Shen et al. 2018
 
 **Feature Selection:**
+
 - Top 300 DMRs distinguishing RCC from controls
 - Selected by statistical significance (adjusted p-value)
 
 **Classifier:**
+
 - GLMnet (elastic net regularized logistic regression)
 - Same architecture as Shen et al. 2018
 
 ### **Performance**
 
 **Plasma cfDNA:**
+
 - Discovery cohort: AUROC = 0.990 (95% CI: 0.984-0.997)
 - Validation cohort: Independent set
 - Stage I sensitivity: ~75-80%
 - Overall sensitivity: >90%
 
 **Urine cfDNA (Novel Finding):**
+
 - First demonstration of urine cfMeDIP-seq for cancer detection
 - AUROC = 0.791 (95% CI: 0.759-0.823)
 - Lower than plasma but still clinically useful
 
 **RCC vs. UBC (Bladder Cancer) Discrimination:**
+
 - AUROC = 0.954 (95% CI: 0.940-0.969)
 - Demonstrates tissue-of-origin capability
 
 **Key Innovation:**
+
 - Demonstrated cfMeDIP-seq works in urine
 - Important for urological cancers
 - Non-invasive alternative to cystoscopy
@@ -1091,16 +1164,19 @@ b) **Regularized Horseshoe Prior:**
 ### **Study Design**
 
 **Cohort:**
+
 - 23 breast cancer patients with BRCA1/2 germline mutations
 - 19 healthy controls (no BRCA1/2 mutation)
 - 2 healthy BRCA1/2 carriers
 - Blood samples at diagnosis
 
 **Feature Definition:**
+
 - 300 bp differentially methylated regions (DMRs)
 - Identified between BRCA carriers and controls
 
 **Feature Selection:**
+
 - 7,095 hypermethylated regions identified
 - 212 hypomethylated regions identified
 - Biological focus: DNA repair and cell cycle genes
@@ -1108,32 +1184,38 @@ b) **Regularized Horseshoe Prior:**
 ### **Classifiers Implemented**
 
 **Classifier 1: GLMnet**
+
 - Elastic net logistic regression
 - L1 and L2 penalties
 - Cross-validation for parameter selection
 
 **Classifier 2: Random Forest**
+
 - Ensemble of 500 decision trees
 - Variable importance by permutation
 - Out-of-bag error estimation
 
 **Comparison with Public Datasets:**
+
 - DMRs compared to TCGA tumor methylation data
 - Validation of tumor-specific signatures
 
 ### **3.5.3 Performance**
 
 **Cancer Detection:**
+
 - High accuracy discriminating BRCA-positive from healthy
 - Both classifiers showed comparable performance
 - Specific details not provided in abstract
 
 **Biological Insights:**
+
 - BRCA1/2 breast cancers show hypomethylation of DNA repair genes
 - Cell cycle regulatory genes differentially methylated
 - Potential for subtype-specific biomarkers
 
 **Clinical Implications:**
+
 - Could identify BRCA carriers at high risk
 - Potential for early detection in high-risk population
 - Response to PARP inhibitors may correlate with methylation profile
@@ -1145,42 +1227,49 @@ b) **Regularized Horseshoe Prior:**
 ## Timeline of Major Improvements
 
 **2018 - Shen et al. (Nature)**
+
 - Original cfMeDIP-seq protocol
 - Arabidopsis thaliana spike-ins for QC
 - GLMnet and Random Forest classifiers
 - Demonstrated feasibility in multiple cancer types
 
 **2019 - Shen et al. (Nature Protocols)**
+
 - Detailed protocol publication
 - Standardized 3-4 day workflow
 - Quality control metrics defined
 - Made method accessible to community
 
 **2021 - Burgener et al.**
+
 - Addition of Unique Molecular Identifiers (UMIs)
 - Improved duplicate removal
 - Sequence error correction
 - Critical for MRD applications
 
 **2022 - Wilson et al. (Cell Reports Methods)**
+
 - Synthetic spike-in controls
 - Absolute quantification capability
 - Batch effect correction
 - Major improvement for clinical applications
 
 **2022 - Halla-aho & Lähdesmäki (BMC Bioinformatics)**
+
 - Systematic comparison of classifiers
 - Identified optimal methods
 - Simple logistic regression found highly effective
 - Guidelines for method selection
 
 **2023 - Zeng et al. (Bioinformatics)**
+
 - MEDIPIPE automated pipeline
 - Standardized processing
 - Multiple quantification algorithms
 - Large-scale analysis capability
 
 **2024 - De Pascali et al. (J Translational Med)**
+
 - Application to BRCA1/2 breast cancer
 - Demonstrated subtype specificity
 - Integration with genomic mutation data
@@ -1190,12 +1279,14 @@ b) **Regularized Horseshoe Prior:**
 ### **Improvement 1: Synthetic Spike-In Controls**
 
 **Problem Addressed:**
+
 - Batch effects between laboratories
 - Variation in filler DNA type
 - Inability to absolutely quantify methylation
 - Fragment length, GC, and CpG biases
 
 **Solution (Wilson et al., 2022):**
+
 - 54 synthetic DNA fragments
 - Systematic variation in:
   - Methylation status
@@ -1205,6 +1296,7 @@ b) **Regularized Horseshoe Prior:**
 - 0.01 ng added per reaction
 
 **Benefits:**
+
 - Absolute quantification via linear model
 - Batch effect correction
 - Per-sample quality control
@@ -1214,16 +1306,19 @@ b) **Regularized Horseshoe Prior:**
 ### **Improvement 2: Unique Molecular Identifiers (UMIs)**
 
 **Problem Addressed:**
+
 - PCR duplicates vs biological duplicates
 - Sequence errors introduced during amplification
 - Quantification accuracy at low tumor fractions
 
 **Solution (Burgener et al., 2021):**
+
 - UMI barcodes in adapter sequences
 - Molecular-level tracking of DNA molecules
 - Computational deduplication using UMI-tools
 
 **Benefits:**
+
 - Accurate duplicate removal
 - Sequence error correction (consensus calling)
 - Improved quantification, especially for MRD
@@ -1232,18 +1327,21 @@ b) **Regularized Horseshoe Prior:**
 ### **Improvement 3: Automated Pipeline (MEDIPIPE)**
 
 **Problem Addressed:**
+
 - Lack of standardized analysis workflow
 - Different labs using different processing steps
 - Difficult to compare across studies
 - Manual analysis time-consuming and error-prone
 
 **Solution (Zeng et al., 2023):**
+
 - End-to-end automated pipeline
 - Snakemake workflow management
 - Containerized execution
 - Comprehensive QC reporting
 
 **Benefits:**
+
 - Standardized processing
 - Reproducibility
 - Scalability to large datasets
@@ -1255,11 +1353,13 @@ b) **Regularized Horseshoe Prior:**
 ### **From Single-Method to Systematic Comparison**
 
 **Early Approach (2018):**
+
 - GLMnet proposed as standard
 - Random Forest as alternative
 - Limited comparison of methods
 
 **Systematic Evaluation (2022):**
+
 - Halla-aho & Lähdesmäki compared:
   - Multiple feature selection methods
   - Multiple feature generation methods
@@ -1267,6 +1367,7 @@ b) **Regularized Horseshoe Prior:**
 
 
 **Key Finding:**
+
 - Simpler can be better
 - 2-feature logistic regression nearly as good as complex methods
 - Fisher's exact test most robust feature selection
@@ -1274,6 +1375,7 @@ b) **Regularized Horseshoe Prior:**
 ### **From Binary to Multi-Class Classification**
 
 **Progression:**
+
 1. Single cancer type detection (2018)
 2. Multiple independent binary classifiers
 3. Hierarchical classification:
@@ -1284,12 +1386,14 @@ b) **Regularized Horseshoe Prior:**
 ### **From Research to Clinical Application**
 
 **Evolution:**
+
 - Academic proof-of-concept (2018)
 - Method standardization (2019)
 - Clinical validation studies (2020-2024)
 - Commercial development (Adela, Inc.)
 
 **Clinical Requirements Driving Improvements:**
+
 - Specificity >99% to minimize false positives
 - Sensitivity across early stages
 - Tissue-of-origin prediction
@@ -1358,6 +1462,7 @@ b) **Regularized Horseshoe Prior:**
 ## cfMeDIP-seq vs Bisulfite Sequencing
 
 **cfMeDIP-seq Advantages:**
+
 - No DNA degradation (preserves cfDNA)
 - Lower input requirements (1-10 ng vs 10-100 ng)
 - Genome-wide coverage
@@ -1365,12 +1470,14 @@ b) **Regularized Horseshoe Prior:**
 - Faster library preparation
 
 **Bisulfite Sequencing Advantages:**
+
 - Single-CpG resolution
 - Absolute methylation quantification (without modeling)
 - Gold standard for validation
 - No antibody-dependent variability
 
 **cfMeDIP-seq vs WGBS/RRBS:**
+
 - WGBS (Whole Genome Bisulfite Sequencing):
   - Comprehensive but very expensive
   - High input requirements
@@ -1383,12 +1490,14 @@ b) **Regularized Horseshoe Prior:**
 ## cfMeDIP-seq vs Targeted Methylation Methods
 
 **Targeted Methylation (e.g., GRAIL Galleri):**
+
 - Focuses on ~100,000 selected regions
 - Deep coverage of informative regions
 - Pre-defined feature set
 - High specificity
 
 **cfMeDIP-seq (Adela):**
+
 - Genome-wide discovery approach
 - Single assay for all applications
 - Flexible feature selection
