@@ -1,0 +1,7 @@
+name: "reAdela"
+output_dir: "_site"
+navbar:
+  title: Adela's cfMeDIP-seq Technology
+  left:
+    - text: "Home"
+      href: index.html

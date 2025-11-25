@@ -1,0 +1,9 @@
+
+<!-- To run
+## nohup Rscript -e "knitr::knit2html('FILENAME2.Rmd')" > FILENAME2.log  &
+
+## Or
+## nohup Rscript -e "rmarkdown::render('FILENAME2.Rmd')" > FILENAME2.log  &
+
+-->
+

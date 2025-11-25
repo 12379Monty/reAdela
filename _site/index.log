@@ -1,0 +1,18 @@
+
+
+processing file: index.Rmd
+1/11                      
+2/11 [sidenote]           
+3/11                      
+4/11 [setup]              
+5/11                      
+6/11 [infex-GlobalOptions]
+7/11                      
+8/11 [index-Prelims]      
+9/11                      
+10/11 [unnamed-chunk-1]    
+output file: index.knit.md
+
+/usr/local/bin/pandoc +RTS -K512m -RTS index.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output index.html --lua-filter /Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/bookdown/rmarkdown/lua/custom-environment.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --wrap preserve --variable bs3=TRUE --section-divs --table-of-contents --toc-depth 3 --template /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --variable theme=bootstrap --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmprqKHWU/rmarkdown-str70ca2af721a5.html --variable code_folding=hide --variable source_embed=index.Rmd --include-after-body /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmprqKHWU/file70ca46c1edac.html --variable code_menu=1 --citeproc 
+
+Output created: index.html
