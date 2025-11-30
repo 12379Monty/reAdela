@@ -420,7 +420,7 @@ The protocol includes several QC checkpoints:
    - Peak at ~166 bp (mononucleosomal)
    - Range: 100-700 bp
 
-## 1.4 Key Sources of Variability
+## Key Sources of Variability
 
 Based on the protocol and subsequent validation studies, the major sources of variability are:
 

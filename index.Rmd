@@ -17,7 +17,7 @@ output:
     # this has no effect
     number_sections: yes
     # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
-bibliography: [../_bibFiles/_misc.bib, ../_bibFiles/_AI_ML.bib, ../_bibFiles/_RUV.bib, ../_bibFiles/_scRNAseq_norm.bib, ../_bibFiles/_ref_free_genom_inf.bib, ../_bibFiles/_healthy_aging.bib, ../../_bibFiles/_Normalization.bib, ../../_bibFiles/_Breiman.bib, ../../_bibFiles/_Freedman.bib, ../../_bibFiles/_Yu.bib,  ../../_bibFiles/_RMA.bib]
+bibliography: [../_bibFiles/_cfMeDIP-seq.bib, ../_bibFiles/_misc.bib, ../_bibFiles/_AI_ML.bib, ../_bibFiles/_RUV.bib, ../_bibFiles/_scRNAseq_norm.bib, ../_bibFiles/_ref_free_genom_inf.bib, ../_bibFiles/_healthy_aging.bib, ../../_bibFiles/_Normalization.bib, ../../_bibFiles/_Breiman.bib, ../../_bibFiles/_Freedman.bib, ../../_bibFiles/_Yu.bib,  ../../_bibFiles/_RMA.bib]
 csl: ../_csl/cell-numeric.csl
 link-citations: true
 ---
@@ -143,6 +143,9 @@ PREFIX <- "index" #- replace by FLOWCELL???
 
 <br/>
 
+* Donoho on Frictionless Reproducibility
+   - Donoho on the Modern History of Stats
+
 
 # About this page {-}
 
@@ -153,12 +156,105 @@ The source of all the information contained therein is public.
 
 <br/>
 
-# Reports   {-}
 
+# Preliminaries 
 
+<p><p/>
 * [Adela vs GRAIL](AI/_Adela_vs_GRAIL_MCED_Comparison.html)
+   - A fairly comprehensive, high level comparison of the two platforms.
+   - This compilation is for background purpopses - see the documentation below for comments on
+technical aspects of some of the studies sited.
 
-* [Evolution of Adela's Classifier]()
+<br/>
+
+# Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers
+
+## Report: Evolution of Adela's technology
+
+<p><p/>
+* [Evolution of Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers.html)
+   - A fairly comprehensive, high level description of the assay and algorithm along with
+dcwa description of enhancements that followed.
+   - Comments will be made when the primary references are described below.
+
+<br/>
+
+## Study by Study Reviews
+
+### Shen et al. (2018) [@Shen:2018aa]
+
+Some questions:
+
+* Was the Differentially Methylated Regions (DMRs) status between cancer and controls
+used for selecting features?
+
+* CV is to determine the hyper-parameters
+
+```
+Training:
+
+* 10-fold cross-validation for hyper-parameter tuning
+* Nested cross-validation for performance estimation
+* Class imbalance handled by:
+   - Weighted loss function
+   - Or downsampling of majority class
+
+```
+ 
+* class imbalance is not an issue when comparing algorithms based on the same sample set.
+
+<p><p/>
+* auROC is not a good summary
+   - spec at fixed sens would be better
+   - but both would order algorithms similarly.
+
+#### On the use repeated cross-validation to rank methods
+
+
+* [
+
+
+
+
+
+ 
+<br/>
+
+### Controls, Controls, Controls 
+
+<p><p/>
+* Spike-In Controls - Wilson et al. (2022) [@Wilson:2022aa]
+   - How are the Synthetic Spike-In Controls used to reduce unwanted variability?
+   - Spike-ins may not be affected by some important sources of variability,
+but they can only contribute adjustments for variability it is subjected to.
+   - What else could be done with these?  
+   - What other controls could be exploited? 
+      - endogenous controls
+      - sample controls
+
+<br/>
+
+### Before any modeling, fitting, etc. 
+
+<p><p/>
+* We need to examine the data:
+   - are there obvious quality issues?
+   - are there less obvious quality issues?  
+   - visually, how hard of a classification problem  do we have?
+      - are cancer types distinct?
+      - are there outlier points?  Is the outlier due to technical reasons?
+ 
+<br/>
+
+### elastic net Vs RF 
+
+
+
+
+
+
+  
+
   
 
 
@@ -189,4 +285,4 @@ The source of all the information contained therein is public.
 ## Or 
 ## nohup Rscript -e "rmarkdown::render('index.Rmd')" > index.log  &
     
-
+-->
