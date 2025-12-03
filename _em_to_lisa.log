@@ -1,0 +1,12 @@
+
+
+processing file: _em_to_lisa.Rmd
+1/1
+output file: _em_to_lisa.knit.md
+
+/usr/local/bin/pandoc +RTS -K512m -RTS _em_to_lisa.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output _em_to_lisa.html --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --variable bs3=TRUE --section-divs --template /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --include-before-body /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpCtGLUe/rmarkdown-str2d4752e61990.html --variable navbar=1 --variable theme=bootstrap --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpCtGLUe/rmarkdown-str2d47986775.html --citeproc 
+[WARNING] This document format requires a nonempty <title> element.
+  Defaulting to '_em_to_lisa.knit' as the title.
+  To specify a title, use 'title' in metadata or --metadata title="...".
+
+Output created: _em_to_lisa.html

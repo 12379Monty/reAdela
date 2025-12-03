@@ -1,13 +1,11 @@
 
 Rendering: ./index.Rmd
-1/11                      
-2/11 [sidenote]           
-3/11                      
-4/11 [setup]              
-5/11                      
-6/11 [infex-GlobalOptions]
-7/11                      
-8/11 [index-Prelims]      
-9/11                      
-10/11 [unnamed-chunk-1]    
-/usr/local/bin/pandoc +RTS -K512m -RTS index.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output index.html --lua-filter /Library/Frameworks/R.framework/Versions/4.4-x86_64/Resources/library/bookdown/rmarkdown/lua/custom-environment.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/table-classes.lua --wrap preserve --variable bs3=TRUE --standalone --section-divs --table-of-contents --toc-depth 3 --template /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --include-before-body /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpvDE8oa/rmarkdown-str772936f65e29.html --variable navbar=1 --variable theme=bootstrap --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpvDE8oa/rmarkdown-str7729689ff1ef.html --variable code_folding=hide --variable source_embed=index.Rmd --include-after-body /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpvDE8oa/file77295cc4b792.html --variable code_menu=1 --citeproc 
+1/9                      
+2/9 [setup]              
+3/9                      
+4/9 [infex-GlobalOptions]
+5/9                      
+6/9 [index-Prelims]      
+7/9                      
+8/9 [unnamed-chunk-1]    
+/usr/local/bin/pandoc +RTS -K512m -RTS index.knit.md --to html4 --from markdown+autolink_bare_uris+tex_math_single_backslash --output index.html --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/table-classes.lua --variable bs3=TRUE --standalone --section-divs --template /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmd/h/default.html --no-highlight --variable highlightjs=1 --number-sections --include-before-body /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpN10Zyo/rmarkdown-str71f8606716e4.html --variable navbar=1 --variable theme=bootstrap --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpN10Zyo/rmarkdown-str71f81010042e.html --variable code_folding=hide --variable source_embed=index.Rmd --include-after-body /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpN10Zyo/file71f8b82703f.html --variable code_menu=1 --citeproc 

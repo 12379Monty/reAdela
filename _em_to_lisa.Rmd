@@ -1,0 +1,62 @@
+---
+output:
+   html_document:
+bibliography: [../Refs/Collin/_fcollin.bib]
+csl: ../_csl/cell-numeric.csl
+link-citations: true
+---
+
+Hi Lisa:  
+
+I realize that the relevant experience I have with developing predictors may not
+exactly jump out of my linkedIn profile or CV.  Here is a list of relevant activities.
+
+- When I worked with Sam Levy at Bluestar Genomics, now ClearNote Health, my main role was
+developing an algorithm to detect cancer from the 5hmc epigenetic profiles of samples.  Two
+publications are based on this work - [@Guler:2020aa] and [@Bergamaschi:2020aa].
+
+- When I worked with Phil Ma at PrognomIQ, I was the lead developer of a classifier used to
+detect cancer for the combination of the proteomic and transcriptomic profiles of samples.
+A patent is based on this work - MULTIOMIC ASSESSMENT Publication number: 20250273293
+
+- I was contracted by CareDx to be the lead developer of a classifier to predict the 
+molecular archetypes of kidney transplant rejection from a panel of genes.  One 
+publication is based on this work - [@Zhang:2024aa].
+
+- None of these papers have much useful technical detail as far as the nature and
+development of the classifiers go.  I wrote two vignettes a while back which 
+provide some background for the analyses I typically consider with these types of problems.
+They may be useful to others trying to develop a solid understanding of the prediction
+problem at hand.  
+
+- One vignette, 
+[Classification and Clustering: Case Study with CRC Gene Expression Data](https://crc-explore.netlify.app/),
+[@Collin:2020aa] ,
+does an analysis which compares several algorithms in parallel.  This provides useful information and I
+would keep this view active as we move forward, even if some of the algorithms would not be part of
+a product.
+
+- The other vignette,
+[Genomic Scale Classification](https://genomic-scale-classification.netlify.app/) [@Collin:2020ab],
+does a careful analysis of one algorithm, the elastic net, and provides a different view of the problem.
+
+I hope this gives you a better idea of how my personal experience might come to bear on the 
+problems Adela is challenged with.  
+
+
+Best,
+Francois
+
+<br/>
+<br/>
+
+# References {-}
+    
+<div id="refs"></div>
+    
+<br/> 
+  
+
+<!-- To run
+## nohup Rscript -e "rmarkdown::render('_em_to_lisa.Rmd')" > _em_to_lisa.log  &
+-->

@@ -1,0 +1,452 @@
+---
+title:  "cfMeDIP-seq: Protocol, Computational Pipeline, and Classifier Methodologies"
+subtitle: "COMMENTS"
+author: "[Francois Collin](https://www.linkedin.com/in/francoisz/)"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+always_allow_html: yes
+output:
+  # for use of .tabset
+  bookdown::html_document2:
+  #bookdown::html_book:
+  #html_document:
+    code_folding: hide
+    code_download: true
+    toc: true
+    toc_depth: 3
+    # does this have an effect
+    fig_caption: yes
+    # this has no effect
+    number_sections: yes
+    # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
+bibliography: [../../_bibFiles/_healthy_aging.bib, ../../_bibFiles/_ref_free_genom_inf.bib, ../../../_bibFiles/_Breiman.bib, ../../../_bibFiles/_Yu.bib, ../../../_bibFiles/_Freedman.bib, ../../../_bibFiles/_RUV.bib, ../../../_bibFiles/_Yu.bib]
+csl: ../../_csl/cell-numeric.csl
+link-citations: true
+---
+
+```{css sidenote, echo = FALSE}
+
+.main-container {
+    margin-left: 250px;
+}
+.sidenote, .marginnote { 
+  float: right;
+  clear: right;
+  margin-right: -40%;
+  width: 37%;         # best between 50% and 60%
+  margin-top: 0;
+  margin-bottom: 0;
+  font-size: 1.1rem;
+  line-height: 1.3;
+  vertical-align: baseline;
+  position: relative;
+  }
+```
+
+
+<style>
+@import url('https://fonts.googleapis.com/css?family=Raleway');
+@import url('https://fonts.googleapis.com/css?family=Oxygen');
+@import url('https://fonts.googleapis.com/css?family=Raleway:bold');
+@import url('https://fonts.googleapis.com/css?family=Oxygen:bold');
+
+.main-container {
+  max-width: 1400px !important;
+}
+
+body{
+  font-family: 'Oxygen', sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+h1,h2,h3,h4 {
+  font-family: 'Raleway', sans-serif;
+}
+
+.container { width: 1400px; }
+
+caption {
+  font-size: 20px;
+  caption-side: top;
+  text-indent: 30px;
+  background-color: lightgrey;
+  color: black;
+  margin-top: 5px;
+}
+
+g-table-intro h4 {
+  text-indent: 0px;
+}
+</style>
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      comment = NA,
+                      warning = FALSE,
+                      error = FALSE,
+                      message = FALSE,
+                      cache = FALSE,
+                      fig.width = 8,
+                      fig.height = 4)
+```
+
+```{r m2b-GlobalOptions, results="hide", include=FALSE, cache=FALSE}
+
+knitr::opts_knit$set(stop_on_error = 2L) #really make it stop
+options(knitr.table.format = 'html')
+
+options(stringsAsFactors=F)
+
+ #knitr::dep_auto()
+
+```
+<!-- ######################################################################## -->
+
+
+```{r m2b-Prelims,  include=FALSE, echo=FALSE, results='hide', message=FALSE} 
+
+FN <- "_cfMeDIP-seq_Protocol_Pipeline_Classi_comments"
+if(sum(grepl(FN, list.files()))==0) stop("Check FN")
+
+ suppressMessages(require(rmarkdown))
+ suppressMessages(require(knitr))
+
+ suppressPackageStartupMessages(require(methods))
+ suppressPackageStartupMessages(require(bookdown))
+
+ suppressPackageStartupMessages(require(data.table))
+ options(datatable.fread.datatable=F)
+
+ suppressPackageStartupMessages(require(plyr))
+ suppressPackageStartupMessages(require(dplyr))
+ suppressPackageStartupMessages(require(magrittr))
+
+ # Shotcuts for knitting and rendering while in R session (Invoke interactive R from R/Scripts folder)
+ kk <- function(n='') knitr::knit2html(paste("t", n, sep=''), envir=globalenv(),
+       output=paste(FN,".html", sep=''))
+
+ rr <- function(n='') rmarkdown::render(paste("t", n, sep=''), envir=globalenv(),
+       output_file=paste(FN,".html", sep='')) ##, output_dir='Scripts')
+
+ bb <- function(n='') browseURL(paste(FN,".html", sep=''))
+
+ # The usual shortcuts
+ zz <- function(n='') source(paste("t", n, sep=''))
+
+
+ WRKDIR <- '..'
+ if(!file.exists(WRKDIR)) stop("WRKDIR ERROR", WRKDIR)
+
+ # file rmarkdown file management options: cache, figures
+ cache_DIR <- file.path(WRKDIR,'Scripts', 'cache/M2B/')
+ suppressMessages(dir.create(cache_DIR, recursive=T))
+ opts_chunk$set(cache.path=cache_DIR)
+
+ figures_DIR <- file.path(WRKDIR,'Scripts', 'figures/M2B/')
+ suppressMessages(dir.create(figures_DIR, recursive=T))
+ opts_chunk$set(fig.path=figures_DIR)
+
+ #tables_DIR <- file.path(WRKDIR,'Scripts', 'tables/M2B/')
+ #suppressMessages(dir.create(table_DIR, recursive=T))
+ #opts_chunk$set(fig.path=table_DIR)
+ 
+ # need a local copy of help_DIR
+ #help_DIR <- file.path(WRKDIR,'Scripts', 'help_files')
+ help_DIR <- file.path('.', 'help_files')
+ suppressMessages(dir.create(help_DIR, recursive=T))
+ 
+ temp_DIR <- file.path(WRKDIR,'Scripts', 'temp_files')
+ suppressMessages(dir.create(temp_DIR, recursive=T))
+
+```
+<!-- ######################################################################## -->
+
+*** 
+
+```{r m2b-utilityFns, echo=FALSE, eval=FALSE}
+ # Here we define some utility functions
+source('r/utilityFns.r')
+
+```
+
+<!-- ######################################################################## -->
+
+
+```{r m2b-input-params-all, echo = FALSE, results = "asis", eval=F, echo=F}
+ # print out original input params
+data.frame(
+param_name=names(params),
+param_value=unlist(params),
+param_class=sapply(params, class), row.names=NULL) %>%
+  knitr::kable(caption="Input Parameters")
+```
+
+
+
+<style>
+    hr {
+        border: none;
+        height: 2px;
+        background: none;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+    }
+</style>
+
+<br/>
+<br/>
+
+
+## Executive Summary {-}
+
+Comments collected from reviewing *seq_Protocol_Pipeline_Classifiers*:
+
+<br/>
+
+### 1.4 Sources of variability {-}
+
+<p><p/>
+* High Impact:
+
+   -  Filler DNA
+   -  Antibody Lot
+
+<p><p/>
+* Moderate Impact
+
+   - Sequencing Depth
+   - PCR Cycle Number
+   - Fragment Length, GC Content, and CpG Density
+
+
+<br/>
+
+### 1.5 Variability Mitigation {-}
+
+<p><p/>
+* 54 DNA fragments with combinations of:
+
+   - Methylation status (methylated and unmethylated)
+   - Fragment length (80, 160, 320 bp)
+   - GC content (35%, 50%, 65%)
+   - CpG fraction (1/80 bp, 1/40 bp, 1/20 bp)
+
+<p><p/>
+* Addition of 0.01 ng spike-in controls enables:
+
+   - Absolute quantification of methylated cfDNA
+   - Batch effect correction
+   - Correction for fragment length, GC, and CpG biases
+   - Quality control per sample
+
+<br/>
+
+### Variability: Manifestation and Mitigation {-}
+
+
+<span style="color:blue">
+* We need to pull the empirical evidence that the extra variability
+in the data is properly mitigated by the methods based on the spike-ins.
+</span>
+
+<br/>
+
+### **Module 3: DNA Methylation Quantification** {-}
+
+* MEDIPIPE implements three methods for methylation estimation, each using different models
+to correct for CpG density bias
+<span style="color:blue">
+   - we need a method to **thoroughly evaluate** the  methods for methylation estimation.
+<span/>
+   
+
+#### **Method 1: MEDIPS (v1.46.0) - Linear Regression Model** {-}
+
+<p><p/>
+* Divides genome into fixed-size windows (typically 300-500 bp)
+* Counts reads in each window
+* Applies linear regression to model relationship between read counts and CpG density
+   - <span style="color:blue">is the model global?</span>
+* Calculates Relative Methylation Score (RMS) for each window
+   - <span style="color:blue">basically residuals from fit</span>
+
+<span style="color:blue">
+The orher methods are similar but different - what is used to decide which is best?
+</span>
+
+<br/>
+
+#### **Method 2: QSEA (v1.20.0) - Sigmoidal Model with Empirical Knowledge** {-}
+
+<p><p/>
+* Uses sigmoidal model to capture non-linear relationship between **enrichment**
+and CpG density
+* Incorporates empirical calibration curve
+* Models enrichment as function of:
+  - CpG density
+  - Fragment length
+  - GC content
+
+<br/>
+
+#### **Method 3: MEDStrand (v0.0.0.9000) - Stranded Sigmoid Model** {-}
+
+* Extension of sigmoidal model that accounts for strand-specific effects
+* Models forward and reverse strand separately
+* Improves accuracy for asymmetric methylation patterns
+
+
+<br/>
+
+## Key Quality Control Metrics Tracked {-}
+
+* MEDIPIPE tracks comprehensive QC metrics throughout the pipeline
+   - **Sequencing Quality:**
+   - **Alignment Quality:**
+   - **cfMeDIP-seq Specific:**
+   - **Fragment Characteristics:**
+ 
+<span style="color:blue">
+
+* We need to compile a bunch of these statistics and summarize them,
+eaboth tabular and graphical formats.
+
+</span>
+
+<br/>
+
+
+#  Machine Learning Classifiers for cfMeDIP-seq Data {-}
+
+## Shen et al. 2018 (Nature) - Foundational Classifier {-}
+
+**Study**: "Sensitive tumour detection and classification using plasma cell-free DNA methylomes"
+
+### **Data Processing** {-}
+
+**Feature Definition:**
+
+- Identified Differentially Methylated Regions (DMRs) between cancer and controls
+- Selected top 1,000 most variable windows
+<span style="color:blue">
+   - **Is this done with all samples?**
+   - Test set should be excluded.
+   - Technically, should also be inside the cv loop.
+      - when "most variable" is a considerable fraction, like 40-60%,
+it might be ok to do the selection outside the CV loop,
+but 1000 is a major filter and there is a chance that
+this selection is affected by between group differences in the test samples.
+</span>
+
+- Variability measured by median absolute deviation (MAD)
+- Features: Read counts in selected 300 bp windows
+
+### **Classifier** {-}
+
+**Algorithm**: Elastic Net Regularized Logistic Regression (GLMnet)
+
+**Model Details:**
+
+- GLMnet combines L1 (Lasso) and L2 (Ridge) regularization
+- Regularization path: α = 0.5 (equal weight to L1 and L2)
+- λ (regularization strength) selected by cross-validation
+- Performs automatic feature selection via L1 penalty
+- Typically retains 50-200 features from the 1,000 input features
+
+**Training:**
+
+- 10-fold cross-validation for hyperparameter tuning
+- Nested cross-validation for performance estimation
+<span style="color:blue">
+   - What is that?
+</span> 
+
+- Class imbalance handled by:
+  - Weighted loss function
+  - Or downsampling of majority class
+
+<span style="color:blue">
+Class imbalance is only an issue when all levels are combined into
+an accuracy measure of performance, which the FDA typically rejects
+and insists on sensitivity and specificity to be kept separate
+in all reporting of performance.  
+</span>
+
+**Output:**
+
+- Probability score (0-1) for cancer presence
+- Feature coefficients (which DMRs are most informative)
+
+**Performance (Pancreatic Cancer Example):**
+
+- Discovery cohort AUROC: 0.96
+- Validation cohort AUROC: 0.94
+- Sensitivity at 98% specificity: 69%
+   - Plot
+
+### **Random Forest Classifier** {-}
+
+- Similar to GLMnet in most cancer types
+- More robust to outliers
+<span style="color:blue">
+   - What does that mean?
+</span> 
+
+- Better captures non-linear relationships
+<span style="color:blue">
+   - What does that mean?
+</span> 
+
+
+### **Multi-Cancer Classification** {-}
+
+**Approach:**
+
+- Hierarchical classification strategy:
+  1. **Binary Classifier**: Cancer vs. Non-Cancer
+  2. **Multi-Class Classifier**: Classify cancer type
+
+<span style="color:blue">
+* How was this model arrived at?
+</span> 
+
+**Cancer vs. Non-Cancer:**
+
+- Used same GLMnet approach
+- Top 1,000 DMRs distinguishing cancer from healthy
+
+**Cancer Type Classification:**
+
+- Separate GLMnet model
+- Top 300 DMRs for each pairwise cancer type comparison
+<span style="color:blue">
+   - HOW?
+</span> 
+
+- One-vs-rest strategy for multi-class
+- Combined probabilities using softmax
+
+**Performance:**
+
+- Cancer detection AUROC: 0.90-0.99 across types
+   - who cares
+- Tissue-of-origin prediction accuracy: 80-95%
+   - who cares
+
+---
+
+### STOP COMMENTING HERE   {-}
+
+
+*Document version: 1.1*
+*Last updated: November 2025*
+
+
+        
+<!-- To run
+## nohup Rscript -e "knitr::knit2html('_cfMeDIP-seq_Protocol_Pipeline_Classi_comments.Rmd')" > _cfMeDIP-seq_Protocol_Pipeline_Classi_comments.log  &
+    
+## Or
+## nohup Rscript -e "rmarkdown::render('_cfMeDIP-seq_Protocol_Pipeline_Classi_comments.Rmd')" > _cfMeDIP-seq_Protocol_Pipeline_Classi_comments.log  &
+    
+-->
+

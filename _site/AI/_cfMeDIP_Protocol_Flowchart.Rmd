@@ -1,0 +1,135 @@
+
+<!--
+#!/usr/bin/env Rscript
+# cfMeDIP-seq Protocol Flowchart
+# Color-coded by variability potential
+
+# Output to PDF
+#pdf("/mnt/user-data/outputs/cfMeDIP_Protocol_Flowchart.pdf", width = 8, height = 11)
+#pdf("cfMeDIP_Protocol_Flowchart.pdf", width = 8, height = 11)
+-->
+
+```{r pipeline-flowchart, fig.width=8, fig.height=11}
+# Set up plotting area
+par(mar = c(1, 1, 2, 1))
+plot(NULL, xlim = c(0, 10), ylim = c(0, 100), 
+     xlab = "", ylab = "", xaxt = "n", yaxt = "n",
+     bty = "n", main = "cfMeDIP-seq Protocol (Shen et al. 2019)")
+
+# Color scheme for variability
+col_high <- "#E74C3C"      # Red - HIGH variability
+col_mod <- "#F39C12"       # Orange - MODERATE variability  
+col_low <- "#27AE60"       # Green - LOW variability
+col_stage <- "#3498DB"     # Blue - Stage headers
+
+# Function to draw a box with text
+draw_box <- function(x, y, w, h, label, fill_col, text_cex = 0.7) {
+  rect(x - w/2, y - h/2, x + w/2, y + h/2, col = fill_col, border = "black", lwd = 1.5)
+  text(x, y, label, cex = text_cex, font = 1)
+}
+
+# Function to draw arrow between boxes
+draw_arrow <- function(x1, y1, x2, y2) {
+  arrows(x1, y1, x2, y2, length = 0.08, lwd = 1.5, col = "gray30")
+}
+
+# Function to draw stage header
+draw_stage <- function(x, y, label) {
+  text(x, y, label, cex = 0.8, font = 2, col = col_stage)
+}
+
+# Layout parameters
+cx <- 5          # Center x
+bw <- 3.8        # Box width
+bh <- 3.2        # Box height
+gap <- 4.2       # Vertical gap between boxes
+
+# Starting y position
+y_pos <- 96
+
+# === STAGE 1: Library Preparation ===
+draw_stage(cx, y_pos, "STAGE 1: Library Prep (Day 1)")
+y_pos <- y_pos - 3
+
+draw_box(cx, y_pos, bw, bh, "1. End-repair\n& A-tailing", col_low)
+y_pos <- y_pos - gap
+draw_arrow(cx, y_pos + gap - bh/2, cx, y_pos + bh/2)
+
+draw_box(cx, y_pos, bw, bh, "2. Adapter\nligation", col_mod)
+y_pos <- y_pos - gap
+draw_arrow(cx, y_pos + gap - bh/2, cx, y_pos + bh/2)
+
+draw_box(cx, y_pos, bw, bh, "3. SPRI bead\npurification", col_low)
+y_pos <- y_pos - gap - 1
+draw_arrow(cx, y_pos + gap + 1 - bh/2, cx, y_pos + bh/2 + 1)
+
+# === STAGE 2: Immunoprecipitation ===
+draw_stage(cx, y_pos + 1, "STAGE 2: Immunoprecipitation (Day 2)")
+y_pos <- y_pos - 2
+
+draw_box(cx, y_pos, bw, bh, "4. Add filler DNA\n& spike-ins", col_high)
+y_pos <- y_pos - gap
+draw_arrow(cx, y_pos + gap - bh/2, cx, y_pos + bh/2)
+
+draw_box(cx, y_pos, bw, bh, "5. Denature\n(95°C)", col_low)
+y_pos <- y_pos - gap
+draw_arrow(cx, y_pos + gap - bh/2, cx, y_pos + bh/2)
+
+draw_box(cx, y_pos, bw, bh, "6. Anti-5mC IP\n(overnight)", col_high)
+y_pos <- y_pos - gap
+draw_arrow(cx, y_pos + gap - bh/2, cx, y_pos + bh/2)
+
+draw_box(cx, y_pos, bw, bh, "7. Bead capture\n& wash", col_mod)
+y_pos <- y_pos - gap
+draw_arrow(cx, y_pos + gap - bh/2, cx, y_pos + bh/2)
+
+draw_box(cx, y_pos, bw, bh, "8. Elution &\npurification", col_low)
+y_pos <- y_pos - gap - 1
+draw_arrow(cx, y_pos + gap + 1 - bh/2, cx, y_pos + bh/2 + 1)
+
+# === STAGE 3: Amplification ===
+draw_stage(cx, y_pos + 1, "STAGE 3: Amplification (Day 3)")
+y_pos <- y_pos - 2
+
+draw_box(cx, y_pos, bw, bh, "9. qPCR QC\n(specificity)", col_low)
+y_pos <- y_pos - gap
+draw_arrow(cx, y_pos + gap - bh/2, cx, y_pos + bh/2)
+
+draw_box(cx, y_pos, bw, bh, "10. PCR\namplification", col_mod)
+y_pos <- y_pos - gap
+draw_arrow(cx, y_pos + gap - bh/2, cx, y_pos + bh/2)
+
+draw_box(cx, y_pos, bw, bh, "11. Size select\n& QC", col_low)
+y_pos <- y_pos - gap - 1
+draw_arrow(cx, y_pos + gap + 1 - bh/2, cx, y_pos + bh/2 + 1)
+
+# === STAGE 4: Sequencing ===
+draw_stage(cx, y_pos + 1, "STAGE 4: Sequencing (Day 4+)")
+y_pos <- y_pos - 2
+
+draw_box(cx, y_pos, bw, bh, "12. Paired-end\nsequencing", col_mod)
+
+# === LEGEND ===
+legend_x <- 8.2
+legend_y <- 50
+
+text(legend_x, legend_y + 8, "Variability", font = 2, cex = 0.8)
+rect(legend_x - 0.8, legend_y + 4, legend_x - 0.3, legend_y + 6, col = col_high, border = "black")
+text(legend_x + 0.5, legend_y + 5, "High", cex = 0.7, adj = 0)
+rect(legend_x - 0.8, legend_y + 1, legend_x - 0.3, legend_y + 3, col = col_mod, border = "black")
+text(legend_x + 0.5, legend_y + 2, "Moderate", cex = 0.7, adj = 0)
+rect(legend_x - 0.8, legend_y - 2, legend_x - 0.3, legend_y, col = col_low, border = "black")
+text(legend_x + 0.5, legend_y - 1, "Low", cex = 0.7, adj = 0)
+
+# Key variability notes on left side
+note_x <- 1.2
+text(note_x, 68, "Filler type\n(meth/unmeth)", cex = 0.55, col = col_high, font = 3)
+text(note_x, 55.5, "Antibody lot\nvariation", cex = 0.55, col = col_high, font = 3)
+text(note_x, 26, "PCR cycles\nGC bias", cex = 0.55, col = col_mod, font = 3)
+text(note_x, 13.5, "Seq depth", cex = 0.55, col = col_mod, font = 3)
+
+dev.off()
+
+```
+#cat("Flowchart saved to /mnt/user-data/outputs/cfMeDIP_Protocol_Flowchart.pdf\n")
+

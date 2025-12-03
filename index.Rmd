@@ -7,10 +7,10 @@ always_allow_html: yes
 output:
   #html_document:
   # for use of .tabset
-  bookdown::html_document2:
+  rmarkdown::html_document:
     code_folding: hide
     code_download: true
-    toc: true
+    toc: false
     toc_depth: 3
     # does this have an effect
     fig_caption: yes
@@ -25,64 +25,6 @@ link-citations: true
 <p style="background-color: yellow; padding: 5px;">
   <span style="font-weight: bold;">⚠️ Work in Progress:</span> This content is incomplete.
 </p>
-
-
-
-```{css sidenote, echo = FALSE}
-
-.main-container {
-    margin-left: 250px;
-}
-.sidenote, .marginnote { 
-  float: right;
-  clear: right;
-  margin-right: -40%;
-  width: 37%;         # best between 50% and 60%
-  margin-top: 0;
-  margin-bottom: 0;
-  font-size: 1.1rem;
-  line-height: 1.3;
-  vertical-align: baseline;
-  position: relative;
-  }
-```
-
-
-<style>
-@import url('https://fonts.googleapis.com/css?family=Raleway');
-@import url('https://fonts.googleapis.com/css?family=Oxygen');
-@import url('https://fonts.googleapis.com/css?family=Raleway:bold');
-@import url('https://fonts.googleapis.com/css?family=Oxygen:bold');
-
-.main-container {
-  max-width: 1400px !important;
-}
-
-body{
-  font-family: 'Oxygen', sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-}
-
-h1,h2,h3,h4 {
-  font-family: 'Raleway', sans-serif;
-}
-
-.container { width: 1400px; }
-
-caption {
-  font-size: 20px;
-  caption-side: top;
-  text-indent: 30px;
-  background-color: lightgrey;
-  color: black;
-  margin-top: 5px;
-}
-
-g-table-intro h4 {
-  text-indent: 0px;
-}
-</style>
 
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(echo = TRUE,
@@ -143,11 +85,12 @@ PREFIX <- "index" #- replace by FLOWCELL???
 
 <br/>
 
+<!--
 * Donoho on Frictionless Reproducibility
    - Donoho on the Modern History of Stats
+-->
 
-
-# About this page {-}
+### About this page {-}
 
 * In this page we collect comments and links to reports and studies
 which speak to the development of Adela's cfMeDIP-seq Technology.
@@ -156,34 +99,37 @@ The source of all the information contained therein is public.
 
 <br/>
 
-
-# Preliminaries 
+### Reports {-}
 
 <p><p/>
 * [Adela vs GRAIL](AI/_Adela_vs_GRAIL_MCED_Comparison.html)
    - A fairly comprehensive, high level comparison of the two platforms.
    - This compilation is for background purpopses - see the documentation below for comments on
-technical aspects of some of the studies sited.
+technical aspects of some of the studies cited.
 
 <br/>
-
-# Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers
-
-## Report: Evolution of Adela's technology
 
 <p><p/>
 * [Evolution of Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers.html)
    - A fairly comprehensive, high level description of the assay and algorithm along with
-dcwa description of enhancements that followed.
+a description of enhancements that followed.
    - Comments will be made when the primary references are described below.
+
 
 <br/>
 
-## Study by Study Reviews
+<p><p/>
+* [Comments on Evolution of Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers](AI/_cfMeDIP-seq_Protocol_Pipeline_Classi_comments.html) -
+   - Some comments have to do with potential leakage; only by going through the code
+will we ever be able to figure this out.
+   - Other comments have to do with evidence gathering.
 
-### Shen et al. (2018) [@Shen:2018aa]
 
-Some questions:
+<br/>
+
+### Study by Study Execution Outline  {-}
+
+#### **Shen et al. (2018) [@Shen:2018aa]** {-}
 
 * Was the Differentially Methylated Regions (DMRs) status between cancer and controls
 used for selecting features?
@@ -208,16 +154,8 @@ Training:
    - spec at fixed sens would be better
    - but both would order algorithms similarly.
 
-#### On the use repeated cross-validation to rank methods
 
 
-* [
-
-
-
-
-
- 
 <br/>
 
 ### Controls, Controls, Controls 
@@ -225,6 +163,8 @@ Training:
 <p><p/>
 * Spike-In Controls - Wilson et al. (2022) [@Wilson:2022aa]
    - How are the Synthetic Spike-In Controls used to reduce unwanted variability?
+
+
    - Spike-ins may not be affected by some important sources of variability,
 but they can only contribute adjustments for variability it is subjected to.
    - What else could be done with these?  
@@ -247,15 +187,6 @@ but they can only contribute adjustments for variability it is subjected to.
 <br/>
 
 ### elastic net Vs RF 
-
-
-
-
-
-
-  
-
-  
 
 
 
