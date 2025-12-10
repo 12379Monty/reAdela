@@ -1,7 +1,7 @@
 ---
 title:  "cfMeDIP-seq: Protocol, Computational Pipeline, and Classifier Methodologies"
 #subtitle: "a tale of two schools"
-author: "[Francois Collin](https://www.linkedin.com/in/francoisz/)"
+author: "claude.ai Opus 4.5 with prompts from [Francois Collin](https://www.linkedin.com/in/francoisz/)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 always_allow_html: yes
 output:

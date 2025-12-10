@@ -1,0 +1,701 @@
+# Part I, Section 1: Enrichment-Based Methods
+
+*Comprehensive Review of Bioinformatics Pipelines and Statistical Models*
+
+---
+
+## 1. Introduction to Enrichment-Based Methylation Analysis
+
+Enrichment-based methods, particularly Methylated DNA Immunoprecipitation followed by sequencing (MeDIP-seq), provide a cost-effective approach for genome-wide DNA methylation profiling. Unlike bisulfite sequencing methods that provide single-nucleotide resolution, enrichment-based approaches capture methylated DNA fragments using antibodies specific to 5-methylcytosine (5mC). The key analytical challenge lies in transforming the enrichment signal into absolute methylation levels, correcting for the confounding effect of local CpG density on antibody binding efficiency.
+
+This section provides detailed documentation of seven methods for analyzing enrichment-based methylation data, with emphasis on:
+
+1. The complete bioinformatics pipeline from raw FASTQ files to analysis-ready input
+2. The full statistical models with explicit mathematical formulations and underlying assumptions
+
+---
+
+## 2. Common Bioinformatics Pipeline: FASTQ to BAM
+
+All enrichment-based methods share a common upstream preprocessing pipeline. The steps below transform raw sequencing data into aligned reads suitable for downstream analysis.
+
+### 2.1 Quality Control and Read Trimming
+
+**Step 1: Initial QC with FastQC**
+
+```bash
+fastqc -o qc_reports/ sample_R1.fastq.gz sample_R2.fastq.gz
+```
+
+**Step 2: Adapter Trimming with Trim Galore or Cutadapt**
+
+```bash
+trim_galore --paired --quality 20 --length 36 \
+    sample_R1.fastq.gz sample_R2.fastq.gz
+```
+
+### 2.2 Read Alignment
+
+**Step 3: Align to Reference Genome with BWA-MEM or Bowtie2**
+
+```bash
+bwa mem -t 8 reference_genome.fa \
+    sample_R1_trimmed.fq.gz sample_R2_trimmed.fq.gz \
+    | samtools sort -o sample.sorted.bam
+```
+
+**Step 4: Mark/Remove PCR Duplicates**
+
+```bash
+picard MarkDuplicates \
+    I=sample.sorted.bam \
+    O=sample.dedup.bam \
+    M=dup_metrics.txt \
+    REMOVE_DUPLICATES=true
+```
+
+**Step 5: Index BAM File**
+
+```bash
+samtools index sample.dedup.bam
+```
+
+---
+
+## 3. BATMAN (Bayesian Tool for Methylation Analysis)
+
+**Reference:** Down et al. (2008) *Nature Biotechnology* 26:779-785
+
+### 3.1 Method Overview
+
+BATMAN uses a Bayesian deconvolution approach to estimate absolute methylation levels from MeDIP-chip or MeDIP-seq data. The algorithm models the relationship between observed enrichment signals and the underlying CpG methylation states, accounting for the effect of local CpG density on antibody binding efficiency.
+
+### 3.2 Pipeline: BAM to BATMAN Input
+
+**For MeDIP-seq:** Convert BAM to normalized read counts per genomic window
+
+```bash
+# Create genome-wide windows and count reads
+bedtools makewindows -g genome.sizes -w 100 > windows.bed
+bedtools coverage -a windows.bed -b sample.dedup.bam > sample_counts.bed
+```
+
+**Required inputs:**
+
+1. Normalized MeDIP signal (log2 ratios or read counts)
+2. Reference genome with CpG positions
+3. Probe/window coordinates
+
+### 3.3 Statistical Model
+
+**Core Model:** BATMAN models the expected MeDIP signal at probe/window *p* as a linear combination of contributions from nearby methylated CpGs:
+
+$$E[S_p] = \sum_c C_{cp} \cdot m_c + \varepsilon_p$$
+
+**where:**
+
+| Symbol | Description |
+|--------|-------------|
+| $S_p$ | Observed MeDIP signal (normalized log2 ratio) at probe/window *p* |
+| $C_{cp}$ | Coupling factor between probe *p* and CpG *c* (fraction of DNA fragments at *p* containing CpG *c*) |
+| $m_c \in [0,1]$ | Methylation level at CpG *c* |
+| $\varepsilon_p$ | Measurement error (assumed normally distributed) |
+
+**Bayesian Framework:** The posterior distribution of methylation states is computed using:
+
+$$P(m \mid S) \propto P(S \mid m) \cdot P(m)$$
+
+**Prior Distribution:** Beta prior on methylation levels with parameters informed by CpG density:
+
+$$m_c \sim \text{Beta}(\alpha, \beta)$$
+
+**Likelihood:** Assuming normal errors with precision $\tau$:
+
+$$P(S \mid m) = \prod_p \mathcal{N}\left(S_p \mid \sum_c C_{cp} \cdot m_c, \tau^{-1}\right)$$
+
+### 3.4 Key Assumptions
+
+1. All DNA methylation occurs at CpG dinucleotides (appropriate for mammals)
+2. CpG-poor regions are constitutively methylated; CpG islands are typically unmethylated
+3. No systematic fragment size biases (fragment range ~400-700 bp)
+4. CpG methylation is highly correlated within 50-100 bp windows
+5. Measurement errors are normally distributed with constant precision
+
+---
+
+## 4. MEDIPS
+
+**Reference:** Lienhard et al. (2014) *Bioinformatics* 30:284-286; Chavez et al. (2010) *Genome Research* 20:1441-1450
+
+### 4.1 Method Overview
+
+MEDIPS is an R/Bioconductor package for genome-wide differential coverage analysis of MeDIP-seq data. It provides quality control metrics, normalization based on CpG coupling analysis, and differential methylation detection using edgeR's negative binomial framework.
+
+### 4.2 Pipeline: BAM to MEDIPS Input
+
+```r
+library(MEDIPS)
+library(BSgenome.Hsapiens.UCSC.hg38)
+
+# Create MEDIPS SET from BAM
+MSet <- MEDIPS.createSet(
+  file = "sample.dedup.bam",
+  BSgenome = "BSgenome.Hsapiens.UCSC.hg38",
+  extend = 300,        # Fragment extension
+  shift = 0,
+  uniq = 1e-3,         # Remove duplicates
+  window_size = 100    # Genomic window size
+)
+
+# Create CpG coupling set for normalization
+CSet <- MEDIPS.couplingVector(
+  pattern = "CG",
+  refObj = MSet
+)
+
+# Differential methylation analysis
+mr.edgeR <- MEDIPS.meth(
+  MSet1 = MSet_group1,
+  MSet2 = MSet_group2,
+  CSet = CSet,
+  diff.method = "edgeR"
+)
+```
+
+### 4.3 Statistical Model
+
+**CpG Coupling Normalization (Relative Methylation Score):**
+
+$$\text{RMS} = \frac{\text{counts} / \text{total\_counts} \times 10^6}{\text{CpG\_coupling}}$$
+
+The CpG coupling factor represents the expected number of CpGs covered by fragments overlapping each genomic window, correcting for density-dependent enrichment bias.
+
+**Differential Coverage Model (edgeR integration):**
+
+Read counts per window follow a negative binomial distribution:
+
+$$Y_{gi} \sim \text{NB}(\mu_{gi}, \phi_g)$$
+
+**where:**
+
+| Symbol | Description |
+|--------|-------------|
+| $Y_{gi}$ | Observed counts for window *g* in sample *i* |
+| $\mu_{gi}$ | Expected mean count |
+| $\phi_g$ | Dispersion parameter for window *g* |
+
+**GLM for differential analysis:**
+
+$$\log(\mu_{gi}) = \log(N_i) + X^T\beta_g$$
+
+| Symbol | Description |
+|--------|-------------|
+| $N_i$ | Library size normalization factor (TMM) |
+| $X$ | Design matrix encoding experimental conditions |
+| $\beta_g$ | Coefficients representing log fold-changes |
+
+**Dispersion Estimation:** Common dispersion is estimated via conditional maximum likelihood, with optional tagwise (window-specific) dispersion using empirical Bayes shrinkage.
+
+### 4.4 Key Assumptions
+
+1. Read counts follow negative binomial distribution with window-specific dispersion
+2. CpG coupling adequately captures density-dependent enrichment bias
+3. TMM normalization accounts for compositional biases between libraries
+4. No systematic copy number variation between samples (or CNV is explicitly modeled)
+
+---
+
+## 5. QSEA (Quantitative Sequencing Enrichment Analysis)
+
+**Reference:** Lienhard et al. (2017) *Nucleic Acids Research* 45:e44
+
+### 5.1 Method Overview
+
+QSEA extends MEDIPS with a Bayesian statistical model that transforms enrichment read counts to absolute methylation levels. It incorporates explicit modeling of background reads and signal saturation at high CpG densities, with optional calibration using bisulfite sequencing data.
+
+### 5.2 Pipeline: BAM to QSEA Input
+
+```r
+library(qsea)
+library(BSgenome.Hsapiens.UCSC.hg38)
+
+# Define sample table
+samples <- data.frame(
+  sample_name = c("tumor1", "normal1"),
+  file_name = c("tumor1.bam", "normal1.bam"),
+  group = c("tumor", "normal")
+)
+
+# Create qseaSet
+qseaSet <- createQseaSet(
+  sampleTable = samples,
+  BSgenome = "BSgenome.Hsapiens.UCSC.hg38",
+  window_size = 500
+)
+
+# Add CNV estimates (from input libraries or MeDIP)
+qseaSet <- addCNV(qseaSet, file_name = "file_name", window_size = 2e6)
+
+# Add library size factors (TMM normalization)
+qseaSet <- addLibraryFactors(qseaSet)
+
+# Add CpG enrichment parameters
+qseaSet <- addEnrichmentParameters(qseaSet, enrichmentPattern = "CG")
+
+# Calibrate with external methylation data (optional)
+qseaSet <- addPatternDensity(qseaSet, "CG")
+```
+
+### 5.3 Statistical Model
+
+**Poisson Model for Read Counts:**
+
+$$N_w \sim \text{Poisson}(\lambda_w)$$
+
+**Expected Signal Model:**
+
+$$\lambda_w = \left(\text{offset} + f_{\text{CpG}}(d_w) \cdot \beta_w\right) \cdot N_{\text{lib}} \cdot \text{CNV}_w$$
+
+**where:**
+
+| Symbol | Description |
+|--------|-------------|
+| offset | Background read count (non-specific binding) |
+| $f_{\text{CpG}}(d_w)$ | Sigmoidal function modeling CpG density-dependent enrichment |
+| $d_w$ | Average CpG density in window *w* |
+| $\beta_w \in [0,1]$ | True methylation level |
+| $N_{\text{lib}}$ | Library size normalization factor |
+| $\text{CNV}_w$ | Copy number correction factor |
+
+**Sigmoidal Enrichment Function:**
+
+$$f_{\text{CpG}}(d) = \frac{f_{\max}}{1 + \exp(-k(d - d_0))}$$
+
+This captures the saturation of enrichment signal at high CpG densities, where:
+
+- $f_{\max}$ = maximum enrichment at full methylation
+- $k$ = slope parameter controlling transition rate
+- $d_0$ = CpG density at inflection point
+
+**Bayesian Methylation Estimation:**
+
+$$P(\beta_w \mid N_w) \propto P(N_w \mid \beta_w) \cdot P(\beta_w)$$
+
+The posterior mode provides the methylation estimate with uncertainty quantification.
+
+**Differential Methylation (GLM):**
+
+For comparing groups, QSEA uses generalized linear models:
+
+$$\log(\mu_w) = \log(N_{\text{lib}}) + X^T\gamma_w$$
+
+### 5.4 Key Assumptions
+
+1. Read counts follow Poisson distribution with window-specific rate
+2. Background reads are constant across the genome
+3. Enrichment saturates sigmoidally with CpG density
+4. CNV effects are multiplicative and can be estimated from input or MeDIP data
+
+---
+
+## 6. MeDEStrand
+
+**Reference:** Xu et al. (2018) *BMC Bioinformatics* 19:574
+
+### 6.1 Method Overview
+
+MeDEStrand improves upon MEDIPS by:
+
+1. Using a logistic regression model to estimate CpG density bias
+2. Processing reads mapped to positive and negative DNA strands separately to account for asymmetric CpG methylation patterns
+
+### 6.2 Pipeline: BAM to MeDEStrand Input
+
+```r
+library(MeDEStrand)
+
+# Create MeDEStrand SET
+MSet <- MeDEStrand.createSet(
+  file = "sample.dedup.bam",
+  BSgenome = "BSgenome.Hsapiens.UCSC.hg38",
+  extend = 300,
+  window_size = 100
+)
+
+# Calculate methylation with strand-specific processing
+meth <- MeDEStrand.meth(
+  MSet,
+  CpG.pattern = "CG"
+)
+```
+
+### 6.3 Statistical Model
+
+**Strand-Specific Read Processing:**
+
+Reads are separated by strand alignment:
+
+$$R_w = R_w^+ + R_w^-$$
+
+where $R_w^+$ and $R_w^-$ are read counts on positive and negative strands for window *w*.
+
+**Logistic Regression for CpG Bias Estimation:**
+
+$$E[R] = \frac{R_{\max}}{1 + \exp(-k(d - d_0))}$$
+
+The sigmoid function parameters are estimated **separately for each strand** using reads from low CpG density regions (assumed fully methylated):
+
+| Parameter | Description |
+|-----------|-------------|
+| $R_{\max}$ | Upper asymptote (maximum expected reads at full methylation) |
+| $k$ | Slope parameter controlling transition rate |
+| $d_0$ | CpG density at inflection point |
+
+**Absolute Methylation Estimation:**
+
+$$\beta_w = \frac{R_{w,\text{obs}}}{f(d_w)}$$
+
+where $f(d_w)$ is the expected read count at full methylation for the local CpG density.
+
+**Strand-Combined Estimate:**
+
+$$\beta_w = \frac{1}{2}\left(\beta_w^+ + \beta_w^-\right)$$
+
+### 6.4 Key Assumptions
+
+1. CpG methylation can be asymmetric between DNA strands
+2. Low CpG density regions are fully methylated (used for calibration)
+3. Sigmoidal relationship between CpG density and enrichment captures saturation
+4. Strand-specific biases are consistent across genomic regions
+
+---
+
+## 7. MEDIPIPE
+
+**Reference:** Zhu et al. (2023) *Bioinformatics* 39:btad423
+
+### 7.1 Method Overview
+
+MEDIPIPE is an automated Snakemake pipeline for cell-free MeDIP-seq (cfMeDIP-seq) data, providing end-to-end quality control, methylation quantification, and sample aggregation. It integrates multiple existing tools with customizable experimental settings for large-scale studies.
+
+### 7.2 Pipeline Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                      MODULE 1                                │
+│                 Read Trimming and QC                         │
+├─────────────────────────────────────────────────────────────┤
+│  FASTQ → FastQC → Trim Galore → UMI extraction (optional)   │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│                      MODULE 2                                │
+│               Processed Read Alignment and QC                │
+├─────────────────────────────────────────────────────────────┤
+│  Trimmed reads → BWA-MEM → Deduplication → SAMtools stats   │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│                      MODULE 3                                │
+│                DNA Methylation Quantification                │
+├─────────────────────────────────────────────────────────────┤
+│  BAM → Window counting → CpG density → MEDIPS/QSEA          │
+└─────────────────────────────────────────────────────────────┘
+                              ↓
+┌─────────────────────────────────────────────────────────────┐
+│                      MODULE 4                                │
+│               Data Aggregation and Filtering                 │
+├─────────────────────────────────────────────────────────────┤
+│  Multi-sample aggregation → Quality filtering → Output      │
+└─────────────────────────────────────────────────────────────┘
+```
+
+### 7.3 Configuration
+
+```yaml
+# config.yaml - MEDIPIPE configuration file
+samples:
+  sample1: /path/to/sample1_R1.fq.gz
+  sample2: /path/to/sample2_R1.fq.gz
+
+reference:
+  genome: /path/to/hg38.fa
+  index: /path/to/bwa_index
+
+parameters:
+  window_size: 300
+  extend: 300
+  umi_enabled: true
+  spike_in: true
+  
+output:
+  dir: /path/to/results
+  
+resources:
+  threads: 8
+  memory: 32G
+```
+
+### 7.4 Execution
+
+```bash
+# Run MEDIPIPE
+snakemake --configfile config.yaml --cores 8 --use-conda
+```
+
+### 7.5 Statistical Methods
+
+MEDIPIPE wraps MEDIPS and QSEA statistical models (see Sections 4 and 5) within the pipeline framework. The choice of quantification method is user-configurable.
+
+---
+
+## 8. GLMnet Classification for Methylation Data
+
+**Reference:** Friedman et al. (2010) *Journal of Statistical Software* 33:1-22
+
+### 8.1 Method Overview
+
+GLMnet provides regularized generalized linear models (elastic net) for high-dimensional methylation data analysis. It enables:
+
+1. Feature selection to identify differentially methylated regions
+2. Classification models for disease prediction
+3. Age prediction (epigenetic clocks)
+
+### 8.2 Pipeline: Methylation Matrix to GLMnet Input
+
+```r
+library(glmnet)
+library(caret)
+
+# Prepare methylation matrix (windows × samples)
+# X: n samples × p windows matrix
+# y: response vector (class labels or continuous outcome)
+
+# Feature scaling
+X_scaled <- scale(X)
+
+# Remove near-zero variance features
+nzv <- nearZeroVar(X_scaled)
+X_filtered <- X_scaled[, -nzv]
+
+# Cross-validated elastic net
+cv_fit <- cv.glmnet(
+  x = X_filtered,
+  y = y,
+  family = "binomial",  # or "multinomial", "gaussian"
+  alpha = 0.5,           # Elastic net mixing (0=ridge, 1=lasso)
+  nfolds = 10,
+  type.measure = "class" # or "deviance", "auc"
+)
+
+# Optimal lambda
+lambda_opt <- cv_fit$lambda.min  # or lambda.1se for more regularization
+
+# Extract coefficients
+coef_opt <- coef(cv_fit, s = lambda_opt)
+
+# Predict on new data
+predictions <- predict(cv_fit, newx = X_test, s = lambda_opt, type = "class")
+```
+
+### 8.3 Statistical Model
+
+**Elastic Net Objective Function:**
+
+$$\min_{\beta_0, \beta} \left\{ -\ell(\beta_0, \beta) + \lambda \left[ \frac{(1-\alpha)}{2} \|\beta\|_2^2 + \alpha \|\beta\|_1 \right] \right\}$$
+
+**where:**
+
+| Symbol | Description |
+|--------|-------------|
+| $\ell(\beta_0, \beta)$ | Log-likelihood for the GLM family |
+| $\lambda \geq 0$ | Regularization parameter (selected via cross-validation) |
+| $\alpha \in [0,1]$ | Elastic net mixing parameter |
+| $\|\beta\|_1 = \sum_j |\beta_j|$ | L1 norm (lasso penalty, promotes sparsity) |
+| $\|\beta\|_2^2 = \sum_j \beta_j^2$ | Squared L2 norm (ridge penalty, handles collinearity) |
+
+**Special Cases:**
+
+- $\alpha = 1$: Lasso regression (pure L1 penalty)
+- $\alpha = 0$: Ridge regression (pure L2 penalty)
+- $0 < \alpha < 1$: Elastic net (combination)
+
+**For Binary Classification (Logistic Regression):**
+
+$$P(Y = 1 \mid X) = \frac{1}{1 + \exp(-(\beta_0 + X\beta))}$$
+
+Log-likelihood:
+
+$$\ell(\beta_0, \beta) = \sum_{i=1}^n \left[ y_i (\beta_0 + x_i^T\beta) - \log(1 + e^{\beta_0 + x_i^T\beta}) \right]$$
+
+**For Continuous Outcomes (Linear Regression):**
+
+$$Y = \beta_0 + X\beta + \varepsilon, \quad \varepsilon \sim \mathcal{N}(0, \sigma^2)$$
+
+Objective reduces to penalized least squares:
+
+$$\min_{\beta_0, \beta} \left\{ \frac{1}{2n} \|Y - \beta_0 - X\beta\|_2^2 + \lambda \left[ \frac{(1-\alpha)}{2} \|\beta\|_2^2 + \alpha \|\beta\|_1 \right] \right\}$$
+
+### 8.4 Key Assumptions
+
+1. Linear (or generalized linear) relationship between methylation and outcome
+2. Independent observations (samples)
+3. Sparsity: only a subset of CpG sites/windows are truly predictive
+4. Cross-validation provides unbiased estimate of predictive performance
+
+---
+
+## 9. MethRaFo
+
+**Reference:** Ding & Bar-Joseph (2017) *Bioinformatics* 33:3477-3479
+
+### 9.1 Method Overview
+
+MethRaFo uses Random Forest regression to correct MeDIP-seq data for CpG density bias and estimate absolute methylation levels. Trained on paired MeDIP-seq and bisulfite sequencing data, it achieves ~4× faster runtime with up to 20% improved accuracy over BATMAN, MEDIPS, and BayMeth.
+
+### 9.2 Pipeline: BAM to MethRaFo Input
+
+```python
+# Python (with R wrapper available)
+from methrafo import MethRaFo
+
+# Initialize with BAM file
+mrf = MethRaFo(
+    bam_file="sample.dedup.bam",
+    reference="hg38.fa"
+)
+
+# Calculate features
+mrf.calculate_rpkm()           # Normalized read counts
+mrf.calculate_cpg_density()    # Local CpG density at multiple resolutions
+
+# Predict methylation using pre-trained model
+methylation = mrf.predict(model="trained_model.pkl")
+
+# Or train new model with BS-seq ground truth
+mrf.train(
+    bs_seq_methylation="ground_truth.bed",
+    output_model="new_model.pkl"
+)
+```
+
+### 9.3 Statistical Model
+
+**Feature Space:**
+
+For each nucleotide position, two types of features are computed at multiple resolutions (window sizes):
+
+**1. RPKM (Reads Per Kilobase per Million mapped reads)**
+
+$$\text{RPKM} = \frac{\text{reads at position} \times 10^9}{\text{total mapped reads} \times \text{region length}}$$
+
+**2. Local CpG density at varying window sizes** (e.g., 100bp, 500bp, 1000bp)
+
+$$d(w) = \frac{\text{\# CpG dinucleotides in window } w}{\text{window length}}$$
+
+**Feature Vector:**
+
+$$\mathbf{x}_i = (\text{RPKM}_{100}, \text{RPKM}_{500}, \text{RPKM}_{1000}, d_{100}, d_{500}, d_{1000}, \ldots)$$
+
+**Random Forest Regression:**
+
+The Random Forest is an ensemble of $B$ decision trees, each trained on a bootstrap sample:
+
+$$\hat{\beta}(\mathbf{x}) = \frac{1}{B} \sum_{b=1}^B T_b(\mathbf{x})$$
+
+**where:**
+
+| Symbol | Description |
+|--------|-------------|
+| $T_b(\mathbf{x})$ | Prediction from tree $b$ for feature vector $\mathbf{x}$ |
+| $B$ | Number of trees in the forest (typically 500-1000) |
+
+**Tree Construction:**
+
+Each tree is grown using:
+
+1. Bootstrap sample of training data
+2. Random subset of features considered at each split (typically $\sqrt{p}$ features)
+3. Recursive binary partitioning to minimize MSE
+
+**Training Objective:**
+
+$$\min \sum_{i=1}^n \left( \beta_{i,\text{BS}} - \hat{\beta}_{i,\text{MeDIP}} \right)^2$$
+
+where $\beta_{i,\text{BS}}$ is the ground truth methylation from bisulfite sequencing and $\hat{\beta}_{i,\text{MeDIP}}$ is the predicted methylation from MeDIP-seq features.
+
+**Out-of-Bag (OOB) Error:**
+
+Each tree provides predictions for samples not included in its bootstrap sample, enabling unbiased error estimation without separate validation set.
+
+### 9.4 Key Assumptions
+
+1. Relationship between features (RPKM, CpG density) and methylation is learnable
+2. Training and test data come from similar biological contexts
+3. Random Forest can capture non-linear interactions between features
+4. Multi-resolution CpG density provides informative features at different scales
+
+---
+
+## 10. Method Comparison Summary
+
+| Method | Model Type | CpG Bias Correction | Key Innovation | Output |
+|--------|------------|---------------------|----------------|--------|
+| **BATMAN** | Bayesian | Coupling factor deconvolution | First principled approach | Absolute β |
+| **MEDIPS** | NB GLM (edgeR) | CpG coupling score | Differential analysis | RMS + DMRs |
+| **QSEA** | Bayesian + GLM | Sigmoidal calibration | CNV correction + calibration | Absolute β + DMRs |
+| **MeDEStrand** | Logistic regression | Strand-specific sigmoid | Asymmetric methylation | Absolute β |
+| **MEDIPIPE** | Pipeline wrapper | MEDIPS/QSEA | Automated workflow | Aggregated QC |
+| **GLMnet** | Elastic net | Pre-normalized input | Feature selection | Classification |
+| **MethRaFo** | Random Forest | Learned correction | Speed + accuracy | Absolute β |
+
+### Computational Considerations
+
+| Method | Runtime | Memory | Scalability |
+|--------|---------|--------|-------------|
+| BATMAN | Days (genome-wide) | High | Poor |
+| MEDIPS | Minutes | Moderate | Good |
+| QSEA | Minutes-Hours | Moderate | Good |
+| MeDEStrand | Minutes | Moderate | Good |
+| MEDIPIPE | Hours (full pipeline) | Configurable | Excellent |
+| GLMnet | Seconds-Minutes | Low-Moderate | Excellent |
+| MethRaFo | Minutes | Low | Excellent |
+
+---
+
+## 11. Abbreviations
+
+| Abbreviation | Definition |
+|--------------|------------|
+| β | Methylation level (0-1 scale) |
+| BAM | Binary Alignment Map |
+| CNV | Copy Number Variation |
+| DMR | Differentially Methylated Region |
+| GLM | Generalized Linear Model |
+| MeDIP | Methylated DNA Immunoprecipitation |
+| NB | Negative Binomial |
+| RPKM | Reads Per Kilobase per Million |
+| RMS | Relative Methylation Score |
+| TMM | Trimmed Mean of M-values |
+
+---
+
+## 12. References
+
+1. Down TA, et al. (2008) A Bayesian deconvolution strategy for immunoprecipitation-based DNA methylome analysis. *Nature Biotechnology* 26:779-785.
+
+2. Chavez L, et al. (2010) Computational analysis of genome-wide DNA methylation during the differentiation of human embryonic stem cells along the endodermal lineage. *Genome Research* 20:1441-1450.
+
+3. Lienhard M, et al. (2014) MEDIPS: genome-wide differential coverage analysis of sequencing data derived from DNA enrichment experiments. *Bioinformatics* 30:284-286.
+
+4. Lienhard M, et al. (2017) QSEA—modelling of genome-wide DNA methylation from sequencing enrichment experiments. *Nucleic Acids Research* 45:e44.
+
+5. Xu J, et al. (2018) MeDEStrand: an improved method to infer genome-wide absolute methylation levels from DNA enrichment data. *BMC Bioinformatics* 19:574.
+
+6. Zhu Y, et al. (2023) MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis. *Bioinformatics* 39:btad423.
+
+7. Friedman J, Hastie T, Tibshirani R (2010) Regularization paths for generalized linear models via coordinate descent. *Journal of Statistical Software* 33:1-22.
+
+8. Ding J, Bar-Joseph Z (2017) MethRaFo: MeDIP-seq methylation estimate using a Random Forest Regressor. *Bioinformatics* 33:3477-3479.
+
+9. Robinson MD, McCarthy DJ, Smyth GK (2010) edgeR: a Bioconductor package for differential expression analysis of digital gene expression data. *Bioinformatics* 26:139-140.
