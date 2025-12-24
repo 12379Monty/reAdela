@@ -10,8 +10,8 @@ output:
   rmarkdown::html_document:
     code_folding: hide
     code_download: true
-    toc: false
-    toc_depth: 3
+    toc: true
+    toc_depth: 2
     # does this have an effect
     fig_caption: yes
     # this has no effect
@@ -90,40 +90,57 @@ PREFIX <- "index" #- replace by FLOWCELL???
    - Donoho on the Modern History of Stats
 -->
 
-### About this page {-}
+# About this page {-}
 
-* In this page we collect comments and links to reports and studies
-which speak to the development of Adela's cfMeDIP-seq Technology.
+* In this page we review the literature
+which document the development of Adela's cfMeDIP-seq Technology.
 The source of all the information contained therein is public.
 
 
 <br/>
 
-### Reports {-}
+# AI Reports 
 
-<p><p/>
-* [Adela vs GRAIL](AI/_Adela_vs_GRAIL_MCED_Comparison.html)
-   - A fairly comprehensive, high level comparison of the two platforms.
-   - This compilation is for background purpopses - see the documentation below for comments on
-technical aspects of some of the studies cited.
+* AI reports are produced by claude.ai Opus 4.5 with 
+naive prompts from Francois Collin.
 
-<br/>
+* The reporting done is intended to provide the information
+needed to underestand the roots and development of 
+Adela's cfMeDIP-seq Technology.
 
-<p><p/>
-* [Evolution of Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers.html)
-   - A fairly comprehensive, high level description of the assay and algorithm along with
-a description of enhancements that followed.
-   - Comments will be made when the primary references are described below.
 
 
 <br/>
 
-<p><p/>
-* [Comments on Evolution of Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers](AI/_cfMeDIP-seq_Protocol_Pipeline_Classi_comments.html) -
-   - Some comments have to do with potential leakage; only by going through the code
-will we ever be able to figure this out.
-   - Other comments have to do with evidence gathering.
+## [Adela vs GRAIL](AI/_Adela_vs_GRAIL_MCED_Comparison.html)
 
+* A fairly comprehensive, high level comparison of the two platforms.
+
+* This compilation is for background purposes - see the documentation below 
+for comments on technical aspects of some of the studies cited.
+
+<br/>
+
+## [cfMeDIP-seq Protocol, Pipeline and Classifiers](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers.html)
+
+* We trace the evolution of Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers
+
+* The report is a fairly comprehensive, high level description of the assay
+and algorithm along with a description of enhancements that followed.
+
+<br/>
+
+## [Enrichment-Based Differential Methylation Analysis](AI/_Enrichment_Methods_PartI_Section1.html)
+
+* [Common Bioinformatics Pipelines](AI/_Enrichment_Methods_PartI_Section1.html# and Statistical Models
+
+<br/>
+
+## Full List of AI Reports
+
+
+```{r , child=c('_index_AI.Rmd')}
+```
 
 <br/>
 
@@ -198,11 +215,12 @@ but they can only contribute adjustments for variability it is subjected to.
 
 <br/>
 
-<!--
-# Appendix  {-}
 
-<br/>
--->
+# Appendix: Full list of reports
+
+```{r , child=c('_index.Rmd')}
+```
+
 
 ```{r, echo=FALSE}
   knitr::knit_exit()

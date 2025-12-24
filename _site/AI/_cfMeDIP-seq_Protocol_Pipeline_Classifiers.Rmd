@@ -1989,12 +1989,14 @@ See Section \@ref(prot-steps) for details.
 	#pdf("cfMeDIP_Protocol_Flowchart.pdf", width = 8, height = 11)
 -->
 
-```{r pipeline-flowchart, fig.width=8, fig.height=11, fig.cap="cfMeDIP-seq Protocol (Shen et al. 2019)"}
+```{r pipeline-flowchart, fig.width=8, fig.height=11}
+###, fig.cap="cfMeDIP-seq Protocol (Shen et al. 2019)"}
+
 # Set up plotting area
 par(mar = c(1, 1, 2, 1))
 plot(NULL, xlim = c(0, 10), ylim = c(0, 100), 
      xlab = "", ylab = "", xaxt = "n", yaxt = "n",
-     bty = "n")###, main = "cfMeDIP-seq Protocol (Shen et al. 2019)")
+     bty = "n", main = "cfMeDIP-seq Protocol (Shen et al. 2019)")
 
 # Color scheme for variability
 col_high <- "#E74C3C"      # Red - HIGH variability

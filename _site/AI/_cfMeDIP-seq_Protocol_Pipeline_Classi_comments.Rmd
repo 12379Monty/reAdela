@@ -1,6 +1,6 @@
 ---
 title:  "cfMeDIP-seq: Protocol, Computational Pipeline, and Classifier Methodologies"
-subtitle: "COMMENTS"
+subtitle: "COMMENTS/NOTES"
 author: "claude.ai Opus 4.5 with prompts from [Francois Collin](https://www.linkedin.com/in/francoisz/)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 always_allow_html: yes
@@ -192,27 +192,18 @@ param_class=sapply(params, class), row.names=NULL) %>%
     }
 </style>
 
-<br/>
-<br/>
 
 
-## Executive Summary {-}
 
-Comments collected from reviewing *seq_Protocol_Pipeline_Classifiers*:
-
-<br/>
-
-### 1.4 Sources of variability {-}
+## Report 1.4 Sources of variability {-}
 
 <p><p/>
 * High Impact:
-
    -  Filler DNA
    -  Antibody Lot
 
 <p><p/>
 * Moderate Impact
-
    - Sequencing Depth
    - PCR Cycle Number
    - Fragment Length, GC Content, and CpG Density
@@ -220,11 +211,10 @@ Comments collected from reviewing *seq_Protocol_Pipeline_Classifiers*:
 
 <br/>
 
-### 1.5 Variability Mitigation {-}
+## Repor 1.5 Variability Mitigation {-}
 
 <p><p/>
 * 54 DNA fragments with combinations of:
-
    - Methylation status (methylated and unmethylated)
    - Fragment length (80, 160, 320 bp)
    - GC content (35%, 50%, 65%)
@@ -244,7 +234,8 @@ Comments collected from reviewing *seq_Protocol_Pipeline_Classifiers*:
 
 
 <span style="color:blue">
-* We need to pull the empirical evidence that the extra variability
+
+* We need to gather the empirical evidence that the extra variability
 in the data is properly mitigated by the methods based on the spike-ins.
 </span>
 
@@ -449,4 +440,4 @@ in all reporting of performance.
 ## nohup Rscript -e "rmarkdown::render('_cfMeDIP-seq_Protocol_Pipeline_Classi_comments.Rmd')" > _cfMeDIP-seq_Protocol_Pipeline_Classi_comments.log  &
     
 -->
- 
+

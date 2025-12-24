@@ -221,13 +221,14 @@ All enrichment-based methods share a common upstream preprocessing pipeline. The
 
 **Step 1: Initial QC with FastQC**
 
-```bash
+
+```{bash, eval = F, include = T, echo = T}
 fastqc -o qc_reports/ sample_R1.fastq.gz sample_R2.fastq.gz
 ```
 
 **Step 2: Adapter Trimming with Trim Galore or Cutadapt**
 
-```bash
+```{bash, eval = F, include = T, echo = T}
 trim_galore --paired --quality 20 --length 36 \
     sample_R1.fastq.gz sample_R2.fastq.gz
 ```
@@ -236,7 +237,7 @@ trim_galore --paired --quality 20 --length 36 \
 
 **Step 3: Align to Reference Genome with BWA-MEM or Bowtie2**
 
-```bash
+```{bash, eval = F, include = T, echo = T}
 bwa mem -t 8 reference_genome.fa \
     sample_R1_trimmed.fq.gz sample_R2_trimmed.fq.gz \
     | samtools sort -o sample.sorted.bam
@@ -244,7 +245,7 @@ bwa mem -t 8 reference_genome.fa \
 
 **Step 4: Mark/Remove PCR Duplicates**
 
-```bash
+```{bash, eval = F, include = T, echo = T}
 picard MarkDuplicates \
     I=sample.sorted.bam \
     O=sample.dedup.bam \
@@ -254,7 +255,7 @@ picard MarkDuplicates \
 
 **Step 5: Index BAM File**
 
-```bash
+```{bash, eval = F, include = T, echo = T}
 samtools index sample.dedup.bam
 ```
 
@@ -272,7 +273,7 @@ BATMAN uses a Bayesian deconvolution approach to estimate absolute methylation l
 
 **For MeDIP-seq:** Convert BAM to normalized read counts per genomic window
 
-```bash
+```{bash, eval = F, include = T, echo = T}
 # Create genome-wide windows and count reads
 bedtools makewindows -g genome.sizes -w 100 > windows.bed
 bedtools coverage -a windows.bed -b sample.dedup.bam > sample_counts.bed
@@ -636,7 +637,7 @@ resources:
 
 ###  Execution
 
-```bash
+```
 # Run MEDIPIPE
 snakemake --configfile config.yaml --cores 8 --use-conda
 ```

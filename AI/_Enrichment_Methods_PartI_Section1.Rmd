@@ -9,7 +9,7 @@ output:
   bookdown::html_document2:
   #bookdown::html_book:
   #html_document:
-    code_folding: hide
+    #code_folding: show
     code_download: true
     toc: true
     toc_depth: 3
@@ -192,8 +192,6 @@ param_class=sapply(params, class), row.names=NULL) %>%
     }
 </style>
 
-<br/>
-<br/>
 
 <!--
 # Part I, Section 1: Enrichment-Based Methods
@@ -211,7 +209,8 @@ This section provides detailed documentation of seven methods for analyzing enri
 1. The complete bioinformatics pipeline from raw FASTQ files to analysis-ready input
 2. The full statistical models with explicit mathematical formulations and underlying assumptions
 
----
+
+<br/>
 
 ## Common Bioinformatics Pipeline: FASTQ to BAM
 
@@ -225,12 +224,16 @@ All enrichment-based methods share a common upstream preprocessing pipeline. The
 fastqc -o qc_reports/ sample_R1.fastq.gz sample_R2.fastq.gz
 ```
 
+<br/>
+
 **Step 2: Adapter Trimming with Trim Galore or Cutadapt**
 
 ```bash
 trim_galore --paired --quality 20 --length 36 \
     sample_R1.fastq.gz sample_R2.fastq.gz
 ```
+
+<br/>
 
 ###  Read Alignment
 
@@ -242,6 +245,8 @@ bwa mem -t 8 reference_genome.fa \
     | samtools sort -o sample.sorted.bam
 ```
 
+<br/>
+
 **Step 4: Mark/Remove PCR Duplicates**
 
 ```bash
@@ -252,13 +257,16 @@ picard MarkDuplicates \
     REMOVE_DUPLICATES=true
 ```
 
+<br/>
+
 **Step 5: Index BAM File**
 
 ```bash
 samtools index sample.dedup.bam
 ```
 
----
+<br/>
+
 
 ## BATMAN (Bayesian Tool for Methylation Analysis)
 
@@ -319,7 +327,7 @@ $$P(S \mid m) = \prod_p \mathcal{N}\left(S_p \mid \sum_c C_{cp} \cdot m_c, \tau^
 4. CpG methylation is highly correlated within 50-100 bp windows
 5. Measurement errors are normally distributed with constant precision
 
----
+<br/>
 
 ## MEDIPS
 
@@ -580,29 +588,29 @@ MEDIPIPE is an automated Snakemake pipeline for cell-free MeDIP-seq (cfMeDIP-seq
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                      MODULE 1                                │
-│                 Read Trimming and QC                         │
+│                      MODULE 1                               │
+│                 Read Trimming and QC                        │
 ├─────────────────────────────────────────────────────────────┤
 │  FASTQ → FastQC → Trim Galore → UMI extraction (optional)   │
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
-│                      MODULE 2                                │
-│               Processed Read Alignment and QC                │
+│                      MODULE 2                               │
+│               Processed Read Alignment and QC               │
 ├─────────────────────────────────────────────────────────────┤
 │  Trimmed reads → BWA-MEM → Deduplication → SAMtools stats   │
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
-│                      MODULE 3                                │
-│                DNA Methylation Quantification                │
+│                      MODULE 3                               │
+│                DNA Methylation Quantification               │
 ├─────────────────────────────────────────────────────────────┤
 │  BAM → Window counting → CpG density → MEDIPS/QSEA          │
 └─────────────────────────────────────────────────────────────┘
                               ↓
 ┌─────────────────────────────────────────────────────────────┐
-│                      MODULE 4                                │
-│               Data Aggregation and Filtering                 │
+│                      MODULE 4                               │
+│               Data Aggregation and Filtering                │
 ├─────────────────────────────────────────────────────────────┤
 │  Multi-sample aggregation → Quality filtering → Output      │
 └─────────────────────────────────────────────────────────────┘
@@ -645,7 +653,7 @@ snakemake --configfile config.yaml --cores 8 --use-conda
 
 MEDIPIPE wraps MEDIPS and QSEA statistical models (see Sections 4 and 5) within the pipeline framework. The choice of quantification method is user-configurable.
 
----
+<br/>
 
 ## GLMnet Classification for Methylation Data
 
@@ -741,7 +749,7 @@ $$\min_{\beta_0, \beta} \left\{ \frac{1}{2n} \|Y - \beta_0 - X\beta\|_2^2 + \lam
 3. Sparsity: only a subset of CpG sites/windows are truly predictive
 4. Cross-validation provides unbiased estimate of predictive performance
 
----
+<br/>
 
 ## MethRaFo
 
@@ -833,7 +841,7 @@ Each tree provides predictions for samples not included in its bootstrap sample,
 3. Random Forest can capture non-linear interactions between features
 4. Multi-resolution CpG density provides informative features at different scales
 
----
+<br/>
 
 ##  Method Comparison Summary
 
@@ -847,6 +855,8 @@ Each tree provides predictions for samples not included in its bootstrap sample,
 | **GLMnet** | Elastic net | Pre-normalized input | Feature selection | Classification |
 | **MethRaFo** | Random Forest | Learned correction | Speed + accuracy | Absolute β |
 
+<br/>
+
 ### Computational Considerations
 
 | Method | Runtime | Memory | Scalability |
@@ -859,7 +869,7 @@ Each tree provides predictions for samples not included in its bootstrap sample,
 | GLMnet | Seconds-Minutes | Low-Moderate | Excellent |
 | MethRaFo | Minutes | Low | Excellent |
 
----
+<br/>
 
 ##  Abbreviations
 
@@ -876,7 +886,7 @@ Each tree provides predictions for samples not included in its bootstrap sample,
 | RMS | Relative Methylation Score |
 | TMM | Trimmed Mean of M-values |
 
----
+<br/>
 
 ##  References
 
@@ -899,7 +909,7 @@ Each tree provides predictions for samples not included in its bootstrap sample,
 9. Robinson MD, McCarthy DJ, Smyth GK (2010) edgeR: a Bioconductor package for differential expression analysis of digital gene expression data. *Bioinformatics* 26:139-140.
 
 
----
+---   
 
 *Document version: 1.1*
 *Last updated: November 2025*
