@@ -1,0 +1,150 @@
+TY  - JOUR
+AU  - Down, Thomas A.
+AU  - Rakyan, Vardhman K.
+AU  - Turner, Daniel J.
+AU  - Flicek, Paul
+AU  - Li, Heng
+AU  - Kulesha, Eugene
+AU  - Gräf, Stefan
+AU  - Johnson, Nathan
+AU  - Herrero, Javier
+AU  - Tomazou, Eleni M.
+AU  - Thorne, Natalie P.
+AU  - Bäckdahl, Liselotte
+AU  - Herberth, Marcos
+AU  - Howe, Kevin L.
+AU  - Jackson, David K.
+AU  - Miretti, Marcos M.
+AU  - Marioni, John C.
+AU  - Birney, Ewan
+AU  - Hubbard, Tim J. P.
+AU  - Durbin, Richard
+AU  - Tavaré, Simon
+AU  - Beck, Stephan
+TI  - A Bayesian deconvolution strategy for immunoprecipitation-based DNA methylome analysis
+JO  - Nature Biotechnology
+PY  - 2008
+VL  - 26
+SP  - 779
+EP  - 785
+DO  - 10.1038/nbt1414
+ER  - 
+
+TY  - JOUR
+AU  - Chavez, Lukas
+AU  - Jozefczuk, Justyna
+AU  - Grimm, Christina
+AU  - Dietrich, Jörg
+AU  - Timmermann, Bernd
+AU  - Lehrach, Hans
+AU  - Herwig, Ralf
+AU  - Adjaye, James
+TI  - Computational analysis of genome-wide DNA methylation during the differentiation of human embryonic stem cells along the endodermal lineage
+JO  - Genome Research
+PY  - 2010
+VL  - 20
+SP  - 1441
+EP  - 1450
+DO  - 10.1101/gr.110114.110
+ER  - 
+
+TY  - JOUR
+AU  - Lienhard, Matthias
+AU  - Grimm, Christina
+AU  - Morkel, Markus
+AU  - Herwig, Ralf
+AU  - Chavez, Lukas
+TI  - MEDIPS: genome-wide differential coverage analysis of sequencing data derived from DNA enrichment experiments
+JO  - Bioinformatics
+PY  - 2014
+VL  - 30
+SP  - 284
+EP  - 286
+DO  - 10.1093/bioinformatics/btt650
+ER  - 
+
+TY  - JOUR
+AU  - Lienhard, Matthias
+AU  - Grasse, Sarah
+AU  - Rolff, Jana
+AU  - Frese, Steffen
+AU  - Schirmer, Uwe
+AU  - Becker, Mario
+AU  - Börno, Stefan
+AU  - Timmermann, Bernd
+AU  - Chavez, Lukas
+AU  - Sültmann, Holger
+AU  - Herwig, Ralf
+TI  - QSEA—modelling of genome-wide DNA methylation from sequencing enrichment experiments
+JO  - Nucleic Acids Research
+PY  - 2017
+VL  - 45
+SP  - e44
+DO  - 10.1093/nar/gkw1193
+ER  - 
+
+TY  - JOUR
+AU  - Xu, Jiantao
+AU  - Greenwald, William W.
+AU  - Shen, Li
+AU  - Li, Xinghua
+TI  - MeDEStrand: an improved method to infer genome-wide absolute methylation levels from DNA enrichment data
+JO  - BMC Bioinformatics
+PY  - 2018
+VL  - 19
+SP  - 574
+DO  - 10.1186/s12859-018-2574-1
+ER  - 
+
+TY  - JOUR
+AU  - Zhu, Yuting
+AU  - Ye, Wensheng
+AU  - Stutheit-Zhao, Emma Y.
+AU  - De Carvalho, Daniel D.
+AU  - Pugh, Trevor J.
+TI  - MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis
+JO  - Bioinformatics
+PY  - 2023
+VL  - 39
+SP  - btad423
+DO  - 10.1093/bioinformatics/btad423
+ER  - 
+
+TY  - JOUR
+AU  - Friedman, Jerome
+AU  - Hastie, Trevor
+AU  - Tibshirani, Rob
+TI  - Regularization paths for generalized linear models via coordinate descent
+JO  - Journal of Statistical Software
+PY  - 2010
+VL  - 33
+IS  - 1
+SP  - 1
+EP  - 22
+DO  - 10.18637/jss.v033.i01
+ER  - 
+
+TY  - JOUR
+AU  - Ding, Jun
+AU  - Bar-Joseph, Ziv
+TI  - MethRaFo: MeDIP-seq methylation estimate using a Random Forest Regressor
+JO  - Bioinformatics
+PY  - 2017
+VL  - 33
+SP  - 3477
+EP  - 3479
+DO  - 10.1093/bioinformatics/btx449
+ER  - 
+
+TY  - JOUR
+AU  - Robinson, Mark D.
+AU  - McCarthy, Davis J.
+AU  - Smyth, Gordon K.
+TI  - edgeR: a Bioconductor package for differential expression analysis of digital gene expression data
+JO  - Bioinformatics
+PY  - 2010
+VL  - 26
+SP  - 139
+EP  - 140
+DO  - 10.1093/bioinformatics/btp616
+ER  - 

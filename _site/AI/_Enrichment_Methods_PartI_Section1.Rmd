@@ -18,7 +18,7 @@ output:
     # this has no effect
     number_sections: yes
     # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
-bibliography: [../../_bibFiles/_healthy_aging.bib, ../../_bibFiles/_ref_free_genom_inf.bib, ../../../_bibFiles/_Breiman.bib, ../../../_bibFiles/_Yu.bib, ../../../_bibFiles/_Freedman.bib, ../../../_bibFiles/_RUV.bib, ../../../_bibFiles/_Yu.bib]
+bibliography: [_Enrichment_methods_references.bib]
 csl: ../../_csl/cell-numeric.csl
 link-citations: true
 ---
@@ -200,7 +200,7 @@ param_class=sapply(params, class), row.names=NULL) %>%
 -->
 
 
-## Introduction to Enrichment-Based Methylation Analysis
+# Introduction to Enrichment-Based Methylation Analysis {-}
 
 Enrichment-based methods, particularly Methylated DNA Immunoprecipitation followed by sequencing (MeDIP-seq), provide a cost-effective approach for genome-wide DNA methylation profiling. Unlike bisulfite sequencing methods that provide single-nucleotide resolution, enrichment-based approaches capture methylated DNA fragments using antibodies specific to 5-methylcytosine (5mC). The key analytical challenge lies in transforming the enrichment signal into absolute methylation levels, correcting for the confounding effect of local CpG density on antibody binding efficiency.
 
@@ -212,11 +212,11 @@ This section provides detailed documentation of seven methods for analyzing enri
 
 <br/>
 
-## Common Bioinformatics Pipeline: FASTQ to BAM
+# Common Bioinformatics Pipeline: FASTQ to BAM
 
 All enrichment-based methods share a common upstream preprocessing pipeline. The steps below transform raw sequencing data into aligned reads suitable for downstream analysis.
 
-###  Quality Control and Read Trimming
+##  Quality Control and Read Trimming
 
 **Step 1: Initial QC with FastQC**
 
@@ -235,7 +235,7 @@ trim_galore --paired --quality 20 --length 36 \
 
 <br/>
 
-###  Read Alignment
+##  Read Alignment
 
 **Step 3: Align to Reference Genome with BWA-MEM or Bowtie2**
 
@@ -267,10 +267,11 @@ samtools index sample.dedup.bam
 
 <br/>
 
+# DMA Methods 
 
 ## BATMAN (Bayesian Tool for Methylation Analysis)
 
-**Reference:** Down et al. (2008) *Nature Biotechnology* 26:779-785
+**Reference:** Down et al. (2008) [@Down2008] *Nature Biotechnology* 26:779-785
 
 ###  Method Overview
 
@@ -281,7 +282,7 @@ BATMAN uses a Bayesian deconvolution approach to estimate absolute methylation l
 **For MeDIP-seq:** Convert BAM to normalized read counts per genomic window
 
 ```bash
-# Create genome-wide windows and count reads
+## Create genome-wide windows and count reads
 bedtools makewindows -g genome.sizes -w 100 > windows.bed
 bedtools coverage -a windows.bed -b sample.dedup.bam > sample_counts.bed
 ```
@@ -331,11 +332,12 @@ $$P(S \mid m) = \prod_p \mathcal{N}\left(S_p \mid \sum_c C_{cp} \cdot m_c, \tau^
 
 ## MEDIPS
 
-**Reference:** Lienhard et al. (2014) *Bioinformatics* 30:284-286; Chavez et al. (2010) *Genome Research* 20:1441-1450
+**Reference:** Lienhard et al. (2014) [@Lienhard2014] *Bioinformatics* 30:284-286; 
+Chavez et al. (2010) [@Chavez2010] *Genome Research* 20:1441-1450
 
 ###  Method Overview
 
-MEDIPS is an R/Bioconductor package for genome-wide differential coverage analysis of MeDIP-seq data. It provides quality control metrics, normalization based on CpG coupling analysis, and differential methylation detection using edgeR's negative binomial framework.
+MEDIPS is an R/Bioconductor package for genome-wide differential coverage analysis of MeDIP-seq data. It provides quality control metrics, normalization based on CpG coupling analysis, and differential methylation detection using edgeR's negative binomial framework [@Robinson2010].
 
 ###  Pipeline: BAM to MEDIPS Input
 
@@ -343,7 +345,7 @@ MEDIPS is an R/Bioconductor package for genome-wide differential coverage analys
 library(MEDIPS)
 library(BSgenome.Hsapiens.UCSC.hg38)
 
-# Create MEDIPS SET from BAM
+## Create MEDIPS SET from BAM
 MSet <- MEDIPS.createSet(
   file = "sample.dedup.bam",
   BSgenome = "BSgenome.Hsapiens.UCSC.hg38",
@@ -353,13 +355,13 @@ MSet <- MEDIPS.createSet(
   window_size = 100    # Genomic window size
 )
 
-# Create CpG coupling set for normalization
+## Create CpG coupling set for normalization
 CSet <- MEDIPS.couplingVector(
   pattern = "CG",
   refObj = MSet
 )
 
-# Differential methylation analysis
+## Differential methylation analysis
 mr.edgeR <- MEDIPS.meth(
   MSet1 = MSet_group1,
   MSet2 = MSet_group2,
@@ -413,7 +415,7 @@ $$\log(\mu_{gi}) = \log(N_i) + X^T\beta_g$$
 
 ## QSEA (Quantitative Sequencing Enrichment Analysis)
 
-**Reference:** Lienhard et al. (2017) *Nucleic Acids Research* 45:e44
+**Reference:** Lienhard et al. (2017) [@Lienhard2017] *Nucleic Acids Research* 45:e44
 
 ###  Method Overview
 
@@ -425,30 +427,30 @@ QSEA extends MEDIPS with a Bayesian statistical model that transforms enrichment
 library(qsea)
 library(BSgenome.Hsapiens.UCSC.hg38)
 
-# Define sample table
+## Define sample table
 samples <- data.frame(
   sample_name = c("tumor1", "normal1"),
   file_name = c("tumor1.bam", "normal1.bam"),
   group = c("tumor", "normal")
 )
 
-# Create qseaSet
+## Create qseaSet
 qseaSet <- createQseaSet(
   sampleTable = samples,
   BSgenome = "BSgenome.Hsapiens.UCSC.hg38",
   window_size = 500
 )
 
-# Add CNV estimates (from input libraries or MeDIP)
+## Add CNV estimates (from input libraries or MeDIP)
 qseaSet <- addCNV(qseaSet, file_name = "file_name", window_size = 2e6)
 
-# Add library size factors (TMM normalization)
+## Add library size factors (TMM normalization)
 qseaSet <- addLibraryFactors(qseaSet)
 
-# Add CpG enrichment parameters
+## Add CpG enrichment parameters
 qseaSet <- addEnrichmentParameters(qseaSet, enrichmentPattern = "CG")
 
-# Calibrate with external methylation data (optional)
+## Calibrate with external methylation data (optional)
 qseaSet <- addPatternDensity(qseaSet, "CG")
 ```
 
@@ -506,7 +508,7 @@ $$\log(\mu_w) = \log(N_{\text{lib}}) + X^T\gamma_w$$
 
 ## MeDEStrand
 
-**Reference:** Xu et al. (2018) *BMC Bioinformatics* 19:574
+**Reference:** Xu et al. (2018) [@Xu2018] *BMC Bioinformatics* 19:574
 
 ###  Method Overview
 
@@ -520,7 +522,7 @@ MeDEStrand improves upon MEDIPS by:
 ```r
 library(MeDEStrand)
 
-# Create MeDEStrand SET
+## Create MeDEStrand SET
 MSet <- MeDEStrand.createSet(
   file = "sample.dedup.bam",
   BSgenome = "BSgenome.Hsapiens.UCSC.hg38",
@@ -528,7 +530,7 @@ MSet <- MeDEStrand.createSet(
   window_size = 100
 )
 
-# Calculate methylation with strand-specific processing
+## Calculate methylation with strand-specific processing
 meth <- MeDEStrand.meth(
   MSet,
   CpG.pattern = "CG"
@@ -578,7 +580,7 @@ $$\beta_w = \frac{1}{2}\left(\beta_w^+ + \beta_w^-\right)$$
 
 ## MEDIPIPE
 
-**Reference:** Zhu et al. (2023) *Bioinformatics* 39:btad423
+**Reference:** Zhu et al. (2023) [@Zhu2023] *Bioinformatics* 39:btad423
 
 ###  Method Overview
 
@@ -619,7 +621,7 @@ MEDIPIPE is an automated Snakemake pipeline for cell-free MeDIP-seq (cfMeDIP-seq
 ###  Configuration
 
 ```yaml
-# config.yaml - MEDIPIPE configuration file
+## config.yaml - MEDIPIPE configuration file
 samples:
   sample1: /path/to/sample1_R1.fq.gz
   sample2: /path/to/sample2_R1.fq.gz
@@ -645,7 +647,7 @@ resources:
 ###  Execution
 
 ```bash
-# Run MEDIPIPE
+## Run MEDIPIPE
 snakemake --configfile config.yaml --cores 8 --use-conda
 ```
 
@@ -657,7 +659,7 @@ MEDIPIPE wraps MEDIPS and QSEA statistical models (see Sections 4 and 5) within 
 
 ## GLMnet Classification for Methylation Data
 
-**Reference:** Friedman et al. (2010) *Journal of Statistical Software* 33:1-22
+**Reference:** Friedman et al. (2010) [@Friedman2010] *Journal of Statistical Software* 33:1-22
 
 ###  Method Overview
 
@@ -673,18 +675,18 @@ GLMnet provides regularized generalized linear models (elastic net) for high-dim
 library(glmnet)
 library(caret)
 
-# Prepare methylation matrix (windows × samples)
-# X: n samples × p windows matrix
-# y: response vector (class labels or continuous outcome)
+## Prepare methylation matrix (windows × samples)
+## X: n samples × p windows matrix
+## y: response vector (class labels or continuous outcome)
 
-# Feature scaling
+## Feature scaling
 X_scaled <- scale(X)
 
-# Remove near-zero variance features
+## Remove near-zero variance features
 nzv <- nearZeroVar(X_scaled)
 X_filtered <- X_scaled[, -nzv]
 
-# Cross-validated elastic net
+## Cross-validated elastic net
 cv_fit <- cv.glmnet(
   x = X_filtered,
   y = y,
@@ -694,13 +696,13 @@ cv_fit <- cv.glmnet(
   type.measure = "class" # or "deviance", "auc"
 )
 
-# Optimal lambda
+## Optimal lambda
 lambda_opt <- cv_fit$lambda.min  # or lambda.1se for more regularization
 
-# Extract coefficients
+## Extract coefficients
 coef_opt <- coef(cv_fit, s = lambda_opt)
 
-# Predict on new data
+## Predict on new data
 predictions <- predict(cv_fit, newx = X_test, s = lambda_opt, type = "class")
 ```
 
@@ -724,7 +726,7 @@ $$\min_{\beta_0, \beta} \left\{ -\ell(\beta_0, \beta) + \lambda \left[ \frac{(1-
 
 - $\alpha = 1$: Lasso regression (pure L1 penalty)
 - $\alpha = 0$: Ridge regression (pure L2 penalty)
-- $0 < \alpha < 1$: Elastic net (combination)
+- $0 < \alpha < 1$: Elastic net (combination)bb
 
 **For Binary Classification (Logistic Regression):**
 
@@ -753,7 +755,7 @@ $$\min_{\beta_0, \beta} \left\{ \frac{1}{2n} \|Y - \beta_0 - X\beta\|_2^2 + \lam
 
 ## MethRaFo
 
-**Reference:** Ding & Bar-Joseph (2017) *Bioinformatics* 33:3477-3479
+**Reference:** Ding & Bar-Joseph (2017) [@Ding2017] *Bioinformatics* 33:3477-3479
 
 ###  Method Overview
 
@@ -762,23 +764,23 @@ MethRaFo uses Random Forest regression to correct MeDIP-seq data for CpG density
 ###  Pipeline: BAM to MethRaFo Input
 
 ```python
-# Python (with R wrapper available)
+## Python (with R wrapper available)
 from methrafo import MethRaFo
 
-# Initialize with BAM file
+## Initialize with BAM file
 mrf = MethRaFo(
     bam_file="sample.dedup.bam",
     reference="hg38.fa"
 )
 
-# Calculate features
+## Calculate features
 mrf.calculate_rpkm()           # Normalized read counts
 mrf.calculate_cpg_density()    # Local CpG density at multiple resolutions
 
-# Predict methylation using pre-trained model
+## Predict methylation using pre-trained model
 methylation = mrf.predict(model="trained_model.pkl")
 
-# Or train new model with BS-seq ground truth
+## Or train new model with BS-seq ground truth
 mrf.train(
     bs_seq_methylation="ground_truth.bed",
     output_model="new_model.pkl"
@@ -888,6 +890,14 @@ Each tree provides predictions for samples not included in its bootstrap sample,
 
 <br/>
 
+
+## References {-}
+      
+<div id="refs"></div>
+    
+<br/>
+
+<!--
 ##  References
 
 1. Down TA, et al. (2008) A Bayesian deconvolution strategy for immunoprecipitation-based DNA methylome analysis. *Nature Biotechnology* 26:779-785.
@@ -908,6 +918,7 @@ Each tree provides predictions for samples not included in its bootstrap sample,
 
 9. Robinson MD, McCarthy DJ, Smyth GK (2010) edgeR: a Bioconductor package for differential expression analysis of digital gene expression data. *Bioinformatics* 26:139-140.
 
+-->
 
 ---   
 
