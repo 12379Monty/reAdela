@@ -1,0 +1,31 @@
+ 1007  git push
+ 1008  vi index.Rmd
+ 1009  ./render_site.sh
+ 1010  open .
+ 1011  vi index.Rmd
+ 1012  cd AI/_Enrichment_Methods_PartI_Section1.Rmd
+ 1013  vi AI/_Enrichment_Methods_PartI_Section1.Rmd
+ 1014  vi AI/_Enrichment_Methods_PartI_Section1.Rmd
+ 1015  open .
+ 1016  cd AI
+ 1017  vi _Enrichment_Methods_PartI_Section1.Rmd
+ 1018  ls *.bib
+ 1019  open .
+ 1020  ls i,,,,,*.bib
+ 1021  ls ../*.bib
+ 1022  ls ../../*.bib
+ 1023  ls ../../../*.bib
+ 1024  pwd
+ 1025  ls ../../bibFiles
+ 1026  ls ../../_bibFiles
+ 1027  ls ../_bibFiles
+ 1028  vi _Enrichment_Methods_PartI_Section1.Rmd
+ 1029  nohup Rscript -e "rmarkdown::render('_Enrichment_Methods_PartI_Section1.Rmd')" > _Enrichment_Methods_PartI_Section1.log  &\n   
+ 1030  vi _Enrichment_Methods_PartI_Section1.Rmd
+ 1031  nohup Rscript -e "rmarkdown::render('_Enrichment_Methods_PartI_Section1.Rmd')" > _Enrichment_Methods_PartI_Section1.log  &\n   
+ 1032  vi _Enrichment_Methods_PartI_Section1.Rmd
+ 1033  nohup Rscript -e "rmarkdown::render('_Enrichment_Methods_PartI_Section1.Rmd')" > _Enrichment_Methods_PartI_Section1.log  &\n   
+ 1034  vi _Enrichment_Methods_PartI_Section1.Rmd
+ 1035  nohup Rscript -e "rmarkdown::render('_Enrichment_Methods_PartI_Section1.Rmd')" > _Enrichment_Methods_PartI_Section1.log  &\n   
+ 1036  vi _Enrichment_Methods_PartI_Section1.Rmd
+ 1037  nohup Rscript -e "rmarkdown::render('_Enrichment_Methods_PartI_Section1.Rmd')" > _Enrichment_Methods_PartI_Section1.log  &\n   
