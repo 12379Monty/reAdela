@@ -1,0 +1,22 @@
+##  References
+
+1. Down TA, et al. (2008) A Bayesian deconvolution strategy for immunoprecipitation-based DNA methylome analysis. *Nature Biotechnology* 26:779-785.
+
+2. Chavez L, et al. (2010) Computational analysis of genome-wide DNA methylation during the differentiation of human embryonic stem cells along the endodermal lineage. *Genome Research* 20:1441-1450.
+
+3. Lienhard M, et al. (2014) MEDIPS: genome-wide differential coverage analysis of sequencing data derived from DNA enrichment experiments. *Bioinformatics* 30:284-286.
+
+4. Lienhard M, et al. (2017) QSEA—modelling of genome-wide DNA methylation from sequencing enrichment experiments. *Nucleic Acids Research* 45:e44.
+
+5. Xu J, et al. (2018) MeDEStrand: an improved method to infer genome-wide absolute methylation levels from DNA enrichment data. *BMC Bioinformatics* 19:574.
+
+6. Zhu Y, et al. (2023) MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis. *Bioinformatics* 39:btad423.
+
+7. Friedman J, Hastie T, Tibshirani R (2010) Regularization paths for generalized linear models via coordinate descent. *Journal of Statistical Software* 33:1-22.
+
+8. Ding J, Bar-Joseph Z (2017) MethRaFo: MeDIP-seq methylation estimate using a Random Forest Regressor. *Bioinformatics* 33:3477-3479.
+
+9. Robinson MD, McCarthy DJ, Smyth GK (2010) edgeR: a Bioconductor package for differential expression analysis of digital gene expression data. *Bioinformatics* 26:139-140.
+
+
+---   

@@ -132,9 +132,12 @@ and algorithm along with a description of enhancements that followed.
 
 ## [Enrichment-Based Differential Methylation Analysis](AI/_Enrichment_Methods_PartI_Section1.html)
 
-* [Common Bioinformatics Pipelines](AI/_Enrichment_Methods_PartI_Section1.html# and Statistical Models
+* [Common Bioinformatics Pipeline:FASTQ->BAN](AI/_Enrichment_Methods_PartI_Section1.html#common-bioinformatics-pipeline-fastq-to-bam)
 
 <br/>
+
+
+
 
 ## Full List of AI Reports
 
