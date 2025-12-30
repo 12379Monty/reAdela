@@ -1,4 +1,4 @@
----
+--- 
 title:  "Differential Methylation Analysis Methods"
 subtitle: "A Comprehensive Technical Report"
 author: "claude.ai Opus 4.5 with prompts from [Francois Collin](https://www.linkedin.com/in/francoisz/)"
@@ -18,7 +18,7 @@ output:
     # this has no effect
     number_sections: yes
     # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
-bibliography: [../../_bibFiles/_healthy_aging.bib, ../../_bibFiles/_ref_free_genom_inf.bib, ../../../_bibFiles/_Breiman.bib, ../../../_bibFiles/_Yu.bib, ../../../_bibFiles/_Freedman.bib, ../../../_bibFiles/_RUV.bib, ../../../_bibFiles/_Yu.bib]
+bibliography: [_Differential_methylation_references.bib]
 csl: ../../_csl/cell-numeric.csl
 link-citations: true
 ---
@@ -194,7 +194,9 @@ param_class=sapply(params, class), row.names=NULL) %>%
 
 <br/>
 <br/>
-## Executive Summary
+
+
+## Executive Summary {-}
 
 This report provides a comprehensive overview of computational methods for differential methylation analysis across three major DNA methylation profiling platforms: enrichment-based sequencing (MeDIP-seq/cfMeDIP-seq), bisulfite sequencing (WGBS/RRBS), and methylation arrays (Illumina 450K/EPIC). The report is organized into three parts: 
 
@@ -206,13 +208,13 @@ This report provides a comprehensive overview of computational methods for diffe
 
 # PART I: Differential Methylation Analysis Methods
 
-## 1. Enrichment-Based Methods (MeDIP-seq / cfMeDIP-seq)
+## Enrichment-Based Methods (MeDIP-seq / cfMeDIP-seq)
 
 Enrichment-based methods use antibody-mediated immunoprecipitation to capture methylated DNA fragments. These methods require specialized algorithms to convert enrichment signals into absolute methylation estimates and to identify differentially methylated regions.
 
-### 1.1 Batman (Bayesian Tool for Methylation Analysis)
+### Batman (Bayesian Tool for Methylation Analysis)
 
-**Publication:** Down TA et al. A Bayesian deconvolution strategy for immunoprecipitation-based DNA methylome analysis. *Nature Biotechnology* 2008;26(7):779-785.
+**Publication:** Down TA et al. A Bayesian deconvolution strategy for immunoprecipitation-based DNA methylome analysis. *Nature Biotechnology* 2008;26(7):779-785. [@Down2008]
 
 **Key Highlights:**
 
@@ -229,9 +231,9 @@ Enrichment-based methods use antibody-mediated immunoprecipitation to capture me
 
 ---
 
-### 1.2 MEDIPS (Methylated DNA Immunoprecipitation Sequencing)
+### MEDIPS (Methylated DNA Immunoprecipitation Sequencing)
 
-**Publication:** Lienhard M et al. MEDIPS: genome-wide differential coverage analysis of sequencing data derived from DNA enrichment experiments. *Bioinformatics* 2014;30(2):284-286.
+**Publication:** Lienhard M et al. MEDIPS: genome-wide differential coverage analysis of sequencing data derived from DNA enrichment experiments. *Bioinformatics* 2014;30(2):284-286. [@Lienhard2014]
 
 **Key Highlights:**
 
@@ -249,9 +251,9 @@ Enrichment-based methods use antibody-mediated immunoprecipitation to capture me
 
 ---
 
-### 1.3 QSEA (Quantitative Sequence Enrichment Analysis)
+### QSEA (Quantitative Sequence Enrichment Analysis)
 
-**Publication:** Lienhard M et al. QSEA—modelling of genome-wide DNA methylation from sequencing enrichment experiments. *Nucleic Acids Research* 2017;45(6):e44.
+**Publication:** Lienhard M et al. QSEA—modelling of genome-wide DNA methylation from sequencing enrichment experiments. *Nucleic Acids Research* 2017;45(6):e44. [@Lienhard2017]
 
 **Key Highlights:**
 
@@ -264,13 +266,13 @@ Enrichment-based methods use antibody-mediated immunoprecipitation to capture me
 
 **Validation:** Successfully validated on a clinically relevant benchmark dataset from non-small cell lung cancer patients; retrieved well-known lung tumor methylation markers causative for gene expression changes.
 
-**Key Innovation:** Sigmoidal model accounts for antibody binding saturation in CpG-rich regions; can work without bisulfite sequencing calibration data by leveraging assumptions about CpG island methylation patterns.
+**Key Innovation:** Sigmoidal model accounts for antibody binding saturation in CpG-rich regions; can work without bisulfite sequencing calibration data by leveraging assumptions about@ CpG island methylation patterns.
 
 ---
 
-### 1.4 MeDEStrand
+### MeDEStrand
 
-**Publication:** Xu J et al. MeDEStrand: an improved method to infer genome-wide absolute methylation levels from DNA enrichment data. *BMC Bioinformatics* 2018;19:540.
+**Publication:** Xu J et al. MeDEStrand: an improved method to infer genome-wide absolute methylation levels from DNA enrichment data. *BMC Bioinformatics* 2018;19:540. [@Xu2018]
 
 **Key Highlights:**
 
@@ -290,9 +292,9 @@ Enrichment-based methods use antibody-mediated immunoprecipitation to capture me
 
 ---
 
-### 1.5 MEDIPIPE
+### MEDIPIPE
 
-**Publication:** Zeng Y et al. MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis. *Bioinformatics* 2023;39(7):btad423.
+**Publication:** Zeng Y et al. MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis. *Bioinformatics* 2023;39(7):btad423. [@Zeng2023]
 
 **Key Highlights:**
 
@@ -319,9 +321,9 @@ Enrichment-based methods use antibody-mediated immunoprecipitation to capture me
 
 ---
 
-### 1.6 GLMnet-Based Classification (cfMeDIP-seq Cancer Detection)
+### GLMnet-Based Classification (cfMeDIP-seq Cancer Detection)
 
-**Publication:** Shen SY et al. Sensitive tumour detection and classification using plasma cell-free DNA methylomes. *Nature* 2018;563(7732):579-583.
+**Publication:** Shen SY et al. Sensitive tumour detection and classification using plasma cell-free DNA methylomes. *Nature* 2018;563(7732):579-583. [@Shen2018]
 
 **Key Highlights:**
 
@@ -336,7 +338,7 @@ Enrichment-based methods use antibody-mediated immunoprecipitation to capture me
 
 ---
 
-### 1.7 Alternative Classification Approaches for cfMeDIP-seq
+### Alternative Classification Approaches for cfMeDIP-seq
 
 **Publication:** Halla-aho V & Lähdesmäki H. Probabilistic modeling methods for cell-free DNA methylation based cancer classification. *BMC Bioinformatics* 2022;23:138.
 
@@ -361,9 +363,9 @@ Enrichment-based methods use antibody-mediated immunoprecipitation to capture me
 
 ---
 
-### 1.8 MethRaFo
+### MethRaFo
 
-**Publication:** Ding J & Bar-Joseph Z. MethRaFo: MeDIP-seq methylation estimate using a Random Forest Regressor. *Bioinformatics* 2017;33(21):3477-3479.
+**Publication:** Ding J & Bar-Joseph Z. MethRaFo: MeDIP-seq methylation estimate using a Random Forest Regressor. *Bioinformatics* 2017;33(21):3477-3479. [@Ding2017]
 
 **Key Highlights:**
 
@@ -377,13 +379,13 @@ Enrichment-based methods use antibody-mediated immunoprecipitation to capture me
 
 ---
 
-## 2. Bisulfite Sequencing Methods (WGBS / RRBS)
+## Bisulfite Sequencing Methods (WGBS / RRBS)
 
 Bisulfite sequencing provides single-nucleotide resolution methylation data by converting unmethylated cytosines to uracil. These methods require statistical approaches that account for the binomial/beta-binomial nature of the count data.
 
-### 2.1 DSS (Dispersion Shrinkage for Sequencing)
+### DSS (Dispersion Shrinkage for Sequencing)
 
-**Publication:** Feng H et al. A Bayesian hierarchical model to detect differentially methylated loci from single nucleotide resolution sequencing data. *Nucleic Acids Research* 2014;42(8):e69.
+**Publication:** Feng H et al. A Bayesian hierarchical model to detect differentially methylated loci from single nucleotide resolution sequencing data. *Nucleic Acids Research* 2014;42(8):e69. [@Feng2014]
 
 **Key Highlights:**
 
@@ -402,9 +404,9 @@ Bisulfite sequencing provides single-nucleotide resolution methylation data by c
 
 ---
 
-### 2.2 methylKit
+### methylKit
 
-**Publication:** Akalin A et al. methylKit: a comprehensive R package for the analysis of genome-wide DNA methylation profiles. *Genome Biology* 2012;13:R87.
+**Publication:** Akalin A et al. methylKit: a comprehensive R package for the analysis of genome-wide DNA methylation profiles. *Genome Biology* 2012;13:R87. [@Akalin2012]
 
 **Key Highlights:**
 
@@ -425,9 +427,9 @@ Bisulfite sequencing provides single-nucleotide resolution methylation data by c
 
 ---
 
-### 2.3 BSmooth
+### BSmooth
 
-**Publication:** Hansen KD et al. BSmooth: from whole genome bisulfite sequencing reads to differentially methylated regions. *Genome Biology* 2012;13:R83.
+**Publication:** Hansen KD et al. BSmooth: from whole genome bisulfite sequencing reads to differentially methylated regions. *Genome Biology* 2012;13:R83. [@Hansen2012]]
 
 **Key Highlights:**
 
@@ -447,9 +449,9 @@ Bisulfite sequencing provides single-nucleotide resolution methylation data by c
 
 ---
 
-### 2.4 BiSeq
+### BiSeq
 
-**Publication:** Hebestreit K et al. Detection of significantly differentially methylated regions in targeted bisulfite sequencing data. *Bioinformatics* 2013;29(13):1647-1653.
+**Publication:** Hebestreit K et al. Detection of significantly differentially methylated regions in targeted bisulfite sequencing data. *Bioinformatics* 2013;29(13):1647-1653. [@Hebestreit2013]
 
 **Key Highlights:**
 
@@ -463,9 +465,9 @@ Bisulfite sequencing provides single-nucleotide resolution methylation data by c
 
 ---
 
-### 2.5 RADMeth
+### RADMeth
 
-**Publication:** Dolzhenko E & Smith AD. A beta-binomial mixture model for molecular count data. *Bioinformatics* 2014.
+**Publication:** Dolzhenko E & Smith AD. A beta-binomial mixture model for molecular count data. *Bioinformatics* 2014. [@Dolzhenko2014]
 
 **Key Highlights:**
 
@@ -478,9 +480,9 @@ Bisulfite sequencing provides single-nucleotide resolution methylation data by c
 
 ---
 
-### 2.6 MOABS (Model-Based Analysis of Bisulfite Sequencing)
+### MOABS (Model-Based Analysis of Bisulfite Sequencing)
 
-**Publication:** Sun D et al. MOABS: model based analysis of bisulfite sequencing data. *Genome Biology* 2014;15:R38.
+**Publication:** Sun D et al. MOABS: model based analysis of bisulfite sequencing data. *Genome Biology* 2014;15:R38. [@Sun2014]
 
 **Key Highlights:**
 
@@ -495,9 +497,9 @@ Bisulfite sequencing provides single-nucleotide resolution methylation data by c
 
 ---
 
-### 2.7 metilene
+### metilene
 
-**Publication:** Jühling F et al. metilene: fast and sensitive calling of differentially methylated regions from bisulfite sequencing data. *Genome Research* 2016;26(2):256-262.
+**Publication:** Jühling F et al. metilene: fast and sensitive calling of differentially methylated regions from bisulfite sequencing data. *Genome Research* 2016;26(2):256-262. [@Juhling2016]
 
 **Key Highlights:**
 
@@ -510,9 +512,9 @@ Bisulfite sequencing provides single-nucleotide resolution methylation data by c
 
 ---
 
-### 2.8 HMM-Based Methods (HMM-DM and HMM-Fisher)
+### HMM-Based Methods (HMM-DM and HMM-Fisher)
 
-**Publication:** Yu X & Sun S. HMM-DM: identifying differentially methylated regions using a hidden Markov model. *Statistical Applications in Genetics and Molecular Biology* 2016;15(1):69-81.
+**Publication:** Yu X & Sun S. HMM-DM: identifying differentially methylated regions using a hidden Markov model. *Statistical Applications in Genetics and Molecular Biology* 2016;15(1):69-81. [@Yu2016]
 
 **Key Highlights:**
 
@@ -524,13 +526,13 @@ Bisulfite sequencing provides single-nucleotide resolution methylation data by c
 
 ---
 
-## 3. Array-Based Methods (450K / EPIC)
+## Array-Based Methods (450K / EPIC)
 
 Illumina methylation arrays measure methylation at predefined CpG sites. Analysis methods must account for the beta-distributed nature of methylation values and probe-level technical considerations.
 
-### 3.1 limma (Linear Models for Microarray Data)
+### limma (Linear Models for Microarray Data)
 
-**Publication:** Smyth GK. Linear models and empirical Bayes methods for assessing differential expression in microarray experiments. *Statistical Applications in Genetics and Molecular Biology* 2004;3:Article3.
+**Publication:** Smyth GK. Linear models and empirical Bayes methods for assessing differential expression in microarray experiments. *Statistical Applications in Genetics and Molecular Biology* 2004;3:Article3. [@Smyth2004]
 
 **Key Highlights:**
 
@@ -549,9 +551,9 @@ Illumina methylation arrays measure methylation at predefined CpG sites. Analysi
 
 ---
 
-### 3.2 DMRcate
+### DMRcate
 
-**Publication:** Peters TJ et al. De novo identification of differentially methylated regions in the human genome. *Epigenetics & Chromatin* 2015;8:6.
+**Publication:** Peters TJ et al. De novo identification of differentially methylated regions in the human genome. *Epigenetics & Chromatin* 2015;8:6. [@Peters2015]
 
 **Key Highlights:**
 
@@ -569,9 +571,9 @@ Illumina methylation arrays measure methylation at predefined CpG sites. Analysi
 
 ---
 
-### 3.3 Bumphunter
+### Bumphunter
 
-**Publication:** Jaffe AE et al. Bump hunting to identify differentially methylated regions in epigenetic epidemiology studies. *International Journal of Epidemiology* 2012;41(1):200-209.
+**Publication:** Jaffe AE et al. Bump hunting to identify differentially methylated regions in epigenetic epidemiology studies. *International Journal of Epidemiology* 2012;41(1):200-209. [@Jaffe212]
 
 **Key Highlights:**
 
@@ -589,9 +591,9 @@ Illumina methylation arrays measure methylation at predefined CpG sites. Analysi
 
 ---
 
-### 3.4 comb-p
+### comb-p
 
-**Publication:** Pedersen BS et al. Comb-p: software for combining, analyzing, grouping and correcting spatially correlated P-values. *Bioinformatics* 2012;28(22):2986-2988.
+**Publication:** Pedersen BS et al. Comb-p: software for combining, analyzing, grouping and correcting spatially correlated P-values. *Bioinformatics* 2012;28(22):2986-2988. [@Pedersen]
 
 **Key Highlights:**
 
@@ -604,9 +606,9 @@ Illumina methylation arrays measure methylation at predefined CpG sites. Analysi
 
 ---
 
-### 3.5 missMethyl (GOmeth and GOregion)
+### missMethyl (GOmeth and GOregion)
 
-**Publication:** Phipson B et al. missMethyl: an R package for analyzing data from Illumina's HumanMethylation450 platform. *Bioinformatics* 2016;32(2):286-288.
+**Publication:** Phipson B et al. missMethyl: an R package for analyzing data from Illumina's HumanMethylation450 platform. *Bioinformatics* 2016;32(2):286-288. [@Phipson2016]
 
 **Key Highlights:**
 
@@ -620,9 +622,9 @@ Illumina methylation arrays measure methylation at predefined CpG sites. Analysi
 
 ---
 
-### 3.6 coMethDMR
+### coMethDMR
 
-**Publication:** Gomez L et al. coMethDMR: accurate identification of co-methylated and differentially methylated regions in epigenome-wide association studies with continuous phenotypes. *Nucleic Acids Research* 2019;47(17):e98.
+**Publication:** Gomez L et al. coMethDMR: accurate identification of co-methylated and differentially methylated regions in epigenome-wide association studies with continuous phenotypes. *Nucleic Acids Research* 2019;47(17):e98.Q [@Gomez2019]
 
 **Key Highlights:**
 
@@ -637,9 +639,9 @@ Illumina methylation arrays measure methylation at predefined CpG sites. Analysi
 
 The form of input data to differential methylation analysis modules differs fundamentally between platform types, which dictates the appropriate statistical models for each.
 
-## 1. Enrichment-Based Methods (MeDIP-seq / cfMeDIP-seq)
+## Enrichment-Based Methods (MeDIP-seq / cfMeDIP-seq)
 
-### Input Data Structure: Binned Read Counts or Read Density
+### Input Data Structure: Binned Read Counts or Read Density {-}
 
 The input to differential methylation analysis is **read counts aggregated into genomic bins/windows**, not individual CpG-level measurements. This is because enrichment-based methods capture fragments containing methylated CpGs rather than measuring methylation at specific positions.
 
@@ -676,9 +678,9 @@ chr1    10200    10300    89      # 89 reads (perhaps CpG island)
 
 ---
 
-## 2. Bisulfite Sequencing Methods (WGBS / RRBS)
+## Bisulfite Sequencing Methods (WGBS / RRBS)
 
-### Input Data Structure: Per-CpG Count Data (Binomial Observations)
+### Input Data Structure: Per-CpG Count Data (Binomial Observations) {-}
 
 The input is **count data at each individual CpG site**: the number of reads showing methylation (unconverted C) versus the total number of reads covering that position.
 
@@ -715,9 +717,9 @@ chr1    10590       17      14
 
 ---
 
-## 3. Array-Based Methods (450K / EPIC)
+## Array-Based Methods (450K / EPIC)
 
-### Input Data Structure: Beta Values or M-Values
+### Input Data Structure: Beta Values or M-Values {-}
 
 The input is **continuous methylation measurements** at each probe, typically expressed as beta values (proportion methylated) or M-values (logit-transformed beta values).
 
@@ -766,11 +768,11 @@ The input is **continuous methylation measurements** at each probe, typically ex
 
 # PART III: Benchmark Studies and Method Comparisons
 
-## 1. Enrichment-Based Methods (MeDIP-seq)
+## Enrichment-Based Methods (MeDIP-seq)
 
 There is **no single comprehensive benchmark paper** comparing all MeDIP-seq differential methylation methods head-to-head. However, several papers provide partial comparisons:
 
-### 1.1 QSEA Benchmark (Lienhard et al. 2017)
+### QSEA Benchmark (Lienhard et al. 2017 [@Lienhard2017])
 
 **Publication:** *Nucleic Acids Research* 45:e44
 
@@ -786,7 +788,7 @@ There is **no single comprehensive benchmark paper** comparing all MeDIP-seq dif
 
 ---
 
-### 1.2 MeDEStrand Benchmark (Xu et al. 2018)
+### MeDEStrand Benchmark (Xu et al. 2018 [@Xu2018])
 
 **Publication:** *BMC Bioinformatics* 19:540
 
@@ -802,7 +804,7 @@ There is **no single comprehensive benchmark paper** comparing all MeDIP-seq dif
 
 ---
 
-### 1.3 MethRaFo Benchmark (Ding & Bar-Joseph 2017)
+### MethRaFo Benchmark (Ding & Bar-Joseph 2017 [@Ding2017])
 
 **Publication:** *Bioinformatics* 33:3477-3479
 
@@ -819,13 +821,13 @@ There is **no single comprehensive benchmark paper** comparing all MeDIP-seq dif
 
 ---
 
-## 2. Bisulfite Sequencing Methods (WGBS/RRBS)
+## Bisulfite Sequencing Methods (WGBS/RRBS)
 
 The bisulfite sequencing field has the most mature benchmarking literature with several comprehensive comparison studies.
 
-### 2.1 Comprehensive Evaluation (2021)
+### Comprehensive Evaluation (2021)
 
-**Publication:** Park Y et al. Comprehensive Evaluation of Differential Methylation Analysis Methods for Bisulfite Sequencing Data. *International Journal of Environmental Research and Public Health* 2021;18:7975.
+**Publication:** Park Y et al. Comprehensive Evaluation of Differential Methylation Analysis Methods for Bisulfite Sequencing Data. *International Journal of Environmental Research and Public Health* 2021;18:7975. [@Park2021]
 
 **Methods Compared:** methylKit, DSS, BSmooth, BiSeq, RADMeth, methylSig, Fisher's exact test, metilene
 
@@ -859,9 +861,10 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ---
 
-### 2.2 Five-Method Comparison (Yu & Sun 2016)
+### Five-Method Comparison (Yu & Sun 2016 [@Yu2016])
 
-**Publication:** Yu X & Sun S. Comparing five statistical methods of differential methylation identification using bisulfite sequencing data. *Statistical Applications in Genetics and Molecular Biology* 2016;15(1):69-81.
+**Publication:** Yu X & Sun S. Comparing five statistical methods of differential methylation identification using bisulfite sequencing data. *Statistical Applications in Genetics and Molecular Biology* 2016;15(1):69-81. [@Yu2016]
+
 
 **Methods Compared:** methylKit, BSmooth, BiSeq, HMM-DM, HMM-Fisher
 
@@ -877,9 +880,9 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ---
 
-### 2.3 Comprehensive Survey (Shafi et al. 2018)
+### Comprehensive Survey (Shafi et al. 2018 [@Shafi2018])
 
-**Publication:** Shafi A et al. A survey of the approaches for identifying differential methylation using bisulfite sequencing data. *Briefings in Bioinformatics* 2018;19(5):737-753.
+**Publication:** Shafi A et al. A survey of the approaches for identifying differential methylation using bisulfite sequencing data. *Briefings in Bioinformatics* 2018;19(5):737-753. [@Shafi2018]
 
 **Methods Reviewed:** 20+ methods
 
@@ -901,9 +904,10 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ---
 
-### 2.4 Strategies for Bisulfite Analysis (Akalin et al. 2017)
+### Strategies for Bisulfite Analysis (Akalin et al. 2017)
 
 **Publication:** Akalin A et al. Strategies for analyzing bisulfite sequencing data. *bioRxiv* preprint.
+[@Akalin217]
 
 **Methods Compared:** limma, DSS, BSmooth, methylKit (with/without overdispersion)
 
@@ -918,11 +922,11 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ---
 
-## 3. Array-Based Methods (450K/EPIC)
+## Array-Based Methods (450K/EPIC)
 
-### 3.1 False Positive Rate Evaluation (2022)
+### False Positive Rate Evaluation (2022)
 
-**Publication:** Gatev E et al. An evaluation of the genome-wide false positive rates of common methods for identifying differentially methylated regions using Illumina methylation arrays. *Epigenetics* 2022.
+**Publication:** Gatev E et al. An evaluation of the genome-wide false positive rates of common methods for identifying differentially methylated regions using Illumina methylation arrays. *Epigenetics* 2022. [@Gatev2022]
 
 **Methods Compared:** DMRcate, Bumphunter, comb-p, mCSEA, coMethDMR
 
@@ -940,9 +944,9 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ---
 
-### 3.2 DMRcate Benchmark (Peters et al. 2015)
+### DMRcate Benchmark (Peters et al. 2015)
 
-**Publication:** Peters TJ et al. De novo identification of differentially methylated regions in the human genome. *Epigenetics & Chromatin* 2015;8:6.
+**Publication:** Peters TJ et al. De novo identification of differentially methylated regions in the human genome. *Epigenetics & Chromatin* 2015;8:6. [@Peters2015]
 
 **Methods Compared:** DMRcate vs Bumphunter vs Probe Lasso vs comb-p
 
@@ -957,9 +961,9 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ---
 
-### 3.3 Microarray and NGS Quality Assessment (2023)
+### Microarray and NGS Quality Assessment (2023)
 
-**Publication:** Abramov S et al. Assessing the Differential Methylation Analysis Quality for Microarray and NGS Platforms. *International Journal of Molecular Sciences* 2023;24:8591.
+**Publication:** Abramov S et al. Assessing the Differential Methylation Analysis Quality for Microarray and NGS Platforms. *International Journal of Molecular Sciences* 2023;24:8591. [@Abramov2023]
 
 **Methods Compared:** 
 - Arrays: limma, T-test, dmpFinder (with/without variance shrinkage)
@@ -974,7 +978,7 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ---
 
-## 4. Summary of Benchmark Findings
+## Summary of Benchmark Findings
 
 ### Key Benchmark Papers by Platform
 
@@ -999,57 +1003,14 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ---
 
+<!-- 
+
+_Differential_Methylation_Analysis_Report.References.txt
+
+-->
+
 # References
-
-1. Down TA et al. A Bayesian deconvolution strategy for immunoprecipitation-based DNA methylome analysis. *Nat Biotechnol*. 2008;26(7):779-785.
-
-2. Lienhard M et al. MEDIPS: genome-wide differential coverage analysis of sequencing data derived from DNA enrichment experiments. *Bioinformatics*. 2014;30(2):284-286.
-
-3. Lienhard M et al. QSEA—modelling of genome-wide DNA methylation from sequencing enrichment experiments. *Nucleic Acids Res*. 2017;45(6):e44.
-
-4. Xu J et al. MeDEStrand: an improved method to infer genome-wide absolute methylation levels from DNA enrichment data. *BMC Bioinformatics*. 2018;19:540.
-
-5. Zeng Y et al. MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis. *Bioinformatics*. 2023;39(7):btad423.
-
-6. Shen SY et al. Sensitive tumour detection and classification using plasma cell-free DNA methylomes. *Nature*. 2018;563(7732):579-583.
-
-7. Halla-aho V & Lähdesmäki H. Probabilistic modeling methods for cell-free DNA methylation based cancer classification. *BMC Bioinformatics*. 2022;23:138.
-
-8. Ding J & Bar-Joseph Z. MethRaFo: MeDIP-seq methylation estimate using a Random Forest Regressor. *Bioinformatics*. 2017;33(21):3477-3479.
-
-9. Feng H et al. A Bayesian hierarchical model to detect differentially methylated loci from single nucleotide resolution sequencing data. *Nucleic Acids Res*. 2014;42(8):e69.
-
-10. Wu H et al. Detection of differentially methylated regions from whole-genome bisulfite sequencing data without replicates. *Nucleic Acids Res*. 2015;43(21):e141.
-
-11. Akalin A et al. methylKit: a comprehensive R package for the analysis of genome-wide DNA methylation profiles. *Genome Biol*. 2012;13:R87.
-
-12. Hansen KD et al. BSmooth: from whole genome bisulfite sequencing reads to differentially methylated regions. *Genome Biol*. 2012;13:R83.
-
-13. Hebestreit K et al. Detection of significantly differentially methylated regions in targeted bisulfite sequencing data. *Bioinformatics*. 2013;29(13):1647-1653.
-
-14. Sun D et al. MOABS: model based analysis of bisulfite sequencing data. *Genome Biol*. 2014;15:R38.
-
-15. Jühling F et al. metilene: fast and sensitive calling of differentially methylated regions from bisulfite sequencing data. *Genome Res*. 2016;26(2):256-262.
-
-16. Yu X & Sun S. HMM-DM: identifying differentially methylated regions using a hidden Markov model. *Stat Appl Genet Mol Biol*. 2016;15(1):69-81.
-
-17. Smyth GK. Linear models and empirical Bayes methods for assessing differential expression in microarray experiments. *Stat Appl Genet Mol Biol*. 2004;3:Article3.
-
-18. Peters TJ et al. De novo identification of differentially methylated regions in the human genome. *Epigenetics Chromatin*. 2015;8:6.
-
-19. Jaffe AE et al. Bump hunting to identify differentially methylated regions in epigenetic epidemiology studies. *Int J Epidemiol*. 2012;41(1):200-209.
-
-20. Phipson B et al. missMethyl: an R package for analyzing data from Illumina's HumanMethylation450 platform. *Bioinformatics*. 2016;32(2):286-288.
-
-21. Park Y et al. Comprehensive Evaluation of Differential Methylation Analysis Methods for Bisulfite Sequencing Data. *Int J Environ Res Public Health*. 2021;18:7975.
-
-22. Shafi A et al. A survey of the approaches for identifying differential methylation using bisulfite sequencing data. *Brief Bioinform*. 2018;19(5):737-753.
-
-23. Gatev E et al. An evaluation of the genome-wide false positive rates of common methods for identifying differentially methylated regions using Illumina methylation arrays. *Epigenetics*. 2022.
-
-24. Abramov S et al. Assessing the Differential Methylation Analysis Quality for Microarray and NGS Platforms. *Int J Mol Sci*. 2023;24:8591.
-
-25. Maksimovic J et al. A cross-package Bioconductor workflow for analysing methylation array data. *F1000Research*. 2016;5:1281.
+ 
 
 ---
 
@@ -1066,4 +1027,3 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 ## nohup Rscript -e "rmarkdown::render('_Differential_Methylation_Analysis_Report.Rmd')" > _Differential_Methylation_Analysis_Report.log  &
     
 --> 
-

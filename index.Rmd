@@ -121,22 +121,144 @@ for comments on technical aspects of some of the studies cited.
 
 <br/>
 
-## [cfMeDIP-seq Protocol, Pipeline and Classifiers](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers.html)
+## [cfMeDIP-seq: Protocol, Pipeline and Classifiers](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers.html)
 
-* We trace the evolution of Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers
-
+<p/>
+* The evolution of Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers is 
+traced.
 * The report is a fairly comprehensive, high level description of the assay
 and algorithm along with a description of enhancements that followed.
+
+
+<br/>
+
+## [Differential Methylation Analysis Methodology](AI/_Differential_Methylation_Analysis_Report.html)
+
+<p/>
+* Survey DMA methods used with each  assay tpe
+* Describe the analyis data in each step
+* Survey of benchmarking studies and tools
 
 <br/>
 
 ## [Enrichment-Based Differential Methylation Analysis](AI/_Enrichment_Methods_PartI_Section1.html)
 
-* [Common Bioinformatics Pipeline:FASTQ->BAN](AI/_Enrichment_Methods_PartI_Section1.html#common-bioinformatics-pipeline-fastq-to-bam)
+<p/>
+* Bioinformatics Pipelines and Statistical Methods for DMA in
+enrichment-Based assays.
+   - [Common Bioinformatics Pipeline:FASTQ->BAN](AI/_Enrichment_Methods_PartI_Section1.html#common-bioinformatics-pipeline-fastq-to-bam)
+   - [DMA Methods](AI/_Enrichment_Methods_PartI_Section1.html#dma-methods)
+
+<br/>
+ 
+
+### elastic net Vs RF 
+
+
+
+<br/>
+
+# References 
+
+<div id="refs"></div>
 
 <br/>
 
 
+# Appendix: Full list of reports
+
+```{r , child=c('_index.Rmd')}
+```
+
+
+```{r, echo=FALSE}
+  knitr::knit_exit()
+```
+
+############################################################
+# ARCHIVED CODE BELOW
+############################################################
+
+## Full List of AI Reports
+
+
+```{r , child=c('_index_AI.Rmd')}
+```
+
+<br/>
+
+### Study by Study Execution Outline  {-}
+
+#### **Shen et al. (2018) [@Shen:2018aa]** {-}
+
+* Was the Differentially Methylated Regions (DMRs) status between cancer and controls
+used for selecting features?
+
+* CV is to determine the hyper-parameters
+
+```
+Training:
+
+* 10-fold cross-validation for hyper-parameter tuning
+* Nested cross-validation for performance estimation
+* Class imbalance handled by:
+   - Weighted loss function
+   - Or downsampling of majority class
+
+```
+ 
+* class imbalance is not an issue when comparing algorithms based on the same sample set.
+
+<p><p/>
+* auROC is not a good summary
+   - spec at fixed sens would be better
+   - but both would order algorithms similarly.
+
+
+
+<br/>
+
+### Controls, Controls, Controls 
+
+<p><p/>
+* Spike-In Controls - Wilson et al. (2022) [@Wilson:2022aa]
+   - How are the Synthetic Spike-In Controls used to reduce unwanted variability?
+
+
+   - Spike-ins may not be affected by some important sources of variability,
+but they can only contribute adjustments for variability it is subjected to.
+   - What else could be done with these?  
+   - What other controls could be exploited? 
+      - endogenous controls
+      - sample controls
+
+<br/>
+
+### Before any modeling, fitting, etc. 
+
+<p><p/>
+* We need to examine the data to get a sense of what the problem is:
+   - are there obvious quality issues?
+   - are there less obvious quality issues?  
+   - visually, how hard of a classification problem  do we have?
+      - are cancer types distinct?
+      - are there outlier points?  Is the outlier due to technical reasons?
+ 
+<br/>
+
+<!--
+#### Word on modeling
+
+* It is the error structure in the dataset that dictates the properties 
+and validity of the computed statistics 
+
+* Combining data points works well statistically if they are independent with
+common mean and variance (+/-)
+
+* statistical modeling is essentially the problem of finding                    contrasts among variables or transformations of variables such that
+the contrasts are independent with common mean and sd.
+
+-->
 
 
 ## Full List of AI Reports
@@ -197,7 +319,7 @@ but they can only contribute adjustments for variability it is subjected to.
 ### Before any modeling, fitting, etc. 
 
 <p><p/>
-* We need to examine the data:
+* We need to examine the data to get a sense of what the problem is:
    - are there obvious quality issues?
    - are there less obvious quality issues?  
    - visually, how hard of a classification problem  do we have?
@@ -206,28 +328,20 @@ but they can only contribute adjustments for variability it is subjected to.
  
 <br/>
 
-### elastic net Vs RF 
+<!--
+#### Word on modeling
 
+* It is the error structure in the dataset that dictates the properties 
+and validity of the computed statistics 
 
+* Combining data points works well statistically if they are independent with
+common mean and variance (+/-)
 
-<br/>
+* statistical modeling is essentially the problem of finding                    contrasts among variables or transformations of variables such that
+the contrasts are independent with common mean and sd.
 
-# References {-}
+-->
 
-<div id="refs"></div>
-
-<br/>
-
-
-# Appendix: Full list of reports
-
-```{r , child=c('_index.Rmd')}
-```
-
-
-```{r, echo=FALSE}
-  knitr::knit_exit()
-```
 
 
     

@@ -1,0 +1,249 @@
+TY  - JOUR
+AU  - Down, T. A.
+TI  - A Bayesian deconvolution strategy for immunoprecipitation-based DNA methylome analysis
+JO  - Nature Biotechnology
+PY  - 2008
+VL  - 26
+IS  - 7
+SP  - 779
+EP  - 785
+ER  - 
+
+TY  - JOUR
+AU  - Lienhard, M.
+TI  - MEDIPS: genome-wide differential coverage analysis of sequencing data derived from DNA enrichment experiments
+JO  - Bioinformatics
+PY  - 2014
+VL  - 30
+IS  - 2
+SP  - 284
+EP  - 286
+ER  - 
+
+TY  - JOUR
+AU  - Lienhard, M.
+TI  - QSEA—modelling of genome-wide DNA methylation from sequencing enrichment experiments
+JO  - Nucleic Acids Research
+PY  - 2017
+VL  - 45
+IS  - 6
+SP  - e44
+ER  - 
+
+TY  - JOUR
+AU  - Xu, J.
+TI  - MeDEStrand: an improved method to infer genome-wide absolute methylation levels from DNA enrichment data
+JO  - BMC Bioinformatics
+PY  - 2018
+VL  - 19
+SP  - 540
+ER  - 
+
+TY  - JOUR
+AU  - Zeng, Y.
+TI  - MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis
+JO  - Bioinformatics
+PY  - 2023
+VL  - 39
+IS  - 7
+SP  - btad423
+ER  - 
+
+TY  - JOUR
+AU  - Shen, S. Y.
+TI  - Sensitive tumour detection and classification using plasma cell-free DNA methylomes
+JO  - Nature
+PY  - 2018
+VL  - 563
+IS  - 7732
+SP  - 579
+EP  - 583
+ER  - 
+
+TY  - JOUR
+AU  - Halla-aho, V.
+AU  - Lähdesmäki, H.
+TI  - Probabilistic modeling methods for cell-free DNA methylation based cancer classification
+JO  - BMC Bioinformatics
+PY  - 2022
+VL  - 23
+SP  - 138
+ER  - 
+
+TY  - JOUR
+AU  - Ding, J.
+AU  - Bar-Joseph, Z.
+TI  - MethRaFo: MeDIP-seq methylation estimate using a Random Forest Regressor
+JO  - Bioinformatics
+PY  - 2017
+VL  - 33
+IS  - 21
+SP  - 3477
+EP  - 3479
+ER  - 
+
+TY  - JOUR
+AU  - Feng, H.
+TI  - A Bayesian hierarchical model to detect differentially methylated loci from single nucleotide resolution sequencing data
+JO  - Nucleic Acids Research
+PY  - 2014
+VL  - 42
+IS  - 8
+SP  - e69
+ER  - 
+
+TY  - JOUR
+AU  - Wu, H.
+TI  - Detection of differentially methylated regions from whole-genome bisulfite sequencing data without replicates
+JO  - Nucleic Acids Research
+PY  - 2015
+VL  - 43
+IS  - 21
+SP  - e141
+ER  - 
+
+TY  - JOUR
+AU  - Akalin, A.
+TI  - methylKit: a comprehensive R package for the analysis of genome-wide DNA methylation profiles
+JO  - Genome Biology
+PY  - 2012
+VL  - 13
+SP  - R87
+ER  - 
+
+TY  - JOUR
+AU  - Hansen, K. D.
+TI  - BSmooth: from whole genome bisulfite sequencing reads to differentially methylated regions
+JO  - Genome Biology
+PY  - 2012
+VL  - 13
+SP  - R83
+ER  - 
+
+TY  - JOUR
+AU  - Hebestreit, K.
+TI  - Detection of significantly differentially methylated regions in targeted bisulfite sequencing data
+JO  - Bioinformatics
+PY  - 2013
+VL  - 29
+IS  - 13
+SP  - 1647
+EP  - 1653
+ER  - 
+
+TY  - JOUR
+AU  - Sun, D.
+TI  - MOABS: model based analysis of bisulfite sequencing data
+JO  - Genome Biology
+PY  - 2014
+VL  - 15
+SP  - R38
+ER  - 
+
+TY  - JOUR
+AU  - Jühling, F.
+TI  - metilene: fast and sensitive calling of differentially methylated regions from bisulfite sequencing data
+JO  - Genome Research
+PY  - 2016
+VL  - 26
+IS  - 2
+SP  - 256
+EP  - 262
+ER  - 
+
+TY  - JOUR
+AU  - Yu, X.
+AU  - Sun, S.
+TI  - HMM-DM: identifying differentially methylated regions using a hidden Markov model
+JO  - Statistical Applications in Genetics and Molecular Biology
+PY  - 2016
+VL  - 15
+IS  - 1
+SP  - 69
+EP  - 81
+ER  - 
+
+TY  - JOUR
+AU  - Smyth, G. K.
+TI  - Linear models and empirical Bayes methods for assessing differential expression in microarray experiments
+JO  - Statistical Applications in Genetics and Molecular Biology
+PY  - 2004
+VL  - 3
+SP  - Article3
+ER  - 
+
+TY  - JOUR
+AU  - Peters, T. J.
+TI  - De novo identification of differentially methylated regions in the human genome
+JO  - Epigenetics & Chromatin
+PY  - 2015
+VL  - 8
+SP  - 6
+ER  - 
+
+TY  - JOUR
+AU  - Jaffe, A. E.
+TI  - Bump hunting to identify differentially methylated regions in epigenetic epidemiology studies
+JO  - International Journal of Epidemiology
+PY  - 2012
+VL  - 41
+IS  - 1
+SP  - 200
+EP  - 209
+ER  - 
+
+TY  - JOUR
+AU  - Phipson, B.
+TI  - missMethyl: an R package for analyzing data from Illumina's HumanMethylation450 platform
+JO  - Bioinformatics
+PY  - 2016
+VL  - 32
+IS  - 2
+SP  - 286
+EP  - 288
+ER  - 
+
+TY  - JOUR
+AU  - Park, Y.
+TI  - Comprehensive Evaluation of Differential Methylation Analysis Methods for Bisulfite Sequencing Data
+JO  - International Journal of Environmental Research and Public Health
+PY  - 2021
+VL  - 18
+SP  - 7975
+ER  - 
+
+TY  - JOUR
+AU  - Shafi, A.
+TI  - A survey of the approaches for identifying differential methylation using bisulfite sequencing data
+JO  - Briefings in Bioinformatics
+PY  - 2018
+VL  - 19
+IS  - 5
+SP  - 737
+EP  - 753
+ER  - 
+
+TY  - JOUR
+AU  - Gatev, E.
+TI  - An evaluation of the genome-wide false positive rates of common methods for identifying differentially methylated regions using Illumina methylation arrays
+JO  - Epigenetics
+PY  - 2022
+ER  - 
+
+TY  - JOUR
+AU  - Abramov, S.
+TI  - Assessing the Differential Methylation Analysis Quality for Microarray and NGS Platforms
+JO  - International Journal of Molecular Sciences
+PY  - 2023
+VL  - 24
+SP  - 8591
+ER  - 
+
+TY  - JOUR
+AU  - Maksimovic, J.
+TI  - A cross-package Bioconductor workflow for analysing methylation array data
+JO  - F1000Research
+PY  - 2016
+VL  - 5
+SP  - 1281
+ER  - 

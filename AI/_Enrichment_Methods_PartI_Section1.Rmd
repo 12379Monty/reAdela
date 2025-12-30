@@ -873,7 +873,7 @@ Each tree provides predictions for samples not included in its bootstrap sample,
 
 <br/>
 
-##  Abbreviations
+#  Abbreviations
 
 | Abbreviation | Definition |
 |--------------|------------|
@@ -891,7 +891,7 @@ Each tree provides predictions for samples not included in its bootstrap sample,
 <br/>
 
 
-## References {-}
+# References 
       
 <div id="refs"></div>
     

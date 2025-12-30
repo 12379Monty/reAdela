@@ -1,0 +1,52 @@
+# References
+
+1. Down TA et al. A Bayesian deconvolution strategy for immunoprecipitation-based DNA methylome analysis. *Nat Biotechnol*. 2008;26(7):779-785.
+
+2. Lienhard M et al. MEDIPS: genome-wide differential coverage analysis of sequencing data derived from DNA enrichment experiments. *Bioinformatics*. 2014;30(2):284-286.
+
+3. Lienhard M et al. QSEA—modelling of genome-wide DNA methylation from sequencing enrichment experiments. *Nucleic Acids Res*. 2017;45(6):e44.
+
+4. Xu J et al. MeDEStrand: an improved method to infer genome-wide absolute methylation levels from DNA enrichment data. *BMC Bioinformatics*. 2018;19:540.
+
+5. Zeng Y et al. MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis. *Bioinformatics*. 2023;39(7):btad423.
+
+6. Shen SY et al. Sensitive tumour detection and classification using plasma cell-free DNA methylomes. *Nature*. 2018;563(7732):579-583.
+
+7. Halla-aho V & Lähdesmäki H. Probabilistic modeling methods for cell-free DNA methylation based cancer classification. *BMC Bioinformatics*. 2022;23:138.
+
+8. Ding J & Bar-Joseph Z. MethRaFo: MeDIP-seq methylation estimate using a Random Forest Regressor. *Bioinformatics*. 2017;33(21):3477-3479.
+
+9. Feng H et al. A Bayesian hierarchical model to detect differentially methylated loci from single nucleotide resolution sequencing data. *Nucleic Acids Res*. 2014;42(8):e69.
+
+10. Wu H et al. Detection of differentially methylated regions from whole-genome bisulfite sequencing data without replicates. *Nucleic Acids Res*. 2015;43(21):e141.
+
+11. Akalin A et al. methylKit: a comprehensive R package for the analysis of genome-wide DNA methylation profiles. *Genome Biol*. 2012;13:R87.
+
+12. Hansen KD et al. BSmooth: from whole genome bisulfite sequencing reads to differentially methylated regions. *Genome Biol*. 2012;13:R83.
+
+13. Hebestreit K et al. Detection of significantly differentially methylated regions in targeted bisulfite sequencing data. *Bioinformatics*. 2013;29(13):1647-1653.
+
+14. Sun D et al. MOABS: model based analysis of bisulfite sequencing data. *Genome Biol*. 2014;15:R38.
+
+15. Jühling F et al. metilene: fast and sensitive calling of differentially methylated regions from bisulfite sequencing data. *Genome Res*. 2016;26(2):256-262.
+
+16. Yu X & Sun S. HMM-DM: identifying differentially methylated regions using a hidden Markov model. *Stat Appl Genet Mol Biol*. 2016;15(1):69-81.
+
+17. Smyth GK. Linear models and empirical Bayes methods for assessing differential expression in microarray experiments. *Stat Appl Genet Mol Biol*. 2004;3:Article3.
+
+18. Peters TJ et al. De novo identification of differentially methylated regions in the human genome. *Epigenetics Chromatin*. 2015;8:6.
+
+19. Jaffe AE et al. Bump hunting to identify differentially methylated regions in epigenetic epidemiology studies. *Int J Epidemiol*. 2012;41(1):200-209.
+
+20. Phipson B et al. missMethyl: an R package for analyzing data from Illumina's HumanMethylation450 platform. *Bioinformatics*. 2016;32(2):286-288.
+
+21. Park Y et al. Comprehensive Evaluation of Differential Methylation Analysis Methods for Bisulfite Sequencing Data. *Int J Environ Res Public Health*. 2021;18:7975.
+
+22. Shafi A et al. A survey of the approaches for identifying differential methylation using bisulfite sequencing data. *Brief Bioinform*. 2018;19(5):737-753.
+
+23. Gatev E et al. An evaluation of the genome-wide false positive rates of common methods for identifying differentially methylated regions using Illumina methylation arrays. *Epigenetics*. 2022.
+
+24. Abramov S et al. Assessing the Differential Methylation Analysis Quality for Microarray and NGS Platforms. *Int J Mol Sci*. 2023;24:8591.
+
+25. Maksimovic J et al. A cross-package Bioconductor workflow for analysing methylation array data. *F1000Research*. 2016;5:1281.
+
