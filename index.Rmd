@@ -165,12 +165,6 @@ enrichment-Based assays.
 <br/>
 
 
-# Appendix: Full list of reports
-
-```{r , child=c('_index.Rmd')}
-```
-
-
 ```{r, echo=FALSE}
   knitr::knit_exit()
 ```
@@ -178,6 +172,12 @@ enrichment-Based assays.
 ############################################################
 # ARCHIVED CODE BELOW
 ############################################################
+
+# Appendix: Full list of reports
+
+```{r , child=c('_index.Rmd')}
+```
+
 
 ## Full List of AI Reports
 
