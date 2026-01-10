@@ -1,0 +1,230 @@
+TY  - JOUR
+AU  - Shen, Shu Yi
+AU  - Singhania, Rachna
+AU  - Fehringer, Gordon
+AU  - Chakravarthy, Ankur
+AU  - Roehrl, Michael H. A.
+AU  - Chadwick, David
+AU  - Zuzarte, Philip C.
+AU  - Borgida, Ayelet
+AU  - Wang, Thomas T.
+AU  - Li, Tiantian
+AU  - Kis, Olena
+AU  - Zhao, Zhibin
+AU  - Spreafico, Anna
+AU  - da Silva, Catarina
+AU  - Paladino, Anna
+AU  - Lupien, Mathieu
+AU  - Kaplan, Jordan
+AU  - Bailey, Stephen D.
+AU  - Bratman, Scott V.
+AU  - De Carvalho, Daniel D.
+TI  - Sensitive tumour detection and classification using plasma cell-free DNA methylomes
+JO  - Nature
+PY  - 2018
+VL  - 563
+IS  - 7732
+SP  - 579
+EP  - 583
+DO  - 10.1038/s41586-018-0703-0
+ER  - 
+
+TY  - JOUR
+AU  - Shen, Shu Yi
+AU  - Burgener, Jared M.
+AU  - Bratman, Scott V.
+AU  - De Carvalho, Daniel D.
+TI  - Preparation of cfMeDIP-seq libraries for methylome profiling of plasma cell-free DNA
+JO  - Nature Protocols
+PY  - 2019
+VL  - 14
+IS  - 10
+SP  - 2749
+EP  - 2780
+DO  - 10.1038/s41596-019-0202-2
+ER  - 
+
+TY  - JOUR
+AU  - Wilson, Scott L.
+AU  - Shen, Shu Yi
+AU  - Harmon, Lisa
+AU  - Burgener, Jared M.
+AU  - Triche, Timothy
+AU  - Bratman, Scott V.
+AU  - De Carvalho, Daniel D.
+TI  - Sensitive and reproducible cell-free methylome quantification with synthetic spike-in controls
+JO  - Cell Reports Methods
+PY  - 2022
+VL  - 2
+IS  - 9
+SP  - 100294
+DO  - 10.1016/j.crmeth.2022.100294
+ER  - 
+
+TY  - JOUR
+AU  - Burgener, Jared M.
+AU  - Zou, Jason
+AU  - Zhao, Zhibin
+AU  - Zheng, Yadon
+AU  - Shen, Shu Yi
+AU  - Huang, Shao H.
+AU  - Keshavarzi, Shirin
+AU  - Su, Scott
+AU  - Weinreb, Ilan
+AU  - Gao, Andrew
+AU  - Xu, Wei
+AU  - Spreafico, Anna
+AU  - Hansen, Aaron R.
+AU  - Hope, Andrew
+AU  - Waldron, John
+AU  - Goldstein, David P.
+AU  - Irish, Jonathan
+AU  - Gilbert, Ralph
+AU  - Gullane, Patrick
+AU  - Brown, Meredith C.
+AU  - Bratman, Scott V.
+AU  - De Carvalho, Daniel D.
+TI  - Tumor-naïve multimodal profiling of circulating tumor DNA in head and neck squamous cell carcinoma
+JO  - Clinical Cancer Research
+PY  - 2021
+VL  - 27
+IS  - 15
+SP  - 4230
+EP  - 4244
+DO  - 10.1158/1078-0432.CCR-21-0110
+ER  - 
+
+TY  - JOUR
+AU  - Zeng, Yuting
+AU  - Ye, Wensheng
+AU  - Stutheit-Zhao, Emma Y.
+AU  - De Carvalho, Daniel D.
+AU  - Pugh, Trevor J.
+TI  - MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis
+JO  - Bioinformatics
+PY  - 2023
+VL  - 39
+IS  - 7
+SP  - btad423
+DO  - 10.1093/bioinformatics/btad423
+ER  - 
+
+TY  - JOUR
+AU  - Halla-aho, Viivi
+AU  - Lähdesmäki, Harri
+TI  - Probabilistic modeling methods for cell-free DNA methylation based cancer classification
+JO  - BMC Bioinformatics
+PY  - 2022
+VL  - 23
+SP  - 138
+DO  - 10.1186/s12859-022-04651-9
+ER  - 
+
+TY  - CONF
+AU  - Nuzzo, Pier Vitale
+AU  - Spisak, Sylvan
+AU  - Chakravarthy, Ankur
+AU  - Shen, Shu Yi
+AU  - Mansfield, Aaron
+AU  - Pomerantz, Mark
+AU  - Huang, Franklin W.
+AU  - Loda, Massimo
+AU  - De Carvalho, Daniel D.
+AU  - Freedman, Matthew L.
+TI  - Cell-free methylated DNA (cfMeDNA) immunoprecipitation and high throughput sequencing technology (cfMeDIP-seq) in patients with clear cell renal cell carcinoma (ccRCC)
+JO  - Journal of Clinical Oncology
+PY  - 2019
+VL  - 37
+IS  - 15_suppl
+SP  - 3052
+ER  - 
+
+TY  - JOUR
+AU  - Nuzzo, Pier Vitale
+AU  - Berchuck, Jacob E.
+AU  - Korthauer, Keegan
+AU  - Spisak, Sylvan
+AU  - Nassar, Amin H.
+AU  - Abou Alaiwi, Sarah
+AU  - Chakravarthy, Ankur
+AU  - Shen, Shu Yi
+AU  - Bakouny, Ziad
+AU  - Boccardo, Francisco
+AU  - Steinharter, John
+AU  - Bouchard, Gabrielle
+AU  - Curran, Christopher R.
+AU  - Pan, Winnie
+AU  - Baca, Sylvan C.
+AU  - Seo, Ji-Heui
+AU  - Gwo-Shu Lee, Mary-Ellen
+AU  - Nanus, David M.
+AU  - Davicioni, Elai
+AU  - Alessi, John V.
+AU  - Comstock, Christopher E. S.
+AU  - Hwang, Christine
+AU  - Pomerantz, Mark
+AU  - Signoretti, Sabina
+AU  - Lis, Rosina
+AU  - Tewari, Ashutosh K.
+AU  - Grubb, Robert L.
+AU  - Choueiri, Toni K.
+AU  - Loda, Massimo
+AU  - De Carvalho, Daniel D.
+AU  - Freedman, Matthew L.
+TI  - Detection of renal cell carcinoma using plasma and urine cell-free DNA methylomes
+JO  - Nature Medicine
+PY  - 2020
+VL  - 26
+IS  - 7
+SP  - 1041
+EP  - 1043
+DO  - 10.1038/s41591-020-0933-1
+ER  - 
+
+TY  - JOUR
+AU  - De Pascali, Simona Anna
+AU  - Prete, Marialaura
+AU  - Brunetti, Onofrio
+AU  - Argentiero, Antonella
+AU  - Delvino, Angela
+AU  - Santini, Lorenzo
+AU  - Traversa, Mariarita
+AU  - Curci, Rossana
+AU  - Catino, Annamaria
+AU  - Silvestris, Nicola
+AU  - Lolli, Ivan
+AU  - Russo, Antonio
+AU  - Azzariti, Amalia
+TI  - Differential methylation of circulating free DNA assessed through cfMeDiP as a new tool for breast cancer diagnosis and detection of BRCA1/2 mutation
+JO  - Journal of Translational Medicine
+PY  - 2024
+VL  - 22
+SP  - 934
+DO  - 10.1186/s12967-024-05734-2
+ER  - 
+
+TY  - JOUR
+AU  - Nassiri, Farshad
+AU  - Chakravarthy, Ankur
+AU  - Feng, Shidong
+AU  - Shen, Shu Yi
+AU  - Nejad, Rached
+AU  - Zuccato, Jeffrey A.
+AU  - Voisin, Mathieu R.
+AU  - Patil, Vikas
+AU  - Horbinski, Craig
+AU  - Aldape, Kenneth
+AU  - Xu, Wei
+AU  - Mason, Warren
+AU  - Kislinger, Thomas
+AU  - De Carvalho, Daniel D.
+AU  - Bratman, Scott V.
+TI  - Detection and discrimination of intracranial tumors using plasma cell-free DNA methylomes
+JO  - Nature Medicine
+PY  - 2020
+VL  - 26
+IS  - 7
+SP  - 1044
+EP  - 1047
+DO  - 10.1038/s41591-020-0932-2
+ER  - 

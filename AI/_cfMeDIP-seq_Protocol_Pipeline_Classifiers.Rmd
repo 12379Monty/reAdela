@@ -18,7 +18,7 @@ output:
     # this has no effect
     number_sections: yes
     # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
-bibliography: [../../_bibFiles/_healthy_aging.bib, ../../_bibFiles/_ref_free_genom_inf.bib, ../../../_bibFiles/_Breiman.bib, ../../../_bibFiles/_Yu.bib, ../../../_bibFiles/_Freedman.bib, ../../../_bibFiles/_RUV.bib, ../../../_bibFiles/_Yu.bib]
+bibliography: [_cfMeDIP-seq_references.bib]
 csl: ../../_csl/cell-numeric.csl
 link-citations: true
 ---
@@ -200,31 +200,42 @@ param_class=sapply(params, class), row.names=NULL) %>%
 
 This document provides comprehensive technical details on the cell-free methylated DNA immunoprecipitation and high-throughput sequencing (cfMeDIP-seq) methodology, including:
 
-1. The initial protocol as described in Shen et al., Nature Protocols 2019
+1. The initial protocol as described in Shen et al., Nature Protocols 2019 [@Shen2019]
 2. Sources of technical variability in the protocol
 3. The MEDIPIPE computational analysis pipeline
-4. Machine learning classifiers developed for cancer detection
+4. Machine l/earning classifiers developed for cancer detection
 5. Protocol and classifier improvements over time
 
 ---
 
-#  Initial cfMeDIP-seq Protocol (Nature Protocols 2019)
+#  Initial cfMeDIP-seq Protocol (Nature Protocols 2019) [@Shen2019]
 
 ## Overview
 
-The cfMeDIP-seq protocol was published by Shen, Burgener, Bratman, and De Carvalho in Nature Protocols (2019) as an adaptation of conventional MeDIP-seq for low-input cell-free DNA samples. The protocol enables methylome profiling from 1-10 ng of input DNA through the addition of "filler DNA" before immunoprecipitation.
+The cfMeDIP-seq protocol was published by Shen, Burgener, Bratman, and De Carvalho in Nature Protocols (2019)
+[@Shen2019]  as an adaptation of conventional MeDIP-seq for low-input cell-free DNA samples. The protocol enables methylome profiling from 1-10 ng of input DNA through the addition of "filler DNA" before immunoprecipitation.
 
 **Timeline**: The protocol can be completed in approximately 3-4 days by a standard molecular biology laboratory.
 
 **Key Innovation**: Addition of filler DNA (unmethylated lambda phage DNA or methylated genomic DNA) acts as a carrier to improve the efficiency and specificity of antibody-mediated capture of methylated cfDNA fragments.
 
-## Protocol Steps {#prot-steps}
+<br/>
 
-The cfMeDIP-seq protocol consists of four major stages.  See Section \@ref(prot-flowchart)
-for a visual representation.
+## Sample Prep and Sequencing Protocol {#prot-steps .tabset}
 
-### **STAGE 1: Library Preparation from cfDNA (Day 1)**
+The cfMeDIP-seq protocol consists of four major stages:
 
+* **STAGE 1: Library Preparation from cfDNA (Day 1)** - steps 1-3
+* **STAGE 2: Methylated DNA Immunoprecipitation (Day 2)** - steps 4-10
+* **STAGE 3: Library Amplification (Day 3)** - steps 11-14
+* **STAGE 4: High-Throughput Sequencing (Day 4 and beyond)** - step 15
+
+### Home {-}
+
+<br/>
+
+### STAGE 1 {-}
+ 
 **Step 1: cfDNA End-Repair and A-Tailing**
 
 - Input: 1-10 ng of plasma cfDNA
@@ -256,7 +267,7 @@ for a visual representation.
   - Washing steps may cause sample loss
   - Ethanol quality and evaporation timing
 
-### **STAGE 2: Methylated DNA Immunoprecipitation (Day 2)**
+### STAGE 2 {-}
 
 **Step 4: Addition of Filler DNA and Spike-In Controls**
 
@@ -265,7 +276,7 @@ for a visual representation.
   - Lambda phage DNA (unmethylated)
   - Human genomic DNA (methylated)
 - Add Arabidopsis thaliana spike-in controls (methylated and unmethylated)
-- Or add synthetic spike-in controls (Wilson et al., 2022)
+- Or add synthetic spike-in controls (Wilson et al., 2022) [@Wilson2022]
 - Time: ~30 minutes
 - **Variability Sources** (<span style="color:red">HIGH IMPACT</span>):
   - **Type of filler DNA** (methylated vs unmethylated) significantly affects results
@@ -337,7 +348,9 @@ for a visual representation.
   - Recovery efficiency
   - Contamination with residual proteins
 
-### **STAGE 3: Library Amplification (Day 3)**
+<br/>
+
+### STAGE 3 {-}
 
 **Step 11: qPCR Quality Control**
 
@@ -384,7 +397,9 @@ for a visual representation.
   - Quantification method accuracy
   - Fragment size distribution affects sequencing
 
-### **STAGE 4: High-Throughput Sequencing (Day 4 and beyond)**
+<br/>
+
+### STAGE 4 {-}
 
 **Step 15: Sequencing**
 
@@ -398,9 +413,11 @@ for a visual representation.
   - Base-calling errors
   - Cluster density on flow cell
 
-## Quality Control Metrics
+<br/>
 
-The protocol includes several QC checkpoints:
+### QC Metrics {-}
+
+The protocol includes several post-sequencing QC checkpoints:
 
 1. **Fold-Enrichment Ratio**: Ratio of methylated (HIST1H2BA) to unmethylated (GAPDH) regions
    - Threshold: >25-fold enrichment
@@ -421,11 +438,26 @@ The protocol includes several QC checkpoints:
    - Peak at ~166 bp (mononucleosomal)
    - Range: 100-700 bp
 
-## Key Sources of Variability
+<span style="color:blue">
+
+*  Check these for correlation/association among themselves
+and impact on downstream analyses.
+
+</span>
+
+<br/>
+
+### Sources of Variability {- .tabset}
 
 Based on the protocol and subsequent validation studies, the major sources of variability are:
 
-### **Consistent (Systematic) Variability Sources:**
+#### Home {-}
+
+<br/>
+
+#### **Consistent/Systematic**  {-}
+
+**Consistent (Systematic) Variability Sources:**
 
 1. **Type of Filler DNA** (<span style="color:red">HIGH IMPACT</span>)
    - Methylated vs unmethylated filler creates systematic differences
@@ -452,7 +484,9 @@ Based on the protocol and subsequent validation studies, the major sources of va
    - Longer fragments, higher GC, and higher CpG density are preferentially captured
    - Can be modeled and corrected with appropriate normalization
 
-### **Sporadic (Random) Variability Sources:**
+#### **Sporadic/Random**  {-}
+
+**Sporadic (Random) Variability Sources:**
 
 1. **DNA Input Quality and Quantity** (<span style="color:red">HIGH IMPACT</span>)
    - Degraded DNA reduces library quality
@@ -479,9 +513,20 @@ Based on the protocol and subsequent validation studies, the major sources of va
    - Cluster density effects
    - Lane effects on Illumina platforms
 
-## Improvements to Mitigate Variability
 
-**Synthetic Spike-In Controls (Wilson et al., 2022)**
+<br/>
+
+## Improvements to Mitigate Variability {.tabset}
+
+### Home {-}
+
+<br/>
+
+### Spike-In Controls {-}
+
+**Synthetic Spike-In Controls (Wilson et al., 2022 [@Wilson2022])**
+
+(<span style="color:blue">TO VERIFY</span>)
 
 A major improvement to the protocol was the development of synthetic spike-in controls with defined characteristics:
 
@@ -490,6 +535,7 @@ A major improvement to the protocol was the development of synthetic spike-in co
   - Fragment length (80, 160, 320 bp)
   - GC content (35%, 50%, 65%)
   - CpG fraction (1/80 bp, 1/40 bp, 1/20 bp)
+
 - Addition of 0.01 ng spike-in controls enables:
   - Absolute quantification of methylated cfDNA
   - Batch effect correction
@@ -503,7 +549,11 @@ A major improvement to the protocol was the development of synthetic spike-in co
 - Provides absolute quantification standard
 - Enables robust inter-batch comparisons
 
-**Unique Molecular Identifiers (UMIs) (Burgener et al., 2021)**
+<br/>
+
+### UMIs  {-}
+
+**Unique Molecular Identifiers (UMIs) (Burgener et al., 2021)** [@Burgener2021]
 
 
 Addition of UMIs to sequencing adapters enables:
@@ -518,7 +568,8 @@ Addition of UMIs to sequencing adapters enables:
 
 ## Overview
 
-MEDIPIPE is an automated, end-to-end pipeline for cfMeDIP-seq data quality control, methylation quantification, and sample aggregation, published by Zeng et al. in Bioinformatics (2023). The pipeline was developed using Snakemake for reproducibility and scalability.
+MEDIPIPE is an automated, end-to-end pipeline for cfMeDIP-seq data quality control, methylation quantification, and sample aggregation, published by Zeng et al. in Bioinformatics (2023) [@Zeng2023].
+The pipeline was developed using Snakemake for reproducibility and scalability.
 
 **Key Features:**
 
@@ -528,25 +579,25 @@ MEDIPIPE is an automated, end-to-end pipeline for cfMeDIP-seq data quality contr
 - Parallel processing for large-scale datasets
 - Comprehensive quality control reporting
 
-## Pipeline Architecture
+<br/>
+
+## Pipeline Architecture {.tabset}
 
 MEDIPIPE consists of four major modules:
 
-```
-Input: FASTQ files + Configuration file
-↓
-Module 1: Read Trimming and QC
-↓
-Module 2: Processed Read Alignment and QC
-↓
-Module 3: DNA Methylation Quantification
-↓
-Module 4: Data Aggregation and Filtering
-↓
-Output: QC reports, BAM files, Methylation matrices
-```
+* Input: FASTQ files + Configuration file
 
-## Module 1: Read Trimming and Quality Control
+* Module 1: Read Trimming and QC
+* Module 2: Processed Read Alignment and QC
+* Module 3: DNA Methylation Quantification
+* Module 4: Data Aggregation and Filtering
+
+* Output: QC reports, BAM files, Methylation matrices
+
+
+<br/>
+
+### Module 1 {-}
 
 **Tools Used:**
 
@@ -574,7 +625,9 @@ Output: QC reports, BAM files, Methylation matrices
 - Adapter content
 - Sequence duplication levels
 
-## Module 2: Processed Read Alignment and QC
+<br/>
+
+### Module 2 {-}
 
 **Tools Used:**
 
@@ -617,11 +670,20 @@ Output: QC reports, BAM files, Methylation matrices
 - CpG enrichment scores
 - Spike-in control recovery
 
-## Module 3: DNA Methylation Quantification
+<br/>
+
+### Module 3 {- .tabset}
 
 MEDIPIPE implements three methods for methylation estimation, each using different models to correct for CpG density bias:
 
-### **Method 1: MEDIPS (v1.46.0) - Linear Regression Model**
+* **Method 1: MEDIPS (v1.46.0) - Linear Regression Model**
+* **Method 2: QSEA (v1.20.0) - Sigmoidal Model with Empirical Knowledge**
+* **Method 3: MEDStrand (v0.0.0.9000) - Stranded Sigmoid Model**
+
+
+<br/>
+
+#### Method 1 {-}
 
 **Approach:**
 
@@ -648,7 +710,9 @@ MEDIPIPE implements three methods for methylation estimation, each using differe
 - When spike-in controls are available
 - Comparative studies
 
-### **Method 2: QSEA (v1.20.0) - Sigmoidal Model with Empirical Knowledge**
+<br/>
+
+#### Method 2 {-}
 
 **Approach:**
 
@@ -676,7 +740,9 @@ MEDIPIPE implements three methods for methylation estimation, each using differe
 - Analysis of CpG-poor regions
 - Cross-study comparisons
 
-### **Method 3: MEDStrand (v0.0.0.9000) - Stranded Sigmoid Model**
+<br/>
+
+#### Method 3
 
 **Approach:**
 
@@ -701,7 +767,9 @@ MEDIPIPE implements three methods for methylation estimation, each using differe
 - Studies investigating strand-specific methylation
 - Clinical diagnostic applications
 
-## Module 4: Data Aggregation and Filtering
+<br/>
+
+### Module 4 {-}
 
 **Aggregation Functions:**
 
@@ -739,7 +807,11 @@ MEDIPIPE implements three methods for methylation estimation, each using differe
 - Aggregated methylation matrices (original and filtered)
 - Tabix-indexed files for rapid access
 
-## Output File Structure
+<br/>
+
+### Output {-}
+
+* Output File Structure
 
 ```
 output/
@@ -766,7 +838,9 @@ output/
     └── methylation_MEDStrand_filtered.txt.gz
 ```
 
-## Key Quality Control Metrics Tracked
+### Key QC Metrics  {-}
+
+* Key Quality Control Metrics Tracked
 
 MEDIPIPE tracks comprehensive QC metrics throughout the pipeline:
 
@@ -799,7 +873,9 @@ MEDIPIPE tracks comprehensive QC metrics throughout the pipeline:
 - Short-to-long fragment ratios
 - Fragmentation patterns
 
-## Configuration and Flexibility
+### Config and Flex {-}
+
+* Configuration and Flexibility
 
 MEDIPIPE uses a single YAML configuration file that specifies:
 
@@ -830,7 +906,9 @@ MEDIPIPE uses a single YAML configuration file that specifies:
 - Memory allocation
 - Cluster submission parameters
 
-##  Advantages of MEDIPIPE
+###  Advantages of MEDIPIPE {-}
+
+*  Advantages of MEDIPIPE
 
 1. **Reproducibility**: Containerized execution with automated dependency management
 2. **Scalability**: Parallel processing of independent samples
@@ -850,9 +928,11 @@ Multiple machine learning approaches have been developed for cancer classificati
 
 ---
 
-## Shen et al. 2018 (Nature) - Foundational Classifier
+## Shen et al. 2018 (Nature) [@Shen2018] - Foundational Classifier
 
 **Study**: "Sensitive tumour detection and classification using plasma cell-free DNA methylomes"
+
+<br/>
 
 ### **Data Processing**
 
@@ -872,6 +952,8 @@ Multiple machine learning approaches have been developed for cancer classificati
 - Selected top 1,000 most variable windows
 - Variability measured by median absolute deviation (MAD)
 - Features: Read counts in selected 300 bp windows
+
+<br/>
 
 ### **Classifier**
 
@@ -904,6 +986,8 @@ Multiple machine learning approaches have been developed for cancer classificati
 - Validation cohort AUROC: 0.94
 - Sensitivity at 98% specificity: 69%
 
+<br/>
+
 ### **Random Forest Classifier**
 
 **Algorithm**: Ensemble of Decision Trees
@@ -934,6 +1018,8 @@ Multiple machine learning approaches have been developed for cancer classificati
 - More robust to outliers
 - Better captures non-linear relationships
 
+<br/>
+
 ### **Multi-Cancer Classification**
 
 **Approach:**
@@ -961,11 +1047,13 @@ Multiple machine learning approaches have been developed for cancer classificati
 
 ---
 
-## Halla-aho & Lähdesmäki 2022 (BMC Bioinformatics) - Comprehensive Method Comparison
+## Halla-aho & Lähdesmäki 2022 (BMC Bioinformatics) [@Hallaaho2022] - Comprehensive Method Comparison
 
 **Study**: "Probabilistic modeling methods for cell-free DNA methylation based cancer classification"
 
 This study systematically compared various statistical methods for cfMeDIP-seq classification.
+
+<br/>
 
 ### **Feature Selection Methods Evaluated**
 
@@ -996,6 +1084,8 @@ This study systematically compared various statistical methods for cfMeDIP-seq c
 - Top N regions by test statistic
 - Typical N: 300-1,000
 - Selected separately for each cancer type
+
+<br/>
 
 ### **Feature Generation Methods Evaluated**
 
@@ -1033,11 +1123,13 @@ This study systematically compared various statistical methods for cfMeDIP-seq c
 3. Converge when feature set stabilizes
 ```
 
+<br/>
+
 ### **Classification Methods Evaluated**
 
 **1. GLMnet (Elastic Net)**
 
-- Same as Shen et al. 2018
+- Same as Shen et al. 2018 [@Shen2018]
 - Best with raw features
 - Automatic feature selection
 
@@ -1075,6 +1167,9 @@ b) **Regularized Horseshoe Prior:**
 - Surprisingly effective
 - **Finding: Simple and robust**
 
+
+<br/>
+
 ### **Key Findings from Systematic Comparison**
 
 **Best Overall Methods:**
@@ -1106,12 +1201,14 @@ b) **Regularized Horseshoe Prior:**
 
 ---
 
-## Nuzzo et al. 2019/2020 - Renal Cell Carcinoma Classifier
+## Nuzzo et al. 2019/2020 [@Nuzzo2019; @Nuzzo2020]  - Renal Cell Carcinoma Classifier
 
 **Studies**: 
 
 - ASCO 2019 Abstract: "Cell-free methylated DNA immunoprecipitation and high throughput sequencing technology in patients with clear cell renal cell carcinoma"
 - Nature Medicine 2020: "Detection of renal cell carcinoma using plasma and urine cell-free DNA methylomes"
+
+<br/>
 
 ### **Model Architecture**
 
@@ -1130,6 +1227,8 @@ b) **Regularized Horseshoe Prior:**
 
 - GLMnet (elastic net regularized logistic regression)
 - Same architecture as Shen et al. 2018
+
+<br/>
 
 ### **Performance**
 
@@ -1159,9 +1258,11 @@ b) **Regularized Horseshoe Prior:**
 
 ---
 
-## De Pascali et al. 2024 - BRCA1/2 Breast Cancer Classifier
+## De Pascali et al. 2024 [@DePascali2024]- BRCA1/2 Breast Cancer Classifier
 
 **Study**: "Differential methylation of circulating free DNA assessed through cfMeDiP as a new tool for breast cancer diagnosis and detection of BRCA1/2 mutation" (Journal of Translational Medicine)
+
+<br/>
 
 ### **Study Design**
 
@@ -1183,6 +1284,8 @@ b) **Regularized Horseshoe Prior:**
 - 212 hypomethylated regions identified
 - Biological focus: DNA repair and cell cycle genes
 
+<br/>
+
 ### **Classifiers Implemented**
 
 **Classifier 1: GLMnet**
@@ -1201,6 +1304,8 @@ b) **Regularized Horseshoe Prior:**
 
 - DMRs compared to TCGA tumor methylation data
 - Validation of tumor-specific signatures
+
+<br/>
 
 ### **Performance**
 
@@ -1228,28 +1333,30 @@ b) **Regularized Horseshoe Prior:**
 
 ## Timeline of Major Improvements
 
-**2018 - Shen et al. (Nature)**
+**2018 - Shen et al. (Nature)** [@Shen2018]
 
 - Original cfMeDIP-seq protocol
 - Arabidopsis thaliana spike-ins for QC
 - GLMnet and Random Forest classifiers
 - Demonstrated feasibility in multiple cancer types
 
-**2019 - Shen et al. (Nature Protocols)**
+**2019 - Shen et al. (Nature Protocols)** [@Shen2019]
 
 - Detailed protocol publication
 - Standardized 3-4 day workflow
 - Quality control metrics defined
 - Made method accessible to community
 
-**2021 - Burgener et al.**
+
+**2021 - Burgener et al.** [@Burgener2021]
 
 - Addition of Unique Molecular Identifiers (UMIs)
 - Improved duplicate removal
 - Sequence error correction
 - Critical for MRD applications
 
-**2022 - Wilson et al. (Cell Reports Methods)**
+**2022 - Wilson et al. (Cell Reports Methods)** [@Wilson2022]
+
 
 - Synthetic spike-in controls
 - 54 fragments with defined characteristics
@@ -1257,56 +1364,35 @@ b) **Regularized Horseshoe Prior:**
 - Batch effect correction
 - Major improvement for clinical applications
 
-**2022 - Halla-aho & Lähdesmäki (BMC Bioinformatics)**
+**2022 - Halla-aho & Lähdesmäki (BMC Bioinformatics)** [@Hallaaho2022]
 
 - Systematic comparison of classifiers
 - Identified optimal methods
 - Simple logistic regression found highly effective
 - Guidelines for method selection
 
-**2023 - Zeng et al. (Bioinformatics)**
+**2023 - Zeng et al. (Bioinformatics)**  [@Zeng2023]
 
 - MEDIPIPE automated pipeline
 - Standardized processing
 - Multiple quantification algorithms
 - Large-scale analysis capability
 
-**2024 - De Pascali et al. (J Translational Med)**
+**2024 - De Pascali et al. (J Translational Med)** [@DePascali2024]
 
 - Application to BRCA1/2 breast cancer
 - Demonstrated subtype specificity
 - Integration with genomic mutation data
 
+<br/>
+
 ## Key Protocol Improvements
 
-### **Improvement 1: Synthetic Spike-In Controls**
+<br/>
 
-**Problem Addressed:**
+(<span style="color:blue">TO VERIFY</span>)
 
-- Batch effects between laboratories
-- Variation in filler DNA type
-- Inability to absolutely quantify methylation
-- Fragment length, GC, and CpG biases
-
-**Solution (Wilson et al., 2022):**
-
-- 54 synthetic DNA fragments
-- Systematic variation in:
-  - Methylation status
-  - Fragment length (80, 160, 320 bp)
-  - GC content (35%, 50%, 65%)
-  - CpG fraction (1/80, 1/40, 1/20 bp)
-- 0.01 ng added per reaction
-
-**Benefits:**
-
-- Absolute quantification via linear model
-- Batch effect correction
-- Per-sample quality control
-- Correction for biophysical biases
-- Successfully mitigated inter-lab variation
-
-### **Improvement 2: Unique Molecular Identifiers (UMIs)**
+### **Improvement 1: Unique Molecular Identifiers (UMIs)**
 
 **Problem Addressed:**
 
@@ -1326,6 +1412,40 @@ b) **Regularized Horseshoe Prior:**
 - Sequence error correction (consensus calling)
 - Improved quantification, especially for MRD
 - Essential for detecting low-level disease
+
+<br/>
+
+(<span style="color:blue">TO VERIFY - Improvement 2 is
+applied after  Improvement 1</span>)
+
+### **Improvement 2: Synthetic Spike-In Controls**
+
+**Problem Addressed:**
+
+- Batch effects between laboratories
+- Variation in filler DNA type
+- Inability to absolutely quantify methylation
+- Fragment length, GC, and CpG biases
+
+**Solution (Wilson et al., 2022):** [@Wilson2022]
+
+- 54 synthetic DNA fragments
+- Systematic variation in:
+  - Methylation status
+  - Fragment length (80, 160, 320 bp)
+  - GC content (35%, 50%, 65%)
+  - CpG fraction (1/80, 1/40, 1/20 bp)
+- 0.01 ng added per reaction
+
+**Benefits:**
+
+- Absolute quantification via linear model
+- Batch effect correction
+- Per-sample quality control
+- Correction for biophysical biases
+- Successfully mitigated inter-lab variation
+
+<br/>
 
 ### **Improvement 3: Automated Pipeline (MEDIPIPE)**
 
@@ -1351,6 +1471,8 @@ b) **Regularized Horseshoe Prior:**
 - Reduced analysis time
 - Facilitates cross-study comparisons
 
+<br/>
+
 ## Classifier Evolution
 
 ### **From Single-Method to Systematic Comparison**
@@ -1372,8 +1494,11 @@ b) **Regularized Horseshoe Prior:**
 **Key Finding:**
 
 - Simpler can be better
+<span style="color:blue">
 - 2-feature logistic regression nearly as good as complex methods
 - Fisher's exact test most robust feature selection
+
+<br/>
 
 ### **From Binary to Multi-Class Classification**
 
@@ -1385,6 +1510,8 @@ b) **Regularized Horseshoe Prior:**
    - First: Cancer vs. No Cancer
    - Then: Cancer type classification
 4. Multi-class probabilistic output
+
+<br/>
 
 ### **From Research to Clinical Application**
 
@@ -1403,6 +1530,8 @@ b) **Regularized Horseshoe Prior:**
 - Batch effect robustness
 - Quality control per sample
 - Absolute quantification
+
+<br/>
 
 ## Remaining Challenges and Future Directions
 
@@ -1490,6 +1619,8 @@ b) **Regularized Horseshoe Prior:**
   - Misses enhancers and CpG-poor regions
   - cfMeDIP-seq provides broader coverage
 
+<br/>
+
 ## cfMeDIP-seq vs Targeted Methylation Methods
 
 **Targeted Methylation (e.g., GRAIL Galleri):**
@@ -1540,6 +1671,8 @@ b) **Regularized Horseshoe Prior:**
    - Specificity >95%
    - CpG enrichment >1.5
 
+<br/>
+
 ## Computational Analysis Recommendations
 
 **For Reproducibility and Quality:**
@@ -1563,6 +1696,8 @@ b) **Regularized Horseshoe Prior:**
    - Avoid overfitting
    - Test across sequencing depths
    - Assess performance at different tumor fractions
+
+<br/>
 
 ## Future Research Priorities
 
@@ -1663,6 +1798,8 @@ Sequencing:
   ⚠️ Different sequencing runs = major batch boundary
 ```
 
+<br/>
+
 ## Typical Batch Structure
 
 **Small Study (24-48 samples):**
@@ -1705,6 +1842,8 @@ Pooling (multiple pools, 24-48 samples each)
 Sequencing (multiple flow cells, different runs)
 ```
 
+<br/>
+
 ## Randomization Recommendations
 
 To minimize confounding of biological variables with batch effects:
@@ -1717,6 +1856,8 @@ edge effects are typically sporadic and not amenable to such simple correction.]
 5. **Track Everything**: Record plate position, batch date, operator, equipment IDs
 6. **Include Technical Replicates**: Same sample across batches to assess batch effects
 7. **Use Spike-in Controls**: Enable computational batch correction
+
+<br/>
 
 ## Critical Batch Boundaries
 
@@ -1732,35 +1873,7 @@ edge effects are typically sporadic and not amenable to such simple correction.]
 
 ---
 
-#  References
-
-1. Shen SY, Singhania R, Fehringer G, et al. Sensitive tumour detection and classification using plasma cell-free DNA methylomes. Nature. 2018;563(7732):579-583. doi:10.1038/s41586-018-0703-0
-
-2. Shen SY, Burgener JM, Bratman SV, De Carvalho DD. Preparation of cfMeDIP-seq libraries for methylome profiling of plasma cell-free DNA. Nat Protoc. 2019;14(10):2749-2780. doi:10.1038/s41596-019-0202-2
-
-3. Wilson SL, Shen SY, Harmon L, et al. Sensitive and reproducible cell-free methylome quantification with synthetic spike-in controls. Cell Rep Methods. 2022;2(9):100294. doi:10.1016/j.crmeth.2022.100294
-
-4. Burgener JM, Zou J, Zhao Z, et al. Tumor-naïve multimodal profiling of circulating tumor DNA in head and neck squamous cell carcinoma. Clin Cancer Res. 2021;27(15):4230-4244.
-
-5. Zeng Y, Ye W, Stutheit-Zhao EY, et al. MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis. Bioinformatics. 2023;39(7):btad423. doi:10.1093/bioinformatics/btad423
-
-6. Halla-aho V, Lähdesmäki H. Probabilistic modeling methods for cell-free DNA methylation based cancer classification. BMC Bioinformatics. 2022;23:138. doi:10.1186/s12859-022-04651-9
-
-7. Nuzzo P, Spisak S, Chakravarthy A, et al. Cell-free methylated DNA (cfMeDNA) immunoprecipitation and high throughput sequencing technology (cfMeDIP-seq) in patients with clear cell renal cell carcinoma (ccRCC). J Clin Oncol. 2019;37(15_suppl):3052.
-
-8. Nuzzo PV, Berchuck JE, Korthauer K, et al. Detection of renal cell carcinoma using plasma and urine cell-free DNA methylomes. Nat Med. 2020;26(7):1041-1043. doi:10.1038/s41591-020-0933-1
-
-9. De Pascali SA, et al. Differential methylation of circulating free DNA assessed through cfMeDiP as a new tool for breast cancer diagnosis and detection of BRCA1/2 mutation. J Transl Med. 2024;22:934. doi:10.1186/s12967-024-05734-2
-
-10. Nassiri F, Chakravarthy A, Feng S, et al. Detection and discrimination of intracranial tumors using plasma cell-free DNA methylomes. Nat Med. 2020;26(7):1044-1047. doi:10.1038/s41591-020-0932-2
-
----
-
-**Document prepared:** November 2025
-
-**Note:** This document is intended for research and educational purposes. The cfMeDIP-seq technology and associated tests are not FDA approved or cleared for clinical use. This document reflects published methodologies and may not represent current commercial implementations.
-
----
+  
 
 # Appendices 
 
@@ -1768,7 +1881,7 @@ edge effects are typically sporadic and not amenable to such simple correction.]
 
 The following topics were identified as potentially valuable additions that were not fully covered in the main document. These represent areas for expanded documentation.
 
-### Nassiri et al. 2020 - Intracranial Tumor Classifier
+### Nassiri et al. 2020 [@Nassiri2020] - Intracranial Tumor Classifier
 
 **Publication**: "Detection and discrimination of intracranial tumors using plasma cell-free DNA methylomes" (Nature Medicine, 2020)
 
@@ -1786,6 +1899,25 @@ The following topics were identified as potentially valuable additions that were
 - Feature selection specific to CNS tumors
 - Validation across multiple cohorts
 - This dataset (163 samples) is used as the demonstration dataset for MEDIPIPE
+
+<br/>
+
+### Burgener et al. 2021 [@Burgener2021] - UMI Implementation for MRD
+
+**Publication**: "Tumor-naïve multimodal profiling of circulating tumor DNA in head and neck squamous cell carcinoma" (Clinical Cancer Research, 2021)
+
+**Key Details to Document**:
+
+- UMI barcode design and structure
+- UMI extraction computational workflow
+- Consensus calling methodology
+- Error suppression rates achieved
+- Comparison with non-UMI approach
+- Minimum tumor fraction detectable with UMIs
+- Integration with mutation calling
+- MRD-specific classifier modifications
+
+<br/>
 
 ### Mathematical Details of Methylation Quantification Algorithms
 
@@ -1809,20 +1941,8 @@ The following topics were identified as potentially valuable additions that were
 - Forward/reverse strand deconvolution
 - Improved CpG-poor region estimation
 
-### Burgener et al. 2021 - UMI Implementation for MRD
 
-**Publication**: "Tumor-naïve multimodal profiling of circulating tumor DNA in head and neck squamous cell carcinoma" (Clinical Cancer Research, 2021)
-
-**Key Details to Document**:
-
-- UMI barcode design and structure
-- UMI extraction computational workflow
-- Consensus calling methodology
-- Error suppression rates achieved
-- Comparison with non-UMI approach
-- Minimum tumor fraction detectable with UMIs
-- Integration with mutation calling
-- MRD-specific classifier modifications
+<br/>
 
 ### Sample Size Requirements for Classifier Development
 
@@ -1845,9 +1965,12 @@ The following topics were identified as potentially valuable additions that were
 - Repeated cross-validation for variance estimation
 
 **Rule of Thumb Estimates**:
+
 - Binary classification: ≥50 samples per class for discovery, ≥30 for validation
 - Multi-class: ≥30 samples per class minimum
 - Feature selection: 10× more samples than selected features recommended
+
+<br/>
 
 ### Pre-Analytical Variables Affecting cfDNA Quality
 
@@ -1883,6 +2006,8 @@ The following topics were identified as potentially valuable additions that were
 - Hemolysis index measurement
 - Impact on methylation profiles (genomic DNA contamination)
 
+<br/>
+
 ### Cost Breakdown and Sequencing Depth Trade-offs
 
 **Per-Sample Cost Components** (approximate, 2024):
@@ -1895,12 +2020,13 @@ The following topics were identified as potentially valuable additions that were
 - Total per sample: ~$110-210
 
 **Sequencing Depth Considerations**:
+
 | Depth (reads) | Cost | Sensitivity | Use Case |
-|---------------|------|-------------|----------|
-| 5M | Low | Moderate | Screening, high tumor fraction |
-| 10M | Medium | Good | Standard detection |
-| 20M | High | Excellent | Early stage, low tumor fraction |
-| 50M+ | Very High | Maximum | MRD, ultra-sensitive |
+|:--------------|:-----|:------------|:---------|
+| 5M            | Low | Moderate | Screening, high tumor fraction |
+| 10M           | Medium | Good | Standard detection |
+| 20M           | High | Excellent | Early stage, low tumor fraction |
+| 50M+          | Very High | Maximum | MRD, ultra-sensitive |
 
 **Cost Optimization Strategies**:
 
@@ -1908,7 +2034,9 @@ The following topics were identified as potentially valuable additions that were
 - Targeted approaches for specific regions (not genome-wide)
 - Two-stage testing (screen with low depth, confirm with high depth)
 
-	### MBD-seq Comparison
+<br/>
+
+### MBD-seq Comparison
 
 **Methyl-Binding Domain Sequencing (MBD-seq)**:
 
@@ -1919,7 +2047,7 @@ The following topics were identified as potentially valuable additions that were
 **Comparison with cfMeDIP-seq**:
 
 | Feature | cfMeDIP-seq | MBD-seq |
-|---------|-------------|---------|
+|:--------|:------------|:--------|
 | Enrichment agent | Anti-5mC antibody | MBD2 protein |
 | CpG density preference | Moderate | Strong (prefers dense) |
 | Low-input capability | Excellent (1-10 ng) | Moderate (10-100 ng) |
@@ -1942,6 +2070,8 @@ The following topics were identified as potentially valuable additions that were
 
 ---
 
+<br/>
+
 ## Supplementary Resources
 
 ### Code Repositories
@@ -1954,6 +2084,8 @@ The following topics were identified as potentially valuable additions that were
 | Shen et al. ML models | http://doi.org/10.5281/zenodo.1242697 | Original classifier code |
 | Protocol tables | https://github.com/bratmanlab/cfMeDIP_Protocol | Processed data tables |
 
+<br/>
+
 ### Public Data Repositories
 
 | Dataset | Repository | Accession | Access |
@@ -1962,6 +2094,8 @@ The following topics were identified as potentially valuable additions that were
 | Brain tumors | Zenodo | (see Nassiri et al.) | Public |
 | Healthy controls | EGA | EGAD50000000652 | Controlled |
 | INSPIRE study | EGA | EGAD00001011312 | Controlled |
+
+<br/>
 
 ### Key Reagents and Suppliers
 
@@ -1972,6 +2106,7 @@ The following topics were identified as potentially valuable additions that were
 | Lambda DNA (filler) | NEB | N3011S | Unmethylated |
 | M.SssI methyltransferase | NEB | M0226S | For methylated filler |
 | Synthetic spike-ins | Custom/Adela | - | Wilson et al. design |
+
 
 <br/>
 
@@ -2119,9 +2254,45 @@ MM <- dev.off()
 
 ---
 
+# References 
+       
+<div id="refs"></div>
+    
+<br/>
 
-*Document version: 1.1*
-*Last updated: November 2025*
+
+<!--
+#  References
+
+1. Shen SY, Singhania R, Fehringer G, et al. Sensitive tumour detection and classification using plasma cell-free DNA methylomes. Nature. 2018;563(7732):579-583. doi:10.1038/s41586-018-0703-0
+
+2. Shen SY, Burgener JM, Bratman SV, De Carvalho DD. Preparation of cfMeDIP-seq libraries for methylome profiling of plasma cell-free DNA. Nat Protoc. 2019;14(10):2749-2780. doi:10.1038/s41596-019-0202-2
+
+3. Wilson SL, Shen SY, Harmon L, et al. Sensitive and reproducible cell-free methylome quantification with synthetic spike-in controls. Cell Rep Methods. 2022;2(9):100294. doi:10.1016/j.crmeth.2022.100294
+
+4. Burgener JM, Zou J, Zhao Z, et al. Tumor-naïve multimodal profiling of circulating tumor DNA in head and neck squamous cell carcinoma. Clin Cancer Res. 2021;27(15):4230-4244.
+
+5. Zeng Y, Ye W, Stutheit-Zhao EY, et al. MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis. Bioinformatics. 2023;39(7):btad423. doi:10.1093/bioinformatics/btad423
+
+6. Halla-aho V, Lähdesmäki H. Probabilistic modeling methods for cell-free DNA methylation based cancer classification. BMC Bioinformatics. 2022;23:138. doi:10.1186/s12859-022-04651-9
+
+7. Nuzzo P, Spisak S, Chakravarthy A, et al. Cell-free methylated DNA (cfMeDNA) immunoprecipitation and high throughput sequencing technology (cfMeDIP-seq) in patients with clear cell renal cell carcinoma (ccRCC). J Clin Oncol. 2019;37(15_suppl):3052.
+
+8. Nuzzo PV, Berchuck JE, Korthauer K, et al. Detection of renal cell carcinoma using plasma and urine cell-free DNA methylomes. Nat Med. 2020;26(7):1041-1043. doi:10.1038/s41591-020-0933-1
+
+9. De Pascali SA, et al. Differential methylation of circulating free DNA assessed through cfMeDiP as a new tool for breast cancer diagnosis and detection of BRCA1/2 mutation. J Transl Med. 2024;22:934. doi:10.1186/s12967-024-05734-2
+
+10. Nassiri F, Chakravarthy A, Feng S, et al. Detection and discrimination of intracranial tumors using plasma cell-free DNA methylomes. Nat Med. 2020;26(7):1044-1047. doi:10.1038/s41591-020-0932-2
+
+-->
+
+---
+
+**Document prepared:** November 2025
+
+**Note:** This document is intended for research and educational purposes. The cfMeDIP-seq technology and associated tests are not FDA approved or cleared for clinical use. This document reflects published methodologies and may not represent current commercial implementations.
+
+---
 
 
         

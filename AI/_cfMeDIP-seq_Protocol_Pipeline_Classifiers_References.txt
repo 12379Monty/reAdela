@@ -1,0 +1,25 @@
+
+#  References
+
+1. Shen SY, Singhania R, Fehringer G, et al. Sensitive tumour detection and classification using plasma cell-free DNA methylomes. Nature. 2018;563(7732):579-583. doi:10.1038/s41586-018-0703-0
+
+2. Shen SY, Burgener JM, Bratman SV, De Carvalho DD. Preparation of cfMeDIP-seq libraries for methylome profiling of plasma cell-free DNA. Nat Protoc. 2019;14(10):2749-2780. doi:10.1038/s41596-019-0202-2
+
+3. Wilson SL, Shen SY, Harmon L, et al. Sensitive and reproducible cell-free methylome quantification with synthetic spike-in controls. Cell Rep Methods. 2022;2(9):100294. doi:10.1016/j.crmeth.2022.100294
+
+4. Burgener JM, Zou J, Zhao Z, et al. Tumor-naïve multimodal profiling of circulating tumor DNA in head and neck squamous cell carcinoma. Clin Cancer Res. 2021;27(15):4230-4244.
+
+5. Zeng Y, Ye W, Stutheit-Zhao EY, et al. MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis. Bioinformatics. 2023;39(7):btad423. doi:10.1093/bioinformatics/btad423
+
+6. Halla-aho V, Lähdesmäki H. Probabilistic modeling methods for cell-free DNA methylation based cancer classification. BMC Bioinformatics. 2022;23:138. doi:10.1186/s12859-022-04651-9
+
+7. Nuzzo P, Spisak S, Chakravarthy A, et al. Cell-free methylated DNA (cfMeDNA) immunoprecipitation and high throughput sequencing technology (cfMeDIP-seq) in patients with clear cell renal cell carcinoma (ccRCC). J Clin Oncol. 2019;37(15_suppl):3052.
+
+8. Nuzzo PV, Berchuck JE, Korthauer K, et al. Detection of renal cell carcinoma using plasma and urine cell-free DNA methylomes. Nat Med. 2020;26(7):1041-1043. doi:10.1038/s41591-020-0933-1
+
+9. De Pascali SA, et al. Differential methylation of circulating free DNA assessed through cfMeDiP as a new tool for breast cancer diagnosis and detection of BRCA1/2 mutation. J Transl Med. 2024;22:934. doi:10.1186/s12967-024-05734-2
+
+10. Nassiri F, Chakravarthy A, Feng S, et al. Detection and discrimination of intracranial tumors using plasma cell-free DNA methylomes. Nat Med. 2020;26(7):1044-1047. doi:10.1038/s41591-020-0932-2
+
+---
+

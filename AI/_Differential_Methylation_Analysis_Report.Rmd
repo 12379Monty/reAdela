@@ -573,7 +573,7 @@ Illumina methylation arrays measure methylation at predefined CpG sites. Analysi
 
 ### Bumphunter
 
-**Publication:** Jaffe AE et al. Bump hunting to identify differentially methylated regions in epigenetic epidemiology studies. *International Journal of Epidemiology* 2012;41(1):200-209. [@Jaffe212]
+**Publication:** Jaffe AE et al. Bump hunting to identify differentially methylated regions in epigenetic epidemiology studies. *International Journal of Epidemiology* 2012;41(1):200-209. [@Jaffe2012]
 
 **Key Highlights:**
 
@@ -825,7 +825,7 @@ There is **no single comprehensive benchmark paper** comparing all MeDIP-seq dif
 
 The bisulfite sequencing field has the most mature benchmarking literature with several comprehensive comparison studies.
 
-### Comprehensive Evaluation (2021)
+### Comprehensive Evaluation (Park et al. 2021 [@Park2021])
 
 **Publication:** Park Y et al. Comprehensive Evaluation of Differential Methylation Analysis Methods for Bisulfite Sequencing Data. *International Journal of Environmental Research and Public Health* 2021;18:7975. [@Park2021]
 
@@ -904,10 +904,10 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ---
 
-### Strategies for Bisulfite Analysis (Akalin et al. 2017)
+### Strategies for Bisulfite Analysis (Akalin et al. 2012 [@Akalin2012])
 
 **Publication:** Akalin A et al. Strategies for analyzing bisulfite sequencing data. *bioRxiv* preprint.
-[@Akalin217]
+[@Akalin2012]
 
 **Methods Compared:** limma, DSS, BSmooth, methylKit (with/without overdispersion)
 
@@ -924,7 +924,7 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ## Array-Based Methods (450K/EPIC)
 
-### False Positive Rate Evaluation (2022)
+### False Positive Rate Evaluation (Gatev E et al. 2022 [@Gatev2022])
 
 **Publication:** Gatev E et al. An evaluation of the genome-wide false positive rates of common methods for identifying differentially methylated regions using Illumina methylation arrays. *Epigenetics* 2022. [@Gatev2022]
 
@@ -944,7 +944,7 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ---
 
-### DMRcate Benchmark (Peters et al. 2015)
+### DMRcate Benchmark (Peters et al. 2015 [@Peters2015])
 
 **Publication:** Peters TJ et al. De novo identification of differentially methylated regions in the human genome. *Epigenetics & Chromatin* 2015;8:6. [@Peters2015]
 
@@ -961,7 +961,7 @@ The bisulfite sequencing field has the most mature benchmarking literature with 
 
 ---
 
-### Microarray and NGS Quality Assessment (2023)
+### Microarray and NGS Quality Assessment ( Abramov S et al. 2023 [@Abramov2023])
 
 **Publication:** Abramov S et al. Assessing the Differential Methylation Analysis Quality for Microarray and NGS Platforms. *International Journal of Molecular Sciences* 2023;24:8591. [@Abramov2023]
 
