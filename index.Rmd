@@ -135,7 +135,7 @@ and algorithm along with a description of enhancements that followed.
 ## [Differential Methylation Analysis Methodology](AI/_Differential_Methylation_Analysis_Report.html)
 
 <p/>
-* Survey DMA methods used with each  assay tpe
+* Survey DMA methods used with each  assay type
 * Describe the analyis data in each step
 * Survey of benchmarking studies and tools
 
@@ -144,15 +144,33 @@ and algorithm along with a description of enhancements that followed.
 ## [Enrichment-Based Differential Methylation Analysis](AI/_Enrichment_Methods_PartI_Section1.html)
 
 <p/>
-* Bioinformatics Pipelines and Statistical Methods for DMA in
-enrichment-Based assays.
-   - [Common Bioinformatics Pipeline:FASTQ->BAN](AI/_Enrichment_Methods_PartI_Section1.html#common-bioinformatics-pipeline-fastq-to-bam)
-   - [DMA Methods](AI/_Enrichment_Methods_PartI_Section1.html#dma-methods)
+* For enrichment-Based assays, a look at Bioinformatics Pipelines and 
+Statistical Methods for Differential Methylation Analysis: 
+   - Common Bioinformatics Pipeline:FASTQ->BAN[ ](AI/_Enrichment_Methods_PartI_Section1.html#common-bioinformatics-pipeline-fastq-to-bam)
+   - DMA Methods for Enrichment based assays[ ](AI/_Enrichment_Methods_PartI_Section1.html#dma-methods)
 
 <br/>
  
 
-### elastic net Vs RF 
+### RF vs elastic net: does RF edge enet and why?
+
+<p/>
+* From personal experience enet should do better with RF performance
+dropping substantially in the validation/evaliation set.
+* Also from [Statistical learning with big data. A talk by Trevor Hastie](https://
+outu.be/0EWJZIC4JxA?si=rGc6_66nODHE3fTP&t=485) (University of Bristol):
+   - wide data - many features but few observations - calls for special
+methods to avoid overfitting.  The elastic net is one of those methods.
+   - tall data - many observations but reasonable number of features -
+not at risk of overfitting and can fit richer models with high orders
+of interactions.
+
+*  
+ 
+<br/>
+
+# Variability in  cfMeDIP-seq Data
+
 
 
 
