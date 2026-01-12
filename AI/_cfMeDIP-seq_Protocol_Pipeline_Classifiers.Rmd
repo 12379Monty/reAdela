@@ -863,6 +863,19 @@ A major improvement to the protocol was the development of synthetic spike-in co
 - Provides absolute quantification standard
 - Enables robust inter-batch comparisons
 
+<span style="color:blue">
+**Regarding spike-ins**:
+
+- Differences in methylation patterns in the spiked fragments across sets are used
+as a proxy for systematic differences in  methylation patterns in the non-spiked fragments.
+   - this must be verified.
+   - even when spike-ins provide a good proxy for normalization, estimates nught be noisy
+
+- What does absolute methylation look like - is it a global number or local quants?
+     - Models can be fitted to site-specific methylation to provide estimates of the chance
+of cancer.  What does absolute methylation levels add?
+
+</span>
 <br/>
 
 ---
