@@ -593,7 +593,7 @@ Illumina methylation arrays measure methylation at predefined CpG sites. Analysi
 
 ### comb-p
 
-**Publication:** Pedersen BS et al. Comb-p: software for combining, analyzing, grouping and correcting spatially correlated P-values. *Bioinformatics* 2012;28(22):2986-2988. [@Pedersen]
+**Publication:** Pedersen BS et al. Comb-p: software for combining, analyzing, grouping and correcting spatially correlated P-values. *Bioinformatics* 2012;28(22):2986-2988. [@Pedersen2012]
 
 **Key Highlights:**
 
