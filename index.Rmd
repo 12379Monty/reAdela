@@ -105,7 +105,7 @@ The source of all the information contained therein is public.
 naive prompts from Francois Collin.
 
 * The reporting done is intended to provide the information
-needed to underestand the roots and development of 
+needed to understand the roots and development of 
 Adela's cfMeDIP-seq Technology.
 
 
@@ -135,7 +135,8 @@ and algorithm along with a description of enhancements that followed.
 ## [Differential Methylation Analysis Methodology](AI/_Differential_Methylation_Analysis_Report.html)
 
 <p/>
-* Survey DMA methods used with each  assay type
+* Exhaustive survey of DMA methods used with each  assay type. 
+   - Not specific to Adela
 * Describe the analyis data in each step
 * Survey of benchmarking studies and tools
 
@@ -148,11 +149,16 @@ and algorithm along with a description of enhancements that followed.
 Statistical Methods for Differential Methylation Analysis: 
    - Common Bioinformatics Pipeline:FASTQ->BAN[ ](AI/_Enrichment_Methods_PartI_Section1.html#common-bioinformatics-pipeline-fastq-to-bam)
    - DMA Methods for Enrichment based assays[ ](AI/_Enrichment_Methods_PartI_Section1.html#dma-methods)
+      - many of the methods produce estimates of `absolute beta`, a measure of
+methylation level.  These would then be further analyzed to
+get DMA results.
 
 <br/>
  
 
-### RF vs elastic net: does RF edge enet and why?
+# RF vs elastic net
+
+* RF vs elastic net: does RF edge enet and why?
 
 <p/>
 * From personal experience enet should do better with RF performance
@@ -165,14 +171,45 @@ methods to avoid overfitting.  The elastic net is one of those methods.
 not at risk of overfitting and can fit richer models with high orders
 of interactions.
 
-*  
+<span style="color:green"> 
+*  Rerun the analyses which fit predictive models and
+compare RF and enet resultsA (Halla-aho & Lähdesmäki (BMC Bioinformatics)** [@Hallaaho2022]
+.
+   - RF is expected to lag in performance because the fitting dataset
+is not ruch enough to support the more complex RF models.
+
+* Word on feature selection - it is not needed here.
+   - Predicting cancer is not a feature  selection ploblem;
+it's a predictive analysis problem.
+</span>
  
 <br/>
 
 # Variability in  cfMeDIP-seq Data
 
+<p/>
+* The key components of the assay - filler DNA and antibody instance - 
+are associated with a considerable amount of variability.
+   - [docname](./docname.html) provides a detailed look at
+the Methylated DNA Immunoprecipitation Stage of the protocol.
+   - questions to address:
+      - how does the filler DNA operate?  where does the variability
+come from?
+      - how does anti-5-methylcytosine (5mC) antibody work?
+where does the variablity come from?
+      - can variability be attributed to its proper source -
+anti-5-methylcytosine (5mC) antibody or filler DNA?
 
+<span style="color:green">
+*  Rerun the analyses which fit predictive models and
+compare RF and enet results.
+   - RF is expected to lag in performance because the fitting dataset
+is not ruch enough to support the more complex RF models.
 
+* Word on feature selection - it is not needed here.
+   - Predicting cancer is not a feature  selection ploblem;
+it's a predictive analysis problem.
+</span>
 
 <br/>
 
