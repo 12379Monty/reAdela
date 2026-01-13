@@ -1,4 +1,4 @@
----
+
 title:  "cfMeDIP-seq: Protocol, Computational Pipeline, and Classifier Methodologies"
 #subtitle: "a tale of two schools"
 author: "claude.ai Opus 4.5 with naive prompts from [Francois Collin](https://www.linkedin.com/in/francoisz/)"
@@ -208,7 +208,7 @@ This document provides comprehensive technical details on the cell-free methylat
 
 ---
 
-#  Initial cfMeDIP-seq Protocol (Nature Protocols 2019) [@Shen2019]
+# Protocol: cfMeDIP-seq (Nature Protocols 2019) [@Shen2019]
 
 ## Overview
 
@@ -863,24 +863,26 @@ A major improvement to the protocol was the development of synthetic spike-in co
 - Provides absolute quantification standard
 - Enables robust inter-batch comparisons
 
-<span style="color:blue">
+<div style="color:blue">
+
 **Regarding spike-ins**:
 
 - Differences in methylation patterns in the spiked fragments across sets are used
 as a proxy for systematic differences in  methylation patterns in the non-spiked fragments.
    - this must be verified.
-   - even when spike-ins provide a good proxy for normalization, estimates nught be noisy
+   - even when spike-ins provide a good proxy for normalization, estimates might be noisy
 
 - What does absolute methylation look like - is it a global number or local quants?
      - Models can be fitted to site-specific methylation to provide estimates of the chance
 of cancer.  What does absolute methylation levels add?
 
-</span>
+</div>
+
 <br/>
 
 ---
 
-# MEDIPIPE Computational Analysis Pipeline
+# Computational Pipeline: MEDIPIPE 
 
 ## Overview
 
@@ -1242,7 +1244,7 @@ MEDIPIPE uses a single YAML configuration file that specifies:
 
 <br/>
 
-#  Machine Learning Classifiers for cfMeDIP-seq Data
+# Classifiers Methodologies
 
 ## Overview
 
@@ -2289,11 +2291,13 @@ Sample 4:           █████░░░░░           ██████�
 #### For Data Analysis
 
 **Systematic effects** CAN be corrected:
+
 - Include batch as covariate in statistical models
 - Use spike-in controls for normalization
 - Apply batch correction algorithms (ComBat, limma removeBatchEffect)
 
 **Random effects** CANNOT be corrected:
+
 - They add noise that reduces statistical power
 - Only mitigation is replication (technical or biological)
 - Larger sample sizes needed to overcome noise
@@ -2301,11 +2305,13 @@ Sample 4:           █████░░░░░           ██████�
 #### For Quality Control
 
 **Systematic effects** detected by:
+
 - PCA showing samples clustering by batch
 - Spike-in controls showing batch-correlated shifts
 - QC metrics differing systematically between batches
 
 **Random effects** detected by:
+
 - High variance in technical replicates
 - Individual sample QC failures
 - Outlier samples with no batch explanation
