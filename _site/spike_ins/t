@@ -1,0 +1,26 @@
+---
+title: "Spike-in Normalization"
+subtitle: "From General Principles to cfMeDIP-seq Application"
+author: "claude.ai Sonnet 4.5 with prompts from [Francois Collin](https://www.linkedin.com/in/francoisz/)"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+always_allow_html: yes
+output:
+  # for use of .tabset
+  bookdown::html_document2:
+  #bookdown::html_book:
+  #html_document:
+    #code_folding: show
+    code_download: true
+    toc: true
+    toc_depth: 3
+    # does this have an effect
+    fig_caption: yes
+    # this has no effect
+    number_sections: yes
+    # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
+bibliography: [Ref/_spike_in.bib]
+csl: ../../_csl/cell-numeric.csl
+link-citations: true
+---
+
+

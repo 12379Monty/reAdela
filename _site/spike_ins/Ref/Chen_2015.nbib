@@ -1,0 +1,93 @@
+PMID- 26711261
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20160706
+LR  - 20181113
+IS  - 1098-5549 (Electronic)
+IS  - 0270-7306 (Print)
+IS  - 0270-7306 (Linking)
+VI  - 36
+IP  - 5
+DP  - 2015 Dec 28
+TI  - The Overlooked Fact: Fundamental Need for Spike-In Control for Virtually All 
+      Genome-Wide Analyses.
+PG  - 662-7
+LID - 10.1128/MCB.00970-14 [doi]
+AB  - Genome-wide analyses of changes in gene expression, transcription factor 
+      occupancy on DNA, histone modification patterns on chromatin, genomic copy number 
+      variation, and nucleosome positioning have become popular in many modern 
+      laboratories, yielding a wealth of information during health and disease states. 
+      However, most of these studies have overlooked an inherent normalization problem 
+      that must be corrected with spike-in controls. Here we describe the reason why 
+      spike-in controls are so important and explain how to appropriately design and 
+      use spike-in controls for normalization. We also suggest ways to retrospectively 
+      renormalize data sets that were wrongly interpreted due to omission of spike-in 
+      controls.
+CI  - Copyright © 2016, American Society for Microbiology. All Rights Reserved.
+FAU - Chen, Kaifu
+AU  - Chen K
+AD  - Institute for Academic Medicine, Houston, Texas, USA Center for Cardiovascular 
+      Regeneration, Department of Cardiovascular Sciences, The Methodist Hospital 
+      Research Institute, Houston, Texas, USA Weill Cornell Medicine, New York, New 
+      York, USA.
+FAU - Hu, Zheng
+AU  - Hu Z
+AD  - Department of Epigenetics and Molecular Carcinogenesis, University of Texas M. D. 
+      Anderson Cancer Center, Houston, Texas, USA Weill Cornell Medicine, New York, New 
+      York, USA.
+FAU - Xia, Zheng
+AU  - Xia Z
+AD  - Dan L. Duncan Cancer Center and Department of Molecular and Cellular Biology, 
+      Baylor College of Medicine, Houston, Texas, USA.
+FAU - Zhao, Dongyu
+AU  - Zhao D
+AD  - Institute for Academic Medicine, Houston, Texas, USA Center for Cardiovascular 
+      Regeneration, Department of Cardiovascular Sciences, The Methodist Hospital 
+      Research Institute, Houston, Texas, USA Weill Cornell Medicine, New York, New 
+      York, USA.
+FAU - Li, Wei
+AU  - Li W
+AD  - Dan L. Duncan Cancer Center and Department of Molecular and Cellular Biology, 
+      Baylor College of Medicine, Houston, Texas, USA.
+FAU - Tyler, Jessica K
+AU  - Tyler JK
+AD  - Department of Epigenetics and Molecular Carcinogenesis, University of Texas M. D. 
+      Anderson Cancer Center, Houston, Texas, USA Weill Cornell Medicine, New York, New 
+      York, USA jet2021@med.cornell.edu.
+LA  - eng
+GR  - R01HG007538/HG/NHGRI NIH HHS/United States
+GR  - R01 CA095641/CA/NCI NIH HHS/United States
+GR  - R01GM64475/GM/NIGMS NIH HHS/United States
+GR  - R01 GM064475/GM/NIGMS NIH HHS/United States
+GR  - R01CA95641/CA/NCI NIH HHS/United States
+GR  - R01 HG007538/HG/NHGRI NIH HHS/United States
+PT  - Journal Article
+PT  - Research Support, N.I.H., Extramural
+DEP - 20151228
+PL  - United States
+TA  - Mol Cell Biol
+JT  - Molecular and cellular biology
+JID - 8109087
+SB  - IM
+MH  - Animals
+MH  - Chromatin Immunoprecipitation/methods
+MH  - DNA Copy Number Variations
+MH  - Genome-Wide Association Study/*methods
+MH  - High-Throughput Nucleotide Sequencing/methods
+MH  - Humans
+MH  - Sequence Analysis, DNA/methods
+MH  - Sequence Analysis, RNA/methods
+PMC - PMC4760223
+EDAT- 2015/12/30 06:00
+MHDA- 2016/07/07 06:00
+PMCR- 2016/08/16
+CRDT- 2015/12/30 06:00
+PHST- 2015/12/30 06:00 [entrez]
+PHST- 2015/12/30 06:00 [pubmed]
+PHST- 2016/07/07 06:00 [medline]
+PHST- 2016/08/16 00:00 [pmc-release]
+AID - MCB.00970-14 [pii]
+AID - 00970-14 [pii]
+AID - 10.1128/MCB.00970-14 [doi]
+PST - epublish
+SO  - Mol Cell Biol. 2015 Dec 28;36(5):662-7. doi: 10.1128/MCB.00970-14.

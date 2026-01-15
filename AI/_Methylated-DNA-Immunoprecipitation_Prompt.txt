@@ -1,0 +1,20 @@
+The Methylated DNA Immunoprecipitation stage of the  cfMeDIP-seq protocol 
+consists of the following steps:
+
+- Addition of Filler DNA and Spike-In Controls
+- DNA Denaturation
+- Immunoprecipitation
+- Capture with Protein A/G Bead
+- Wash, Elute, Purify
+
+Referring to published articles from the D.D De Carvalho lab
+exclusively, explain what the Addition of Filler DNA achieves
+for the protocol, what are the mechanics which lead to inflated
+variability, and what is the final form of this step in the latest
+protocol?
+
+Explain mechanistically how variabikity is introfuced in the Immunoprecipitation
+step.
+
+
+
