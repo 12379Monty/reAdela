@@ -1,0 +1,101 @@
+PMID- 24532716
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20140401
+LR  - 20211021
+IS  - 1549-5477 (Electronic)
+IS  - 0890-9369 (Print)
+IS  - 0890-9369 (Linking)
+VI  - 28
+IP  - 4
+DP  - 2014 Feb 15
+TI  - Nucleosome loss leads to global transcriptional up-regulation and genomic 
+      instability during yeast aging.
+PG  - 396-408
+LID - 10.1101/gad.233221.113 [doi]
+AB  - All eukaryotic cells divide a finite number of times, although the mechanistic 
+      basis of this replicative aging remains unclear. Replicative aging is accompanied 
+      by a reduction in histone protein levels, and this is a cause of aging in budding 
+      yeast. Here we show that nucleosome occupancy decreased by 50% across the whole 
+      genome during replicative aging using spike-in controlled micrococcal nuclease 
+      digestion followed by sequencing. Furthermore, nucleosomes became less well 
+      positioned or moved to sequences predicted to better accommodate histone 
+      octamers. The loss of histones during aging led to transcriptional induction of 
+      all yeast genes. Genes that are normally repressed by promoter nucleosomes were 
+      most induced, accompanied by preferential nucleosome loss from their promoters. 
+      We also found elevated levels of DNA strand breaks, mitochondrial DNA transfer to 
+      the nuclear genome, large-scale chromosomal alterations, translocations, and 
+      retrotransposition during aging.
+FAU - Hu, Zheng
+AU  - Hu Z
+AD  - Department of Biochemistry and Molecular Biology, University of Texas M.D. 
+      Anderson Cancer Center, Houston, Texas 77030, USA;
+FAU - Chen, Kaifu
+AU  - Chen K
+FAU - Xia, Zheng
+AU  - Xia Z
+FAU - Chavez, Myrriah
+AU  - Chavez M
+FAU - Pal, Sangita
+AU  - Pal S
+FAU - Seol, Ja-Hwan
+AU  - Seol JH
+FAU - Chen, Chin-Chuan
+AU  - Chen CC
+FAU - Li, Wei
+AU  - Li W
+FAU - Tyler, Jessica K
+AU  - Tyler JK
+LA  - eng
+GR  - P30 CA016672/CA/NCI NIH HHS/United States
+GR  - R01HG007538/HG/NHGRI NIH HHS/United States
+GR  - GM64475/GM/NIGMS NIH HHS/United States
+GR  - CA95641/CA/NCI NIH HHS/United States
+GR  - R01 CA095641/CA/NCI NIH HHS/United States
+GR  - R01 GM064475/GM/NIGMS NIH HHS/United States
+GR  - R01 HG007538/HG/NHGRI NIH HHS/United States
+PT  - Journal Article
+PT  - Research Support, N.I.H., Extramural
+PT  - Research Support, Non-U.S. Gov't
+PT  - Research Support, U.S. Gov't, Non-P.H.S.
+PL  - United States
+TA  - Genes Dev
+JT  - Genes & development
+JID - 8711660
+RN  - 0 (DNA, Mitochondrial)
+RN  - 0 (Histones)
+RN  - 0 (Nucleosomes)
+SB  - IM
+CIN - Microb Cell. 2014 Apr 01;1(4):133-136. doi: 10.15698/mic2014.04.139. PMID: 
+      28357234
+MH  - Aging/*genetics
+MH  - Chromosome Aberrations
+MH  - DNA Breaks
+MH  - DNA, Mitochondrial/genetics
+MH  - Gene Expression Regulation, Fungal
+MH  - Genome, Fungal/*genetics
+MH  - Genomic Instability/*genetics
+MH  - Histones/metabolism
+MH  - Nucleosomes/*physiology
+MH  - Promoter Regions, Genetic/genetics
+MH  - Saccharomyces cerevisiae/*genetics/*metabolism
+MH  - TATA Box/genetics
+MH  - *Up-Regulation
+PMC - PMC3937517
+OTO - NOTNLM
+OT  - DNA rearrangement
+OT  - gene expression
+OT  - histone occupancy
+OT  - replicative aging
+EDAT- 2014/02/18 06:00
+MHDA- 2014/04/02 06:00
+PMCR- 2014/08/15
+CRDT- 2014/02/18 06:00
+PHST- 2014/02/18 06:00 [entrez]
+PHST- 2014/02/18 06:00 [pubmed]
+PHST- 2014/04/02 06:00 [medline]
+PHST- 2014/08/15 00:00 [pmc-release]
+AID - 28/4/396 [pii]
+AID - 10.1101/gad.233221.113 [doi]
+PST - ppublish
+SO  - Genes Dev. 2014 Feb 15;28(4):396-408. doi: 10.1101/gad.233221.113.

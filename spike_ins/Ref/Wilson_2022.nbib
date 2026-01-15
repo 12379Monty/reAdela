@@ -1,0 +1,113 @@
+PMID- 36160046
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20231012
+LR  - 20231012
+IS  - 2667-2375 (Electronic)
+IS  - 2667-2375 (Linking)
+VI  - 2
+IP  - 9
+DP  - 2022 Sep 19
+TI  - Sensitive and reproducible cell-free methylome quantification with synthetic 
+      spike-in controls.
+PG  - 100294
+LID - 10.1016/j.crmeth.2022.100294 [doi]
+LID - 100294
+AB  - Cell-free methylated DNA immunoprecipitation sequencing (cfMeDIP-seq) identifies 
+      genomic regions with DNA methylation, using a protocol adapted to work with 
+      low-input DNA samples and with cell-free DNA (cfDNA). We developed a set of 
+      synthetic spike-in DNA controls for cfMeDIP-seq to provide a simple and 
+      inexpensive reference for quantitative normalization. We designed 54 DNA 
+      fragments with combinations of methylation status (methylated and unmethylated), 
+      fragment length (80 bp, 160 bp, 320 bp), G + C content (35%, 50%, 65%), and 
+      fraction of CpG dinucleotides within the fragment (1/80 bp, 1/40 bp, 1/20 bp). 
+      Using 0.01 ng of spike-in controls enables training a generalized linear model 
+      that absolutely quantifies methylated cfDNA in MeDIP-seq experiments. It 
+      mitigates batch effects and corrects for biases in enrichment due to known 
+      biophysical properties of DNA fragments and other technical biases.
+CI  - © 2022 The Author(s).
+FAU - Wilson, Samantha L
+AU  - Wilson SL
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+FAU - Shen, Shu Yi
+AU  - Shen SY
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+FAU - Harmon, Lauren
+AU  - Harmon L
+AD  - Van Andel Institute, Grand Rapids, MI, USA.
+FAU - Burgener, Justin M
+AU  - Burgener JM
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, ON, Canada.
+FAU - Triche, Tim Jr
+AU  - Triche T Jr
+AD  - Van Andel Institute, Grand Rapids, MI, USA.
+FAU - Bratman, Scott V
+AU  - Bratman SV
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, ON, Canada.
+FAU - De Carvalho, Daniel D
+AU  - De Carvalho DD
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, ON, Canada.
+FAU - Hoffman, Michael M
+AU  - Hoffman MM
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, ON, Canada.
+AD  - Department of Computer Science, University of Toronto, Toronto, ON, Canada.
+AD  - Vector Institute for Artificial Intelligence, Toronto, ON, Canada.
+LA  - eng
+GR  - 389866/CIHR/Canada
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+DEP - 20220909
+PL  - United States
+TA  - Cell Rep Methods
+JT  - Cell reports methods
+JID - 9918227360606676
+RN  - 9007-49-2 (DNA)
+RN  - 0 (Cell-Free Nucleic Acids)
+MH  - *Epigenome
+MH  - Genomics/methods
+MH  - DNA Methylation
+MH  - DNA/genetics
+MH  - *Cell-Free Nucleic Acids/genetics
+PMC - PMC9499995
+OTO - NOTNLM
+OT  - DNA methylation
+OT  - absolute quantification
+OT  - batch effects
+OT  - cell-free DNA
+OT  - cell-free methylated DNA immunoprecipitation
+OT  - cfDNA
+OT  - cfMeDIP
+OT  - early detection of cancer
+OT  - liquid biopsy
+OT  - minimally invasive testing
+OT  - reference standards
+OT  - spike-in controls
+COIS- S.L.W., S.Y.S., T.T., D.D.D.C., and M.M.H. are inventors on patent application 
+      PCT/CA2020/051507 related to the synthetic spike-in controls, licensed to Adela. 
+      S.Y.S., S.V.B., and D.D.D.C. are inventors on other patent applications related 
+      to cfDNA methylation analysis technologies, licensed to Adela, serve in 
+      leadership roles at Adela, and own equity in Adela. S.V.B. is inventor on a 
+      patent related to cfDNA mutation analysis technologies, licensed to Roche 
+      Molecular Diagnostics. S.V.B. and D.D.D.C. have received research funding from 
+      Nektar Therapeutics.
+EDAT- 2022/09/27 06:00
+MHDA- 2022/09/27 06:01
+PMCR- 2022/09/09
+CRDT- 2022/09/26 17:44
+PHST- 2021/11/19 00:00 [received]
+PHST- 2022/05/17 00:00 [revised]
+PHST- 2022/08/19 00:00 [accepted]
+PHST- 2022/09/26 17:44 [entrez]
+PHST- 2022/09/27 06:00 [pubmed]
+PHST- 2022/09/27 06:01 [medline]
+PHST- 2022/09/09 00:00 [pmc-release]
+AID - S2667-2375(22)00176-X [pii]
+AID - 100294 [pii]
+AID - 10.1016/j.crmeth.2022.100294 [doi]
+PST - epublish
+SO  - Cell Rep Methods. 2022 Sep 9;2(9):100294. doi: 10.1016/j.crmeth.2022.100294. 
+      eCollection 2022 Sep 19.
