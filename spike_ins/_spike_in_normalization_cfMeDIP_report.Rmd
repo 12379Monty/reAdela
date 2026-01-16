@@ -300,10 +300,10 @@ Rick Young's group independently arrived at the same realization:
 The Chen paper implicitly acknowledges that spike-in normalization is
 unnecessary in typical experiments. Traditional normalization works when:
 
-1. Total RNA/DNA yields per cell are comparable across samples 2. Changes
-affect a subset of genes/regions with balanced up and down regulation 3. The
-number of regulated features is relatively small compared to the total 4. No
-global biological processes are expected to shift the entire
+1. Total RNA/DNA yields per cell are comparable across samples 
+2. Changes affect a subset of genes/regions with balanced up and down regulation
+3. The number of regulated features is relatively small compared to the total 
+4. No global biological processes are expected to shift the entire
 transcriptome/genome
 
 **The paper states:**
@@ -331,6 +331,7 @@ Cancer is characterized by **genome-wide hypermethylation** in addition to focal
 4. **Net effect**: Total methylation signal increases in cancer samples
 
 This creates exactly the scenario Chen et al. describe:
+
 - Changes in absolute amounts of total signal (methylated DNA) between conditions (cancer vs. healthy)
 - Not balanced increases and decreases, but net global increase
 - Traditional normalization would mask this global change
