@@ -431,7 +431,7 @@ If you have 95% signal and 5% noise vs. 99% signal and 1% noise, the absolute im
 
 **Missing Analyses:**
 
-1. **Reanalysis of Shen et al. (2018) [@Shen2918] Data:**
+1. **Reanalysis of Shen et al. (2018) [@Shen2018] Data:**
    - Original Nature paper used GLMnet on cfMeDIP-seq without spike-ins
    - Could have reanalyzed with spike-in normalization
    - Could have compared cancer detection performance

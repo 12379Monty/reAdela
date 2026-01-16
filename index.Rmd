@@ -17,7 +17,7 @@ output:
     # this has no effect
     number_sections: yes
     # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
-bibliography: [AI/_cfMeDIP-seq_references.bib]
+bibliography: [AI/_cfMeDIP-seq_references.bib, spike_ins/Ref/_spike_in.bib]
 csl: ../_csl/cell-numeric.csl
 link-citations: true
 ---
@@ -128,6 +128,41 @@ for comments on technical aspects of some of the studies cited.
 traced.
 * The report is a fairly comprehensive, high level description of the assay
 and algorithm along with a description of enhancements that followed.
+
+<br/>
+
+## The utility of spike-in controls
+
+* [_spike_in_normalization_cfMeDIP_report](spike_ins/_spike_in_normalization_cfMeDIP_report.html)
+   - Puts the general framework for spike-in normalization from
+Chen et al. (2015) [@Chen:2015aa]  with the specifics of cfMeDIP-seq to
+rationalize the appoach in Wilson et al. (2022) [@Wilson:2022aa].
+
+* [_Wilson_2022_Spike_in_Controls_Technical_Review](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
+   - contents of the paper are detailed.
+   - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
+
+* [_Wilson_2022_Critical_Analysis_Biological_Validation](spike_ins/_Wilson_2022_Critical_Analysis_Biological_Validation.html)
+   - points out that Wilson et al. (2022) [@Wilson:2022aa] provides little 
+evidence of the benefits of the spike-in normaliozation over alternatives,
+
+
+### Published Data
+    
+**GEO Accession GSE166259:**
+
+- Raw HCT116 cell line data (public)
+- Processed AML patient data (public)
+
+**EGA Accession EGAS00001005069:**
+
+- Raw AML patient data (controlled access)
+- Available via University Health Network Genomics Data Access Committee
+
+**Zenodo Deposits:**
+
+- Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
+- spiky package: https://doi.org/10.18129/B9.bioc.spiky
 
 
 <br/>
