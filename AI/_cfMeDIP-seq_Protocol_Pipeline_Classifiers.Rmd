@@ -12,7 +12,7 @@ output:
     code_folding: hide
     code_download: true
     toc: true
-    toc_depth: 3
+    toc_depth: 2
     # does this have an effect
     fig_caption: yes
     # this has no effect
@@ -221,7 +221,7 @@ The cfMeDIP-seq protocol was published by Shen, Burgener, Bratman, and De Carval
 
 <br/>
 
-## Sample Prep and Sequencing Protocol {#prot-steps .tabset}
+## **Sample Prep and Sequencing Protocol** {#prot-steps .tabset}
 
 The cfMeDIP-seq protocol consists of four major stages:
 
@@ -1339,8 +1339,10 @@ Multiple machine learning approaches have been developed for cancer classificati
 **Performance:**
 
 - Similar to GLMnet in most cancer types
+<!--
 - More robust to outliers
 - Better captures non-linear relationships
+-->
 
 <br/>
 
