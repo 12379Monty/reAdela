@@ -1,6 +1,6 @@
 ---
-title: A Critical Evaluation of Wilson et al. (2022)
-subtitle: Does Spike-in Normalization Improve Biological Analysis?
+title: "Spike-in Normalization"
+subtitle: "From General Principles to cfMeDIP-seq Application"
 author: "claude.ai Sonnet 4.5 with prompts from [Francois Collin](https://www.linkedin.com/in/francoisz/)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"
 always_allow_html: yes
@@ -22,7 +22,6 @@ bibliography: [Ref/_spike_in.bib]
 csl: ../../_csl/cell-numeric.csl
 link-citations: true
 ---
-
 
 
 ```{css sidenote, echo = FALSE}
@@ -107,7 +106,7 @@ options(stringsAsFactors=F)
 
 ```{r m2b-Prelims,  include=FALSE, echo=FALSE, results='hide', message=FALSE} 
 
-FN <- "_Wilson_2022_Critical_Analysis_Biological_Validation"
+FN <- "_spike_in_normalization_cfMeDIP_report"
 if(sum(grepl(FN, list.files()))==0) stop("Check FN")
 
  suppressMessages(require(rmarkdown))
@@ -193,5 +192,4 @@ param_class=sapply(params, class), row.names=NULL) %>%
         box-shadow: 0 2px 5px rgba(0,0,0,0.5);
     }
 </style>
-
 

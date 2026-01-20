@@ -79,7 +79,6 @@ PREFIX <- "index" #- replace by FLOWCELL???
  # The usual shortcuts
  zz <- function(n='') source(paste("t", n, sep=''))
 
-
 ```
 <!-- ######################################################################## -->
 
@@ -95,6 +94,14 @@ PREFIX <- "index" #- replace by FLOWCELL???
 * In this page we review the literature
 which document the development of Adela's cfMeDIP-seq Technology.
 The source of all the information contained therein is public.
+The primary references are the following:^[
+<span style="color:red">
+[@Shen2018; @Wilson2022; @Hallaaho2022]
+</span>
+]
+
+<div id="refs"></div>
+
 
 
 <br/>
@@ -112,11 +119,13 @@ Adela's cfMeDIP-seq Technology.
 
 <br/>
 
-## [Adela vs GRAIL](AI/_Adela_vs_GRAIL_MCED_Comparison.html)
+## Adela vs GRAIL
 
-* A fairly comprehensive, high level comparison of the two platforms.
+* [slides](AI/_Adela_vs_GRAIL_MCED_Comparison_slides/_Adela_vs_GRAIL_MCED.html)
 
-* This compilation is for background purposes - see the documentation below 
+* [Rmarkdown](AI/_Adela_vs_GRAIL_MCED_Comparison.html)
+   -  A fairly comprehensive, high level comparison of the two platforms.
+   -  This compilation is for background purposes - see the documentation below 
 for comments on technical aspects of some of the studies cited.
 
 <br/>
@@ -131,20 +140,45 @@ and algorithm along with a description of enhancements that followed.
 
 <br/>
 
-## The utility of spike-in controls
+### Supplementary Resources
+
+* Code Repositories
+
+| Resource | URL | Description |
+|----------|-----|-------------|
+| MEDIPIPE | https://github.com/pughlab/MEDIPIPE | Main analysis pipeline |
+| cfMeDIP-seq analysis | https://github.com/pughlab/cfMeDIP-seq-analysis-pipeline | Post-processing pipeline |
+| Halla-aho scripts | https://github.com/hallav/cfMeDIP-seq | Classifier comparison code |
+| Shen et al. ML models | http://doi.org/10.5281/zenodo.1242697 | Original classifier code |
+| Protocol tables | https://github.com/bratmanlab/cfMeDIP_Protocol | Processed data tables |
+
+<br/>
+
+*  Public Data Repositories
+
+| Dataset | Repository | Accession | Access |
+|---------|------------|-----------|--------|
+| HCT116 cell line | GEO | GSE79838 | Public |
+| Brain tumors | Zenodo | (see Nassiri et al.) | Public |
+| Healthy controls | EGA | EGAD50000000652 | Controlled |
+| INSPIRE study | EGA | EGAD00001011312 | Controlled |
+
+<br/>
+
+## spike-in control normalization 
 
 * [_spike_in_normalization_cfMeDIP_report](spike_ins/_spike_in_normalization_cfMeDIP_report.html)
    - Puts the general framework for spike-in normalization from
 Chen et al. (2015) [@Chen:2015aa]  with the specifics of cfMeDIP-seq to
-rationalize the appoach in Wilson et al. (2022) [@Wilson:2022aa].
+rationalize the appoach in Wilson et al. (2022) [@Wilson2022].
 
 * [_Wilson_2022_Spike_in_Controls_Technical_Review](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
    - contents of the paper are detailed.
    - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
 
 * [_Wilson_2022_Critical_Analysis_Biological_Validation](spike_ins/_Wilson_2022_Critical_Analysis_Biological_Validation.html)
-   - points out that Wilson et al. (2022) [@Wilson:2022aa] provides little 
-evidence of the benefits of the spike-in normaliozation over alternatives,
+   - points out that Wilson et al. (2022) [@Wilson2022] provides little 
+evidence of the benefits of the spike-in normalization over alternatives,
 
 
 ### Published Data
@@ -167,17 +201,36 @@ evidence of the benefits of the spike-in normaliozation over alternatives,
 
 <br/>
 
-## [Differential Methylation Analysis Methodology](AI/_Differential_Methylation_Analysis_Report.html)
+# Re-analysis 
+
+
+## Spike-in Normalization
+
+## Model Selection
+
+
+ 
+# Extras {.tabset}
+
+## Home {-}
+
+## DMA {-}
+ 
+
+* [Differential Methylation Analysis Methodology](AI/_Differential_Methylation_Analysis_Report.html)
 
 <p/>
 * Exhaustive survey of DMA methods used with each  assay type. 
    - Not specific to Adela
-* Describe the analyis data in each step
+* Describe the analysis data in each step
 * Survey of benchmarking studies and tools
 
 <br/>
 
-## [Enrichment-Based Differential Methylation Analysis](AI/_Enrichment_Methods_PartI_Section1.html)
+## Enrichment Based DNA {-}
+
+
+* [Enrichment-Based Differential Methylation Analysis](AI/_Enrichment_Methods_PartI_Section1.html)
 
 <p/>
 * For enrichment-Based assays, a look at Bioinformatics Pipelines and 
@@ -191,39 +244,7 @@ get DMA results.
 <br/>
  
 
-# RF vs elastic net
-
-* RF vs elastic net: does RF edge enet and why?
-
-<p/>
-* From personal experience enet should do better with RF performance
-dropping substantially in the validation/evaliation set.
-* Also from [Statistical learning with big data. A talk by Trevor Hastie](https://
-outu.be/0EWJZIC4JxA?si=rGc6_66nODHE3fTP&t=485) (University of Bristol):
-   - wide data - many features but few observations - calls for special
-methods to avoid overfitting.  The elastic net is one of those methods.
-   - tall data - many observations but reasonable number of features -
-not at risk of overfitting and can fit richer models with high orders
-of interactions.
-
-<div style="color:green"> 
-
-*  Rerun the analyses which fit predictive models and
-compare RF and enet results 
-   - Halla-aho & Lähdesmäki (BMC Bioinformatics) [@Hallaaho2022]
-
-   - RF is expected to lag in performance because the fitting dataset
-is not ruch enough to support the more complex RF models.
-
-* Word on feature selection - it is not needed here.
-   - Predicting cancer is not a feature  selection ploblem;
-it's a predictive analysis problem.
-
-</div>
- 
-<br/>
-
-# Variability in  cfMeDIP-seq Data
+## Variability in  cfMeDIP-seq Data {-}
 
 <p/>
 * The key components of the assay - filler DNA and antibody instance - 
@@ -244,6 +265,7 @@ anti-5-methylcytosine (5mC) antibody or filler DNA?
 spike-in controls.
    -  Wilson et al. (2022) [@Wilson2022]
 
+</div>
 
 
 
