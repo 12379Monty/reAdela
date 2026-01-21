@@ -1,0 +1,197 @@
+/* Custom CSS for cfMeDIP-seq Evolution Presentation */
+
+/* Improve table styling */
+.reveal table {
+  margin: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 0.7em;
+}
+
+.reveal table th {
+  background-color: #2874A6;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border: 1px solid #1B4F72;
+}
+
+.reveal table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.reveal table tr:nth-child(even) {
+  background-color: #EBF5FB;
+}
+
+/* Improve blockquote styling */
+.reveal blockquote {
+  background: #EBF5FB;
+  border-left: 5px solid #2874A6;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+/* Column layout improvements */
+.columns {
+  display: flex;
+  gap: 20px;
+}
+
+.column {
+  flex: 1;
+}
+
+/* Smaller text class */
+.smaller {
+  font-size: 0.8em !important;
+}
+
+/* Highlight important metrics */
+.reveal strong {
+  color: #1B4F72;
+}
+
+/* Improve list styling */
+.reveal ul, .reveal ol {
+  line-height: 1.6;
+}
+
+/* Center alignment for specific slides */
+.center {
+  text-align: center;
+}
+
+/* Improve code blocks */
+.reveal pre code {
+  max-height: 500px;
+  font-size: 0.7em;
+}
+
+/* Add some spacing for readability */
+.reveal section {
+  line-height: 1.4;
+}
+
+/* Custom alert boxes */
+.alert {
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 5px;
+}
+
+.alert-info {
+  background-color: #D6EAF8;
+  border-left: 5px solid #2874A6;
+}
+
+.alert-success {
+  background-color: #D5F4E6;
+  border-left: 5px solid #1E8449;
+}
+
+.alert-warning {
+  background-color: #FCF3CF;
+  border-left: 5px solid #D68910;
+}
+
+/* Improve header hierarchy */
+.reveal h1 {
+  color: #1B4F72;
+  text-transform: none;
+}
+
+.reveal h2 {
+  color: #2874A6;
+  text-transform: none;
+}
+
+.reveal h3 {
+  color: #5499C7;
+  text-transform: none;
+}
+
+/* Timeline emphasis */
+.timeline-year {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #1B4F72;
+}
+
+/* Checkmark styling */
+.reveal li::before {
+  content: "";
+}
+
+/* Variability color coding */
+.high-var {
+  color: #C0392B;
+  font-weight: bold;
+}
+
+.mod-var {
+  color: #D68910;
+  font-weight: bold;
+}
+
+.low-var {
+  color: #1E8449;
+  font-weight: bold;
+}
+
+/* Stage headers */
+.stage-header {
+  background-color: #D6EAF8;
+  padding: 10px;
+  border-radius: 5px;
+  margin: 10px 0;
+  font-weight: bold;
+  color: #1B4F72;
+}
+
+/* Key terms emphasis */
+.key-term {
+  background-color: #FCF3CF;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-weight: bold;
+}
+
+/* Data access badges */
+.data-badge {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 15px;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.public-data {
+  background-color: #D5F4E6;
+  color: #1E8449;
+}
+
+.controlled-data {
+  background-color: #FCF3CF;
+  color: #D68910;
+}
+
+/* Performance metrics */
+.metric {
+  font-size: 1.3em;
+  color: #1B4F72;
+  font-weight: bold;
+}
+
+/* Protocol step emphasis */
+.protocol-step {
+  background-color: #F4ECF7;
+  padding: 8px;
+  margin: 5px 0;
+  border-left: 4px solid #7D3C98;
+  border-radius: 3px;
+}

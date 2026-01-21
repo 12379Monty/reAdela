@@ -1,0 +1,439 @@
+---
+title: "Multi-Cancer Early Detection Platforms"
+subtitle: "Adela cfMeDIP-seq vs GRAIL Targeted Bisulfite Sequencing"
+author: "Technical Comparison"
+date: "January 2026"
+output:
+  revealjs::revealjs_presentation:
+    theme: sky
+    highlight: pygments
+    center: true
+    transition: slide
+    css: custom.css
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+reveal.initialize({
+  // The "normal" size of the presentation, aspect ratio will
+  // be preserved when the presentation is scaled to fit different
+  // resolutions. Can be specified using percentage units.
+  width: 960,
+  height: 600,
+
+  // Factor of the display size that should remain empty around
+  // the content
+  margin: 0.04,
+
+  // Bounds for smallest/largest possible scale to apply to content
+  minScale: 0.2,
+  maxScale: 2.0,
+});
+
+
+## Executive Summary {.smaller}
+
+Two leading MCED blood testing platforms utilizing DNA methylation in cell-free DNA (cfDNA):
+
+:::: {.columns}
+::: {.column width="50%"}
+**Adela**
+
+- cfMeDIP-seq technology
+- Genome-wide methylome enrichment
+- Immunoprecipitation-based
+:::
+
+::: {.column width="50%"}
+**GRAIL Galleri**
+
+- Targeted bisulfite sequencing
+- Focused methylation analysis
+- Chemical conversion-based
+:::
+::::
+
+<br>
+
+> Both detect cancer through methylation patterns, but with fundamentally different technical approaches
+
+# Technology Platforms
+
+## Adela: cfMeDIP-seq Technology
+
+**Cell-free Methylated DNA Immunoprecipitation Sequencing**
+
+- Developed at Princess Margaret Cancer Centre (De Carvalho lab)
+- **High-affinity enrichment** using anti-5-methylcytosine antibodies
+- **No bisulfite conversion** → preserves DNA integrity
+- Genome-wide methylome capture from **1-10 ng** input DNA
+
+<br>
+
+> "Ultra-sensitive methylation pattern detection technology which, combined with AI, is designed to help detect cancer and other high-morbidity, high-mortality conditions through a single blood draw"
+
+## GRAIL: Targeted Bisulfite Sequencing
+
+**Targeted Methylation Analysis**
+
+- **Bisulfite conversion** + hybridization capture
+- Analyzes **>100,000 methylation regions** (~1M CpG sites)
+- Requires **up to 75 ng** cfDNA input
+- 150-bp paired-end sequencing on Illumina NovaSeq
+
+<br>
+
+> Database covers ~30 million methylation sites across the genome - "the largest of its kind"
+
+## Key Technical Difference: Bisulfite Conversion
+
+:::: {.columns}
+::: {.column width="50%"}
+**Adela (No Bisulfite)**
+
+✓ Preserves DNA structure  
+✓ Lower DNA input (1-10 ng)  
+✓ Genome-wide coverage  
+✓ Enrichment-based detection  
+
+<br>
+
+*"Does not rely on bisulfite conversion to detect methylation, a sample preparation process that destroys cell-free DNA"*
+:::
+
+::: {.column width="50%"}
+**GRAIL (Bisulfite-Based)**
+
+⚠ Chemical DNA modification  
+⚠ Higher input needed (≤75 ng)  
+✓ Targeted approach  
+✓ Single-base resolution  
+
+<br>
+
+*"Customized bisulfite conversion reaction prepared as dual indexed sequencing library"*
+:::
+::::
+
+# Detection Performance
+
+## Adela Performance Data {.smaller}
+
+**Multi-Cancer Detection (Retrospective, ~4,000 individuals)**
+
+- **12 cancer types**: bladder, breast, colorectal, endometrial, esophageal, lung, ovarian, pancreatic, prostate, kidney, head & neck, hepatobiliary
+- Stage I: **92%** sensitivity
+- Stage II: **95%** sensitivity  
+- Stage III: **95%** sensitivity
+- Stage IV: **97%** sensitivity
+
+**MRD Performance (Clinically Validated)**
+
+- Head & neck cancer: **91% sensitivity** at 88% specificity
+- Lead time: up to **14.9 months** before standard imaging
+- Lung cancer: up to **35.9 months** lead time (mean: 16.6 months)
+
+## GRAIL Galleri Performance {.smaller}
+
+**PATHFINDER 2 Study (35,878 participants, Oct 2025)**
+
+- **12 deadliest cancers**: **73.7%** episode sensitivity
+- All cancers: **40.4%** episode sensitivity
+- Specificity: **99.6%** (0.4% false positive rate)
+
+**Impact on Cancer Detection**
+
+> "Adding Galleri to recommended screenings led to a **more than seven-fold increase** in the number of cancers found within a year"
+
+**Tissue-of-Origin Prediction**
+
+- High accuracy cancer signal origin prediction
+- Detects **>50 cancer types** before symptoms
+
+# Algorithm & Machine Learning
+
+## Adela's Algorithmic Approach {.smaller}
+
+**Foundation**: Shen et al. 2018 *Nature* paper
+
+**Feature Engineering:**
+
+- 300 bp windows mapping to CpG islands, shores, shelves, FANTOM5 enhancers
+- Top 1,000 most variable fragments
+- Top 300 differentially methylated regions (DMRs)
+
+**Classification Methods:**
+
+- GLMnet (elastic net regularization)
+- Random Forest
+- Logistic regression with L1/L2 priors
+- Fisher's exact test + iterative supervised PCA
+
+## Adela Platform Efficiency
+
+> "We are using the **same wet lab assay** for each application, and all that differs is the **classifier development** for each application, so it allows us to be very efficient in our product development and to scale more quickly than if we had another technology where we were required to create targeted panels"
+
+<br>
+
+**Key Advantage**: Single assay platform for multiple applications
+
+- MCED (multi-cancer early detection)
+- MRD (minimal residual disease)
+- Tissue-of-origin classification
+
+## GRAIL's Algorithmic Approach {.smaller}
+
+**Training Dataset**: CCGA study (15,000+ individuals)
+
+- 6,670 cancer-free controls
+- 8,584 cancer patients with type annotation
+
+**Machine Learning Pipeline:**
+
+1. **Representation**: Encode methylation status for ML
+2. **Learning**: Derive shared cancer signal from patterns
+3. **Scoring**: Likelihood estimation for cancer presence
+
+**Validation Strategy:**
+
+- Interrogates ~1M informative CpG sites
+- Deeper sequencing of selected regions vs WGBS
+- Overcomes cost/efficiency limitations of whole-genome approaches
+
+# Clinical Status
+
+## Regulatory & Commercial Status {.smaller}
+
+| Aspect | Adela | GRAIL Galleri |
+|--------|-------|---------------|
+| **MCED Test** | In development (CAMPERR study, 5,000+ pts) | Commercially available (since 2021) |
+| **MRD Test** | Validated (H&N cancer, *Ann Oncol* 2024) | Platform supports MRD |
+| **Commercial** | MRD launching 2025 | Prescription-based access |
+| **FDA Status** | Not approved/cleared | Not approved/cleared (LDT) |
+| **Certification** | CLIA certified | CLIA/CAP certified |
+
+## Clinical Trial Programs {.smaller}
+
+:::: {.columns}
+::: {.column width="50%"}
+**Adela**
+
+- **CAMPERR**: 5,000+ participants
+- Covers >90% cancer incidence
+- Covers >85% cancer mortality
+- Focus on early-stage detection
+:::
+
+::: {.column width="50%"}
+**GRAIL**
+
+- **PATHFINDER 2**: 35,878 participants (largest MCED interventional study in US)
+- **NHS-Galleri**: 140,000 participants
+- **REFLECTION**: Real-world evidence
+- Extensive multi-year validation
+:::
+::::
+
+# Technical Comparison
+
+## Side-by-Side Comparison {.smaller}
+
+| Feature | Adela (cfMeDIP-seq) | GRAIL (Galleri) |
+|---------|---------------------|-----------------|
+| **Detection Method** | Immunoprecipitation enrichment | Bisulfite + targeted sequencing |
+| **Genomic Coverage** | Whole methylome (genome-wide) | Targeted (~100K regions, ~1M CpGs) |
+| **DNA Preservation** | ✓ Preserves DNA structure | ⚠ Bisulfite damages DNA |
+| **Input DNA** | 1-10 ng | Up to 75 ng |
+| **Cancer Types** | 12 in development, 50+ planned | 50+ validated |
+| **Commercial** | Pre-commercial | Available since 2021 |
+
+## Unique Platform Advantages
+
+:::: {.columns}
+::: {.column width="50%"}
+**Adela Advantages**
+
+1. No bisulfite conversion
+2. Tissue-agnostic MRD
+3. Platform flexibility
+4. Low DNA input requirements
+5. Whole methylome information
+:::
+
+::: {.column width="50%"}
+**GRAIL Advantages**
+
+1. Extensive clinical validation (300K+ participants)
+2. Commercial maturity
+3. Largest methylation database
+4. High specificity (99.6%)
+5. Proven tissue-of-origin
+6. Real-world evidence
+:::
+::::
+
+# Data Availability
+
+## Publicly Accessible cfMeDIP-seq Data {.smaller}
+
+**Foundational Publications:**
+
+- **Shen et al. 2018 (*Nature*)**: Cell line data (GEO: GSE79838), ML models (Zenodo)
+- **Nassiri et al. 2020 (*Nat Med*)**: Brain tumor data (Zenodo demonstration dataset)
+- **Nature Protocols 2019**: Processed tables (GitHub)
+
+**Controlled Access (EGA):**
+
+- Healthy control cfMeDIP-seq: 23 plasma samples (EGAD50000000652)
+- INSPIRE study: Multi-timepoint immunotherapy monitoring (EGAD00001011312)
+
+**Open-Source Tools:**
+
+- **MEDIPIPE**: Automated QC and analysis pipeline
+- **cfMeDIP-seq-analysis-pipeline**: Post-processing for circulating methylome
+
+## Research Reproducibility
+
+**Zenodo Archives:**
+
+- Machine learning models: `10.5281/zenodo.1242697`
+- Intermediate data objects: `10.5281/zenodo.1490920`
+- Brain tumor reproducibility archive (Nassiri et al.)
+
+**GitHub Repositories:**
+
+- Protocol processed tables: `bratmanlab/cfMeDIP_Protocol`
+- MEDIPIPE pipeline: `pughlab/MEDIPIPE`
+- Analysis pipeline: `pughlab/cfMeDIP-seq-analysis-pipeline`
+- Modeling scripts: `hallav/cfMeDIP-seq`
+
+> Academic foundation provides substantial open-source resources for methodology validation
+
+# Strategic Implications
+
+## Technology Maturity Spectrum
+
+:::: {.columns}
+::: {.column width="50%"}
+**Adela: Emerging Technology**
+
+- Strong academic foundation
+- Innovative approach (no bisulfite)
+- Validated MRD application
+- MCED in development phase
+- Platform flexibility advantage
+:::
+
+::: {.column width="50%"}
+**GRAIL: Established Platform**
+
+- 4+ years commercial experience
+- Extensive clinical validation
+- Proven real-world performance
+- Large-scale trial infrastructure
+- Market leadership position
+:::
+::::
+
+## Critical Evaluation Points {.smaller}
+
+**Technical Validation vs Biological Validation**
+
+- Adela: Strong technical metrics (lower input, genome-wide)
+- GRAIL: Extensive biological validation (large cohorts, real-world data)
+
+**Platform-Specific Considerations**
+
+- cfMeDIP-seq: Binned read counts → enrichment-based analysis
+- Targeted bisulfite: Per-CpG resolution → single-site analysis
+- Different data structures → different statistical approaches
+
+**Clinical Translation Timeline**
+
+- Adela: Accelerating development (MRD → MCED pathway)
+- GRAIL: Already deployed in clinical practice
+
+# Conclusions
+
+## Key Takeaways {.smaller}
+
+1. **Complementary Approaches**: Both platforms valid, different technical philosophies
+
+2. **Maturity Difference**: GRAIL commercially proven; Adela strong emerging competitor
+
+3. **Technical Innovation**: Adela's bisulfite-free approach addresses DNA degradation
+
+4. **Clinical Evidence**: GRAIL's extensive validation vs Adela's focused MRD success
+
+5. **Platform Economics**: Adela's single assay for multiple applications vs GRAIL's targeted approach
+
+6. **Data Availability**: cfMeDIP-seq academic foundation provides reproducibility resources
+
+## Future Directions
+
+**For Adela:**
+
+- Complete CAMPERR study validation
+- Expand MRD to additional cancer types
+- Demonstrate MCED specificity at scale
+- Build commercial infrastructure
+
+**For GRAIL:**
+
+- Continue large-scale trial programs (NHS-Galleri)
+- Expand real-world evidence base
+- Address cost and reimbursement
+- Demonstrate clinical utility impact
+
+## References & Resources {.smaller}
+
+**Key Publications:**
+
+- Shen et al. 2018. *Nature* 563:579-583 (cfMeDIP-seq foundation)
+- Liu et al. 2020. *Ann Oncol* 31:745-759 (GRAIL CCGA)
+- Klein et al. 2021. *Ann Oncol* 32:1167-1177 (Galleri validation)
+- Liu et al. 2024. *Ann Oncol* (Adela MRD H&N validation)
+
+**Clinical Trial Resources:**
+
+- ClinicalTrials.gov: CAMPERR, PATHFINDER 2, NHS-Galleri
+- Company websites: adelabio.com, grail.com
+
+**Data & Code:**
+
+- GEO: GSE79838 | EGA: EGAD50000000652, EGAD00001011312
+- GitHub: pughlab/MEDIPIPE, bratmanlab/cfMeDIP_Protocol
+- Zenodo: Multiple DOIs for reproducibility
+
+---
+
+## {.center}
+
+<br><br>
+
+### Questions?
+
+<br>
+
+**Document Source**: Comprehensive Technical Comparison  
+**Prepared**: November 2025
+
+<br>
+
+*Note: Neither platform is FDA approved/cleared. Information for research purposes.*
+
+
+*Clinical decisions should be made in consultation with healthcare providers.*
+
+
+<!--
+
+nohup Rscript -e "rmarkdown::render('_Adela_vs_GRAIL_MCED.Rmd')" > _Adela_vs_GRAIL_MCED.log  &
+    
+-->
+

@@ -1,0 +1,288 @@
+/* Custom CSS for Wilson et al. 2022 Spike-in Presentation */
+
+/* Dark theme color palette - complementing moon theme */
+:root {
+  --primary-blue: #3498DB;
+  --success-green: #27AE60;
+  --warning-orange: #E67E22;
+  --danger-red: #E74C3C;
+  --dark-bg: #2C3E50;
+  --light-text: #ECF0F1;
+}
+
+/* Improve table styling for dark theme */
+.reveal table {
+  margin: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 0.7em;
+  background-color: rgba(44, 62, 80, 0.8);
+}
+
+.reveal table th {
+  background-color: var(--primary-blue);
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border: 1px solid #2980B9;
+}
+
+.reveal table td {
+  padding: 8px;
+  border: 1px solid #555;
+  color: var(--light-text);
+}
+
+.reveal table tr:nth-child(even) {
+  background-color: rgba(52, 73, 94, 0.5);
+}
+
+/* Improve blockquote styling for dark theme */
+.reveal blockquote {
+  background: rgba(52, 152, 219, 0.2);
+  border-left: 5px solid var(--primary-blue);
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  font-style: italic;
+  font-size: 0.9em;
+  color: var(--light-text);
+}
+
+/* Column layout improvements */
+.columns {
+  display: flex;
+  gap: 20px;
+}
+
+.column {
+  flex: 1;
+}
+
+/* Smaller text class */
+.smaller {
+  font-size: 0.75em !important;
+}
+
+/* Highlight important metrics */
+.reveal strong {
+  color: #3498DB;
+}
+
+/* Improve list styling */
+.reveal ul, .reveal ol {
+  line-height: 1.6;
+}
+
+/* Center alignment for specific slides */
+.center {
+  text-align: center;
+}
+
+/* Improve code blocks */
+.reveal pre code {
+  max-height: 500px;
+  font-size: 0.7em;
+  background-color: rgba(44, 62, 80, 0.8);
+}
+
+/* Add some spacing for readability */
+.reveal section {
+  line-height: 1.4;
+}
+
+/* Custom alert boxes for dark theme */
+.alert {
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 5px;
+}
+
+.alert-info {
+  background-color: rgba(52, 152, 219, 0.3);
+  border-left: 5px solid var(--primary-blue);
+  color: var(--light-text);
+}
+
+.alert-success {
+  background-color: rgba(39, 174, 96, 0.3);
+  border-left: 5px solid var(--success-green);
+  color: var(--light-text);
+}
+
+.alert-warning {
+  background-color: rgba(230, 126, 34, 0.3);
+  border-left: 5px solid var(--warning-orange);
+  color: var(--light-text);
+}
+
+.alert-danger {
+  background-color: rgba(231, 76, 60, 0.3);
+  border-left: 5px solid var(--danger-red);
+  color: var(--light-text);
+}
+
+/* Improve header hierarchy */
+.reveal h1 {
+  color: #3498DB;
+  text-transform: none;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.reveal h2 {
+  color: #5DADE2;
+  text-transform: none;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.reveal h3 {
+  color: #85C1E9;
+  text-transform: none;
+}
+
+/* Checkmark and cross styling */
+.checkmark {
+  color: var(--success-green);
+  font-weight: bold;
+}
+
+.crossmark {
+  color: var(--danger-red);
+  font-weight: bold;
+}
+
+/* Metric highlighting */
+.metric {
+  font-size: 1.4em;
+  color: var(--primary-blue);
+  font-weight: bold;
+}
+
+/* QC thresholds */
+.qc-pass {
+  color: var(--success-green);
+  font-weight: bold;
+}
+
+.qc-warning {
+  color: var(--warning-orange);
+  font-weight: bold;
+}
+
+.qc-fail {
+  color: var(--danger-red);
+  font-weight: bold;
+}
+
+/* Equation highlighting */
+.reveal .math {
+  color: #85C1E9;
+}
+
+/* Code inline */
+.reveal code {
+  background-color: rgba(44, 62, 80, 0.6);
+  color: #3498DB;
+  padding: 2px 6px;
+  border-radius: 3px;
+}
+
+/* Performance badges */
+.badge {
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 5px;
+  border-radius: 15px;
+  font-size: 0.8em;
+  font-weight: bold;
+}
+
+.badge-excellent {
+  background-color: rgba(39, 174, 96, 0.4);
+  color: var(--success-green);
+  border: 2px solid var(--success-green);
+}
+
+.badge-good {
+  background-color: rgba(52, 152, 219, 0.4);
+  color: var(--primary-blue);
+  border: 2px solid var(--primary-blue);
+}
+
+.badge-warning {
+  background-color: rgba(230, 126, 34, 0.4);
+  color: var(--warning-orange);
+  border: 2px solid var(--warning-orange);
+}
+
+/* Factorial design grid */
+.design-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.grid-item {
+  padding: 15px;
+  border-radius: 5px;
+  background-color: rgba(52, 152, 219, 0.3);
+  border: 2px solid var(--primary-blue);
+}
+
+/* Model performance */
+.performance-high {
+  background-color: rgba(39, 174, 96, 0.2);
+  border-left: 4px solid var(--success-green);
+  padding: 10px;
+  margin: 10px 0;
+}
+
+/* Timeline styling */
+.timeline-item {
+  background-color: rgba(52, 152, 219, 0.2);
+  padding: 10px;
+  margin: 10px 0;
+  border-left: 4px solid var(--primary-blue);
+}
+
+/* Emphasis for key findings */
+.key-finding {
+  background-color: rgba(241, 196, 15, 0.2);
+  padding: 15px;
+  border-radius: 5px;
+  border: 2px solid #F1C40F;
+  margin: 15px 0;
+  color: var(--light-text);
+}
+
+/* Lab comparison table special styling */
+.lab-table {
+  border: 2px solid var(--primary-blue);
+}
+
+/* Patent/IP notice */
+.ip-notice {
+  background-color: rgba(230, 126, 34, 0.2);
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 0.8em;
+  border-left: 4px solid var(--warning-orange);
+  margin-top: 20px;
+}
+
+/* Data availability badges */
+.data-public {
+  background-color: rgba(39, 174, 96, 0.3);
+  color: var(--success-green);
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: bold;
+}
+
+.data-controlled {
+  background-color: rgba(230, 126, 34, 0.3);
+  color: var(--warning-orange);
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-weight: bold;
+}

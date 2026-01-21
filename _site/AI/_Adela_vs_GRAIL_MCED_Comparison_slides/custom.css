@@ -1,0 +1,110 @@
+/* Custom CSS for Adela vs GRAIL MCED Comparison Presentation */
+
+/* Improve table styling */
+.reveal table {
+  margin: auto;
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-size: 0.75em;
+}
+
+.reveal table th {
+  background-color: #3887be;
+  color: white;
+  font-weight: bold;
+  padding: 10px;
+  border: 1px solid #2a6c9e;
+}
+
+.reveal table td {
+  padding: 8px;
+  border: 1px solid #ddd;
+}
+
+.reveal table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* Improve blockquote styling */
+.reveal blockquote {
+  background: #f9f9f9;
+  border-left: 5px solid #3887be;
+  margin: 1.5em 10px;
+  padding: 0.5em 10px;
+  font-style: italic;
+  font-size: 0.9em;
+}
+
+/* Column layout improvements */
+.columns {
+  display: flex;
+  gap: 20px;
+}
+
+.column {
+  flex: 1;
+}
+
+/* Smaller text class */
+.smaller {
+  font-size: 0.85em !important;
+}
+
+/* Highlight important metrics */
+.reveal strong {
+  color: #2a6c9e;
+}
+
+/* Improve list styling */
+.reveal ul, .reveal ol {
+  line-height: 1.6;
+}
+
+/* Center alignment for specific slides */
+.center {
+  text-align: center;
+}
+
+/* Improve code blocks if needed */
+.reveal pre code {
+  max-height: 500px;
+  font-size: 0.75em;
+}
+
+/* Add some spacing for readability */
+.reveal section {
+  line-height: 1.4;
+}
+
+/* Custom alert boxes */
+.alert {
+  padding: 15px;
+  margin: 20px 0;
+  border-radius: 5px;
+}
+
+.alert-info {
+  background-color: #d9edf7;
+  border-left: 5px solid #3887be;
+}
+
+.alert-success {
+  background-color: #dff0d8;
+  border-left: 5px solid #5cb85c;
+}
+
+/* Improve header hierarchy */
+.reveal h1 {
+  color: #2a6c9e;
+  text-transform: none;
+}
+
+.reveal h2 {
+  color: #3887be;
+  text-transform: none;
+}
+
+.reveal h3 {
+  color: #5a9cc4;
+  text-transform: none;
+}
