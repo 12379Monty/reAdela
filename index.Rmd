@@ -96,7 +96,7 @@ which document the development of Adela's cfMeDIP-seq Technology.
 The source of all the information contained therein is public.
 The primary references are the following:^[
 <span style="color:red">
-[@Shen2018; @Wilson2022; @Hallaaho2022]
+[@Shen2018; @Wilson2022; @Hallaaho2022; @Zeng2923]
 </span>
 ]
 
@@ -130,19 +130,25 @@ for comments on technical aspects of some of the studies cited.
 
 <br/>
 
-## [cfMeDIP-seq: Protocol, Pipeline and Classifiers](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers.html)
+## cfMeDIP-seq: Protocol, Pipeline and Classifiers
 
-<p/>
-* The evolution of Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers is 
+* [slides](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers_slides/_cfMeDIP_Evolution.html)
+
+* [Rmarkdown](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers.html) 
+   - The evolution of Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers is 
 traced.
-* The report is a fairly comprehensive, high level description of the assay
+   - The report is a fairly comprehensive, high level description of the assay
 and algorithm along with a description of enhancements that followed.
 
 <br/>
 
-### Supplementary Resources
+### Supplementary Resources {.tabset}
 
-* Code Repositories
+#### Home {-}
+
+<br/>
+
+#### Code Repositories {-}
 
 | Resource | URL | Description |
 |----------|-----|-------------|
@@ -154,7 +160,7 @@ and algorithm along with a description of enhancements that followed.
 
 <br/>
 
-*  Public Data Repositories
+####  Public Data Repositories {-}
 
 | Dataset | Repository | Accession | Access |
 |---------|------------|-----------|--------|
@@ -167,47 +173,58 @@ and algorithm along with a description of enhancements that followed.
 
 ## spike-in control normalization 
 
-* [_spike_in_normalization_cfMeDIP_report](spike_ins/_spike_in_normalization_cfMeDIP_report.html)
-   - Puts the general framework for spike-in normalization from
-Chen et al. (2015) [@Chen:2015aa]  with the specifics of cfMeDIP-seq to
-rationalize the appoach in Wilson et al. (2022) [@Wilson2022].
-
-* [_Wilson_2022_Spike_in_Controls_Technical_Review](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
+* [slides](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review_slides/NAME.html)
+* [Rmarkdown](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
    - contents of the paper are detailed.
    - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
+* Additional markdowns
+  - [framework](spike_ins/_spike_in_normalization_cfMeDIP_report.html)
+  - [biological validation](spike_ins/_Wilson_2022_Critical_Analysis_Biological_Validation.html)
 
-* [_Wilson_2022_Critical_Analysis_Biological_Validation](spike_ins/_Wilson_2022_Critical_Analysis_Biological_Validation.html)
-   - points out that Wilson et al. (2022) [@Wilson2022] provides little 
-evidence of the benefits of the spike-in normalization over alternatives,
+*  Published Data
+   - **GEO Accession GSE166259:**
+      - Raw HCT116 cell line data (public)
+      - Processed AML patient data (public)
 
+   - **EGA Accession EGAS00001005069:**
+      - Raw AML patient data (controlled access)
+      - Available via University Health Network Genomics Data Access Committee
 
-### Published Data
-    
-**GEO Accession GSE166259:**
-
-- Raw HCT116 cell line data (public)
-- Processed AML patient data (public)
-
-**EGA Accession EGAS00001005069:**
-
-- Raw AML patient data (controlled access)
-- Available via University Health Network Genomics Data Access Committee
-
-**Zenodo Deposits:**
-
-- Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
-- spiky package: https://doi.org/10.18129/B9.bioc.spiky
+   - **Zenodo Deposits:**
+      - Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
+      - spiky package: https://doi.org/10.18129/B9.bioc.spiky
 
 
 <br/>
 
 # Re-analysis 
 
+* Two areas in the developmental path that are inviting to further
+study: 
+
+   - Spike-in Normalization and 
+   - Model Selection
+
+<br/>
 
 ## Spike-in Normalization
 
+* Is all and only unwanted variation captured?:  see Figure XXX
+
+* In the task of normalization, we need to counterweigh
+the desire to have unbiased estimates with the need to have
+low variability estimates.
+   - the data need to be examined to see we are on the continuum.
+
+
+<br/>
+
 ## Model Selection
 
+*  Examine more  model structures - enet, rf, pam, svm, gbm, knn, xgb
+   - in addition to the error rate, we need to examine
+where the errors occur (samples) and how (miss by a lot or little)
+   - compare validation and test error rates.
 
  
 # Extras {.tabset}
