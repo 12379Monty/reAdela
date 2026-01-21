@@ -534,17 +534,6 @@ Sequencing</h1>
   <h3 class="date">January 2026</h3>
 </section>
 
-<section class="slide level2">
-
-<p>reveal.initialize({ // The “normal” size of the presentation, aspect
-ratio will // be preserved when the presentation is scaled to fit
-different // resolutions. Can be specified using percentage units.
-width: 960, height: 600,</p>
-<p>// Factor of the display size that should remain empty around // the
-content margin: 0.04,</p>
-<p>// Bounds for smallest/largest possible scale to apply to content
-minScale: 0.2, maxScale: 2.0, });</p>
-</section>
 <section id="executive-summary" class="slide level2 smaller">
 <h2 class="smaller">Executive Summary</h2>
 <p>Two leading MCED blood testing platforms utilizing DNA methylation in
@@ -1089,6 +1078,23 @@ providers.</em></p>
 
 nohup Rscript -e "rmarkdown::render('_Adela_vs_GRAIL_MCED.Rmd')" > _Adela_vs_GRAIL_MCED.log  &
     
+
+Reveal.initialize({
+  // The "normal" size of the presentation, aspect ratio will
+  // be preserved when the presentation is scaled to fit different
+  // resolutions. Can be specified using percentage units.
+  width: 960,
+  height: 600,
+
+  // Factor of the display size that should remain empty around
+  // the content
+  margin: 0.04,
+
+  // Bounds for smallest/largest possible scale to apply to content
+  minScale: 0.2,
+  maxScale: 2.0,
+});
+
 -->
 </section></section>
     </div>

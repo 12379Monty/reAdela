@@ -96,7 +96,7 @@ which document the development of Adela's cfMeDIP-seq Technology.
 The source of all the information contained therein is public.
 The primary references are the following:^[
 <span style="color:red">
-[@Shen2018; @Wilson2022; @Hallaaho2022; @Zeng2923]
+[@Shen2018; @Wilson2022; @Hallaaho2022; @Zeng2023]
 </span>
 ]
 

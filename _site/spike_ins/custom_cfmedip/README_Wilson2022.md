@@ -383,6 +383,15 @@ This presentation is suitable for:
 
 ## Troubleshooting
 
+**Issue: Slides extend beyond the bottom of the screen**
+- This has been fixed in `custom_wilson.css` with scrolling enabled
+- Each slide now scrolls vertically if content is too long
+- Font sizes have been reduced for better fitting
+- If issues persist, try:
+  - Zooming out in browser (Ctrl/Cmd + minus)
+  - Using fullscreen mode (F key)
+  - Breaking long slides into multiple slides
+
 **Issue: "package 'tidyr' not found"**
 ```r
 install.packages("tidyr")
@@ -404,9 +413,31 @@ install.packages("tidyr")
 - Try different browser if issues persist
 
 **Issue: Slides too crowded**
-- Use `{.smaller}` class on slide headers
+- Use `{.smaller}` class on slide headers for extra compact slides
 - Break complex content into additional slides
-- Adjust font sizes in custom_wilson.css
+- Adjust font sizes in custom_wilson.css (look for font-size properties)
+- Modify base font size: `.reveal { font-size: 28px !important; }` (smaller = 28px, default = 32px)
+
+**Additional Customization:**
+
+To further reduce content size, edit `custom_wilson.css`:
+
+```css
+/* Make everything smaller */
+.reveal {
+  font-size: 28px !important;  /* Reduce from 32px */
+}
+
+/* Make tables even smaller */
+.reveal table {
+  font-size: 0.5em !important;  /* Reduce from 0.55em */
+}
+
+/* Tighter line spacing */
+.reveal p, .reveal li {
+  line-height: 1.2 !important;  /* Reduce from 1.3 */
+}
+```
 
 ## Technical Implementation Notes
 
