@@ -1,0 +1,979 @@
+---
+title: "Spike-in Controls for cfMeDIP-seq"
+subtitle: "Wilson et al. (2022) - Technical Highlights"
+author: "Cell Reports Methods 2(9):100294"
+date: "January 2026"
+output:
+  revealjs::revealjs_presentation:
+    theme: moon
+    highlight: pygments
+    center: true
+    transition: slide
+    css: custom_wilson.css
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+library(ggplot2)
+library(dplyr)
+```
+
+## Executive Summary {.smaller}
+
+**Publication:** Wilson, S.L., Shen, S.Y., Harmon, L., et al. (2022)  
+*Cell Reports Methods* 2(9):100294
+
+**Achievement:** Synthetic spike-in controls enabling **absolute quantification** and **batch effect mitigation** for cfMeDIP-seq
+
+:::: {.columns}
+::: {.column width="50%"}
+**The Problem**
+
+- No absolute quantification
+- Unaccounted technical biases
+- Substantial batch effects (~5%)
+:::
+
+::: {.column width="50%"}
+**The Solution**
+
+
+- 52 synthetic spike-in controls
+- GLM-based calibration
+- Batch variance reduced to <1%
+:::
+::::
+
+> "Sensitive and reproducible cell-free methylome quantification"
+
+# 1. The Problem
+
+## Limitations of cfMeDIP-seq (Pre-2022)
+
+**Three Fundamental Issues:**
+
+1. **Arbitrary Quantification**
+   - Read counts not comparable across experiments
+   - No absolute units (just "counts")
+   - Cannot combine data from different studies
+
+2. **Technical Biases**
+   - Fragment length affects enrichment
+   - GC content influences capture
+   - CpG density impacts efficiency
+   - *No standardized correction method*
+
+3. **Batch Effects**
+   - Different labs → different results
+   - Reagent lots introduce variation
+   - ~5% of total variance from technical factors
+
+## Prior Approaches Were Inadequate {.smaller}
+
+| Method | Approach | Limitations |
+|--------|----------|-------------|
+| **Arabidopsis spike-ins** | Plant DNA controls | Global assessment only; no fragment-specific correction |
+| **Input DNA sequencing** | Sequence pre-IP sample | Cannot adjust for IP efficiency variations |
+| **Read depth normalization** | Library size scaling | Confounds biological with technical variation |
+| **QSEA computational** | Model-based correction | May introduce artifacts; no absolute quantification |
+
+<br>
+
+**None provided absolute quantification in defined units**
+
+# 2. Spike-in Design
+
+## Factorial Design Strategy
+
+**Coverage of cfDNA Fragment Properties:**
+
+| Parameter | Values | Rationale |
+|-----------|--------|-----------|
+| **Length** | 80 bp, 160 bp, 320 bp | Typical cfDNA size distribution |
+| **GC Content** | 35%, 50%, 65% | Low, medium, high GC regions |
+| **CpG Fraction** | 1/80, 1/40, 1/20 bp | CpG-poor to CpG-rich |
+
+<br>
+
+**Factorial Combinations:** 3 × 3 × 3 = **27 conditions**
+
+**Dual Sequences:** Methylated + Unmethylated for each = **54 total**
+
+**Achieved:** 52 spike-ins (2 synthesis failures)
+
+## Design Constraints & Validation
+
+**Critical Requirements:**
+
+✓ **No human genome alignment**
+
+  - BLASTN verified against GRCh38/hg38
+  - E-value threshold, bit score <50
+
+✓ **No secondary structure**
+
+  - UNAFold (80-160 bp)
+  - RNAstructure (320 bp)
+  - Prevents synthesis problems & systematic biases
+
+✓ **Sequence generation**
+
+  - GenRGenS (Markov model-based)
+  - Matches target length, GC, CpG parameters
+
+✓ **Methylation verification**
+
+  - M.SssI CpG methyltransferase
+  - Restriction digest confirmation
+
+<!--
+## Visual: Spike-in Coverage Space
+-->
+```{r spikein-coverage, fig.width=8, fig.height=5, eval=F}
+# Create data frame for spike-in design space
+spikein_grid <- expand.grid(
+  Length = c(80, 160, 320),
+  GC = c(35, 50, 65),
+  CpG = c("1/80", "1/40", "1/20")
+)
+
+spikein_grid$Status <- "Methylated + Unmethylated"
+spikein_grid$Status[spikein_grid$Length == 320 & spikein_grid$GC == 65] <- "Failed (secondary structure)"
+
+ggplot(spikein_grid, aes(x = GC, y = Length, fill = Status)) +
+  geom_tile(color = "white", size = 1.5) +
+  geom_text(aes(label = CpG), size = 4, fontface = "bold") +
+  scale_fill_manual(values = c("Methylated + Unmethylated" = "#5DADE2",
+                                "Failed (secondary structure)" = "#E74C3C")) +
+  labs(
+    title = "Spike-in Design Space (3×3×3 Factorial)",
+    x = "GC Content (%)",
+    y = "Fragment Length (bp)",
+    fill = "Status",
+    caption = "Numbers show CpG fraction per fragment"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    legend.position = "bottom",
+    panel.grid = element_blank()
+  )
+```
+
+# 3. Technical Validation
+
+## Experiment 1: Spike-ins Alone
+
+**Design:** cfMeDIP-seq on 9.99 ng spike-in pool (no biological sample)
+
+**Purpose:** Assess inherent biases in isolation
+
+**Key Results:**
+
+| Metric | Input | Output |
+|--------|-------|--------|
+| **Methylation specificity** | 51% methylated, 49% unmethylated | **97% methylated** |
+| **Non-specific binding** | N/A | **3% unmethylated** |
+
+**Observed Biases (Expected & Confirmed):**
+
+- ✓ Fragment length: 160 bp enriched (size selection)
+- ✓ GC content: High GC enriched
+- ✓ CpG fraction: High CpG enriched, low CpG depleted
+
+**Critical:** Unmethylated signal showed **no systematic bias** (random non-specific binding)
+
+## Experiment 2: HCT116 Optimization {.smaller}
+
+**Design:** 0.01 ng, 0.05 ng, 0.1 ng spike-ins + 10 ng HCT116 genomic DNA
+
+**Sequencing:** NovaSeq 6000, 60M paired-end reads/sample
+
+**Optimal Amount: 0.01 ng**
+
+- Uses <1% of sequencing reads
+- Retains >650,000 spike-in reads for calibration
+- Maintains >99% reads for biological sample
+
+**Performance:**
+
+| Metric | Value |
+|--------|-------|
+| Methylation specificity | ≥97% |
+| Non-specific binding | ≤0.01% |
+
+**Reproducibility Test:** Alternative 320 bp sequences (same properties, different sequence) showed ≤4% variation in read counts → sequence-specific effects minimal
+
+## Experiment 3: Multi-Lab Batch Effects {.smaller}
+
+**Design:** 5 AML patient plasma samples (10 ng each) + 0.01 ng spike-ins → 3 independent labs
+
+**Intentional Variations Introduced:**
+
+| Variable | Lab A | Lab B | Lab C |
+|----------|-------|-------|-------|
+| **Adapter** | xGen Stubby | Custom (2 bp UMI) | xGen Stubby |
+| **Ligation** | 4°C, 16h | 4°C, 16h | 20°C, 2h |
+| **Antibody** | Lot RD004 | Lot RD001 | Lot RD004 |
+| **Filler DNA** | 50% meth + 50% unmeth | 50% meth + 50% unmeth | **100% unmeth** ⚠ |
+| **PCR Cycles** | 13-15 | 13 | 11 |
+| **Sequencer** | NovaSeq (100 bp PE) | NovaSeq (100 bp PE) | NextSeq (75 bp PE) |
+| **Read Depth** | 60M | 100M | 85M |
+
+**Critical Finding:** Spike-in normalization successfully corrected Lab C's protocol deviation (unmethylated filler)
+
+# 4. GLM Quantification Model
+
+## Mathematical Framework
+
+**Generalized Linear Model (Gaussian GLM):**
+
+$$\eta = \beta_0 + \beta_{reads} \cdot x_{reads} + \beta_{len} \cdot x_{len} + \beta_{GC} \cdot x_{GC} + \beta_{CpG} \cdot (x_{CpG})^{1/3}$$
+
+**Features:**
+
+- $x_{reads}$: Deduplicated read count (UMI-collapsed)
+- $x_{len}$: Fragment length (bp)
+- $x_{GC}$: GC content (proportion)
+- $x_{CpG}$: CpG fraction (cube root transformed)
+
+**Output:** Absolute molar amount ($\eta$) in **picomoles**
+
+## Window-Based Quantification
+
+**Genomic Binning:** 300 bp windows across genome
+
+**Overlap Adjustment:** For fragments partially overlapping windows:
+
+$$\eta' = \left(\frac{\ell}{\ell^*}\right) \times \eta$$
+
+Where:
+
+- $\ell$ = length of overlap between fragment and window
+- $\ell^*$ = 300 bp (window size)
+- $\eta'$ = adjusted molar amount
+
+**Implementation:** Ensures accurate quantification when fragments span window boundaries
+
+## Model Performance {.smaller}
+
+**Training/Testing Framework:**
+
+- Held-out spike-ins for validation
+- Varied training set size: 6 to 25 spike-ins
+- 100 random iterations per size
+
+**Results:**
+
+| Metric | Value |
+|--------|-------|
+| **Mean absolute error** | ≤0.002 pmol |
+| **Model R²** | **0.93** |
+| **Bland-Altman agreement** | 95% within narrow CI |
+
+**Key Finding:** Performance improved with more training spike-ins; larger training sets showed greater variance (due to smaller test sets)
+
+# 5. Biological Validation
+
+## Correlation with EPIC Array
+
+**Comparison:** cfMeDIP-seq molar amounts vs. Illumina EPIC array M-values (HCT116)
+
+**Filtering:** 4,446,375 genomic windows after removing:
+
+- Simple repeats
+- ENCODE blacklist
+- Low mappability (≤0.5)
+- High variance windows (SD ≥0.05 pmol)
+
+**Results:**
+
+| CpG Probes/Window | Molar Amount (r) | Read Count (r) |
+|-------------------|------------------|----------------|
+| ≥3 probes | 0.62 | 0.61 |
+| ≥5 probes | **0.82** | 0.80 |
+| ≥7 probes | 0.87 | 0.85 |
+| ≥10 probes | 0.90 | 0.89 |
+
+## Validation Insights
+
+**Why Correlation Improves with More Probes?**
+
+- More array probes → better representation of true methylation
+- Windows with single probes may not capture regional methylation
+
+**Molar Amounts vs Read Counts:**
+
+- Similar correlation (slight advantage for molar amounts)
+- **Key benefit:** Absolute quantification enables cross-experiment comparison
+
+**Why M-values?**
+
+- β-values have heteroscedasticity (variance depends on mean)
+- M-values (log2 ratio) provide homoscedastic measurement
+
+> Validation against orthogonal platform confirms biological accuracy
+
+# 6. Batch Effect Mitigation
+
+## Principal Component Analysis
+
+**Four Normalization Approaches Compared:**
+
+1. Raw read counts (no normalization)
+2. QSEA normalization (current standard)
+3. Spike-in molar amounts (no filtering)
+4. **Spike-in + filtering** (recommended)
+
+**Data:** 5 AML samples × 3 labs = 15 technical replicates
+
+## PC1: Biological vs Technical Signals {.smaller}
+
+| Method | PC1 Variance | Associated Variables | Cohen's d |
+|--------|--------------|---------------------|-----------|
+| **Raw counts** | 80% | Batch (non-sig), Filler (non-sig) | Small |
+| **QSEA** | 81% | **Filler (significant)** ⚠ | Artifact |
+| **Spike-in only** | 78% | Batch (non-sig) | Small |
+| **Spike-in + filter** | 83% | **Sample (biological), Sex (biological)** ✓ | Biological |
+
+**Critical Observation:**
+
+- QSEA **introduced spurious correlation** with filler DNA type
+- Spike-in + filtering: Biological signals dominate PC1
+- Technical factors relegated to minor components
+
+## Variance Reduction Achievement
+
+```{r batch-variance, fig.width=8, fig.height=4.5}
+variance_data <- data.frame(
+  Method = factor(c("Raw Counts", "QSEA", "Spike-in Only", "Spike-in + Filter"),
+                  levels = c("Raw Counts", "QSEA", "Spike-in Only", "Spike-in + Filter")),
+  Batch_Variance = c(5.0, 5.0, 2.0, 0.8),
+  Biological_Variance = c(75, 76, 76, 82)
+)
+
+ggplot(variance_data, aes(x = Method, y = Batch_Variance, fill = Method)) +
+  geom_col(width = 0.7) +
+  geom_text(aes(label = paste0(Batch_Variance, "%")), 
+            vjust = -0.5, size = 5, fontface = "bold") +
+  geom_hline(yintercept = 1, linetype = "dashed", color = "#27AE60", size = 1) +
+  annotate("text", x = 3.5, y = 1.3, label = "Target: <1%", 
+           color = "#27AE60", fontface = "bold", size = 4) +
+  scale_fill_manual(values = c("#E74C3C", "#E67E22", "#F39C12", "#27AE60")) +
+  labs(
+    title = "Batch-Associated Variance Reduction",
+    subtitle = "Spike-in controls reduce batch effects from ~5% to <1%",
+    x = "Normalization Method",
+    y = "Batch Variance (% of Total)",
+    caption = "Data from 5 AML samples processed in 3 independent labs"
+  ) +
+  ylim(0, 6) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.position = "none",
+    axis.text.x = element_text(angle = 15, hjust = 1)
+  )
+```
+
+## Repetitive Elements Finding
+
+**PC2 Top Windows Analysis** (Spike-in + Filtering):
+
+- Examined top 10% of windows driving PC2 variance (258,254 windows)
+- **71% mapped to RepeatMasker repetitive elements**
+- Of those, **43% were Alu elements**
+
+**Interpretation:**
+
+- Batch effects particularly affect repetitive regions
+- May require special handling in downstream analysis
+- Spike-in normalization identifies these problematic regions
+
+# 7. Quality Control
+
+## Methylation Specificity Metric
+
+**Calculation:**
+
+$$\text{Methylation Specificity} = \frac{\text{Methylated Spike-in Reads}}{\text{Total Spike-in Reads}}$$
+
+**Thresholds:**
+
+| Range | Status | Action |
+|-------|--------|--------|
+| **≥0.98** | Pass ✓ | Proceed with analysis |
+| 0.95-0.98 | Warning ⚠ | Investigate, may use with caution |
+| **<0.95** | Fail ✗ | Remove sample (poor cfMeDIP performance) |
+
+**Implementation:** `methylation_specificity()` function in spiky package
+
+## Recommended Filtering Pipeline {.smaller}
+
+**Remove Four Categories:**
+
+1. **Simple repeats** → 1,070,387 regions removed
+   - UCSC simple repeats track
+
+2. **ENCODE blacklist** → 239,461 regions removed
+   - Known problematic genomic regions
+
+3. **Low mappability** → 549,876 regions removed
+   - Umap k100 multi-read score ≤0.5
+
+4. **High variance** → 906 regions removed
+   - SD of molar amount ≥0.05 pmol between replicates
+
+**Result:** 4,446,375 of ~5.3M windows retained (**84%**)
+
+## High Molar Amount Regions
+
+**Investigation of Outliers:** 11 windows with ≥0.25 pmol
+
+**Top 4 Windows (≥0.70 pmol):**
+
+| Gene | Context | Significance |
+|------|---------|--------------|
+| *MIER2* (2 windows) | Tumor suppressor | Altered in colorectal cancer |
+| *HCN2* | Ion channel | Tissue-specific expression |
+| *RNF126* | E3 ubiquitin ligase | Cancer-relevant |
+
+**Alu Elements:** 6/7 windows with mappability <1 overlapped Alu repeats
+
+> Highest methylation signals overlap cancer-relevant genes in HCT116 cells
+
+# 8. The spiky Package
+
+## Bioconductor Package Overview
+
+**Repository:** 
+
+- Bioconductor: `https://bioconductor.org/packages/spiky`
+- GitHub: `https://github.com/trichelab/spiky`
+
+**Purpose:** End-to-end cfMeDIP-seq analysis with spike-in controls
+
+**Requirements:**
+
+- R version ≥3.6 (≥4.0 recommended)
+- Dependencies: GenomicRanges, SummarizedExperiment, stats
+
+## Core Functions
+
+**1. methylation_specificity()**
+```r
+# Calculate methylation specificity from spike-in coverage
+ms <- methylation_specificity(spike_coverage)
+# Returns: mean and median values
+# Flags: poor-quality samples
+```
+
+**2. model_glm_pmol()**
+```r
+# Build GLM on methylated spike-ins
+model <- model_glm_pmol(spike_data)
+# Generates: batch-specific coefficients
+# Creates: Bland-Altman diagnostic plot
+# Returns: trained model object
+```
+
+**3. Prediction Pipeline**
+```r
+# Apply model to biological samples
+molar_amounts <- predict(model, sample_data)
+# Predicts: molar amount per genomic window
+# Adjusts: fragment overlap with windows
+# Outputs: absolute quantification (picomoles)
+```
+
+## Workflow Integration
+
+**Input:** Coverage objects from aligned cfMeDIP-seq BAM files
+
+**Process:**
+
+1. Load spike-in coverage data
+2. Calculate methylation specificity → **QC check**
+3. Train GLM on spike-in data → **Calibration**
+4. Predict molar amounts for biological samples → **Quantification**
+5. Apply filtering recommendations → **Clean data**
+6. Output quantified methylation data → **Analysis-ready**
+
+**Integration:** Compatible with MEDIPIPE pipeline (Zeng et al. 2023)
+
+# 9. Data & Resources
+
+## Published Data
+
+**GEO Accession GSE166259:** (Public)
+- Raw HCT116 cell line data
+- Processed AML patient data
+
+**EGA Accession EGAS00001005069:** (Controlled Access)
+
+- Raw AML patient data
+- Access: University Health Network Genomics Data Access Committee
+
+**Zenodo Deposits:**
+
+- Analysis code: `10.5281/zenodo.4683791`
+- spiky package: `10.18129/B9.bioc.spiky`
+
+**Table S1:** Complete sequences of all 52 spike-in fragments
+
+- Sequence ID, length, GC, CpG fraction
+- Methylation status
+- Restriction enzymes for verification
+
+## Commercial & IP Considerations
+
+**Patent:** PCT/CA2020/051507
+
+**Inventors:** Wilson, Shen, Triche, De Carvalho, Hoffman
+
+**License:** Licensed to **Adela, Inc.**
+
+**Conflicts of Interest:**
+
+- Shen, Bratman, De Carvalho: Leadership roles & equity in Adela
+- Multiple authors: Inventors on related cfDNA methylation patents
+
+**Research Use:** Open-source spiky package available
+
+> Foundation for Adela's MCED and MRD commercial platforms
+
+# 10. Key Innovations
+
+## Methodological Advances
+
+**1. First Synthetic Spike-ins for Enrichment Methylation Methods**
+
+- Prior art: RNA-seq, ChIP-seq, bisulfite methods
+- Novel: MeDIP-seq and cfMeDIP-seq application
+
+**2. Comprehensive Factorial Design**
+
+- Systematically covers parameter space
+- Enables simultaneous correction for length, GC, CpG biases
+
+**3. Absolute Quantification**
+
+- Converts arbitrary counts to picomoles
+- Enables true quantitative cross-experiment comparisons
+
+**4. Batch Effect Mitigation**
+
+- Reduces batch variance: **5% → <1%**
+- Preserves biological signals
+
+## Impact Metrics
+
+```{r impact-metrics, fig.width=9, fig.height=4}
+metrics_data <- data.frame(
+  Metric = c("Batch Variance\nReduction", "Array\nCorrelation", "Methylation\nSpecificity", "Non-specific\nBinding"),
+  Before = c(5.0, 0.61, NA, 3.0),
+  After = c(0.8, 0.82, 97, 0.01),
+  Target = c(1.0, 0.80, 98, 0.01)
+)
+
+library(tidyr)
+metrics_long <- metrics_data %>%
+  pivot_longer(cols = c(Before, After), names_to = "Status", values_to = "Value") %>%
+  mutate(Status = factor(Status, levels = c("Before", "After")))
+
+ggplot(metrics_long, aes(x = Metric, y = Value, fill = Status)) +
+  geom_col(position = "dodge", width = 0.7) +
+  geom_point(data = metrics_data, aes(y = Target, x = Metric), 
+             shape = 23, size = 4, fill = "#27AE60", color = "black", inherit.aes = FALSE) +
+  scale_fill_manual(values = c("Before" = "#E74C3C", "After" = "#3498DB")) +
+  labs(
+    title = "Performance Improvements with Spike-in Controls",
+    subtitle = "Diamonds (◆) show target values",
+    x = "",
+    y = "Value (%)",
+    fill = "Spike-in Status"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.position = "bottom",
+    axis.text.x = element_text(size = 11)
+  ) +
+  facet_wrap(~Metric, scales = "free_y", nrow = 1)
+```
+
+# 11. Limitations & Future
+
+## Acknowledged Limitations {.smaller}
+
+**1. Limited Parameter Coverage**
+
+- Only 3 values per parameter (length, GC, CpG)
+- Future: More granular coverage could improve modeling
+
+**2. Binary Methylation Assessment**
+
+- Spike-ins fully methylated or unmethylated
+- Cannot distinguish methylation status of individual biological fragments post-IP
+- Know ~97% methylated, but not which specific fragments
+
+**3. Partial CpG Coverage**
+
+- 320 bp, 65% GC failed (secondary structure)
+- Missing one combination from full factorial
+
+**4. Platform Specificity**
+
+- Designed for Illumina paired-end sequencing
+- May require redesign for PacBio, Oxford Nanopore
+
+## Future Opportunities
+
+**Technical Improvements:**
+
+- Expanded spike-in libraries (more parameter values)
+- Long-read sequencing adaptation
+- Single-cell cfMeDIP-seq compatibility
+- Ultra-low input optimization (<1 ng)
+
+**Application Extensions:**
+
+- Other enrichment methods (MBD-seq, MethylCap-seq)
+- Histone modification ChIP-seq
+- Other sample types (urine, CSF, saliva)
+
+
+**Clinical Translation:**
+
+- FDA submissions with validated QC
+- Multi-center clinical trials
+- Reference materials for proficiency testing
+
+# 12. Impact on Field
+
+## Immediate Applications
+
+**Clinical Assay Development:**
+
+- Enables regulatory submissions (absolute quantification)
+- Provides standardized QC metrics
+- Facilitates multi-center studies
+
+**Research Studies:**
+
+- Meta-analyses now possible (common units)
+- Improved statistical power (variance reduction)
+- Better detection of small biological effects
+
+**Technology Development:**
+
+- Foundation for assay optimization
+- Systematic protocol comparison
+- Quantifies impact of reagent changes
+
+## Adoption by Adela
+
+**Commercial Integration:**
+
+
+- Licensed technology to Adela, Inc.
+- Incorporated into MRD and MCED platforms
+- Integrated with MEDIPIPE pipeline (Zeng et al. 2023)
+
+**Evidence:**
+
+
+- Patent licensing agreement
+- Co-authors' involvement with Adela
+- Foundation for clinical validation studies
+
+> Key differentiator: Adela's absolute quantification capability
+
+## Broader Implications
+
+**For Enrichment-Based Methods:**
+
+- Design principles applicable to other MeDIP-seq variants
+- Template for histone ChIP-seq spike-ins
+- Framework for other enrichment assays
+
+**For cfDNA Field:**
+
+- Demonstrates importance of technical standardization
+- Model for rigorous validation studies
+- Raises bar for commercial assay development
+
+**For Regulatory Science:**
+
+- Provides standardized QC framework
+- Enables cross-laboratory comparisons
+- Supports clinical translation pathway
+
+# 13. Cost-Benefit Analysis
+
+## Implementation Costs {.smaller}
+
+**One-Time Investment:**
+
+
+| Item | Cost |
+|------|------|
+| Spike-in synthesis (52 fragments) | $2,000-3,000 |
+| Methylation reagents | $200 |
+| Validation testing | $500-1,000 |
+| **Total initial** | **~$3,000-4,000** |
+
+**Per-Sample Costs:**
+
+
+| Item | Cost |
+|------|------|
+| Spike-in DNA (0.01 ng) | $0.10-0.50 |
+| Additional sequencing | Negligible (<1% reads) |
+| Computational | Minimal (automated) |
+| **Total per sample** | **~$1-2** |
+
+## Return on Investment
+
+**Quantitative Benefits:**
+
+
+- Batch variance: 5% → <1% (5× improvement)
+- Technical replicate agreement: 10/10 improved
+- Cross-study comparability: Enabled
+
+**Qualitative Benefits:**
+
+
+- Regulatory compliance pathway
+- Reduced need for repeat experiments
+- Meta-analysis capability
+- Multi-center study feasibility
+
+**ROI Assessment:**
+
+
+> $1-2 per sample investment is negligible compared to:
+> - Clinical trial costs ($10K-100K per patient)
+> - Failed experiments from batch effects
+> - Regulatory submission requirements
+
+# 14. Critical Assessment
+
+## Strengths
+
+**Experimental Design:**
+
+1. Systematic factorial approach
+2. Multiple validation experiments
+3. Appropriate controls (unmethylated spike-ins)
+4. Biological validation (EPIC array)
+
+**Statistical Rigor:**
+
+5. Held-out validation
+6. 100 random iterations for robustness
+7. Effect size reporting (Cohen's d)
+8. Multiple testing correction
+9. Diagnostic plots (Bland-Altman)
+
+**Open Science:**
+
+10. Complete data deposition (GEO, EGA)
+11. Open-source software (Bioconductor)
+12. Reproducible code (Zenodo/GitHub)
+
+## Areas for Development
+
+**Technical Limitations:**
+
+
+1. Platform specificity (Illumina-focused)
+2. Limited to short-read sequencing
+3. Binary methylation (no partial methylation)
+4. Validation primarily in blood cancer (AML)
+
+**Future Validation Needed:**
+
+
+5. Low-shedding solid tumors (early stage)
+6. Ultra-low input samples (<10 ng)
+7. Non-plasma cfDNA sources
+8. Long-read sequencing platforms
+9. Clinical utility in prospective trials
+
+> Strong foundation; opportunities for extension
+
+# 15. Connection to Adela vs GRAIL
+
+## Platform Differentiator
+
+**Adela (cfMeDIP-seq):**
+
+
+- ✓ Uses Wilson et al. 2022 spike-in technology
+- ✓ Absolute quantification (picomoles)
+- ✓ Genome-wide bias correction
+- ✓ Batch effect resistance (<1% variance)
+- ✓ No bisulfite conversion (DNA preservation)
+
+**GRAIL (Targeted Bisulfite):**
+
+
+- Targeted sequencing (~1M CpG sites)
+- No published spike-in controls
+- Read count-based quantification
+- Bisulfite conversion required
+- Deep sequencing of selected regions
+
+> Spike-in normalization is a key technical differentiator
+
+## Quantification Comparison {.smaller}
+
+| Feature | Adela (with spike-ins) | GRAIL |
+|---------|------------------------|-------|
+| **Units** | Picomoles (absolute) | Read counts (relative) |
+| **Cross-experiment comparison** | Yes (common units) | Limited (batch effects) |
+| **Bias correction** | Length, GC, CpG | Computational models |
+| **Batch variance** | <1% of total | Not reported |
+| **QC metrics** | Methylation specificity | Standard sequencing QC |
+| **Validation** | Multi-lab (Wilson 2022) | CCGA study (15,000 participants) |
+
+**Note:** GRAIL has extensive clinical validation; Adela has superior technical normalization
+
+# 16. Integration with MEDIPIPE
+
+## MEDIPIPE Pipeline
+
+**MEDIPIPE** (Zeng et al. 2023): Automated cfMeDIP-seq analysis
+
+**Spike-in Integration Points:**
+
+
+**Stage 1: Alignment**
+
+- FASTQ → BAM (spike-in sequences + human genome)
+- UMI-based deduplication
+
+**Stage 2: Spike-in Analysis**
+
+- Calculate methylation specificity (QC)
+- Train GLM model (calibration)
+- Generate diagnostic plots
+
+**Stage 3: Quantification**
+
+- Apply GLM to biological samples
+- Window-based molar amount calculation
+- Generate normalized matrices
+
+**Stage 4: Quality Filtering**
+
+- Apply Wilson et al. 2022 filters
+- Output analysis-ready data
+
+# Conclusions
+
+## Key Achievements
+
+Wilson et al. (2022) represents a **landmark advance** for cfMeDIP-seq:
+
+1. **Absolute Quantification**
+   - Picomolar units enable cross-study comparisons
+   - Foundation for regulatory submissions
+
+2. **Bias Correction**
+   - Adjusts for fragment-specific properties
+   - Genome-wide applicability
+
+3. **Batch Effect Mitigation**
+   - Reduces technical variance: **5% → <1%**
+   - Preserves biological signals
+
+4. **Clinical Translation**
+   - Licensed to Adela for commercial use
+   - Integrated into MEDIPIPE pipeline
+   - Enables multi-center validation studies
+
+## Technical Excellence
+
+**Rigorous Methodology:**
+
+- Factorial design with systematic validation
+- Held-out testing, effect sizes, diagnostic plots
+- Complete data and code sharing
+
+**Practical Implementation:**
+
+- Open-source spiky R package
+- Detailed protocols and methods
+- Minimal per-sample cost (~$1-2)
+
+**Immediate Impact:**
+
+- 10/10 technical replicates improved
+- Correlation with arrays: r = 0.82
+- Multi-lab reproducibility demonstrated
+
+> Sets new standard for enrichment-based methylation methods
+
+## Future Outlook
+
+**Near-Term:**
+
+- Adoption in clinical trials (CAMPERR, etc.)
+- Regulatory submissions (FDA, international)
+- Multi-center validation studies
+
+**Mid-Term:**
+
+- Extension to other sample types
+- Long-read sequencing adaptation
+- Integration with multi-omics platforms
+
+**Long-Term:**
+
+- Population screening programs
+- Standard-of-care integration
+- Precision medicine applications
+
+> From methodological innovation to clinical standard
+
+## Questions?
+
+<br><br>
+
+### Key Resources
+
+**Publication:** Wilson et al. (2022) *Cell Rep Methods* 2(9):100294  
+
+DOI: 10.1016/j.crmeth.2022.100294
+
+**Software:** `github.com/trichelab/spiky`  
+
+Bioconductor: `bioconductor.org/packages/spiky`
+
+**Data:**
+
+- GEO: GSE166259 (public)
+- EGA: EGAS00001005069 (controlled)
+- Zenodo: 10.5281/zenodo.4683791 (code)
+
+<br>
+
+*Technical review presentation (January 2026)*
+
+---
+
+**Disclaimer:** Spike-in technology subject to patent PCT/CA2020/051507 licensed to Adela, Inc. Information for research and educational purposes.
+
+
+<!--
+nohup Rscript -e "rmarkdown::render('_Wilson2022_SpikeIns.Rmd')" > _Wilson2022_SpikeIns.log  &
+
+-->
