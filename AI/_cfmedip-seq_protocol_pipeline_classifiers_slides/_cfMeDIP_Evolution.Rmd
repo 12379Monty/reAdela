@@ -1,0 +1,681 @@
+---
+title: "cfMeDIP-seq Evolution"
+subtitle: "Protocol, Pipeline, and Classifier Methodologies"
+author: "Technical Evolution Timeline"
+date: "January 2026"
+output:
+  revealjs::revealjs_presentation:
+    theme: sky
+    highlight: pygments
+    center: true
+    transition: slide
+    css: custom_cfmedip.css
+    reveal_options:
+      slideNumber: true
+      previewLinks: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+## Executive Summary {.smaller}
+
+This presentation traces the evolution of **cell-free methylated DNA immunoprecipitation sequencing (cfMeDIP-seq)** methodology:
+
+:::: {.columns}
+::: {.column width="50%"}
+**Protocol Development**
+- Nature Protocols 2019
+- Variability mitigation
+- Sample format optimization
+:::
+
+::: {.column width="50%"}
+**Computational Evolution**
+- MEDIPIPE pipeline
+- Classifier methodologies
+- Machine learning advances
+:::
+::::
+
+<br>
+
+> From foundational academic protocol to clinical-grade assay platform
+
+# 1. Protocol Foundation
+
+## cfMeDIP-seq Protocol Overview
+
+**Published: Nature Protocols 2019** (Shen et al.)
+
+**Key Innovation:** Adaptation of MeDIP-seq for **low-input cell-free DNA**
+
+- Input requirement: **1-10 ng** cfDNA
+- Timeline: **3-4 days** (standard molecular biology lab)
+- Core innovation: **Filler DNA** as carrier molecule
+
+<br>
+
+**Filler DNA Function:**
+- Improves antibody-mediated capture efficiency
+- Enhances specificity for methylated fragments
+- Enables ultra-low input processing
+
+## Protocol Stages
+
+**Four Major Stages:**
+
+1. **Library Preparation** (Day 1) - Steps 1-3
+   - End-repair & A-tailing
+   - Adapter ligation
+   - SPRI bead purification
+
+2. **Immunoprecipitation** (Day 2) - Steps 4-10 ⚠️
+   - Add filler DNA & spike-ins
+   - Denature DNA (95°C)
+   - Anti-5mC antibody IP (overnight)
+   - Bead capture & wash
+   - Elution & purification
+
+## Protocol Stages (continued)
+
+3. **Library Amplification** (Day 3) - Steps 11-14
+   - qPCR quality control
+   - PCR amplification
+   - Size selection & QC
+
+4. **High-Throughput Sequencing** (Day 4+) - Step 15
+   - Paired-end sequencing
+   - Data generation
+
+<br>
+
+⚠️ **Critical Stage:** Immunoprecipitation (Stage 2) is the core of the assay and primary source of technical variability
+
+## Sources of Variability
+
+**HIGH Variability Sources:**
+
+- **Filler DNA composition** (methylated vs unmethylated)
+- **Antibody lot variation** (batch-to-batch differences)
+- **Immunoprecipitation efficiency** (overnight incubation)
+
+**MODERATE Variability:**
+
+- Adapter ligation efficiency
+- PCR amplification (GC bias, cycle number)
+- Sequencing depth variations
+
+**LOW Variability:**
+
+- End-repair & A-tailing
+- SPRI bead purification
+- Size selection
+
+# 2. Variability Mitigation
+
+## Systematic vs Random Variability
+
+:::: {.columns}
+::: {.column width="50%"}
+**Systematic (Correctable)**
+
+✓ Batch effects  
+✓ GC bias  
+✓ Mappability bias  
+✓ Fragment length bias  
+
+*Solution: Spike-in normalization*
+:::
+
+::: {.column width="50%"}
+**Random (Design-dependent)**
+
+⚠ Antibody lot variation  
+⚠ IP efficiency fluctuation  
+⚠ Library prep stochasticity  
+
+*Solution: Experimental controls*
+:::
+::::
+
+<br>
+
+**Key Improvement: Wilson et al. 2022**
+- Spike-in normalization methodology
+- Batch effect reduction: 5% → <1% variance
+- Published in *Cell Reports Methods*
+
+## Protocol Improvements Timeline {.smaller}
+
+| Year | Development | Impact |
+|------|-------------|--------|
+| **2018** | Foundational methodology (Shen et al., *Nature*) | Established cfMeDIP-seq feasibility |
+| **2019** | Standardized protocol (Shen et al., *Nat Protoc*) | Reproducible 3-4 day workflow |
+| **2020** | Disease-specific applications (Nassiri, Nuzzo) | Brain tumors, RCC detection |
+| **2022** | Spike-in normalization (Wilson et al.) | Batch variance: 5% → <1% |
+| **2023** | MEDIPIPE automation (Zeng et al.) | End-to-end computational pipeline |
+| **2024** | Clinical validation (multiple) | MRD, MCED applications |
+
+## Critical Batch Boundaries
+
+**Randomization is Essential at These Points:**
+
+1. **cfDNA extraction from plasma**
+   - Different extraction dates
+   - Different technicians
+
+2. **Library preparation batches**
+   - Filler DNA aliquots
+   - Adapter ligations
+
+3. **Immunoprecipitation batches**
+   - Antibody lots
+   - Different IP dates
+
+4. **PCR amplification**
+   - Thermocycler variation
+   - Primer lots
+
+5. **Sequencing runs**
+   - Different flow cells
+   - Different instruments
+
+# 3. MEDIPIPE Pipeline
+
+## Pipeline Overview
+
+**MEDIPIPE: Automated cfMeDIP-seq Analysis**
+
+Published: *Bioinformatics* 2023 (Zeng et al.)
+
+**Three Core Modules:**
+
+1. **Quality Control** - FastQC, alignment metrics, enrichment validation
+2. **Methylation Quantification** - Genome-wide binning, count matrices
+3. **Sample Aggregation** - Multi-sample normalization, batch correction
+
+<br>
+
+> "Automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis"
+
+## Pipeline Architecture
+
+**Input:** Paired-end FASTQ files
+
+**Processing Steps:**
+
+- Adapter trimming (Trim Galore!)
+- Alignment to reference genome (Bowtie2)
+- Duplicate marking (Picard)
+- Quality metrics computation
+- Coverage analysis across genomic features
+- Generation of normalized count matrices
+
+**Output:**
+
+- Sample-level QC reports
+- Genome-wide methylation profiles
+- Statistical input matrices for classification
+
+## Key Pipeline Features {.smaller}
+
+**1. Comprehensive QC Metrics:**
+- Fragment size distribution
+- Enrichment over CpG islands
+- Signal-to-noise ratios
+- Library complexity
+
+**2. Flexible Binning Strategies:**
+- Fixed-width genomic windows (300 bp, 500 bp, 1 kb)
+- Feature-based regions (CpG islands, shores, shelves)
+- FANTOM5 enhancer regions
+- Custom region sets
+
+**3. Normalization Methods:**
+- Read depth normalization (CPM, RPM)
+- GC content correction
+- Mappability adjustment
+- Spike-in normalization integration
+
+# 4. Classifier Evolution
+
+## Foundational Classifier (2018)
+
+**Shen et al. 2018 (*Nature*) - Original Methodology**
+
+**Feature Engineering:**
+- 300 bp genomic windows
+- Mapped to: CpG islands, shores, shelves, FANTOM5 enhancers
+- Top 1,000 most variable fragments
+
+**Classification Algorithms:**
+- **GLMnet** (elastic net regularization) ← Primary
+- **Random Forest**
+
+**Performance:**
+- Successfully distinguished cancer from healthy controls
+- Enabled multi-cancer type classification
+- Tissue-of-origin prediction capability
+
+## Feature Selection Evolution {.smaller}
+
+**Multiple Approaches Explored:**
+
+| Method | Purpose | Performance |
+|--------|---------|-------------|
+| t-tests | Statistical significance testing | Moderate |
+| Fisher's exact test | Feature selection | **Robust** ✓ |
+| PCA | Dimensionality reduction | Standard |
+| Iterative supervised PCA (ISPCA) | Feature generation | **Promising** ✓ |
+| GLMnet | L1/L2 regularization | **Robust** ✓ |
+| Logistic regression | Sparsity-promoting priors | **Simple & effective** ✓ |
+
+**Best Practices (Halla-aho & Lähdesmäki 2022):**
+- Fisher's exact test for feature selection
+- ISPCA for feature generation  
+- Logistic regression with hyper/hypomethylated region counts
+
+## Application-Specific Classifiers {.smaller}
+
+**Renal Cell Carcinoma (Nuzzo et al. 2019/2020):**
+- Top 300 differentially methylated regions (DMRs)
+- Methylation score assignment
+- Validated in plasma and urine samples
+
+**Breast Cancer / BRCA1/2 (De Pascali et al. 2024):**
+- GLMnet and Random Forest models
+- BRCA1/2 mutation detection capability
+- Breast cancer diagnosis from cfDNA
+
+**Multi-Cancer Platform (Adela):**
+- Same wet-lab assay across applications
+- Classifier-specific development per application
+- Enables rapid scaling to new cancer types
+
+> "Platform efficiency: same assay, different classifiers"
+
+## Classifier Methodology Comparison {.smaller}
+
+:::: {.columns}
+::: {.column width="50%"}
+**Early Approaches**
+- Manual feature selection
+- Limited genomic regions
+- Single cancer focus
+- Cross-validation within single cohorts
+:::
+
+::: {.column width="50%"}
+**Modern Approaches**
+- Automated feature engineering
+- Genome-wide coverage
+- Multi-cancer capability
+- Independent validation sets
+- Clinical utility validation
+:::
+::::
+
+<br>
+
+**Key Evolution:** From technical feasibility → clinical validation
+
+# 5. Platform Comparisons
+
+## cfMeDIP-seq vs Bisulfite Sequencing {.smaller}
+
+| Feature | cfMeDIP-seq | Bisulfite Sequencing |
+|---------|-------------|----------------------|
+| **DNA Modification** | None (preservation) | Chemical conversion |
+| **DNA Degradation** | Minimal | Substantial (~95% loss) |
+| **Input Requirement** | 1-10 ng | 10-100 ng |
+| **Resolution** | Regional (~300 bp) | Single-base (CpG-level) |
+| **Coverage** | Genome-wide enrichment | Targeted or whole-genome |
+| **Cost per Sample** | Lower | Higher (WGBS) |
+| **Library Complexity** | High | Reduced (4 nucleotides → 3) |
+| **Ideal Application** | Low cfDNA, genome-wide | High cfDNA, specific CpGs |
+
+## cfMeDIP-seq vs Targeted Methods
+
+**Targeted Methylation Arrays:**
+- Fixed CpG coverage (e.g., 850K array)
+- No discovery capability
+- Lower cost per sample
+- High throughput
+
+**cfMeDIP-seq Advantages:**
+- Flexible genomic interrogation
+- Novel biomarker discovery
+- Captures regulatory elements
+- Adapts to new genomic annotations
+
+**Use Case Optimization:**
+- Arrays: Known biomarker validation, large cohorts
+- cfMeDIP-seq: Discovery research, low-input samples, MRD
+
+# 6. Sample Processing
+
+## Physical Sample Format Transitions
+
+**Plasma → cfDNA:**
+- Blood draw (10 mL)
+- Plasma separation (centrifugation)
+- cfDNA extraction (column-based)
+- Quantification (fluorometry)
+- **Typical yield:** 10-50 ng/mL plasma
+
+**cfDNA → Library:**
+- End-repair & A-tailing (tube)
+- Adapter ligation (tube)
+- **+ Filler DNA addition** ← Key innovation
+- Purification (magnetic beads)
+
+## Sample Format Transitions (continued)
+
+**Library → Enriched Library:**
+- Denaturation (thermocycler)
+- Immunoprecipitation (overnight, tube)
+- Magnetic bead capture
+- Washes (multiple)
+- Elution (purified methylated DNA)
+
+**Enriched Library → Sequencing Library:**
+- qPCR quality assessment
+- PCR amplification (8-12 cycles)
+- Size selection (SPRI beads)
+- Final quantification
+
+**Sequencing Library → Data:**
+- Paired-end sequencing (Illumina)
+- **Typical output:** 20-40 million read pairs
+
+## Typical Batch Structure
+
+**Single Processing Batch:**
+
+- 24-96 samples typical
+- Include controls:
+  - Positive controls (methylated gDNA)
+  - Negative controls (unmethylated λDNA)
+  - Technical replicates (10-20%)
+  - Spike-in standards
+
+**Randomization Strategy:**
+- Stratify by: cancer type, stage, treatment status
+- Distribute across: extraction dates, IP batches, sequencing runs
+- Balance: case/control ratio per batch
+
+# 7. Best Practices
+
+## Protocol Best Practices {.smaller}
+
+**Sample Handling:**
+1. Process plasma within 2 hours of blood draw
+2. Double-spin plasma to remove cellular debris
+3. Store cfDNA at -80°C (avoid freeze-thaw)
+4. Quantify DNA accurately (Qubit fluorometry)
+
+**Library Preparation:**
+5. Use same filler DNA lot within study
+6. Perform IP with consistent antibody lots
+7. Include spike-ins for normalization
+8. Monitor enrichment with qPCR
+
+**Quality Control:**
+9. Fragment size: 150-200 bp peak
+10. Library complexity: >80% unique reads
+11. Enrichment: >5-fold over input
+12. Sequencing depth: ≥20M paired reads
+
+## Computational Best Practices
+
+**Data Processing:**
+- Use MEDIPIPE or equivalent automated pipeline
+- Apply adapter trimming (quality score >20)
+- Align with Bowtie2 (default parameters)
+- Remove PCR duplicates
+
+**Feature Generation:**
+- Bin reads into 300-500 bp windows
+- Focus on CpG-rich regions
+- Include enhancer elements (FANTOM5)
+- Normalize for GC content and mappability
+
+**Statistical Analysis:**
+- Apply spike-in normalization
+- Use robust feature selection (Fisher's exact, ISPCA)
+- Validate with independent test sets
+- Report performance by cancer stage
+
+## Future Research Priorities
+
+**Technical Development:**
+
+1. **Single-cell cfMeDIP-seq**
+   - Ultra-low input optimization
+   - Single-molecule resolution
+
+2. **Improved spike-in strategies**
+   - Synthetic methylated standards
+   - Quantitative calibration curves
+
+3. **Automation & standardization**
+   - Robotic liquid handling
+   - Pre-aliquoted reagent kits
+
+## Future Priorities (continued)
+
+**Clinical Translation:**
+
+4. **Prospective trial validation**
+   - Multi-center studies
+   - Real-world performance data
+
+5. **Reimbursement pathway**
+   - Health economics studies
+   - Clinical utility demonstration
+
+6. **Regulatory approval**
+   - FDA clearance pathways
+   - Clinical trial designs
+
+# 8. Key Publications
+
+## Foundational Papers {.smaller}
+
+**Protocol & Methodology:**
+
+1. **Shen et al. 2018** - *Nature* 563:579-583
+   - "Sensitive tumour detection and classification using plasma cell-free DNA methylomes"
+   - Established foundational methodology
+
+2. **Shen et al. 2019** - *Nat Protoc* 14:2749-2780
+   - "Preparation of cfMeDIP-seq libraries for methylome profiling"
+   - Standardized reproducible protocol
+
+3. **Wilson et al. 2022** - *Cell Rep Methods*
+   - Spike-in normalization methodology
+   - Batch effect reduction from 5% to <1%
+
+## Application Papers {.smaller}
+
+**Disease-Specific Validation:**
+
+4. **Nassiri et al. 2020** - *Nat Med*
+   - "Detection and discrimination of intracranial tumors"
+   - Brain tumor methylome profiling
+
+5. **Nuzzo et al. 2020** - *Nat Med* 26:1041-1043
+   - "Detection of renal cell carcinoma using plasma and urine cfDNA methylomes"
+   - RCC detection from liquid biopsies
+
+6. **De Pascali et al. 2024** - *J Transl Med* 22:934
+   - "Differential methylation for breast cancer diagnosis and BRCA1/2 detection"
+   - Breast cancer application
+
+## Computational Tools {.smaller}
+
+**Bioinformatics Development:**
+
+7. **Zeng et al. 2023** - *Bioinformatics* 39:btad423
+   - "MEDIPIPE: automated and comprehensive pipeline"
+   - End-to-end analysis automation
+
+8. **Halla-aho & Lähdesmäki 2022** - *BMC Bioinformatics* 23:138
+   - "Probabilistic modeling methods for cfDNA methylation"
+   - Comprehensive classifier comparison
+
+**Available Resources:**
+- GitHub: `pughlab/MEDIPIPE`
+- GitHub: `pughlab/cfMeDIP-seq-analysis-pipeline`
+- GitHub: `hallav/cfMeDIP-seq`
+
+# 9. Public Data Resources
+
+## Available Datasets {.smaller}
+
+**Public Repositories:**
+
+| Dataset | Accession | Description |
+|---------|-----------|-------------|
+| Cell line data | GEO: GSE79838 | Shen et al. 2018 validation |
+| Healthy controls | EGA: EGAD50000000652 | 23 plasma cfDNA samples |
+| INSPIRE study | EGA: EGAD00001011312 | Multi-timepoint immunotherapy |
+| Brain tumor demo | Zenodo | 163-sample demonstration set |
+
+**Machine Learning Models:**
+
+- Zenodo: `10.5281/zenodo.1242697` (Shen et al. 2018 models)
+- Zenodo: `10.5281/zenodo.1490920` (Intermediate objects)
+
+**Note:** Most patient data requires controlled access (institutional ethics compliance)
+
+# 10. Evolution Summary
+
+## Timeline of Innovation
+
+```{r evolution-timeline, echo=FALSE, message=FALSE, warning=FALSE, fig.height=6}
+library(ggplot2)
+library(dplyr)
+
+timeline_data <- data.frame(
+  Year = c(2018, 2019, 2020, 2022, 2023, 2024),
+  Event = c(
+    "Foundation\n(Nature)",
+    "Protocol\n(Nat Protoc)",
+    "Applications\n(Brain/RCC)",
+    "Normalization\n(Spike-in)",
+    "Automation\n(MEDIPIPE)",
+    "Clinical\n(MRD/MCED)"
+  ),
+  Category = c("Method", "Protocol", "Application", "Improvement", "Software", "Clinical"),
+  Impact = c(10, 8, 7, 9, 8, 10)
+)
+
+ggplot(timeline_data, aes(x = Year, y = Impact, color = Category)) +
+  geom_line(size = 1.5, alpha = 0.5) +
+  geom_point(size = 8, alpha = 0.8) +
+  geom_text(aes(label = Event), vjust = -1.5, size = 3.5, fontface = "bold") +
+  scale_y_continuous(limits = c(0, 12), breaks = seq(0, 10, 2)) +
+  scale_x_continuous(breaks = seq(2018, 2024, 1)) +
+  labs(
+    title = "cfMeDIP-seq Evolution Timeline",
+    subtitle = "From Academic Method to Clinical Platform",
+    x = "Year",
+    y = "Impact Level",
+    color = "Development Type"
+  ) +
+  theme_minimal(base_size = 14) +
+  theme(
+    plot.title = element_text(face = "bold", hjust = 0.5),
+    plot.subtitle = element_text(hjust = 0.5),
+    legend.position = "bottom"
+  )
+```
+
+## Key Takeaways {.smaller}
+
+**Technical Evolution:**
+1. Low-input cfDNA methodology (1-10 ng) enables liquid biopsy
+2. Spike-in normalization reduces batch effects from 5% to <1%
+3. MEDIPIPE automation standardizes analysis across labs
+4. Multiple classifier approaches validated for different applications
+
+**Platform Advantages:**
+- Preserves DNA integrity (no bisulfite)
+- Genome-wide discovery capability
+- Flexible classifier development
+- Single assay, multiple applications
+
+**Clinical Translation:**
+- MRD: Validated in head & neck, lung cancer
+- MCED: 12 cancers in development, 50+ planned
+- Performance: 92-97% sensitivity across stages
+
+## Future Outlook
+
+**Near-Term (1-2 years):**
+- Complete CAMPERR study validation
+- Expand MRD to additional cancer types
+- Regulatory pathway progress
+
+**Mid-Term (3-5 years):**
+- FDA approval for MRD applications
+- MCED clinical utility demonstration
+- Integration into standard care pathways
+
+**Long-Term (5+ years):**
+- Population screening programs
+- Multi-omics integration (cfDNA + protein)
+- Personalized treatment monitoring
+
+> From research tool to standard of care
+
+# Conclusions
+
+## Summary
+
+cfMeDIP-seq has evolved from an academic methylation profiling method to a clinically-validated platform for cancer detection and monitoring.
+
+**Key Milestones:**
+- ✓ Foundational methodology (2018)
+- ✓ Standardized protocol (2019)
+- ✓ Variability mitigation (2022)
+- ✓ Computational automation (2023)
+- ✓ Clinical validation (2024)
+
+**Enabling Factors:**
+- Low DNA input requirements
+- Genome-wide coverage
+- Platform flexibility
+- Robust normalization strategies
+
+## Questions?
+
+<br><br>
+
+### Additional Resources
+
+**Comprehensive Documentation:**
+- Protocol: Shen et al., *Nat Protoc* 2019
+- Pipeline: `github.com/pughlab/MEDIPIPE`
+- Reviews: Multiple disease-specific validations
+
+**Data Access:**
+- Public: GEO, Zenodo
+- Controlled: EGA (patient data)
+
+<br>
+
+*Presentation based on comprehensive technical review (January 2026)*
+
+---
+
+**Disclaimer:** Information for research and educational purposes. Clinical decisions should be made in consultation with healthcare providers.
+
+
+<!--
+nohup Rscript -e "rmarkdown::render('_cfMeDIP_Evolution.Rmd')" > _cfMeDIP_Evolution.log  &
+     
+-->
