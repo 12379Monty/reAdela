@@ -173,7 +173,8 @@ and algorithm along with a description of enhancements that followed.
 
 ## spike-in control normalization 
 
-* [slides](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review_slides/NAME.html)
+
+* [slides](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review_slides/_Wilson2022_SpikeIns.html)
 * [Rmarkdown](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
    - contents of the paper are detailed.
    - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
@@ -194,6 +195,7 @@ and algorithm along with a description of enhancements that followed.
       - Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
       - spiky package: https://doi.org/10.18129/B9.bioc.spiky
 
+* [NGS_Normalization_Methods_Review](spike_ins/NGS_Normalization_Methods_Review.html)
 
 <br/>
 
@@ -209,13 +211,24 @@ study:
 
 ## Spike-in Normalization
 
-* Is all and only unwanted variation captured?:  see Figure XXX
+* Normalization is one of the steps in the analysis of sample cfMeDIP data
+towards cancer detection scores.
+* Two models are used, each has the binned coverage as input
+   - first model predicts the probability of cancer
+   - second model predicts the cancer type
+* a 27 fragment spike-in normalization is suggested to adjust coverage levels
+   - a scaling factor adjusted for 3 covariates is suggested
+   - 4 parameters computed from 27 points which may or may not represent
+the sample distribution
 
 * In the task of normalization, we need to counterweigh
 the desire to have unbiased estimates with the need to have
 low variability estimates.
    - the data need to be examined to see we are on the continuum.
+   - a 27 fragment spike-in normalization is going to be on the noisy side
 
+* Alternatively, identify 1000 stably expressed bins and use some one-poarameter
+summary of these as shift.
 
 <br/>
 

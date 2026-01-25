@@ -418,21 +418,56 @@ border-color: gray;
 
     <style type="text/css">
 
+.reveal .slides {
+width: 100% !important;
+height: 100% !important;
+max-height: 100vh;
+}
+.reveal section {
+height: 100%;
+overflow-y: auto !important;
+overflow-x: hidden !important;
+padding: 20px !important;
+}
+
+.reveal {
+font-size: 32px !important;
+}
+.reveal h1 {
+font-size: 2.2em !important;
+margin-bottom: 0.3em !important;
+}
+.reveal h2 {
+font-size: 1.8em !important;
+margin-bottom: 0.3em !important;
+}
+.reveal h3 {
+font-size: 1.4em !important;
+margin-bottom: 0.2em !important;
+}
+.reveal p, .reveal li {
+font-size: 0.9em !important;
+line-height: 1.3 !important;
+margin-bottom: 0.5em !important;
+}
+
 .reveal table {
 margin: auto;
 border-collapse: collapse;
 border-spacing: 0;
-font-size: 0.7em;
+font-size: 0.55em !important;
+width: 95%;
+margin-bottom: 0.5em !important;
 }
 .reveal table th {
 background-color: #2874A6;
 color: white;
 font-weight: bold;
-padding: 10px;
+padding: 6px !important;
 border: 1px solid #1B4F72;
 }
 .reveal table td {
-padding: 8px;
+padding: 5px !important;
 border: 1px solid #ddd;
 }
 .reveal table tr:nth-child(even) {
@@ -442,22 +477,30 @@ background-color: #EBF5FB;
 .reveal blockquote {
 background: #EBF5FB;
 border-left: 5px solid #2874A6;
-margin: 1.5em 10px;
-padding: 0.5em 10px;
+margin: 0.8em 10px !important;
+padding: 0.4em 10px !important;
 font-style: italic;
-font-size: 0.9em;
+font-size: 0.8em !important;
 }
 
 .columns {
 display: flex;
-gap: 20px;
+gap: 15px;
 }
 .column {
 flex: 1;
 }
 
 .smaller {
-font-size: 0.8em !important;
+font-size: 0.65em !important;
+}
+.smaller p, .smaller li {
+font-size: 1em !important;
+line-height: 1.2 !important;
+margin-bottom: 0.3em !important;
+}
+.smaller table {
+font-size: 0.85em !important;
 }
 
 .reveal strong {
@@ -465,7 +508,11 @@ color: #1B4F72;
 }
 
 .reveal ul, .reveal ol {
-line-height: 1.6;
+line-height: 1.3 !important;
+margin-bottom: 0.5em !important;
+}
+.reveal li {
+margin-bottom: 0.3em !important;
 }
 
 .center {
@@ -473,18 +520,20 @@ text-align: center;
 }
 
 .reveal pre code {
-max-height: 500px;
-font-size: 0.7em;
+max-height: 400px !important;
+font-size: 0.6em !important;
+line-height: 1.2 !important;
 }
 
 .reveal section {
-line-height: 1.4;
+line-height: 1.3 !important;
 }
 
 .alert {
-padding: 15px;
-margin: 20px 0;
+padding: 10px !important;
+margin: 10px 0 !important;
 border-radius: 5px;
+font-size: 0.85em !important;
 }
 .alert-info {
 background-color: #D6EAF8;
@@ -608,6 +657,12 @@ Methodologies</h1>
   <h3 class="date">January 2026</h3>
 </section>
 
+<section class="slide level2">
+
+<aside class="notes">
+<p>Your speaker notes here (visible in presenter mode with ‘S’ key)</p>
+</aside>
+</section>
 <section id="executive-summary" class="slide level2 smaller">
 <h2 class="smaller">Executive Summary</h2>
 <p>This presentation traces the evolution of <strong>cell-free
@@ -969,13 +1024,22 @@ Enables rapid scaling to new cancer types</p>
 <h2 class="smaller">Classifier Methodology Comparison</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><strong>Early Approaches</strong> - Manual feature selection -
-Limited genomic regions - Single cancer focus - Cross-validation within
-single cohorts</p>
+<p><strong>Early Approaches</strong></p>
+<ul>
+<li>Manual feature selection</li>
+<li>Limited genomic regions</li>
+<li>Single cancer focus</li>
+<li>Cross-validation within single cohorts</li>
+</ul>
 </div><div class="column" style="width:50%;">
-<p><strong>Modern Approaches</strong> - Automated feature engineering -
-Genome-wide coverage - Multi-cancer capability - Independent validation
-sets - Clinical utility validation</p>
+<p><strong>Modern Approaches</strong></p>
+<ul>
+<li>Automated feature engineering</li>
+<li>Genome-wide coverage</li>
+<li>Multi-cancer capability</li>
+<li>Independent validation sets</li>
+<li>Clinical utility validation</li>
+</ul>
 </div>
 </div>
 <p><br></p>
@@ -1048,15 +1112,25 @@ validation</p>
 </section>
 <section id="cfmedip-seq-vs-targeted-methods" class="slide level2">
 <h2>cfMeDIP-seq vs Targeted Methods</h2>
-<p><strong>Targeted Methylation Arrays:</strong> - Fixed CpG coverage
-(e.g., 850K array) - No discovery capability - Lower cost per sample -
-High throughput</p>
-<p><strong>cfMeDIP-seq Advantages:</strong> - Flexible genomic
-interrogation - Novel biomarker discovery - Captures regulatory elements
-- Adapts to new genomic annotations</p>
-<p><strong>Use Case Optimization:</strong> - Arrays: Known biomarker
-validation, large cohorts - cfMeDIP-seq: Discovery research, low-input
-samples, MRD</p>
+<p><strong>Targeted Methylation Arrays:</strong></p>
+<ul>
+<li>Fixed CpG coverage (e.g., 850K array)</li>
+<li>No discovery capability</li>
+<li>Lower cost per sample</li>
+<li>High throughput</li>
+</ul>
+<p><strong>cfMeDIP-seq Advantages:</strong></p>
+<ul>
+<li>Flexible genomic interrogation</li>
+<li>Novel biomarker discovery</li>
+<li>Captures regulatory elements</li>
+<li>Adapts to new genomic annotations</li>
+</ul>
+<p><strong>Use Case Optimization:</strong></p>
+<ul>
+<li>Arrays: Known biomarker validation, large cohorts</li>
+<li>cfMeDIP-seq: Discovery research, low-input samples, MRD</li>
+</ul>
 </section></section>
 <section>
 <section id="sample-processing" class="title-slide slide level1">
@@ -1065,25 +1139,40 @@ samples, MRD</p>
 </section>
 <section id="physical-sample-format-transitions" class="slide level2">
 <h2>Physical Sample Format Transitions</h2>
-<p><strong>Plasma → cfDNA:</strong> - Blood draw (10 mL) - Plasma
-separation (centrifugation) - cfDNA extraction (column-based) -
-Quantification (fluorometry) - <strong>Typical yield:</strong> 10-50
-ng/mL plasma</p>
+<p><strong>Plasma → cfDNA:</strong></p>
+<ul>
+<li>Blood draw (10 mL)</li>
+<li>Plasma separation (centrifugation)</li>
+<li>cfDNA extraction (column-based)</li>
+<li>Quantification (fluorometry)</li>
+<li><strong>Typical yield:</strong> 10-50 ng/mL plasma</li>
+</ul>
 <p><strong>cfDNA → Library:</strong> - End-repair &amp; A-tailing (tube)
 - Adapter ligation (tube) - <strong>+ Filler DNA addition</strong> ← Key
 innovation - Purification (magnetic beads)</p>
 </section>
 <section id="sample-format-transitions-continued" class="slide level2">
 <h2>Sample Format Transitions (continued)</h2>
-<p><strong>Library → Enriched Library:</strong> - Denaturation
-(thermocycler) - Immunoprecipitation (overnight, tube) - Magnetic bead
-capture - Washes (multiple) - Elution (purified methylated DNA)</p>
-<p><strong>Enriched Library → Sequencing Library:</strong> - qPCR
-quality assessment - PCR amplification (8-12 cycles) - Size selection
-(SPRI beads) - Final quantification</p>
-<p><strong>Sequencing Library → Data:</strong> - Paired-end sequencing
-(Illumina) - <strong>Typical output:</strong> 20-40 million read
-pairs</p>
+<p><strong>Library → Enriched Library:</strong></p>
+<ul>
+<li>Denaturation (thermocycler)</li>
+<li>Immunoprecipitation (overnight, tube)</li>
+<li>Magnetic bead capture</li>
+<li>Washes (multiple)</li>
+<li>Elution (purified methylated DNA)</li>
+</ul>
+<p><strong>Enriched Library → Sequencing Library:</strong></p>
+<ul>
+<li>qPCR quality assessment</li>
+<li>PCR amplification (8-12 cycles)</li>
+<li>Size selection (SPRI beads)</li>
+<li>Final quantification</li>
+</ul>
+<p><strong>Sequencing Library → Data:</strong></p>
+<ul>
+<li>Paired-end sequencing (Illumina)</li>
+<li><strong>Typical output:</strong> 20-40 million read pairs</li>
+</ul>
 </section>
 <section id="typical-batch-structure" class="slide level2">
 <h2>Typical Batch Structure</h2>
@@ -1109,28 +1198,47 @@ batches, sequencing runs - Balance: case/control ratio per batch</p>
 </section>
 <section id="protocol-best-practices" class="slide level2 smaller">
 <h2 class="smaller">Protocol Best Practices</h2>
-<p><strong>Sample Handling:</strong> 1. Process plasma within 2 hours of
-blood draw 2. Double-spin plasma to remove cellular debris 3. Store
-cfDNA at -80°C (avoid freeze-thaw) 4. Quantify DNA accurately (Qubit
-fluorometry)</p>
-<p><strong>Library Preparation:</strong> 5. Use same filler DNA lot
-within study 6. Perform IP with consistent antibody lots 7. Include
-spike-ins for normalization 8. Monitor enrichment with qPCR</p>
-<p><strong>Quality Control:</strong> 9. Fragment size: 150-200 bp peak
-10. Library complexity: &gt;80% unique reads 11. Enrichment: &gt;5-fold
-over input 12. Sequencing depth: ≥20M paired reads</p>
+<p><strong>Sample Handling:</strong></p>
+<ol type="1">
+<li>Process plasma within 2 hours of blood draw</li>
+<li>Double-spin plasma to remove cellular debris</li>
+<li>Store cfDNA at -80°C (avoid freeze-thaw)</li>
+<li>Quantify DNA accurately (Qubit fluorometry)</li>
+</ol>
+<p><strong>Library Preparation:</strong></p>
+<ol start="5" type="1">
+<li>Use same filler DNA lot within study</li>
+<li>Perform IP with consistent antibody lots</li>
+<li>Include spike-ins for normalization</li>
+<li>Monitor enrichment with qPCR</li>
+</ol>
+<p><strong>Quality Control:</strong></p>
+<ol start="9" type="1">
+<li>Fragment size: 150-200 bp peak</li>
+<li>Library complexity: &gt;80% unique reads</li>
+<li>Enrichment: &gt;5-fold over input</li>
+<li>Sequencing depth: ≥20M paired reads</li>
+</ol>
 </section>
 <section id="computational-best-practices" class="slide level2">
 <h2>Computational Best Practices</h2>
 <p><strong>Data Processing:</strong> - Use MEDIPIPE or equivalent
 automated pipeline - Apply adapter trimming (quality score &gt;20) -
 Align with Bowtie2 (default parameters) - Remove PCR duplicates</p>
-<p><strong>Feature Generation:</strong> - Bin reads into 300-500 bp
-windows - Focus on CpG-rich regions - Include enhancer elements
-(FANTOM5) - Normalize for GC content and mappability</p>
-<p><strong>Statistical Analysis:</strong> - Apply spike-in normalization
-- Use robust feature selection (Fisher’s exact, ISPCA) - Validate with
-independent test sets - Report performance by cancer stage</p>
+<p><strong>Feature Generation:</strong></p>
+<ul>
+<li>Bin reads into 300-500 bp windows</li>
+<li>Focus on CpG-rich regions</li>
+<li>Include enhancer elements (FANTOM5)</li>
+<li>Normalize for GC content and mappability</li>
+</ul>
+<p><strong>Statistical Analysis:</strong></p>
+<ul>
+<li>Apply spike-in normalization</li>
+<li>Use robust feature selection (Fisher’s exact, ISPCA)</li>
+<li>Validate with independent test sets</li>
+<li>Report performance by cancer stage</li>
+</ul>
 </section>
 <section id="future-research-priorities" class="slide level2">
 <h2>Future Research Priorities</h2>
@@ -1242,10 +1350,12 @@ Bioinformatics</em> 23:138
 <li>Comprehensive classifier comparison</li>
 </ul></li>
 </ol>
-<p><strong>Available Resources:</strong> - GitHub:
-<code>pughlab/MEDIPIPE</code> - GitHub:
-<code>pughlab/cfMeDIP-seq-analysis-pipeline</code> - GitHub:
-<code>hallav/cfMeDIP-seq</code></p>
+<p><strong>Available Resources:</strong></p>
+<ul>
+<li>GitHub: <code>pughlab/MEDIPIPE</code></li>
+<li>GitHub: <code>pughlab/cfMeDIP-seq-analysis-pipeline</code></li>
+<li>GitHub: <code>hallav/cfMeDIP-seq</code></li>
+</ul>
 </section></section>
 <section>
 <section id="public-data-resources" class="title-slide slide level1">
@@ -1307,11 +1417,14 @@ objects)</li>
 </section>
 <section id="key-takeaways" class="slide level2 smaller">
 <h2 class="smaller">Key Takeaways</h2>
-<p><strong>Technical Evolution:</strong> 1. Low-input cfDNA methodology
-(1-10 ng) enables liquid biopsy 2. Spike-in normalization reduces batch
-effects from 5% to &lt;1% 3. MEDIPIPE automation standardizes analysis
-across labs 4. Multiple classifier approaches validated for different
-applications</p>
+<p><strong>Technical Evolution:</strong></p>
+<ol type="1">
+<li>Low-input cfDNA methodology (1-10 ng) enables liquid biopsy</li>
+<li>Spike-in normalization reduces batch effects from 5% to &lt;1%</li>
+<li>MEDIPIPE automation standardizes analysis across labs</li>
+<li>Multiple classifier approaches validated for different
+applications</li>
+</ol>
 <p><strong>Platform Advantages:</strong> - Preserves DNA integrity (no
 bisulfite) - Genome-wide discovery capability - Flexible classifier
 development - Single assay, multiple applications</p>
