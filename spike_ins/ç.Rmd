@@ -1,0 +1,835 @@
+---
+title: "Normalization Methods for Next-Generation Sequencing Data"
+subtitle: "A Comprehensive Review of RNA-seq and Methylation Sequencing Approaches"
+author: "Literature Review"
+date: "`r Sys.Date()`"
+bibliography: ngs_normalization_references.bib
+link-citations: true
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float: true
+    theme: united
+    code_folding: hide
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+# Introduction
+
+This document provides a comprehensive review of normalization methods used in next-generation sequencing (NGS) data analysis, covering both RNA sequencing (RNA-seq) and DNA methylation sequencing approaches. Normalization is a critical preprocessing step that corrects for technical biases and enables accurate biological inference from high-throughput sequencing data.
+
+---
+
+# Part 1: RNA-seq Normalization Methods
+
+## 1.1 TMM (Trimmed Mean of M-values)
+
+@Robinson2010scaling introduced TMM (Trimmed Mean of M-values) as a scaling normalization method for differential expression analysis of RNA-seq data.
+
+**Implementation**: edgeR package [@Robinson2010edgeR] (R/Bioconductor)
+
+**Data Used**: 
+- Marmoset brain and liver RNA-seq data (original paper)
+- Widely benchmarked on SEQC/MAQC datasets
+
+**Normalization Method**:
+- Calculates scaling factors by trimming extreme M-values (log fold-changes) and A-values (average log expression)
+- Assumes most genes are not differentially expressed
+- Minimizes log-fold changes between samples for the majority of genes
+
+**Assessment Methodology**:
+- Compared against total count and quantile normalization using simulated data
+- Evaluated using MA plots and coefficient of variation
+- Performance assessed on data where true differential expression is known
+
+**Primary Application**: **Between-sample normalization for differential expression analysis**
+
+---
+
+## 1.2 RLE (Relative Log Expression)
+
+@Anders2010 introduced RLE (Relative Log Expression) normalization in DESeq, which was later refined in DESeq2 [@Love2014].
+
+**Implementation**: DESeq/DESeq2 package (R/Bioconductor)
+
+**Data Used**:
+- DESeq: Drosophila pasilla knockdown data
+- DESeq2: Multiple datasets including airway smooth muscle cells
+
+**Normalization Method**:
+- Calculates size factors as median of ratios relative to geometric mean per gene
+- Similar assumption to TMM (most genes not DE)
+- Size factors applied as offsets in negative binomial GLM
+
+**Assessment Methodology**:
+- Comparison to other methods using spike-in controls
+- Examined distribution of size factors
+- Performance in detecting known differential expression
+- RLE plots to assess centering around zero
+
+**Primary Application**: **Differential expression analysis with built-in dispersion modeling**
+
+---
+
+## 1.3 RUVSeq (Remove Unwanted Variation)
+
+@Risso2014 introduced RUVSeq, a method for normalizing RNA-seq data using factor analysis of control genes or samples.
+
+**Implementation**: RUVSeq package (R/Bioconductor)
+
+**Data Used**:
+
+**SEQC Dataset**:
+- 128 samples total
+- Stratagene universal human reference RNA (Sample A) vs. Ambion human brain reference RNA (Sample B)
+- 4 libraries × 2 samples × 2 flow cells (16 replicates per library)
+- 21,559 genes
+- Technical replicates at library preparation and sequencing levels
+- qRT-PCR validation data available (370 positive, 86 negative controls)
+
+**Zebrafish Dataset**:
+- 6 samples: 3 pairs of gallein-treated vs. control embryonic cell pools
+- 32,469 Ensembl genes + 92 ERCC spike-in sequences
+- From @Ferreira2014
+
+**Normalization Method**:
+- Factor analysis using negative control genes or samples
+- Three variants: RUVg (control genes), RUVs (replicate samples), RUVr (residuals)
+- Removes unwanted variation (W) while preserving biological signal (X)
+- Model: log E[Y | W, X, O] = Wα + Xβ + O
+- Can use ERCC spike-ins or empirically-derived negative controls
+
+**Assessment Methodology**:
+
+*SEQC Dataset*:
+- Principal component analysis to visualize removal of batch effects
+- qRT-PCR as gold standard for log-fold change validation
+- ROC curves using 370 positive and 86 negative qRT-PCR controls
+- ECDF of p-values (should be uniform under null)
+- Measured bias in log-fold change estimates
+
+*Zebrafish Dataset*:
+- Relative Log Expression (RLE) boxplots (should center around zero)
+- PCA for sample clustering by treatment
+- Distribution of p-values for differential expression tests
+
+*Key Findings*:
+- RUVg adjusted for library preparation effects while retaining Sample A vs. B difference
+- Only RUVg produced properly uniform p-values for Sample A replicates
+- All RUV versions led to unbiased log-fold-change estimates vs. qRT-PCR
+- UQ normalization alone failed to remove Library 11 excessive variability
+
+**Primary Application**: **Removal of batch effects and technical variation using control genes/samples; particularly valuable for complex experimental designs**
+
+---
+
+## 1.4 Upper Quartile (UQ) and CPM/RPKM/TPM
+
+**References**: Various [@Bullard2010; @Robinson2010edgeR]
+
+**Normalization Methods**:
+
+- **CPM (Counts Per Million)**: counts / total_counts × 10⁶
+- **RPKM (Reads Per Kilobase per Million)**: counts / (gene_length_kb × total_counts_millions)
+- **TPM (Transcripts Per Million)**: Like RPKM but normalizes for gene length first, then library size
+- **UQ**: Uses upper quartile of non-zero counts as scaling factor
+
+**Assessment**:
+- Benchmarked against TMM and RLE in multiple studies
+- Generally perform worse than TMM/RLE for differential expression
+- TPM preferred over RPKM for cross-sample comparison
+
+**Primary Application**: **Simple library size normalization; TPM for cross-sample comparisons within studies**
+
+---
+
+## 1.5 Method Comparison Summary
+
+**Comparative Studies**:
+
+@Dillies2013 and @ZyprychWalczak2015 compared multiple methods on MAQC/SEQC datasets, using spike-ins and qRT-PCR validation to assess false positive rates, sensitivity/specificity, concordance, and AUC values. **Finding**: TMM and DESeq2 were among the best performers; method choice depends on data structure.
+
+---
+
+# Part 2: Methylation Sequencing Normalization Methods
+
+## 2.1 WGBS (Whole-Genome Bisulfite Sequencing)
+
+### 2.1.1 Sun et al. (2015) - Epigenomics
+
+@Sun2015 conducted a systematic study of normalization methods for Infinium 450K methylation data using whole-genome bisulfite sequencing data as a gold standard.
+
+**Data Used**:
+- 4 white blood cell samples with both WGBS and Illumina 450K array data
+- 64 total samples (450K arrays) pooled for normalization
+- WGBS used as gold standard
+
+**Normalization Methods Compared**:
+- QN (Quantile Normalization)
+- PBC (Peak-Based Correction)
+- SWAN (Subset-quantile Within Array Normalization)
+- SQN
+- Dasen
+- BMIQ (Beta MIxture Quantile normalization)
+- ASMN
+- QN.BMIQ (combination method)
+
+**Normalization Approach**:
+- Coverage filtering: minimum 10× coverage recommended; upper threshold at 99.9th percentile
+- Bismark for alignment and methylation calling
+- β-values: #C/(#C + #T)
+
+**Assessment Methodology**:
+- Pearson correlation coefficients between WGBS and array β-values at matched CpG sites
+- Coverage depth filtering effects on correlation
+- Evaluated probe-type bias (Type I vs. Type II probes)
+
+**Best Performers**: PBC and QN.BMIQ showed highest concordance with WGBS
+
+**Primary Application**: **Gold standard validation for array-based methylation methods; accurate absolute methylation quantification**
+
+---
+
+## 2.2 RRBS (Reduced Representation Bisulfite Sequencing)
+
+### 2.2.1 Gu et al. (2011, 2014)
+
+@Gu2011 described the preparation of reduced representation bisulfite sequencing libraries for genome-scale DNA methylation profiling.
+
+**Data Used**:
+- Mouse embryonic stem cells vs. early reprogramming intermediates (MEFs with Yamanaka factors)
+- Human samples for cross-platform validation
+
+**Normalization Methods**:
+- **Coverage-based normalization**: Median of coverage distributions
+- **methylKit package**: Scaling factor from median coverage differences
+- **Filtering approach**:
+  - Minimum 10× coverage
+  - Upper threshold at 99.9th percentile (removes PCR amplification bias)
+
+**Coverage Analysis**:
+- RRBS covers 6-12% of CpGs (focuses on CpG-rich regions ≥3 CpG/100bp)
+- WGBS covers ~50% (≥2 CpG/100bp)
+
+**Assessment**:
+- Concordance with WGBS in overlapping regions
+- Reproducibility between technical replicates
+
+**Primary Application**: **Cost-effective methylation profiling focused on CpG islands and regulatory regions**
+
+---
+
+## 2.3 Illumina 450K/EPIC Arrays
+
+### 2.3.1 Normalization Method Papers
+
+**Data Characteristics**:
+- Two probe types with different chemistry (Type I and Type II)
+- Probe-type bias requires correction
+
+**Key Normalization Methods**:
+
+**BMIQ** [@Teschendorff2013]:
+- Beta-mixture quantile normalization
+- Corrects for probe-type bias
+- Adjusts Type II probe distribution to match Type I
+
+**SWAN** [@Maksimovic2012]:
+- Subset-quantile Within Array Normalization
+- Uses subsets based on CpG content
+- Corrects for probe-type and CpG content bias
+
+**Assessment**:
+- Validated against WGBS [@Sun2015]
+- Technical replicate concordance
+- Biological signal preservation
+
+**Primary Application**: **High-throughput epigenome-wide association studies (EWAS)**
+
+---
+
+# Part 3: Enrichment-Based Methylation Methods
+
+## 3.1 BATMAN (Bayesian Tool for Methylation Analysis)
+
+@Down2008 introduced BATMAN, a Bayesian deconvolution strategy for immunoprecipitation-based DNA methylome analysis.
+
+**Data Used**:
+- Human spermatozoa MeDIP-chip and MeDIP-seq
+- Validated against Human Epigenome Project (HEP) bisulfite-PCR sequencing
+- 1,481 MeDIP-chip probes overlapping 667 bisulfite-PCR amplicons
+
+**Normalization Methodology**:
+
+**Pre-normalization**:
+- LOESS normalization for microarray data → log₂ ratios
+
+**Core Model**:
+$$E[S_p] = \sum_c C_{cp} \cdot m_c + \varepsilon_p$$
+
+Where:
+- $S_p$ = Observed MeDIP signal at probe/window *p*
+- $C_{cp}$ = Coupling factor (fraction of fragments at *p* containing CpG *c*)
+- $m_c$ ∈ [0,1] = Methylation level at CpG *c*
+- $\varepsilon_p$ = Normally distributed measurement error
+
+**Bayesian Framework**:
+- Posterior: P(m | S) ∝ P(S | m) · P(m)
+- Beta prior on methylation levels
+- Likelihood assumes normal errors
+- Uses nested sampling for inference
+
+**Assessment**:
+- Correlation with bisulfite sequencing: R² = 0.72
+- Compared to simpler approaches:
+  - LOESS log₂ ratios alone: R² = 0.46
+  - Averaging within 500bp windows: R² = 0.55
+  - Dividing by CpG count: R² = 0.50
+
+**Primary Application**: **Absolute methylation level estimation from MeDIP-chip/seq with explicit CpG density correction; first principled Bayesian approach for enrichment data**
+
+---
+
+## 3.2 MEDIPS
+
+@Chavez2010 introduced MEDIPS for computational analysis of genome-wide DNA methylation during stem cell differentiation. @Lienhard2014 later refined MEDIPS for genome-wide differential coverage analysis of sequencing data derived from DNA enrichment experiments.
+
+**Data Used**:
+- **Chavez 2010**: Human ES cells differentiating to definitive endoderm; validated against WGBS
+- **Lienhard 2014**: Mouse intestinal adenoma (5 adenoma, 7 normal controls); 14-22M reads per sample
+
+**Normalization Methodology**:
+
+**CpG Coupling Normalization**:
+$$\text{RMS} = \frac{\text{counts} / \text{total\_counts} \times 10^6}{\text{CpG\_coupling}}$$
+
+Where CpG coupling = expected number of CpGs covered by fragments overlapping each window
+
+**Between-Sample Normalization**:
+- TMM (Trimmed Mean of M-values) from edgeR for library size
+- Incorporates edgeR's negative binomial framework
+
+**Optional CNV Correction**:
+- Can account for copy number variation effects
+- Uses INPUT libraries to estimate CNV
+
+**Differential Methylation Model**:
+$$Y_{gi} \sim \text{NB}(\mu_{gi}, \phi_g)$$
+$$\log(\mu_{gi}) = \log(N_i) + X^T\beta_g$$
+
+**Assessment**:
+- Correlation with bisulfite validation: R = 0.69-0.79 (Lienhard 2014)
+- Improved correlation over uncorrected data when validated against WGBS (Chavez 2010)
+- 51,722 DMRs identified (P<0.01); 110 regions at 10% FDR
+
+**Primary Application**: **Genome-wide differential methylation analysis with integrated statistical framework; high computational efficiency**
+
+---
+
+## 3.3 QSEA (Quantitative Sequencing Enrichment Analysis)
+
+@Lienhard2017 introduced QSEA, a method for modeling genome-wide DNA methylation from sequencing enrichment experiments.
+
+**Data Used**: Not explicitly detailed in available sources
+
+**Normalization Methodology**:
+
+**Poisson Model**:
+$$N_w \sim \text{Poisson}(\lambda_w)$$
+$$\lambda_w = \left(\text{offset} + f_{\text{CpG}}(d_w) \cdot \beta_w\right) \cdot N_{\text{lib}} \cdot \text{CNV}_w$$
+
+**Sigmoidal Enrichment Function**:
+$$f_{\text{CpG}}(d) = \frac{f_{\max}}{1 + \exp(-k(d - d_0))}$$
+
+Captures saturation at high CpG densities:
+- $f_{\max}$ = maximum enrichment at full methylation
+- $k$ = slope parameter
+- $d_0$ = CpG density at inflection point
+
+**Components**:
+- Background correction (offset for non-specific binding)
+- TMM library size normalization
+- CNV correction (multiplicative)
+- Optional calibration with external bisulfite data
+
+**Bayesian Methylation Estimation**:
+$$P(\beta_w | N_w) \propto P(N_w | \beta_w) \cdot P(\beta_w)$$
+
+**Primary Application**: **Absolute methylation quantification with explicit modeling of signal saturation and background; suitable for integration with bisulfite calibration data**
+
+---
+
+## 3.4 MeDEStrand
+
+@Xu2018 introduced MeDEStrand, an improved method to infer genome-wide absolute methylation levels from DNA enrichment data.
+
+**Data Used**: Not detailed in available sources
+
+**Normalization Methodology**:
+
+**Strand-Specific Processing**:
+- Separates reads by DNA strand (positive/negative)
+- Processes each strand independently
+
+**Logistic Regression for CpG Bias**:
+$$E[R] = \frac{R_{\max}}{1 + \exp(-k(d - d_0))}$$
+
+- Parameters estimated **separately for each strand**
+- Uses low CpG density regions (assumed fully methylated) as calibration
+
+**Absolute Methylation Estimation**:
+$$\beta_w = \frac{R_{w,\text{obs}}}{f(d_w)}$$
+
+**Strand-Combined Estimate**:
+$$\beta_w = \frac{1}{2}\left(\beta_w^+ + \beta_w^-\right)$$
+
+**Primary Application**: **Improved methylation estimation accounting for strand-specific asymmetric methylation patterns**
+
+---
+
+## 3.5 MEDIPIPE
+
+@Zhu2023 introduced MEDIPIPE, an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis.
+
+**Implementation**: Snakemake workflow
+
+**Normalization Methodology**:
+- **Pipeline wrapper** - does not introduce novel normalization
+- Integrates existing tools (MEDIPS/QSEA)
+- User-configurable choice of quantification method
+- Automated end-to-end processing
+
+**Primary Application**: **Automated, scalable workflow for large-scale cfMeDIP-seq studies; ensures reproducibility across laboratories**
+
+---
+
+## 3.6 GLMnet (Elastic Net Regularization)
+
+@Friedman2010 described regularization paths for generalized linear models via coordinate descent.
+
+**Normalization Methodology**:
+
+**Pre-processing Required**:
+- Expects pre-normalized methylation matrix as input
+- Feature scaling: z-score standardization
+- Variance filtering: removes near-zero variance features
+
+**Elastic Net Objective**:
+$$\min_{\beta_0, \beta} \left\{ -\ell(\beta_0, \beta) + \lambda \left[ \frac{(1-\alpha)}{2} \|\beta\|_2^2 + \alpha \|\beta\|_1 \right] \right\}$$
+
+Where:
+- α ∈ [0,1] = mixing parameter (0=ridge, 1=lasso)
+- λ = regularization parameter (cross-validation)
+
+**Not Methylation-Specific**:
+- General machine learning tool
+- Normalization handled by upstream methods
+
+**Primary Application**: **Feature selection and predictive modeling (disease classification, epigenetic clocks) after normalization by other methods**
+
+---
+
+## 3.7 MethRaFo
+
+@Ding2017 introduced MethRaFo, a method for MeDIP-seq methylation estimation using a Random Forest Regressor.
+
+**Data Used**:
+- Trained on paired MeDIP-seq and bisulfite sequencing data
+- Requires ground truth BS-seq for training
+
+**Normalization Methodology**:
+
+**Feature Engineering**:
+- **RPKM** at multiple resolutions (100bp, 500bp, 1000bp windows):
+$$\text{RPKM} = \frac{\text{reads} \times 10^9}{\text{total mapped reads} \times \text{region length}}$$
+
+- **Local CpG density** at varying window sizes
+
+**Random Forest Regression**:
+$$\hat{\beta}(\mathbf{x}) = \frac{1}{B} \sum_{b=1}^B T_b(\mathbf{x})$$
+
+Where:
+- $B$ = number of trees (500-1000)
+- $T_b(\mathbf{x})$ = prediction from tree *b*
+
+**Training Objective**:
+$$\min \sum_{i=1}^n \left( \beta_{i,\text{BS}} - \hat{\beta}_{i,\text{MeDIP}} \right)^2$$
+
+**No Explicit Normalization Formula**:
+- Correction learned empirically from training data
+- Out-of-bag error for validation
+
+**Assessment**:
+- Claims ~4× faster than BATMAN
+- Up to 20% improved accuracy over BATMAN, MEDIPS, BayMeth
+
+**Primary Application**: **Fast, accurate absolute methylation estimation via machine learning; requires paired training data**
+
+---
+
+# Part 4: Additional Enrichment Normalization Methods
+
+## 4.1 MEDME (Modeling Experimental Data with MeDIP Enrichment)
+
+@Pelizzola2008 introduced MEDME, an experimental and analytical methodology for estimating DNA methylation levels based on microarray-derived MeDIP-enrichment.
+
+**Data Used**:
+- Normal human melanocytes vs. melanoma cell strain
+- Fully methylated X chromosome (created using CpG methyltransferase)
+- Bisulfite genomic DNA sequencing for validation
+
+**Normalization Methodology**:
+
+**Key Innovation**: Models **nonlinear relationship** between MeDIP enrichment and true methylation
+
+**Logistic Regression Model**:
+- MeDIP log₂ ratio modeled as logistic function of methylation level
+- Uses log₂ of total CpG count (weighted)
+- Window size: 1kb
+- CpG weighted-count (CpGw)
+
+**Generates Two Metrics**:
+
+1. **Absolute Methylation Score (AMS)**: Estimate of probe-level absolute number of methylated CpGs
+2. **Relative Methylation Score (RMS)**: Estimate of probe-level relative methylation (mCpG/CpG)
+
+**Model Fitting**:
+- Trained on fully methylated reference sample
+- Applied to test samples using learned parameters
+
+**Assessment**:
+- Correlation with expected methylation:
+  - Probe-level: R = 0.60
+  - Chromosome-wide (smoothed): R = 0.93
+- Validation with bisulfite sequencing of 14 genes
+- RMS better captures promoter hypo-methylation than raw MeDIP enrichment
+
+**Primary Application**: **Absolute and relative methylation quantification from MeDIP-chip; first method to explicitly model nonlinearity of enrichment**
+
+---
+
+## 4.2 MeSiC (Single-CpG Resolution from MeDIP)
+
+@Li2015MeSiC introduced MeSiC, a model-based method for estimating 5mC levels at single-CpG resolution from MeDIP-seq.
+
+**Data Used**:
+- H1 cell line
+- Combined BS-seq and TAB-seq as ground truth
+- 25,882,669 CpG sites (91.73% of human genome)
+- 1kb non-overlapping windows
+
+**Normalization Methodology**:
+
+**Random Forest Regression (RFR)**:
+- Integrates MeDIP-seq signals from CpG sites **and surrounding neighbors**
+- Constructs **genomic element-dependent RFR models**
+
+**Features**:
+- MeDIP-seq signal at target CpG
+- Signals from neighboring CpGs
+- Genomic context features
+
+**RPM Normalization**:
+$$\text{RPM} = \frac{\text{reads per window} \times 10^6}{\text{total mapped reads}}$$
+
+**CpG Density Bias Correction**:
+- Explicitly addresses CpG density-dependent bias
+- Models show highly methylated CpGs enriched in low CpG density regions
+- Limited accuracy in low CpG density regions without correction
+
+**Assessment**:
+- High correlation between MeSiC predictions and actual 5mC levels
+- Successfully calibrates CpG density-dependent bias
+- Achieves single-CpG resolution (vs. 100-500bp traditional methods)
+
+**Primary Application**: **High-resolution methylation estimation at individual CpG sites; addresses major limitation of window-based approaches**
+
+---
+
+## 4.3 methylCRF
+
+@Stevens2013 introduced methylCRF, a method for estimating absolute methylation levels at single-CpG resolution from methylation enrichment and restriction enzyme sequencing methods.
+
+**Data Used**:
+- H1 ESC samples
+- Validated against:
+  - MethylC-seq (WGBS)
+  - RRBS
+  - Infinium arrays
+  - Locus-specific bisulfite sequencing
+- Combined MeDIP-seq and MRE-seq data
+
+**Normalization Methodology**:
+
+**Conditional Random Fields (CRF) Algorithm**:
+- Integrates two complementary data types:
+  - MeDIP-seq (enriches methylated DNA)
+  - MRE-seq (enriches unmethylated DNA)
+  
+**Key Innovation**:
+- Provides single-CpG resolution across entire genome (~28 million CpGs)
+- Cost: <10% of whole-genome bisulfite sequencing
+
+**Model**:
+- CRF learns relationship between enrichment patterns and methylation states
+- Considers spatial dependencies between neighboring CpGs
+
+**Assessment**:
+- Concordance with MethylC-seq within 10% window: evaluated across genomic features
+- Concordance with MethylC-seq within 25% window
+- Coverage: analyzed number of CpGs for each comparison
+- Independent validation: In 11/12 cases, methylCRF agreed better with bisulfite validation than WGBS
+
+**Notable Finding**: methylCRF predictions were more accurate than WGBS in validated discordant regions
+
+**Primary Application**: **Cost-effective genome-wide single-CpG methylation profiling by integrating complementary enrichment methods**
+
+---
+
+## 4.4 Synthetic Spike-in Controls (Lisanti et al.)
+
+@Lisanti2012 described standardization and quality controls for the methylated DNA immunoprecipitation technique using synthetic spike-in controls.
+
+**Data Used**:
+- Human genomic DNA (MRC5 fibroblast cells)
+- Mouse tissues (colon, heart)
+- Technical replicates for reproducibility assessment
+
+**Normalization Methodology**:
+
+**Exogenous Spike-in Controls**:
+- Positive control: Highly methylated DNA fragment
+- Negative control: Unmethylated DNA fragment
+- Added at 1:100 ratio (controls:genomic DNA)
+- Can be reduced to 1:10,000 proportion
+
+**Quality Control Metrics**:
+- Enrichment = positive control signal / negative control signal
+- Constant enrichment ratio maintained post-WGA (whole genome amplification)
+- Used to normalize endogenous gene measurements
+
+**Advantages Over Housekeeping Gene Normalization**:
+- Methylation status known with certainty
+- Same controls across all samples
+- Independent of biological variation
+
+**Assessment**:
+- Tested reproducibility on technical replicates
+- Compared to GAPDH normalization
+- Constant Cq values (14-23) for qPCR detection
+- Demonstrated tissue-specific differences more reliably
+
+**Primary Application**: **Quality control and standardization of MeDIP experiments; enables comparison across batches and laboratories**
+
+---
+
+## 4.5 Wilson Synthetic Spike-ins (cfMeDIP-seq)
+
+@Wilson2022 introduced a method for sensitive and reproducible cell-free methylome quantification with synthetic spike-in controls.
+
+**Data Used**:
+- Peripheral blood plasma from acute myeloid leukemia (AML) patients
+- Multi-laboratory study (3 separate labs)
+- HCT116 colon cancer genomic DNA (sheared)
+- Cell-free DNA samples
+
+**Normalization Methodology**:
+
+**Comprehensive Synthetic Spike-in Library**:
+- **54 DNA fragments** with combinatorial design:
+  - Methylation status: methylated vs. unmethylated
+  - Fragment length: 80bp, 160bp, 320bp
+  - GC content: 35%, 50%, 65%
+  - CpG fraction: 1/80bp, 1/40bp, 1/20bp
+- Sequences don't align to human genome
+- Amount: 0.01 ng spike-in DNA
+
+**Unique Molecular Indices (UMIs)**:
+- Controls for differential amplification post-enrichment
+- Enables accurate quantification
+
+**Generalized Linear Model (GLM)**:
+- Trained on spike-in controls
+- Accounts for fragment properties affecting enrichment:
+  - Fragment length
+  - GC content
+  - CpG density
+  - Technical biases
+- Converts read counts to **absolute picomoles of DNA**
+
+**R Package**: spiky
+- Available on GitHub: https://github.com/trichelab/spiky
+- Bioconductor release planned
+
+**Assessment**:
+- PCA analysis comparing:
+  - Raw read counts
+  - Molar amount estimates (spike-in normalized)
+  - QSEA output
+- ANOVA for batch effect detection
+- Batch effects successfully mitigated
+
+**Comparison to QSEA**:
+- QSEA normalizes without spike-ins
+- QSEA accounts for fragment length, GC content, and CpGs computationally
+- Spike-in approach provides experimental standard
+
+**Primary Application**: **Absolute quantification of cell-free methylated DNA; batch effect correction in multi-site clinical studies; liquid biopsy applications**
+
+---
+
+## 4.6 SIMD (Statistical Inferences with MeDIP-seq Data)
+
+@Zhang2018SIMD introduced a method for methylation-level inferences and detection of differential methylation with MeDIP-seq data.
+
+**Data Used**: Not extensively detailed in available sources
+
+**Normalization Methodology**:
+
+**Key Innovation**:
+- Infers methylation level for **each individual CpG site**
+- Improves upon BATMAN, MEDME, MEDIPS which assume all CpGs in same window have identical methylation
+
+**Statistical Inference Framework**:
+- Provides single-CpG resolution
+- More precise than window-based methods
+
+**Comparison to Window-Based Methods**:
+- BATMAN, MEDIPS: divide genome into equal-length windows
+- Assume uniform methylation within windows
+- SIMD: addresses this limitation
+
+**Primary Application**: **Precise single-CpG methylation inference; improved resolution for regulatory element analysis**
+
+---
+
+# Part 5: Cross-Method Comparisons
+
+## 5.1 Enrichment Method Comparison Table
+
+| Method | Model Type | CpG Bias Correction | Key Innovation | Output | Runtime | Primary Application |
+|--------|-----------|---------------------|----------------|--------|---------|-------------------|
+| **BATMAN** | Bayesian | Coupling factor deconvolution | First principled approach | Absolute β | Days (genome-wide) | Absolute methylation with explicit CpG modeling |
+| **MEDME** | Logistic regression | Nonlinear model | Models non-linearity | AMS + RMS | Moderate | Absolute and relative methylation from MeDIP-chip |
+| **MEDIPS** | NB GLM (edgeR) | CpG coupling score | Differential analysis | RMS + DMRs | Minutes | Fast differential methylation analysis |
+| **QSEA** | Bayesian + GLM | Sigmoidal calibration | CNV correction + calibration | Absolute β + DMRs | Minutes-Hours | Absolute quantification with saturation modeling |
+| **MeDEStrand** | Logistic regression | Strand-specific sigmoid | Asymmetric methylation | Absolute β | Minutes | Strand-aware methylation estimation |
+| **MEDIPIPE** | Pipeline wrapper | MEDIPS/QSEA | Automated workflow | Aggregated QC | Hours (full pipeline) | Large-scale automated analysis |
+| **GLMnet** | Elastic net | Pre-normalized input | Feature selection | Classification | Seconds-Minutes | Predictive modeling post-normalization |
+| **MethRaFo** | Random Forest | Learned correction | Speed + accuracy | Absolute β | Minutes | Fast ML-based correction |
+| **MeSiC** | Random Forest | Element-dependent RFR | Single-CpG resolution | Single-CpG β | Moderate | High-resolution methylation mapping |
+| **methylCRF** | Conditional Random Fields | Integrated MeDIP+MRE | Data integration | Single-CpG β | Moderate | Cost-effective genome-wide profiling |
+| **Lisanti spike-ins** | Experimental | Spike-in ratio | QC standardization | Enrichment ratio | N/A | Quality control and standardization |
+| **Wilson spike-ins** | GLM on spike-ins | Comprehensive spike-ins | Absolute quantification | Picomoles DNA | N/A | cfDNA absolute quantification |
+
+---
+
+## 5.2 RNA-seq vs. Methylation Normalization
+
+### Key Differences
+
+**RNA-seq Normalization**:
+- Primary challenge: Library size and composition bias
+- Assumes: Most genes not differentially expressed
+- Focus: Between-sample comparisons
+- Standard approaches: TMM, RLE work well for most applications
+
+**Methylation Enrichment Normalization**:
+- Primary challenge: CpG density-dependent enrichment bias
+- Non-linear relationship between signal and true methylation
+- Must correct for: fragment length, GC content, CpG density
+- More complex: Requires deconvolution or machine learning
+
+### Common Principles
+
+Both domains:
+1. Require normalization of technical variation
+2. Use spike-in controls for quality assessment
+3. Benefit from replicate-based methods
+4. Need specialized methods for batch effect removal
+5. Validate against gold standards (qRT-PCR for RNA-seq, bisulfite for methylation)
+
+---
+
+# Part 6: Recommendations by Use Case
+
+## 6.1 RNA-seq Applications
+
+| Use Case | Recommended Method | Rationale |
+|----------|-------------------|-----------|
+| Standard differential expression | TMM (edgeR) or RLE (DESeq2) | Well-validated, robust, widely accepted |
+| Complex batch effects | RUVSeq | Explicitly removes unwanted variation |
+| Single-cell RNA-seq | RUV-III-NB, SCnorm, scran | Specialized for sparse, heterogeneous data |
+| Cross-sample comparison | TPM | Accounts for gene length and library size |
+| Time series / development | Limma-voom | Flexible linear modeling |
+
+## 6.2 Methylation Sequencing Applications
+
+| Use Case | Recommended Method | Rationale |
+|----------|-------------------|-----------|
+| WGBS data | Bismark + coverage filtering | Gold standard; minimal normalization needed |
+| RRBS data | methylKit | Specialized for RRBS, coverage-based |
+| MeDIP-seq differential analysis | MEDIPS | Fast, integrates with edgeR framework |
+| MeDIP-seq absolute quantification | QSEA or BATMAN | Model signal saturation and CpG bias |
+| Cell-free DNA methylation | Wilson spike-ins + spiky | Addresses cfDNA-specific challenges |
+| Single-CpG resolution from enrichment | methylCRF or MeSiC | Overcomes window-based limitations |
+| Multi-site clinical studies | Wilson spike-ins | Batch effect correction, standardization |
+| Machine learning / classification | MethRaFo or GLMnet | Fast, accurate feature selection |
+
+## 6.3 General Guidelines
+
+**For Enrichment-Based Methods**:
+1. Always include spike-in controls if possible (preferably synthetic like Wilson 2022)
+2. Use model-based approaches that account for CpG density (QSEA, BATMAN, MEDIPS)
+3. Consider computational resources: MEDIPS for speed, BATMAN for accuracy, MethRaFo for balance
+4. Validate subset of results with bisulfite sequencing
+5. Report both absolute and relative methylation measures when relevant
+
+**For All NGS Data**:
+1. Perform quality control before and after normalization
+2. Visualize normalization effects (RLE plots, PCA, MA plots)
+3. Use appropriate gold standards for validation
+4. Consider biological question when selecting method
+5. Report normalization method details in publications
+
+---
+
+# Conclusion
+
+Normalization remains a critical and evolving aspect of NGS data analysis. While RNA-seq normalization has converged on a few robust methods (TMM, RLE, RUV), methylation sequencing—particularly enrichment-based methods—requires more sophisticated approaches due to the non-linear relationship between signal and true methylation levels. 
+
+The development of spike-in controls [particularly @Wilson2022] and machine learning approaches [@Ding2017; @Li2015MeSiC] represent important advances, enabling absolute quantification and single-CpG resolution from enrichment data. The choice of normalization method should be guided by the specific experimental design, data type, and biological question being addressed.
+
+---
+
+# References
+
+::: {#refs}
+:::
+
+---
+
+**Document created**: `r Sys.Date()`
+
+**Session Info**:
+```{r session_info}
+sessionInfo()
+```
+
+
+
+
+<!-- To run
+## nohup Rscript -e "knitr::knit2html('_Adela_vs_GRAIL_MCED_Comparison.Rmd')" > _Adela_vs_GRAIL_MCED_Comparison.log  &
+
+## Or
+## nohup Rscript -e "rmarkdown::render('_Adela_vs_GRAIL_MCED_Comparison.Rmd')" > _Adela_vs_GRAIL_MCED_Comparison.log  &
+
+-->
+
+
+

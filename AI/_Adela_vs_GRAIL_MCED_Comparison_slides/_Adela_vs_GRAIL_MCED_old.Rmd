@@ -416,9 +416,6 @@ Two leading MCED blood testing platforms utilizing DNA methylation in cell-free 
 
 <!--
 
-nohup Rscript -e "rmarkdown::render('_Adela_vs_GRAIL_MCED.Rmd')" > _Adela_vs_GRAIL_MCED.log  &
-    
-
 Reveal.initialize({
   // The "normal" size of the presentation, aspect ratio will
   // be preserved when the presentation is scaled to fit different
@@ -434,6 +431,9 @@ Reveal.initialize({
   minScale: 0.2,
   maxScale: 2.0,
 });
+
+nohup Rscript -e "rmarkdown::render('_Adela_vs_GRAIL_MCED.Rmd')" > _Adela_vs_GRAIL_MCED.log  &
+    
 
 -->
 

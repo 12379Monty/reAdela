@@ -1,0 +1,482 @@
+---
+title: "Normalization of cfMeDIP-seq Binned Fragment Coverage Data"
+subtitle: "For Cancer Detection Applications"
+author: "Based on Shen et al. 2018, Halla-aho & Lähdesmäki 2022, and Wilson et al. 2022"
+date: "`r Sys.Date()`"
+output:
+  revealjs::revealjs_presentation:
+    theme: simple
+    highlight: pygments
+    center: true
+    transition: slide
+    self_contained: true
+    css: custom_wilson.css
+    reveal_options:
+      slideNumber: true
+      previewLinks: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+# Objective
+
+Early detection of cancer by examining the **cfMeDIP-seq methylation profiles** of blood samples
+
+---
+
+## cfMeDIP-seq Protocol
+
+:::: {style="font-size: 0.75em"}
+
+::: {.columns}
+:::: {.column width="25%"}
+**STAGE 1**  
+Library Prep  
+(Day 1)
+::::
+
+:::: {.column width="75%"}
+1. **End-repair & A-tailing** <span style="color:#27AE60">●</span>
+2. **Adapter ligation** <span style="color:#F39C12">●</span>
+3. **SPRI bead purification** <span style="color:#27AE60">●</span>
+::::
+:::
+
+<hr style="border: none; border-top: 2px dotted #999; margin: 10px 0;">
+
+::: {.columns}
+:::: {.column width="25%"}
+**STAGE 2**  
+IP  
+(Day 2)
+::::
+
+:::: {.column width="75%"}
+4. **Add filler DNA & spike-ins** <span style="color:#E74C3C">●</span>
+5. **Denature (95°C)** <span style="color:#27AE60">●</span>
+6. **Anti-5mC IP (overnight)** <span style="color:#E74C3C">●</span>
+7. **Bead capture & wash** <span style="color:#F39C12">●</span>
+8. **Elution & purification** <span style="color:#27AE60">●</span>
+::::
+:::
+
+<hr style="border: none; border-top: 2px dotted #999; margin: 10px 0;">
+
+::: {.columns}
+:::: {.column width="25%"}
+**STAGE 3**  
+Amplification  
+(Day 3)
+::::
+
+:::: {.column width="75%"}
+9. **qPCR QC** <span style="color:#27AE60">●</span>
+10. **PCR amplification** <span style="color:#F39C12">●</span>
+11. **Size select & QC** <span style="color:#27AE60">●</span>
+::::
+:::
+
+<hr style="border: none; border-top: 2px dotted #999; margin: 10px 0;">
+
+::: {.columns}
+:::: {.column width="25%"}
+**STAGE 4**  
+Sequencing  
+(Day 4+)
+::::
+
+:::: {.column width="75%"}
+12. **Paired-end sequencing** <span style="color:#F39C12">●</span>
+::::
+:::
+
+<div style="margin-top: 20px; font-size: 0.9em; border-top: 1px solid #ccc; padding-top: 10px;">
+**Variability Legend:** <span style="color:#E74C3C">● HIGH</span> | <span style="color:#F39C12">● MODERATE</span> | <span style="color:#27AE60">● LOW</span>
+
+**Key Sources:** Filler type | Antibody lots | PCR cycles/GC bias | Sequencing depth
+
+*Adapted from Shen et al., Nat Protoc 2019*
+</div>
+
+::::
+
+# How Immunoprecipitation Works
+
+---
+
+## Anti-5-Methylcytosine Antibody Mechanism
+
+:::: {style="font-size: 0.85em"}
+
+::: {.columns}
+:::: {.column width="50%"}
+**The Antibody:**
+
+- Monoclonal antibody against **5-methylcytosine (5mC)**
+- Recognizes methylated CpG dinucleotides
+- High affinity binding to methylated DNA
+- Does NOT bind unmethylated cytosines
+::::
+
+:::: {.column width="50%"}
+**Capture Mechanism:**
+
+1. DNA is denatured (single-stranded)
+2. Antibody binds to 5mC residues
+3. Antibody-DNA complexes captured on protein A/G beads
+4. Unmethylated fragments washed away
+5. Methylated fragments eluted
+::::
+:::
+
+::::
+
+---
+
+## Capture Efficiency
+
+:::: {style="font-size: 0.85em"}
+
+**cfMeDIP-seq is:**
+
+- **Sensitive**: enriches ~99.99% methylated fragments
+- **Specific**: enriches ~0.01% of unmethylated fragments
+
+**This does not leave much variability to explain**
+
+---
+
+**Methylation (density) → Higher Capture rate**
+
+**We cannot observe Methylation directly:**
+
+- Methylated fragments can be brought down
+- **CpG count per fragment** is a proxy
+
+**What do fragment length and GC add when we already have CpG count?**
+
+::::
+
+# Data Reduction and DMA
+
+---
+
+## From Reads to Bins
+
+:::: {style="font-size: 0.85em"}
+
+**Data Reduction Process:**
+
+1. **Sequencing** produces paired-end reads from methylated cfDNA fragments
+
+2. **Alignment** maps reads to reference genome (GRCh38/hg38)
+
+3. **Binning** divides genome into fixed-width windows
+   - Typical bin size: **300 bp**
+   - Excludes: blacklisted regions, repeats, low mappability regions
+
+4. **Coverage Calculation** counts fragments overlapping each bin
+   - Raw coverage = number of fragments per bin
+   - Basis for all downstream analysis
+
+::::
+
+# Normalization
+
+---
+
+## The Need for Normalization
+
+:::: {style="font-size: 0.85em"}
+
+**The Problem:**
+
+Many steps from blood collection → sequencing → bin coverage introduce **technical variability**
+
+**Sources of Technical Variability:**
+
+::: {.incremental}
+1. **Sample processing**: Different labs, operators, protocols
+2. **Immunoprecipitation efficiency**: Antibody lots, incubation conditions
+3. **PCR amplification**: Cycle number, GC bias
+4. **Sequencing depth**: Total reads per sample
+5. **Fragment properties**: Length, GC content, CpG density affect capture
+:::
+
+::::
+
+---
+
+## Definition of Normalization
+
+:::: {style="font-size: 0.85em"}
+
+**In this context**, *normalization* refers to:
+
+<div style="background-color: #f0f0f0; padding: 15px; border-left: 4px solid #3498DB; color: #000;">
+A **transformation** applied to the data such that **relative coverage values** computed from the transformed data are **closer to the biological truth** than relative coverage values computed from the untransformed data
+</div>
+
+**Goal:**
+
+Remove or reduce technical variability while preserving biological signal
+
+::::
+
+---
+
+## Ideal Dataset for Assessment
+
+:::: {style="font-size: 0.85em"}
+
+**To assess normalization effectiveness, the ideal data set would have the following features:**
+
+- Built-in truth on key outcomes: bin fold change in cfDNA from blood
+- Some variability on the order of what is expected
+
+::::
+
+# Spike-in Normalization (Wilson et al. 2022)
+
+---
+
+## Spike-in Control Design
+
+:::: {style="font-size: 0.75em"}
+
+**54 synthetic DNA fragments** with known molar amounts:
+
+::: {.columns}
+:::: {.column width="50%"}
+**Design Parameters:**
+
+- **Methylation status**: Methylated / Unmethylated
+- **Fragment length**: 80 bp, 160 bp, 320 bp
+- **GC content**: 35%, 50%, 65%
+- **CpG fraction**: 1/80 bp, 1/40 bp, 1/20 bp
+
+**Properties:**
+
+- Do not align to human genome
+- No secondary structure
+- Known molar amounts
+::::
+
+:::: {.column width="50%"}
+**Usage:**
+
+- Add **0.01 ng** spike-in mix to each sample
+- <1% of sequencing reads
+- Provides reference standard across samples
+- Enables absolute quantification in picomoles
+
+**Key Innovation:**
+
+Controls for biophysical properties that affect enrichment efficiency
+::::
+:::
+
+::::
+
+---
+
+## Mathematical Model
+
+:::: {style="font-size: 0.75em"}
+
+**Generalized Linear Model (Gaussian GLM):**
+
+Spike-in controls are used to train a regression model that predicts **molar amount** ($\eta$) from observable features:
+
+$$\eta = \beta_0 + \beta_{\text{reads}} x_{\text{reads}} + \beta_{\text{len}} x_{\text{len}} + \beta_{\text{GC}} x_{\text{GC}} + \beta_{\text{CpG}} \sqrt[3]{x_{\text{CpG fraction}}}$$
+
+**Where:**
+
+- $\eta$ = estimated molar amount (picomoles)
+- $x_{\text{reads}}$ = deduplicated read count (using UMIs)
+- $x_{\text{len}}$ = fragment length (bp)
+- $x_{\text{GC}}$ = GC content (proportion)
+- $x_{\text{CpG fraction}}$ = CpG fraction (cube-root transformed)
+- $\beta$ = regression coefficients learned from spike-ins
+
+::::
+
+---
+
+## Adjustment for Genomic Windows
+
+:::: {style="font-size: 0.85em"}
+
+**Window Overlap Correction:**
+
+Since fragments may partially overlap with 300 bp windows, adjust the molar amount:
+
+$$\eta' = \frac{\ell}{\ell^*} \cdot \eta$$
+
+**Where:**
+
+- $\eta'$ = adjusted molar amount for the window
+- $\ell$ = length of fragment overlap with window (1-300 bp)
+- $\ell^* = 300$ bp (window size)
+- $\eta$ = molar amount from GLM
+
+**Result:** Properly accounts for partial fragment contributions to each window
+
+::::
+
+---
+
+## Training the Model
+
+:::: {style="font-size: 0.8em"}
+
+**Step-by-step Process:**
+
+1. **Spike-in reads** are identified and separated from endogenous DNA
+
+2. **Known molar amounts** for each spike-in design are used as training labels
+
+3. **GLM is fit** using spike-in features:
+   - Read counts
+   - Fragment lengths
+   - GC contents
+   - CpG fractions
+
+4. **Coefficients** ($\beta$) are estimated for each sample/batch
+
+5. **Model is applied** to predict molar amounts for all genomic windows
+
+::::
+
+---
+
+## Key Advantages
+
+:::: {style="font-size: 0.85em"}
+
+1. **Absolute Quantification**
+   - Molar amounts (picomoles) instead of arbitrary read counts
+   - Enables quantitative cross-sample/cross-batch comparisons
+
+2. **Bias Correction**
+   - Adjusts for fragment length, GC content, CpG fraction
+   - Corrects for technical variation in IP efficiency
+
+3. **Batch Effect Mitigation**
+   - Reduces batch-associated variance to ≤1% of total
+   - Enables multi-lab studies with consistent results
+
+4. **Quality Control**
+   - Non-specific binding assessed from unmethylated spike-ins
+   - Methylation specificity: ~99.99%
+
+::::
+
+---
+
+## Validation Results
+
+:::: {style="font-size: 0.75em"}
+
+**Wilson et al. 2022 demonstrated:**
+
+::: {.columns}
+:::: {.column width="50%"}
+**Technical Performance:**
+
+- Mean absolute error ≤0.002 pmol
+- Correlation with EPIC array M-values: r = 0.82
+- Consistent across 3 independent labs
+- Works with as few as 6 training spike-ins
+
+**Batch Effect Reduction:**
+
+- Raw data: PC3 (5% variance) associated with batch
+- After spike-in: Batch variance <1% of total
+- Better than QSEA normalization
+::::
+
+:::: {.column width="50%"}
+**Clinical Application:**
+
+- Tested on AML patient samples
+- 3 labs with protocol variations:
+  - Different antibody lots
+  - Different filler types
+  - Different PCR cycles
+  - Different sequencers
+  
+**Result:** Spike-in normalization successfully harmonized data across all batches
+
+::::
+:::
+
+::::
+
+---
+
+## Implementation
+
+:::: {style="font-size: 0.85em"}
+
+**Available Tools:**
+
+1. **spiky** R/Bioconductor package
+   - <https://bioconductor.org/packages/spiky>
+   - Automated spike-in processing
+   - GLM training and prediction
+   - Integrates with standard pipelines
+
+2. **MEDIPIPE**
+   - Comprehensive cfMeDIP-seq analysis pipeline
+   - Includes spike-in quantification option
+   - Quality control and methylation quantification
+
+**Usage:** Add 0.01 ng spike-in mix before cfMeDIP-seq protocol
+
+::::
+
+---
+
+## Summary
+
+:::: {style="font-size: 0.85em"}
+
+**Normalization transforms bin coverage data to:**
+
+✓ Remove technical artifacts  
+✓ Preserve biological signal  
+✓ Enable accurate cancer detection
+
+**Spike-in normalization (Wilson et al. 2022) provides:**
+
+✓ Absolute quantification in picomoles  
+✓ Correction for fragment properties  
+✓ Batch effect mitigation (<1% variance)  
+✓ Quality control via non-specific binding
+
+**Critical for:** Multi-center studies, longitudinal monitoring, clinical translation of cfMeDIP-seq for cancer detection
+
+::::
+
+# References
+
+---
+
+## Key References
+
+:::: {style="font-size: 0.65em"}
+
+1. **Shen, S.Y., Singhania, R., Fehringer, G., et al.** (2018). Sensitive tumour detection and classification using plasma cell-free DNA methylomes. *Nature*, 563(7732), 579-583.
+
+2. **Shen, S.Y., Burgener, J.M., Bratman, S.V., and De Carvalho, D.D.** (2019). Preparation of cfMeDIP-seq libraries for methylome profiling of plasma cell-free DNA. *Nature Protocols*, 14(10), 2749-2780.
+
+3. **Halla-aho, V., and Lähdesmäki, H.** (2022). Probabilistic modeling methods for cell-free DNA methylation based cancer classification. *BMC Bioinformatics*, 23, 138.
+
+4. **Wilson, S.L., Shen, S.Y., Harmon, L., et al.** (2022). Sensitive and reproducible cell-free methylome quantification with synthetic spike-in controls. *Cell Reports Methods*, 2(9), 100294.
+
+5. **Zeng, Y., Ye, W., Stutheit-Zhao, E.Y., et al.** (2023). MEDIPIPE: an automated and comprehensive pipeline for cfMeDIP-seq data quality control and analysis. *Bioinformatics*, 39(7), btad423.
+
+::::
