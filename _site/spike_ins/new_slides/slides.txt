@@ -1,0 +1,76 @@
+bibliogaphy: ../../ngs_normalization_references.bib
+
+revealjs::revealjs_presentation: presentation.
+
+* title: Normalization of cfMeDIP-seq Binned Fragment Coverage Data
+
+Slide: (roughly slide breakdown)
+* Objective: Early detection of cancer using the cfMeDIP-seq methylation profiles of blood samples
+   -  cfMeDIP-seq prototol in 4 stages: 
+      1. Library Preparation 
+      2. Immunoprecipitation - geatest amoun of UV
+      3. Amplification 
+      4. Sequencing
+
+Slide:
+* Immunoprecipitation capture:
+   - Monoclonal antibody against 5-methylcytosine (5mC)
+   - Recognizes methylated CpG dinucleotides
+   - High affinity binding to methylated DNA
+   - Does NOT bind unmethylated cytosines
+
+* Methylated Fragment Capture Efficiency: 
+   * 99.99% Sensitive and Specific 
+   * Fragment capture ~ number of methylated CpGs 
+
+Slide:
+Data Reduction Process:
+
+* Sequencing produces paired-end reads from methylated cfDNA fragments
+
+* Alignment maps reads to reference genome (GRCh38/hg38)
+
+* Binning divides genome into fixed-width windows
+   - Typical bin size: 300 bp
+   - Excludes: blacklisted regions, repeats, low mappability regions
+
+* Coverage Calculation: adjusted counts of fragments overlapping each bin
+   - Raw coverage = sum of fragment overlap with each bib
+   - Weighing by overlap has a smoothing effect on bin to bin variability.  
+   - Having features correlated by design complicates the interpretation of
+bin specific statistics.
+   - Why not use majority rule?  Or checker board the genome?  Or do we care?
+
+
+
+Slide:
+Cancer outcome predictions
+
+* Models or predictive  are fitted to the data
+   - cancer/no cancer score = f(**x**)
+where `f` is some function of input **x**, raw coverage or tras-nsdk
+
+* For glm or elastic net  f(**x**) = $\beta \cdot x$ 
+   - bin selection is made by setting coefficients in $\beta$ zero.
+ 
+* For logistic regression  f(**x**) = (1 + exp(-$\beta \cdot x$)))
+
+* Similar models are used to predict the tissue of origin
+
+
+Slide:
+* Technical variability:  Variability related to the handling and processing of the samples
+* Sources of Technical Variability in cfMeDIP-deq:
+   - Sample processing: Different labs, operators, protocols
+   - Immunoprecipitation efficiency: Antibody lots, incubation conditions
+   - PCR amplification: Cycle number, GC bias
+   - Sequencing depth: Total reads per sample
+   - Fragment properties: Length, GC content, CpG density affect capture
+      - ???
+
+Slide:
+* Normalization:  
+   - "An essential step of RNA sequencing (RNA-seq) data analysis is normalization, whereby different sources of unwanted variation are removed to make gene expression measurements comparable within and between samples." (Milania et al., 2023 [@Molania2023]).
+
+
+

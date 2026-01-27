@@ -419,7 +419,7 @@ border-color: gray;
     <style type="text/css">
 
 .reveal .slides {
-width: 100% !important;
+width: 90% !important;
 height: 100% !important;
 max-height: 100vh;
 }
@@ -657,12 +657,6 @@ Methodologies</h1>
   <h3 class="date">January 2026</h3>
 </section>
 
-<section class="slide level2">
-
-<aside class="notes">
-<p>Your speaker notes here (visible in presenter mode with ‘S’ key)</p>
-</aside>
-</section>
 <section id="executive-summary" class="slide level2 smaller">
 <h2 class="smaller">Executive Summary</h2>
 <p>This presentation traces the evolution of <strong>cell-free
@@ -670,11 +664,19 @@ methylated DNA immunoprecipitation sequencing (cfMeDIP-seq)</strong>
 methodology:</p>
 <div class="columns">
 <div class="column" style="width:50%;">
-<p><strong>Protocol Development</strong> - Nature Protocols 2019 -
-Variability mitigation - Sample format optimization</p>
+<p><strong>Protocol Development</strong></p>
+<ul>
+<li>Nature Protocols 2019</li>
+<li>Variability mitigation</li>
+<li>Sample format optimization</li>
+</ul>
 </div><div class="column" style="width:50%;">
-<p><strong>Computational Evolution</strong> - MEDIPIPE pipeline -
-Classifier methodologies - Machine learning advances</p>
+<p><strong>Computational Evolution</strong></p>
+<ul>
+<li>MEDIPIPE pipeline</li>
+<li>Classifier methodologies</li>
+<li>Machine learning advances</li>
+</ul>
 </div>
 </div>
 <p><br></p>
@@ -701,9 +703,12 @@ lab)</li>
 molecule</li>
 </ul>
 <p><br></p>
-<p><strong>Filler DNA Function:</strong> - Improves antibody-mediated
-capture efficiency - Enhances specificity for methylated fragments -
-Enables ultra-low input processing</p>
+<p><strong>Filler DNA Function:</strong></p>
+<ul>
+<li>Improves antibody-mediated capture efficiency</li>
+<li>Enhances specificity for methylated fragments</li>
+<li>Enables ultra-low input processing</li>
+</ul>
 </section>
 <section id="protocol-stages" class="slide level2">
 <h2>Protocol Stages</h2>
@@ -792,9 +797,12 @@ incubation)</li>
 </div>
 </div>
 <p><br></p>
-<p><strong>Key Improvement: Wilson et al. 2022</strong> - Spike-in
-normalization methodology - Batch effect reduction: 5% → &lt;1% variance
-- Published in <em>Cell Reports Methods</em></p>
+<p><strong>Key Improvement: Wilson et al. 2022</strong></p>
+<ul>
+<li>Spike-in normalization methodology</li>
+<li>Batch effect reduction: 5% → &lt;1% variance<a href="#/fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></li>
+<li>Published in <em>Cell Reports Methods</em></li>
+</ul>
 </section>
 <section id="protocol-improvements-timeline" class="slide level2 smaller">
 <h2 class="smaller">Protocol Improvements Timeline</h2>
@@ -921,16 +929,27 @@ control and analysis”</p>
 </section>
 <section id="key-pipeline-features" class="slide level2 smaller">
 <h2 class="smaller">Key Pipeline Features</h2>
-<p><strong>1. Comprehensive QC Metrics:</strong> - Fragment size
-distribution - Enrichment over CpG islands - Signal-to-noise ratios -
-Library complexity</p>
-<p><strong>2. Flexible Binning Strategies:</strong> - Fixed-width
-genomic windows (300 bp, 500 bp, 1 kb) - Feature-based regions (CpG
-islands, shores, shelves) - FANTOM5 enhancer regions - Custom region
-sets</p>
-<p><strong>3. Normalization Methods:</strong> - Read depth normalization
-(CPM, RPM) - GC content correction - Mappability adjustment - Spike-in
-normalization integration</p>
+<p><strong>1. Comprehensive QC Metrics:</strong></p>
+<ul>
+<li>Fragment size distribution</li>
+<li>Enrichment over CpG islands</li>
+<li>Signal-to-noise ratios</li>
+<li>Library complexity</li>
+</ul>
+<p><strong>2. Flexible Binning Strategies:</strong></p>
+<ul>
+<li>Fixed-width genomic windows (300 bp, 500 bp, 1 kb)</li>
+<li>Feature-based regions (CpG islands, shores, shelves)</li>
+<li>FANTOM5 enhancer regions</li>
+<li>Custom region sets</li>
+</ul>
+<p><strong>3. Normalization Methods:</strong></p>
+<ul>
+<li>Read depth normalization (CPM, RPM)</li>
+<li>GC content correction</li>
+<li>Mappability adjustment</li>
+<li>Spike-in normalization integration</li>
+</ul>
 </section></section>
 <section>
 <section id="classifier-evolution" class="title-slide slide level1">
@@ -941,15 +960,23 @@ normalization integration</p>
 <h2>Foundational Classifier (2018)</h2>
 <p><strong>Shen et al. 2018 (<em>Nature</em>) - Original
 Methodology</strong></p>
-<p><strong>Feature Engineering:</strong> - 300 bp genomic windows -
-Mapped to: CpG islands, shores, shelves, FANTOM5 enhancers - Top 1,000
-most variable fragments</p>
-<p><strong>Classification Algorithms:</strong> - <strong>GLMnet</strong>
-(elastic net regularization) ← Primary - <strong>Random
-Forest</strong></p>
-<p><strong>Performance:</strong> - Successfully distinguished cancer
-from healthy controls - Enabled multi-cancer type classification -
-Tissue-of-origin prediction capability</p>
+<p><strong>Feature Engineering:</strong></p>
+<ul>
+<li>300 bp genomic windows</li>
+<li>Mapped to: CpG islands, shores, shelves, FANTOM5 enhancers</li>
+<li>Top 1,000 most variable fragments</li>
+</ul>
+<p><strong>Classification Algorithms:</strong></p>
+<ul>
+<li><strong>GLMnet</strong> (elastic net regularization) ← Primary</li>
+<li><strong>Random Forest</strong></li>
+</ul>
+<p><strong>Performance:</strong></p>
+<ul>
+<li>Successfully distinguished cancer from healthy controls</li>
+<li>Enabled multi-cancer type classification</li>
+<li>Tissue-of-origin prediction capability</li>
+</ul>
 </section>
 <section id="feature-selection-evolution" class="slide level2 smaller">
 <h2 class="smaller">Feature Selection Evolution</h2>
@@ -1000,22 +1027,36 @@ Tissue-of-origin prediction capability</p>
 </tr>
 </tbody>
 </table>
-<p><strong>Best Practices (Halla-aho &amp; Lähdesmäki 2022):</strong> -
-Fisher’s exact test for feature selection - ISPCA for feature
-generation<br />
-- Logistic regression with hyper/hypomethylated region counts</p>
+<p><strong>Best Practices (Halla-aho &amp; Lähdesmäki
+2022):</strong></p>
+<ul>
+<li>Fisher’s exact test for feature selection</li>
+<li>ISPCA for feature generation<br />
+</li>
+<li>Logistic regression with hyper/hypomethylated region counts</li>
+</ul>
 </section>
 <section id="application-specific-classifiers" class="slide level2 smaller">
 <h2 class="smaller">Application-Specific Classifiers</h2>
-<p><strong>Renal Cell Carcinoma (Nuzzo et al. 2019/2020):</strong> - Top
-300 differentially methylated regions (DMRs) - Methylation score
-assignment - Validated in plasma and urine samples</p>
-<p><strong>Breast Cancer / BRCA1/2 (De Pascali et al. 2024):</strong> -
-GLMnet and Random Forest models - BRCA1/2 mutation detection capability
-- Breast cancer diagnosis from cfDNA</p>
-<p><strong>Multi-Cancer Platform (Adela):</strong> - Same wet-lab assay
-across applications - Classifier-specific development per application -
-Enables rapid scaling to new cancer types</p>
+<p><strong>Renal Cell Carcinoma (Nuzzo et al. 2019/2020):</strong></p>
+<ul>
+<li>Top 300 differentially methylated regions (DMRs)</li>
+<li>Methylation score assignment</li>
+<li>Validated in plasma and urine samples</li>
+</ul>
+<p><strong>Breast Cancer / BRCA1/2 (De Pascali et
+al. 2024):</strong></p>
+<ul>
+<li>GLMnet and Random Forest models</li>
+<li>BRCA1/2 mutation detection capability</li>
+<li>Breast cancer diagnosis from cfDNA</li>
+</ul>
+<p><strong>Multi-Cancer Platform (Adela):</strong></p>
+<ul>
+<li>Same wet-lab assay across applications</li>
+<li>Classifier-specific development per application</li>
+<li>Enables rapid scaling to new cancer types</li>
+</ul>
 <blockquote>
 <p>“Platform efficiency: same assay, different classifiers”</p>
 </blockquote>
@@ -1147,9 +1188,13 @@ validation</p>
 <li>Quantification (fluorometry)</li>
 <li><strong>Typical yield:</strong> 10-50 ng/mL plasma</li>
 </ul>
-<p><strong>cfDNA → Library:</strong> - End-repair &amp; A-tailing (tube)
-- Adapter ligation (tube) - <strong>+ Filler DNA addition</strong> ← Key
-innovation - Purification (magnetic beads)</p>
+<p><strong>cfDNA → Library:</strong></p>
+<ul>
+<li>End-repair &amp; A-tailing (tube)</li>
+<li>Adapter ligation (tube)</li>
+<li><strong>+ Filler DNA addition</strong> ← Key innovation</li>
+<li>Purification (magnetic beads)</li>
+</ul>
 </section>
 <section id="sample-format-transitions-continued" class="slide level2">
 <h2>Sample Format Transitions (continued)</h2>
@@ -1187,9 +1232,13 @@ innovation - Purification (magnetic beads)</p>
 <li>Spike-in standards</li>
 </ul></li>
 </ul>
-<p><strong>Randomization Strategy:</strong> - Stratify by: cancer type,
-stage, treatment status - Distribute across: extraction dates, IP
-batches, sequencing runs - Balance: case/control ratio per batch</p>
+<p><strong>Randomization Strategy:</strong></p>
+<ul>
+<li>Stratify by: cancer type, stage, treatment status</li>
+<li>Distribute across: extraction dates, IP batches, sequencing
+runs</li>
+<li>Balance: case/control ratio per batch</li>
+</ul>
 </section></section>
 <section>
 <section id="best-practices" class="title-slide slide level1">
@@ -1222,9 +1271,13 @@ batches, sequencing runs - Balance: case/control ratio per batch</p>
 </section>
 <section id="computational-best-practices" class="slide level2">
 <h2>Computational Best Practices</h2>
-<p><strong>Data Processing:</strong> - Use MEDIPIPE or equivalent
-automated pipeline - Apply adapter trimming (quality score &gt;20) -
-Align with Bowtie2 (default parameters) - Remove PCR duplicates</p>
+<p><strong>Data Processing:</strong></p>
+<ul>
+<li>Use MEDIPIPE or equivalent automated pipeline</li>
+<li>Apply adapter trimming (quality score &gt;20)</li>
+<li>Align with Bowtie2 (default parameters)</li>
+<li>Remove PCR duplicates</li>
+</ul>
 <p><strong>Feature Generation:</strong></p>
 <ul>
 <li>Bin reads into 300-500 bp windows</li>
@@ -1305,7 +1358,568 @@ cell-free DNA methylomes”</li>
 <li><strong>Wilson et al. 2022</strong> - <em>Cell Rep Methods</em>
 <ul>
 <li>Spike-in normalization methodology</li>
-<li>Batch effect reduction from 5% to &lt;1%</li>
+<li>Batch effect reduction from 5% to &lt;1%<a href="#/fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></li>
+</ul></li>
+</ol>
+<ul>
+<li>Published in <em>Cell Reports Methods</em></li>
+</ul>
+</section>
+<section id="protocol-improvements-timeline-1" class="slide level2 smaller">
+<h2 class="smaller">Protocol Improvements Timeline</h2>
+<table>
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 48%" />
+<col style="width: 29%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Year</th>
+<th>Development</th>
+<th>Impact</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>2018</strong></td>
+<td>Foundational methodology (Shen et al., <em>Nature</em>)</td>
+<td>Established cfMeDIP-seq feasibility</td>
+</tr>
+<tr class="even">
+<td><strong>2019</strong></td>
+<td>Standardized protocol (Shen et al., <em>Nat Protoc</em>)</td>
+<td>Reproducible 3-4 day workflow</td>
+</tr>
+<tr class="odd">
+<td><strong>2020</strong></td>
+<td>Disease-specific applications (Nassiri, Nuzzo)</td>
+<td>Brain tumors, RCC detection</td>
+</tr>
+<tr class="even">
+<td><strong>2022</strong></td>
+<td>Spike-in normalization (Wilson et al.)</td>
+<td>Batch variance: 5% → &lt;1%</td>
+</tr>
+<tr class="odd">
+<td><strong>2023</strong></td>
+<td>MEDIPIPE automation (Zeng et al.)</td>
+<td>End-to-end computational pipeline</td>
+</tr>
+<tr class="even">
+<td><strong>2024</strong></td>
+<td>Clinical validation (multiple)</td>
+<td>MRD, MCED applications</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="critical-batch-boundaries-1" class="slide level2">
+<h2>Critical Batch Boundaries</h2>
+<p><strong>Randomization is Essential at These Points:</strong></p>
+<ol type="1">
+<li><strong>cfDNA extraction from plasma</strong>
+<ul>
+<li>Different extraction dates</li>
+<li>Different technicians</li>
+</ul></li>
+<li><strong>Library preparation batches</strong>
+<ul>
+<li>Filler DNA aliquots</li>
+<li>Adapter ligations</li>
+</ul></li>
+<li><strong>Immunoprecipitation batches</strong>
+<ul>
+<li>Antibody lots</li>
+<li>Different IP dates</li>
+</ul></li>
+<li><strong>PCR amplification</strong>
+<ul>
+<li>Thermocycler variation</li>
+<li>Primer lots</li>
+</ul></li>
+<li><strong>Sequencing runs</strong>
+<ul>
+<li>Different flow cells</li>
+<li>Different instruments</li>
+</ul></li>
+</ol>
+</section></section>
+<section>
+<section id="medipipe-pipeline-1" class="title-slide slide level1">
+<h1>3. MEDIPIPE Pipeline</h1>
+
+</section>
+<section id="pipeline-overview-1" class="slide level2">
+<h2>Pipeline Overview</h2>
+<p><strong>MEDIPIPE: Automated cfMeDIP-seq Analysis</strong></p>
+<p>Published: <em>Bioinformatics</em> 2023 (Zeng et al.)</p>
+<p><strong>Three Core Modules:</strong></p>
+<ol type="1">
+<li><strong>Quality Control</strong> - FastQC, alignment metrics,
+enrichment validation</li>
+<li><strong>Methylation Quantification</strong> - Genome-wide binning,
+count matrices</li>
+<li><strong>Sample Aggregation</strong> - Multi-sample normalization,
+batch correction</li>
+</ol>
+<p><br></p>
+<blockquote>
+<p>“Automated and comprehensive pipeline for cfMeDIP-seq data quality
+control and analysis”</p>
+</blockquote>
+</section>
+<section id="pipeline-architecture-1" class="slide level2">
+<h2>Pipeline Architecture</h2>
+<p><strong>Input:</strong> Paired-end FASTQ files</p>
+<p><strong>Processing Steps:</strong></p>
+<ul>
+<li>Adapter trimming (Trim Galore!)</li>
+<li>Alignment to reference genome (Bowtie2)</li>
+<li>Duplicate marking (Picard)</li>
+<li>Quality metrics computation</li>
+<li>Coverage analysis across genomic features</li>
+<li>Generation of normalized count matrices</li>
+</ul>
+<p><strong>Output:</strong></p>
+<ul>
+<li>Sample-level QC reports</li>
+<li>Genome-wide methylation profiles</li>
+<li>Statistical input matrices for classification</li>
+</ul>
+</section>
+<section id="key-pipeline-features-1" class="slide level2 smaller">
+<h2 class="smaller">Key Pipeline Features</h2>
+<p><strong>1. Comprehensive QC Metrics:</strong></p>
+<ul>
+<li>Fragment size distribution</li>
+<li>Enrichment over CpG islands</li>
+<li>Signal-to-noise ratios</li>
+<li>Library complexity</li>
+</ul>
+<p><strong>2. Flexible Binning Strategies:</strong></p>
+<ul>
+<li>Fixed-width genomic windows (300 bp, 500 bp, 1 kb)</li>
+<li>Feature-based regions (CpG islands, shores, shelves)</li>
+<li>FANTOM5 enhancer regions</li>
+<li>Custom region sets</li>
+</ul>
+<p><strong>3. Normalization Methods:</strong></p>
+<ul>
+<li>Read depth normalization (CPM, RPM)</li>
+<li>GC content correction</li>
+<li>Mappability adjustment</li>
+<li>Spike-in normalization integration</li>
+</ul>
+</section></section>
+<section>
+<section id="classifier-evolution-1" class="title-slide slide level1">
+<h1>4. Classifier Evolution</h1>
+
+</section>
+<section id="foundational-classifier-2018-1" class="slide level2">
+<h2>Foundational Classifier (2018)</h2>
+<p><strong>Shen et al. 2018 (<em>Nature</em>) - Original
+Methodology</strong></p>
+<p><strong>Feature Engineering:</strong></p>
+<ul>
+<li>300 bp genomic windows</li>
+<li>Mapped to: CpG islands, shores, shelves, FANTOM5 enhancers</li>
+<li>Top 1,000 most variable fragments</li>
+</ul>
+<p><strong>Classification Algorithms:</strong></p>
+<ul>
+<li><strong>GLMnet</strong> (elastic net regularization) ← Primary</li>
+<li><strong>Random Forest</strong></li>
+</ul>
+<p><strong>Performance:</strong></p>
+<ul>
+<li>Successfully distinguished cancer from healthy controls</li>
+<li>Enabled multi-cancer type classification</li>
+<li>Tissue-of-origin prediction capability</li>
+</ul>
+</section>
+<section id="feature-selection-evolution-1" class="slide level2 smaller">
+<h2 class="smaller">Feature Selection Evolution</h2>
+<p><strong>Multiple Approaches Explored:</strong></p>
+<table>
+<colgroup>
+<col style="width: 26%" />
+<col style="width: 30%" />
+<col style="width: 43%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Method</th>
+<th>Purpose</th>
+<th>Performance</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>t-tests</td>
+<td>Statistical significance testing</td>
+<td>Moderate</td>
+</tr>
+<tr class="even">
+<td>Fisher’s exact test</td>
+<td>Feature selection</td>
+<td><strong>Robust</strong> ✓</td>
+</tr>
+<tr class="odd">
+<td>PCA</td>
+<td>Dimensionality reduction</td>
+<td>Standard</td>
+</tr>
+<tr class="even">
+<td>Iterative supervised PCA (ISPCA)</td>
+<td>Feature generation</td>
+<td><strong>Promising</strong> ✓</td>
+</tr>
+<tr class="odd">
+<td>GLMnet</td>
+<td>L1/L2 regularization</td>
+<td><strong>Robust</strong> ✓</td>
+</tr>
+<tr class="even">
+<td>Logistic regression</td>
+<td>Sparsity-promoting priors</td>
+<td><strong>Simple &amp; effective</strong> ✓</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Best Practices (Halla-aho &amp; Lähdesmäki
+2022):</strong></p>
+<ul>
+<li>Fisher’s exact test for feature selection</li>
+<li>ISPCA for feature generation<br />
+</li>
+<li>Logistic regression with hyper/hypomethylated region counts</li>
+</ul>
+</section>
+<section id="application-specific-classifiers-1" class="slide level2 smaller">
+<h2 class="smaller">Application-Specific Classifiers</h2>
+<p><strong>Renal Cell Carcinoma (Nuzzo et al. 2019/2020):</strong></p>
+<ul>
+<li>Top 300 differentially methylated regions (DMRs)</li>
+<li>Methylation score assignment</li>
+<li>Validated in plasma and urine samples</li>
+</ul>
+<p><strong>Breast Cancer / BRCA1/2 (De Pascali et
+al. 2024):</strong></p>
+<ul>
+<li>GLMnet and Random Forest models</li>
+<li>BRCA1/2 mutation detection capability</li>
+<li>Breast cancer diagnosis from cfDNA</li>
+</ul>
+<p><strong>Multi-Cancer Platform (Adela):</strong></p>
+<ul>
+<li>Same wet-lab assay across applications</li>
+<li>Classifier-specific development per application</li>
+<li>Enables rapid scaling to new cancer types</li>
+</ul>
+<blockquote>
+<p>“Platform efficiency: same assay, different classifiers”</p>
+</blockquote>
+</section>
+<section id="classifier-methodology-comparison-1" class="slide level2 smaller">
+<h2 class="smaller">Classifier Methodology Comparison</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<p><strong>Early Approaches</strong></p>
+<ul>
+<li>Manual feature selection</li>
+<li>Limited genomic regions</li>
+<li>Single cancer focus</li>
+<li>Cross-validation within single cohorts</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<p><strong>Modern Approaches</strong></p>
+<ul>
+<li>Automated feature engineering</li>
+<li>Genome-wide coverage</li>
+<li>Multi-cancer capability</li>
+<li>Independent validation sets</li>
+<li>Clinical utility validation</li>
+</ul>
+</div>
+</div>
+<p><br></p>
+<p><strong>Key Evolution:</strong> From technical feasibility → clinical
+validation</p>
+</section></section>
+<section>
+<section id="platform-comparisons-1" class="title-slide slide level1">
+<h1>5. Platform Comparisons</h1>
+
+</section>
+<section id="cfmedip-seq-vs-bisulfite-sequencing-1" class="slide level2 smaller">
+<h2 class="smaller">cfMeDIP-seq vs Bisulfite Sequencing</h2>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 29%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Feature</th>
+<th>cfMeDIP-seq</th>
+<th>Bisulfite Sequencing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>DNA Modification</strong></td>
+<td>None (preservation)</td>
+<td>Chemical conversion</td>
+</tr>
+<tr class="even">
+<td><strong>DNA Degradation</strong></td>
+<td>Minimal</td>
+<td>Substantial (~95% loss)</td>
+</tr>
+<tr class="odd">
+<td><strong>Input Requirement</strong></td>
+<td>1-10 ng</td>
+<td>10-100 ng</td>
+</tr>
+<tr class="even">
+<td><strong>Resolution</strong></td>
+<td>Regional (~300 bp)</td>
+<td>Single-base (CpG-level)</td>
+</tr>
+<tr class="odd">
+<td><strong>Coverage</strong></td>
+<td>Genome-wide enrichment</td>
+<td>Targeted or whole-genome</td>
+</tr>
+<tr class="even">
+<td><strong>Cost per Sample</strong></td>
+<td>Lower</td>
+<td>Higher (WGBS)</td>
+</tr>
+<tr class="odd">
+<td><strong>Library Complexity</strong></td>
+<td>High</td>
+<td>Reduced (4 nucleotides → 3)</td>
+</tr>
+<tr class="even">
+<td><strong>Ideal Application</strong></td>
+<td>Low cfDNA, genome-wide</td>
+<td>High cfDNA, specific CpGs</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="cfmedip-seq-vs-targeted-methods-1" class="slide level2">
+<h2>cfMeDIP-seq vs Targeted Methods</h2>
+<p><strong>Targeted Methylation Arrays:</strong></p>
+<ul>
+<li>Fixed CpG coverage (e.g., 850K array)</li>
+<li>No discovery capability</li>
+<li>Lower cost per sample</li>
+<li>High throughput</li>
+</ul>
+<p><strong>cfMeDIP-seq Advantages:</strong></p>
+<ul>
+<li>Flexible genomic interrogation</li>
+<li>Novel biomarker discovery</li>
+<li>Captures regulatory elements</li>
+<li>Adapts to new genomic annotations</li>
+</ul>
+<p><strong>Use Case Optimization:</strong></p>
+<ul>
+<li>Arrays: Known biomarker validation, large cohorts</li>
+<li>cfMeDIP-seq: Discovery research, low-input samples, MRD</li>
+</ul>
+</section></section>
+<section>
+<section id="sample-processing-1" class="title-slide slide level1">
+<h1>6. Sample Processing</h1>
+
+</section>
+<section id="physical-sample-format-transitions-1" class="slide level2">
+<h2>Physical Sample Format Transitions</h2>
+<p><strong>Plasma → cfDNA:</strong></p>
+<ul>
+<li>Blood draw (10 mL)</li>
+<li>Plasma separation (centrifugation)</li>
+<li>cfDNA extraction (column-based)</li>
+<li>Quantification (fluorometry)</li>
+<li><strong>Typical yield:</strong> 10-50 ng/mL plasma</li>
+</ul>
+<p><strong>cfDNA → Library:</strong></p>
+<ul>
+<li>End-repair &amp; A-tailing (tube)</li>
+<li>Adapter ligation (tube)</li>
+<li><strong>+ Filler DNA addition</strong> ← Key innovation</li>
+<li>Purification (magnetic beads)</li>
+</ul>
+</section>
+<section id="sample-format-transitions-continued-1" class="slide level2">
+<h2>Sample Format Transitions (continued)</h2>
+<p><strong>Library → Enriched Library:</strong></p>
+<ul>
+<li>Denaturation (thermocycler)</li>
+<li>Immunoprecipitation (overnight, tube)</li>
+<li>Magnetic bead capture</li>
+<li>Washes (multiple)</li>
+<li>Elution (purified methylated DNA)</li>
+</ul>
+<p><strong>Enriched Library → Sequencing Library:</strong></p>
+<ul>
+<li>qPCR quality assessment</li>
+<li>PCR amplification (8-12 cycles)</li>
+<li>Size selection (SPRI beads)</li>
+<li>Final quantification</li>
+</ul>
+<p><strong>Sequencing Library → Data:</strong></p>
+<ul>
+<li>Paired-end sequencing (Illumina)</li>
+<li><strong>Typical output:</strong> 20-40 million read pairs</li>
+</ul>
+</section>
+<section id="typical-batch-structure-1" class="slide level2">
+<h2>Typical Batch Structure</h2>
+<p><strong>Single Processing Batch:</strong></p>
+<ul>
+<li>24-96 samples typical</li>
+<li>Include controls:
+<ul>
+<li>Positive controls (methylated gDNA)</li>
+<li>Negative controls (unmethylated λDNA)</li>
+<li>Technical replicates (10-20%)</li>
+<li>Spike-in standards</li>
+</ul></li>
+</ul>
+<p><strong>Randomization Strategy:</strong></p>
+<ul>
+<li>Stratify by: cancer type, stage, treatment status</li>
+<li>Distribute across: extraction dates, IP batches, sequencing
+runs</li>
+<li>Balance: case/control ratio per batch</li>
+</ul>
+</section></section>
+<section>
+<section id="best-practices-1" class="title-slide slide level1">
+<h1>7. Best Practices</h1>
+
+</section>
+<section id="protocol-best-practices-1" class="slide level2 smaller">
+<h2 class="smaller">Protocol Best Practices</h2>
+<p><strong>Sample Handling:</strong></p>
+<ol type="1">
+<li>Process plasma within 2 hours of blood draw</li>
+<li>Double-spin plasma to remove cellular debris</li>
+<li>Store cfDNA at -80°C (avoid freeze-thaw)</li>
+<li>Quantify DNA accurately (Qubit fluorometry)</li>
+</ol>
+<p><strong>Library Preparation:</strong></p>
+<ol start="5" type="1">
+<li>Use same filler DNA lot within study</li>
+<li>Perform IP with consistent antibody lots</li>
+<li>Include spike-ins for normalization</li>
+<li>Monitor enrichment with qPCR</li>
+</ol>
+<p><strong>Quality Control:</strong></p>
+<ol start="9" type="1">
+<li>Fragment size: 150-200 bp peak</li>
+<li>Library complexity: &gt;80% unique reads</li>
+<li>Enrichment: &gt;5-fold over input</li>
+<li>Sequencing depth: ≥20M paired reads</li>
+</ol>
+</section>
+<section id="computational-best-practices-1" class="slide level2">
+<h2>Computational Best Practices</h2>
+<p><strong>Data Processing:</strong></p>
+<ul>
+<li>Use MEDIPIPE or equivalent automated pipeline</li>
+<li>Apply adapter trimming (quality score &gt;20)</li>
+<li>Align with Bowtie2 (default parameters)</li>
+<li>Remove PCR duplicates</li>
+</ul>
+<p><strong>Feature Generation:</strong></p>
+<ul>
+<li>Bin reads into 300-500 bp windows</li>
+<li>Focus on CpG-rich regions</li>
+<li>Include enhancer elements (FANTOM5)</li>
+<li>Normalize for GC content and mappability</li>
+</ul>
+<p><strong>Statistical Analysis:</strong></p>
+<ul>
+<li>Apply spike-in normalization</li>
+<li>Use robust feature selection (Fisher’s exact, ISPCA)</li>
+<li>Validate with independent test sets</li>
+<li>Report performance by cancer stage</li>
+</ul>
+</section>
+<section id="future-research-priorities-1" class="slide level2">
+<h2>Future Research Priorities</h2>
+<p><strong>Technical Development:</strong></p>
+<ol type="1">
+<li><strong>Single-cell cfMeDIP-seq</strong>
+<ul>
+<li>Ultra-low input optimization</li>
+<li>Single-molecule resolution</li>
+</ul></li>
+<li><strong>Improved spike-in strategies</strong>
+<ul>
+<li>Synthetic methylated standards</li>
+<li>Quantitative calibration curves</li>
+</ul></li>
+<li><strong>Automation &amp; standardization</strong>
+<ul>
+<li>Robotic liquid handling</li>
+<li>Pre-aliquoted reagent kits</li>
+</ul></li>
+</ol>
+</section>
+<section id="future-priorities-continued-1" class="slide level2">
+<h2>Future Priorities (continued)</h2>
+<p><strong>Clinical Translation:</strong></p>
+<ol start="4" type="1">
+<li><strong>Prospective trial validation</strong>
+<ul>
+<li>Multi-center studies</li>
+<li>Real-world performance data</li>
+</ul></li>
+<li><strong>Reimbursement pathway</strong>
+<ul>
+<li>Health economics studies</li>
+<li>Clinical utility demonstration</li>
+</ul></li>
+<li><strong>Regulatory approval</strong>
+<ul>
+<li>FDA clearance pathways</li>
+<li>Clinical trial designs</li>
+</ul></li>
+</ol>
+</section></section>
+<section>
+<section id="key-publications-1" class="title-slide slide level1">
+<h1>8. Key Publications</h1>
+
+</section>
+<section id="foundational-papers-1" class="slide level2 smaller">
+<h2 class="smaller">Foundational Papers</h2>
+<p><strong>Protocol &amp; Methodology:</strong></p>
+<ol type="1">
+<li><strong>Shen et al. 2018</strong> - <em>Nature</em> 563:579-583
+<ul>
+<li>“Sensitive tumour detection and classification using plasma
+cell-free DNA methylomes”</li>
+<li>Established foundational methodology</li>
+</ul></li>
+<li><strong>Shen et al. 2019</strong> - <em>Nat Protoc</em> 14:2749-2780
+<ul>
+<li>“Preparation of cfMeDIP-seq libraries for methylome profiling”</li>
+<li>Standardized reproducible protocol</li>
+</ul></li>
+<li><strong>Wilson et al. 2022</strong> - <em>Cell Rep Methods</em>
+<ul>
+<li>Spike-in normalization methodology</li>
+<li>Batch effect reduction from 5% to &lt;1%<a href="#/fn3" class="footnote-ref" id="fnref3" role="doc-noteref"><sup>3</sup></a></li>
 </ul></li>
 </ol>
 </section>
@@ -1425,24 +2039,40 @@ objects)</li>
 <li>Multiple classifier approaches validated for different
 applications</li>
 </ol>
-<p><strong>Platform Advantages:</strong> - Preserves DNA integrity (no
-bisulfite) - Genome-wide discovery capability - Flexible classifier
-development - Single assay, multiple applications</p>
-<p><strong>Clinical Translation:</strong> - MRD: Validated in head &amp;
-neck, lung cancer - MCED: 12 cancers in development, 50+ planned -
-Performance: 92-97% sensitivity across stages</p>
+<p><strong>Platform Advantages:</strong></p>
+<ul>
+<li>Preserves DNA integrity (no bisulfite)</li>
+<li>Genome-wide discovery capability</li>
+<li>Flexible classifier development</li>
+<li>Single assay, multiple applications</li>
+</ul>
+<p><strong>Clinical Translation:</strong></p>
+<ul>
+<li>MRD: Validated in head &amp; neck, lung cancer</li>
+<li>MCED: 12 cancers in development, 50+ planned</li>
+<li>Performance: 92-97% sensitivity across stages</li>
+</ul>
 </section>
 <section id="future-outlook" class="slide level2">
 <h2>Future Outlook</h2>
-<p><strong>Near-Term (1-2 years):</strong> - Complete CAMPERR study
-validation - Expand MRD to additional cancer types - Regulatory pathway
-progress</p>
-<p><strong>Mid-Term (3-5 years):</strong> - FDA approval for MRD
-applications - MCED clinical utility demonstration - Integration into
-standard care pathways</p>
-<p><strong>Long-Term (5+ years):</strong> - Population screening
-programs - Multi-omics integration (cfDNA + protein) - Personalized
-treatment monitoring</p>
+<p><strong>Near-Term (1-2 years):</strong></p>
+<ul>
+<li>Complete CAMPERR study validation</li>
+<li>Expand MRD to additional cancer types</li>
+<li>Regulatory pathway progress</li>
+</ul>
+<p><strong>Mid-Term (3-5 years):</strong></p>
+<ul>
+<li>FDA approval for MRD applications</li>
+<li>MCED clinical utility demonstration</li>
+<li>Integration into standard care pathways</li>
+</ul>
+<p><strong>Long-Term (5+ years):</strong></p>
+<ul>
+<li>Population screening programs</li>
+<li>Multi-omics integration (cfDNA + protein)</li>
+<li>Personalized treatment monitoring</li>
+</ul>
 <blockquote>
 <p>From research tool to standard of care</p>
 </blockquote>
@@ -1457,23 +2087,37 @@ treatment monitoring</p>
 <p>cfMeDIP-seq has evolved from an academic methylation profiling method
 to a clinically-validated platform for cancer detection and
 monitoring.</p>
-<p><strong>Key Milestones:</strong> - ✓ Foundational methodology (2018)
-- ✓ Standardized protocol (2019) - ✓ Variability mitigation (2022) - ✓
-Computational automation (2023) - ✓ Clinical validation (2024)</p>
-<p><strong>Enabling Factors:</strong> - Low DNA input requirements -
-Genome-wide coverage - Platform flexibility - Robust normalization
-strategies</p>
+<p><strong>Key Milestones:</strong></p>
+<ul>
+<li>✓ Foundational methodology (2018)</li>
+<li>✓ Standardized protocol (2019)</li>
+<li>✓ Variability mitigation (2022)</li>
+<li>✓ Computational automation (2023)</li>
+<li>✓ Clinical validation (2024)</li>
+</ul>
+<p><strong>Enabling Factors:</strong></p>
+<ul>
+<li>Low DNA input requirements</li>
+<li>Genome-wide coverage</li>
+<li>Platform flexibility</li>
+<li>Robust normalization strategies</li>
+</ul>
 </section>
 <section id="questions" class="slide level2">
 <h2>Questions?</h2>
 <p><br><br></p>
 <h3 id="additional-resources">Additional Resources</h3>
-<p><strong>Comprehensive Documentation:</strong> - Protocol: Shen et
-al., <em>Nat Protoc</em> 2019 - Pipeline:
-<code>github.com/pughlab/MEDIPIPE</code> - Reviews: Multiple
-disease-specific validations</p>
-<p><strong>Data Access:</strong> - Public: GEO, Zenodo - Controlled: EGA
-(patient data)</p>
+<p><strong>Comprehensive Documentation:</strong></p>
+<ul>
+<li>Protocol: Shen et al., <em>Nat Protoc</em> 2019</li>
+<li>Pipeline: <code>github.com/pughlab/MEDIPIPE</code></li>
+<li>Reviews: Multiple disease-specific validations</li>
+</ul>
+<p><strong>Data Access:</strong></p>
+<ul>
+<li>Public: GEO, Zenodo</li>
+<li>Controlled: EGA (patient data)</li>
+</ul>
 <p><br></p>
 <p><em>Presentation based on comprehensive technical review (January
 2026)</em></p>
@@ -1488,6 +2132,14 @@ nohup Rscript -e "rmarkdown::render('_cfMeDIP_Evolution.Rmd')" > _cfMeDIP_Evolut
      
 -->
 </section></section>
+<section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p> This claim is silly. It’s based on a single example.<a href="#/fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p> This claim is silly. It’s based on a single example.<a href="#/fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p> This claim is silly. It’s based on a single example.<a href="#/fnref3" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
     </div>
   </div>
 
