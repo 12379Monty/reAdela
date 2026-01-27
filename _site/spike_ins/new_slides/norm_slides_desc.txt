@@ -1,0 +1,151 @@
+title: "Normalization of cfMeDIP-seq Binned Fragment Coverage Data"
+subtitle: "For Cancer Detection Applications"
+date: "`r Sys.Date()`"
+output:
+  revealjs::revealjs_presentation:
+    theme: simple
+    highlight: pygments
+    center: true
+    transition: slide
+    self_contained: true
+    css: custom_wilson.css
+    reveal_options:
+      slideNumber: true
+      previewLinks: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+<!--
+ sketch of slides follow.  claude.ai Sonnert 4.5 to design
+
+-->
+
+
+Slide: 
+* Objective: Early detection of cancer using the cfMeDIP-seq methylation profiles of blood samples
+
+Slide: color the text Green = low Orange = Moderate  Red = High
+   -  cfMeDIP-seq prototol in 4 stages: 
+
+      Stage 1: Library Preparation 
+
+         - 1. (G) End-repair
+         - 2. (O) Adaptor Ligation
+         - 3. (G) 1SPRI bead puification
+
+      Stage 2: Immunoprecipitation - geatest amoun of UV
+
+         - 4. (R) ADD Filler DNA and Spike-ins
+         - 5. (G) Denature (95C)
+         - 6. (R) Anti 5mC IP (overnight)
+         - 7. (O) Bead capture and wash
+         - 8. (G) Elution and puirification
+
+      Stage 3: Amplification 
+
+         - 9. (G) qPCR OC
+         - 10. (O) PCR Amplification
+         - 11. (G) Size select
+
+      Stage 4: Sequencing
+
+         - 12. (O) Paired-end Seqiencing
+
+Slide:
+* Immunoprecipitation capture:
+   - Monoclonal antibody against 5-methylcytosine (5mC)
+   - Recognizes methylated CpG dinucleotides
+   - High affinity binding to methylated DNA
+   - Does NOT bind unmethylated cytosines
+
+* Methylated Fragment Capture Efficiency: 
+   * 99.99% Sensitive and Specific 
+   * Fragment capture ~ number of methylated CpGs 
+
+Slide:
+Data Reduction Process:
+
+* Sequencing produces paired-end reads from methylated cfDNA fragments
+* Alignment maps reads to reference genome (GRCh38/hg38)
+* Binning divides genome into fixed-width windows
+   - Typical bin size: 300 bp
+   - Excludes: blacklisted regions, repeats, low mappability regions
+* Coverage Calculation: adjusted counts of fragments overlapping each bin
+   - Raw coverage = sum of fragment overlap with each bib
+      - Weighing by overlap has a smoothing effect on bin to bin variability.  
+      - Having features correlated by design complicates the interpretation of
+bin specific statistics and ???
+   - Why not use majority rule?  Or checker board the genome?  Or do we care?
+
+Slide:
+Cancer outcome predictions
+
+* Models or predictive  are fitted to the data
+   - cancer/no cancer score = f(**x**)
+where `f` is some function of input **x**, raw coverage or tras-nsdk
+
+* For glm or elastic net  f(**x**) = $\beta \cdot x$ 
+   - bin selection is made by setting coefficients in $\beta$ zero.
+ 
+* For logistic regression  f(**x**) = (1 + exp(-$\beta \cdot x$)))
+
+* Similar models are used to predict the tissue of origin
+
+
+Slide:
+* Technical variability:  Variability related to the handling
+and processing of the samples
+* Sources of Technical Variability in cfMeDIP-deq:
+   - Sample processing: Different labs, operators, protocols
+   - Filler DNA lot
+   - Immunoprecipitation efficiency: Antibody lots, incubation conditions
+   - PCR amplification: Cycle number, GC bias
+   - Sequencing depth: Total reads per sample
+   - Fragment properties: Length, GC content, CpG density affect capture
+      - ???
+
+Slide:
+* Normalization:  
+   - "An essential step of RNA sequencing (RNA-seq) data analysis is normalization, whereby different sources of unwanted variation are removed to make gene expression measurements comparable within and between samples." (Milania et al., 2023 [@Molania2023]).
+
+* The  success of normalization must be evaluated with an appropriate dataset:
+   - Built in truth.  When the application  is cancer detecting
+truth is bin fold change between cancer and normal.
+   - There should be both positive and negative controls over
+a rage of depth of coverage.
+   - Samples musts be genuine target population samples. eg. cf DNA from the blood of
+humans.  
+   - If contrived samples must be used, their similarly to genuine samples must be 
+measured.
+
+<!-- For next two slides OBTAIN CONTENT FROM
+Wilson, S.L., Shen, S.Y., Harmon, L., Burgener, J.M., Triche, T.J., Bratman, S.V., De Carvalho, D.D., and Hoffman, M.M. (2022). Sensitive and reproducible cell-free methylome quantification with synthetic spike-in controls. Cell Rep Methods 2, 100294.
+
+URL: https://www.cell.com/cell-reports-methods/fulltext/S2667-2375%2822%2900176-X?_returnURL=https%3A%2F%2Flinkinghub.elsevier.com%2Fretrieve%2Fpii%2FS266723752200176X%3Fshowall%3Dtrue
+-->
+
+
+Slide:
+
+* Wilson 2022 Spike-in set described
+
+* Wilson 2022 Spike-in normalization procedure described
+
+
+Slide:
+* Test daqa set 1 description and nothing else
+
+
+Slide:
+* Test daqa set 2 description and nothing else
+
+Slide:
+* Test daqa set 3 description and nothing else
+
+
+STOP HERE
+WILL FILL IN THE RESULTS LATER
+

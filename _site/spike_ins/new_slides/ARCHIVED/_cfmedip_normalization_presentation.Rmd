@@ -1,0 +1,389 @@
+---
+title: "Normalization of cfMeDIP-seq Binned Fragment Coverage Data"
+subtitle: "For Cancer Detection Applications"
+date: "`r Sys.Date()`"
+output:
+  revealjs::revealjs_presentation:
+    theme: simple
+    highlight: pygments
+    center: false
+    transition: slide
+    self_contained: true
+    css: custom_wilson.css
+    reveal_options:
+      slideNumber: true
+      previewLinks: false
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+```
+
+<style>
+.reveal {
+  font-size: 28px;
+}
+.reveal h2 {
+  font-size: 1.5em;
+}
+.reveal h3 {
+  font-size: 1.2em;
+}
+</style>
+
+## Objective
+
+**Early detection of cancer** using the cfMeDIP-seq methylation profiles of blood samples
+
+## cfMeDIP-seq Protocol
+
+### Stage 1: Library Preparation
+
+1. <span style="color:#22c55e;">End-repair</span>
+2. <span style="color:#f97316;">Adaptor Ligation</span>
+3. <span style="color:#22c55e;">SPRI bead purification</span>
+
+### Stage 2: Immunoprecipitation
+
+4. <span style="color:#ef4444;">ADD Filler DNA and Spike-ins</span>
+5. <span style="color:#22c55e;">Denature (95°C)</span>
+6. <span style="color:#ef4444;">Anti-5mC IP (overnight)</span>
+7. <span style="color:#f97316;">Bead capture and wash</span>
+8. <span style="color:#22c55e;">Elution and purification</span>
+
+---
+
+**Color Legend:** <span style="color:#22c55e;">Green = Low variability</span> | <span style="color:#f97316;">Orange = Moderate variability</span> | <span style="color:#ef4444;">Red = High variability</span>
+
+---
+
+## cfMeDIP-seq Protocol (continued)
+
+### Stage 3: Amplification
+
+9. <span style="color:#22c55e;">qPCR QC</span>
+10. <span style="color:#f97316;">PCR Amplification</span>
+11. <span style="color:#22c55e;">Size select</span>
+
+### Stage 4: Sequencing
+
+12. <span style="color:#f97316;">Paired-end Sequencing</span>
+
+## Immunoprecipitation Capture
+
+**Antibody Mechanism:**
+
+- Monoclonal antibody against 5-methylcytosine (5mC)
+- Recognizes methylated CpG dinucleotides
+- High affinity binding to methylated DNA
+- **Does NOT** bind unmethylated cytosines
+
+**Methylated Fragment Capture Efficiency:**
+
+- 99.99% Sensitive and Specific
+- Fragment capture ~ number of methylated CpGs
+
+## Data Reduction Process
+
+- **Sequencing** produces paired-end reads from methylated cfDNA fragments
+
+- **Alignment** maps reads to reference genome (GRCh38/hg38)
+
+- **Binning** divides genome into fixed-width windows
+  - Typical bin size: 300 bp (~10.3 million bins in hg38)
+  - Excludes: blacklisted regions, repeats, low mappability regions
+
+- **Coverage Calculation:** adjusted counts of fragments overlapping each bin
+  - Raw coverage = sum of fragment overlap with each bin
+    - Weighing by overlap has a smoothing effect on bin-to-bin variability
+    - Having features correlated by design complicates the interpretation of bin-specific statistics
+
+<span style="color:#ef4444; font-style:italic;">Why not use majority rule? Or checkerboard the genome? Or do we care?</span>
+
+## Cancer Outcome Predictions
+
+**Models or predictive functions are fitted to the data:**
+
+$$\text{cancer/no cancer score} = f(\mathbf{x})$$
+
+where $f$ is some function of input $\mathbf{x}$ (raw coverage or transformed)
+
+**For GLM or elastic net:** $f(\mathbf{x}) = \boldsymbol{\beta} \cdot \mathbf{x}$
+
+- Bin selection is made by setting coefficients in $\boldsymbol{\beta}$ to zero
+
+**For logistic regression:** $f(\mathbf{x}) = \frac{1}{1 + \exp(-\boldsymbol{\beta} \cdot \mathbf{x})}$
+
+Similar models are used to predict the tissue of origin
+
+## Technical Variability
+
+**Technical variability:** Variability related to the handling and processing of the samples
+
+**Sources of Technical Variability in cfMeDIP-seq:**
+
+- Sample processing: Different labs, operators, protocols
+- Filler DNA lot
+- Immunoprecipitation efficiency: Antibody lots, incubation conditions
+- PCR amplification: Cycle number, GC bias
+- Sequencing depth: Total reads per sample
+- Fragment properties: Length, GC content, CpG density affect capture
+
+## Normalization
+
+> "An essential step of RNA sequencing (RNA-seq) data analysis is normalization, whereby different sources of unwanted variation are removed to make gene expression measurements comparable within and between samples."
+>
+> — Molania et al., 2023
+
+## Evaluating Normalization Success
+
+**The success of normalization must be evaluated with an appropriate dataset:**
+
+- **Built-in truth:** When the application is cancer detection, truth is bin fold change between cancer and normal
+- **Controls:** There should be both positive and negative controls over a range of depth of coverage
+- **Genuine samples:** Samples must be genuine target population samples, e.g., cfDNA from the blood of humans
+- **Contrived samples:** If contrived samples must be used, their similarity to genuine samples must be measured
+
+## Wilson et al. 2022: Spike-in Set Design
+
+**54 synthetic DNA fragments designed with combinations of:**
+
+- **Methylation status:** Methylated and unmethylated
+- **Fragment length:** 80 bp, 160 bp, 320 bp
+- **G + C content:** 35%, 50%, 65%
+- **CpG fraction:** 1/80 bp, 1/40 bp, 1/20 bp
+
+**Key features:**
+
+- Sequences do not align to human genome (GRCh38/hg38)
+- No secondary structures (validated by UNAFold and RNAstructure)
+- 27 parameter combinations × 2 methylation states = 54 fragments (2 fragments at 160 bp, 35% GC, 1/20 bp CpG failed synthesis)
+- Unique molecular indices (UMIs) integrated to control for PCR amplification bias
+
+---
+
+## Wilson et al. 2022: Spike-in Amounts
+
+**Optimal amount determined:** 0.01 ng spike-in control DNA per sample
+
+- Uses <1% of total sequencing reads
+- Retains >650,000 spike-in control reads for analysis
+- Leaves majority of reads for biological sample
+
+**Alternative amounts tested:**
+
+- 0.1 ng spike-in
+- 0.05 ng spike-in
+- 0.01 ng spike-in ← **Optimal**
+
+## Wilson et al. 2022: Normalization Procedure
+
+**Step 1: Spike-in Addition**
+
+- Add 0.01 ng spike-in controls to each sample before immunoprecipitation
+- Each spike-in fragment added in known molar amounts
+
+**Step 2: cfMeDIP-seq Processing**
+
+- Standard cfMeDIP-seq protocol
+- Save 10% of DNA before IP as input control
+- Sequence with UMI adapters (paired-end sequencing)
+
+**Step 3: Bioinformatic Processing**
+
+- Align reads to spike-in sequences and human genome (GRCh38/hg38)
+- Collapse fragments with same UMI (count as one fragment)
+- Remove duplicates, low-quality reads (Phred <40, MAPQ <20)
+
+---
+
+## Wilson et al. 2022: Normalization Procedure (cont.)
+
+**Step 4: Generalized Linear Model (GLM)**
+
+Build Gaussian GLM to predict molar amount ($\eta$) from spike-in control data:
+
+$$\eta = \beta_0 + \beta_{\text{reads}} \times x_{\text{reads}} + \beta_{\text{len}} \times x_{\text{len}} + \beta_{\text{GC}} \times x_{\text{GC}} + \beta_{\text{CpG}} \times x_{\text{CpG}}^{1/3}$$
+
+Where:
+
+- $x_{\text{reads}}$ = deduplicated read count
+- $x_{\text{len}}$ = fragment length  
+- $x_{\text{GC}}$ = G + C content
+- $x_{\text{CpG}}$ = CpG fraction (cube root transformed)
+
+**Step 5: Apply Model**
+
+- Train GLM on methylated spike-in controls only
+- Predict molar amount (picomoles) for each genomic bin
+- Adjust for fragment overlap with 300 bp windows
+
+## Test Dataset 1: Technical Assessment (Spike-ins Only)
+
+**Experiment:** cfMeDIP-seq performed solely on spike-in control DNA (no biological sample)
+
+**Samples:**
+
+- Input pool: 9.99 ng synthetic spike-in DNA
+- Equimolar amounts of each fragment size
+- Equimolar amounts of methylated and unmethylated fragments
+- Two technical replicates
+
+**Sequencing:**
+
+- Illumina MiSeq 2.0 Nano flowcell
+- Paired-end 2 × 150 bp
+- 1 million reads per flowcell
+- Size selection: 200-500 bp post-ligation (80-380 bp original fragments)
+
+**Purpose:** Assess technical bias and enrichment properties without biological confounders
+
+---
+
+## Test Dataset 1: Key Observations
+
+**Enrichment efficiency:**
+
+- Input: 51% methylated, 49% unmethylated
+- After cfMeDIP: 97% methylated fragments
+
+**Bias patterns observed:**
+
+- Enrichment of 160 bp fragments (expected from size selection)
+- Preference for higher G + C content
+- Preference for higher CpG fraction
+- Unmethylated fragments showed no systematic bias (3% signal from random non-specific binding)
+
+**Alternative fragments:** Fragments with identical properties but different sequences showed consistent read counts (range ≤4% of total reads)
+
+## Test Dataset 2: Biological Sample Optimization
+
+**Experiment:** Spike-ins added to sheared HCT116 colon cancer genomic DNA
+
+**Samples:**
+
+- HCT116 genomic DNA: constant 10 ng (sheared to ~150 bp, size-selected to mimic cfDNA)
+- Spike-in amounts tested: 0.1 ng, 0.05 ng, 0.01 ng
+- Three replicates per spike-in amount
+
+**Sequencing:**
+
+- Illumina NovaSeq 6000
+- Paired-end 2 × 100 bp
+- 60 million paired-end reads per sample
+
+**Purpose:** Determine optimal spike-in amount that provides sufficient reads for normalization while preserving reads for biological sample
+
+---
+
+## Test Dataset 2: Key Results
+
+**Performance at 0.01 ng spike-in:**
+
+- <1% of sequencing reads used for spike-ins
+- >650,000 spike-in control reads retained for analysis
+- ≥97% specificity for methylated DNA
+- ≤0.01% non-specific binding to unmethylated fragments
+
+**Consistent bias patterns:**
+
+- Enrichment of 160 bp fragments
+- Higher G + C content preference
+- Fragments with CpG at 1/80 bp represented by ≤1% of reads
+
+**Correlation with EPIC array:**
+
+- Molar amount correlated with M-values (r ≥ 0.62 for ≥3 CpG probes)
+- Correlation increased to r = 0.82 for windows with ≥5 CpG probes
+- Similar correlation strength as raw read counts, but with absolute quantification
+
+## Test Dataset 3: Batch Effect Assessment (AML Patient Samples)
+
+**Experiment:** Three independent labs perform cfMeDIP-seq on same patient samples
+
+**Samples:**
+
+- 5 AML patient plasma samples (10 ng cfDNA each)
+- 0.01 ng spike-in controls added to each
+- Samples divided into 3 technical replicates (one per lab)
+- Patient demographics: 3 female, 2 male; ages 45-79
+
+**Experimental variations introduced:**
+
+- **Adapters:** Lab A & C used IDT xGen Duplex Seq (3-4 bp UMI); Lab B used custom IDT (2 bp UMI)
+- **Ligation:** Lab A & C at 4°C for 16h; Lab B at 20°C for 2h
+- **Antibody:** Lab A & C used Lot RD004; Lab B used Lot RD001
+- **Filler DNA:** Lab A & B used 50% methylated/50% unmethylated lambda; Lab C used 100% unmethylated lambda
+- **PCR cycles:** Lab A: 13-15 cycles (optimized); Lab B: 13 cycles; Lab C: 11 cycles
+
+---
+
+## Test Dataset 3: Sequencing Details
+
+**Sequencing platforms:**
+
+- Lab A: NovaSeq 6000, PE 2×100 bp, 60M reads/sample
+- Lab B: NovaSeq 6000, PE 2×100 bp, 100M reads/sample
+- Lab C: NextSeq 550, PE 2×75 bp, 85M reads/sample
+
+**Purpose:** Assess whether spike-in normalization mitigates batch effects from:
+
+- Different labs/operators
+- Different reagent lots (antibody, filler DNA)
+- Different protocols (ligation conditions, PCR cycles)
+- Different sequencing platforms and depths
+
+---
+
+## Test Dataset 3: Batch Effect Results (Summary)
+
+**Principal Component Analysis:**
+
+1. **Raw read counts (no normalization):**
+   - PC1 explains 80% variance (non-significant association with batch)
+   - PC3 explains 5% variance (**significantly** associated with batch, p < 0.001)
+
+2. **QSEA normalization:**
+   - PC1 explains 81% variance (**significantly** associated with filler DNA)
+   - Also non-significantly associated with batch and adapter
+
+3. **Spike-in normalization (no filtering):**
+   - PC1 explains 78% variance (non-significant association with batch)
+   - PC3 explains 6% variance (**significantly** associated with batch)
+
+4. **Spike-in normalization + filtering (ENCODE blacklist, repeats, low mappability):**
+   - PC1 explains 83% variance (associated with sample and sex, not batch)
+   - PC2 explains 6% variance (associated with batch and filler)
+   - **Batch effects reduced to ≤1% of total variance**
+
+---
+
+## Test Dataset 3: Additional Observations
+
+**Sample-sample correlations:**
+
+- Technical replicates compared across labs (Lab B vs. Lab A; Lab C vs. Lab A)
+- Molar amount showed better correlation than raw read counts in all 10 pairings
+
+**Lab C methylation specificity:**
+
+- Lower methylation specificity due to 100% unmethylated filler DNA
+- Spike-in controls successfully mitigated this effect
+
+**High molar amount regions:**
+
+- 11 windows with ≥0.25 pmol identified
+- 7/11 overlapped repetitive elements (6/7 were Alu elements)
+- Top regions overlapped: *MIER2*, *HCN2*, *RNF126*, *EXOC2*, *PRPF4B*
+
+**Quality control metrics:**
+
+- Methylation specificity calculated per sample
+- Recommendation: flag samples with methylation specificity <0.98
+
+---
+
+## STOP
+
+Results and further analysis to be filled in later
+

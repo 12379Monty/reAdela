@@ -1,0 +1,9 @@
+Error in abs_path(input) : 
+  The file '_csfmedip_normalization_presentation.Rmwq-------.Rmd' does not exist.
+Calls: <Anonymous> -> setwd -> dirname -> abs_path
+In addition: Warning messages:
+1: In normalizePath(x, winslash = winslash, mustWork = must_work) :
+  path[1]="_csfmedip_normalization_presentation.Rmwq       .Rmd": No such file or directory
+2: In normalizePath(x, winslash = winslash, mustWork = must_work) :
+  path[1]="_csfmedip_normalization_presentation.Rmwq-------.Rmd": No such file or directory
+Execution halted

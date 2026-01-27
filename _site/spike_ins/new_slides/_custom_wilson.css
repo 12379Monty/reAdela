@@ -1,0 +1,85 @@
+/* Custom CSS for cfMeDIP-seq Normalization Presentation */
+
+/* Force left alignment for all slides */
+.reveal .slides {
+  text-align: left;
+  overflow-y: auto !important;
+}
+
+.reveal .slides section {
+  text-align: left;
+  overflow-y: auto !important;
+  max-height: 100vh;
+}
+
+/* Make sure headings are left-aligned and blue */
+.reveal h1,
+.reveal h2,
+.reveal h3,
+.reveal h4 {
+  text-align: left;
+}
+
+.reveal h1 {
+  color: #2563eb;
+}
+
+.reveal h2 {
+  color: #2563eb;
+}
+
+.reveal h3 {
+  color: #3b82f6;
+}
+
+/* Style for blockquotes/citations */
+.reveal blockquote {
+  text-align: left;
+  border-left: 3px solid #2563eb;
+  padding-left: 20px;
+  margin: 20px 0;
+  font-style: italic;
+}
+
+/* Math notation - keep readable */
+.reveal .math {
+  font-family: "Times New Roman", serif;
+}
+
+/* Color classes for variability indicators */
+.var-low {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.var-moderate {
+  color: #f97316;
+  font-weight: 600;
+}
+
+.var-high {
+  color: #ef4444;
+  font-weight: 600;
+}
+
+/* Ensure lists are left-aligned */
+.reveal ul,
+.reveal ol {
+  text-align: left;
+}
+
+/* Improve readability */
+.reveal p {
+  margin-bottom: 0.5em;
+  line-height: 1.4;
+}
+
+.reveal li {
+  margin-bottom: 0.3em;
+}
+
+/* Allow scrolling on overflow */
+.reveal .slides section.present {
+  overflow-y: auto !important;
+  max-height: 100vh;
+}
