@@ -1,0 +1,31 @@
+# Instance IP
+3.101.20.214
+
+
+# sec group ID
+sg-052a2c3fa91b46963
+
+# curl ifconfig.me
+157.131.187.103
+
+# Add the rule
+aws ec2 authorize-security-group-ingress \
+    --group-id sg-323f6e49 \
+    --protocol tcp \
+    --port 22 \
+    --cidr 157.131.187.103/32
+
+
+
+aws ec2 describe-instances --instance-ids i-xxxxxxxxx --query 'Reservations[*].Instances[*].SecurityGroups'
+
+o---------------------------------------------------------
+|                 DescribeSecurityGroups                 |
++--------------+----------+------------------------------+
+|  sg-323f6e49 |  default |  default VPC security group  |
++--------------+----------+------------------------------+
+
+
+
+wget https://raw.githubusercontent.com/12379Monty/reAdela/master/AWS/Wilson2022_aws/master_setup.sh 
+
