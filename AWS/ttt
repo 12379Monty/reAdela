@@ -1,0 +1,12 @@
+
+# Core Bioconductor packages
+BiocManager::install(c(
+  "GenomicRanges",
+  "GenomicAlignments",
+  "Rsamtools",
+  "rtracklayer",
+  "GenomicFeatures",
+  "BSgenome.Hsapiens.UCSC.hg38",
+  "BSgenome.Hsapiens.UCSC.hg19"
+))
+

@@ -230,28 +230,32 @@ study:
 
 <br/>
 
-### Background {-}
+<!--
+* [Wilson2022_aws](AWS/Wilson2022_aws) - setup docs
+-->
 
-* Normalization is one of the steps in the analysis of sample cfMeDIP data
-towards cancer detection scores.
-* Two models are used, each has the binned coverage as input
-   - first model predicts the probability of cancer
-   - second model predicts the cancer type
-* a 27 fragment spike-in normalization is suggested to adjust coverage levels
-   - a scaling factor adjusted for 3 covariates is suggested
-   - 4 parameters computed from 27 points which may or may not represent
-the sample distribution
+### EC2 Install  {-}
 
-* In the task of normalization, we need to counterweigh
-the desire to have unbiased estimates with the need to have
-low variability estimates.
-   - the data need to be examined to see we are on the continuum.
-   - a 27 fragment spike-in normalization is going to be on the noisy side
+* [EC2_SETUP_GUIDE](AWS/Wilson2022_aws/EC2_SETUP_GUIDE.html)
 
-* Alternatively, identify 1000 stably expressed bins and use some one-poarameter
-summary of these as shift.
+* [EC2_TROUBLESHOOTING_GUIDE](AWS/Wilson2022_aws/EC2_TROUBLESHOOTING_GUIDE.html)
+
+* [master_setup](AWS/Wilson2022_aws/master_setup.html)
+
+* [QUICK_REFERENCE](AWS/Wilson2022_aws/QUICK_REFERENCE.html)
+
+* [WILSON_PIPELINE](AWS/Wilson2022_aws/WILSON_PIPELINE.html)
 
 <br/>
+<br/>
+
+ 
+### Data and Code {-}
+
+* [Data Download and Organization Guide](spike_ins/_Wilson2022_Data_Download_Guide.html)
+
+<br/>
+
 
 ### Re-analysis {-}
 
@@ -273,6 +277,8 @@ where the errors occur (samples) and how (miss by a lot or little)
 # Extras {.tabset}
 
 ## Home {-}
+
+<br/>
 
 ## DMA {-}
  
@@ -346,6 +352,29 @@ spike-in controls.
 ############################################################
 # ARCHIVED CODE BELOW
 ############################################################
+
+### Norm Background {-}
+
+* Normalization is one of the steps in the analysis of sample cfMeDIP data
+towards cancer detection scores.
+* Two models are used, each has the binned coverage as input
+   - first model predicts the probability of cancer
+   - second model predicts the cancer type
+* a 27 fragment spike-in normalization is suggested to adjust coverage levels
+   - a scaling factor adjusted for 3 covariates is suggested
+   - 4 parameters computed from 27 points which may or may not represent
+the sample distribution
+
+* In the task of normalization, we need to counterweigh
+the desire to have unbiased estimates with the need to have
+low variability estimates.
+   - the data need to be examined to see we are on the continuum.
+   - a 27 fragment spike-in normalization is going to be on the noisy side
+
+* Alternatively, identify 1000 stably expressed bins and use some one-poarameter
+summary of these as shift.
+
+<br/>
 
 # Appendix: Full list of reports
 
