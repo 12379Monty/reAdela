@@ -179,6 +179,7 @@ and algorithm along with a description of enhancements that followed.
    - contents of the paper are detailed.
    - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
 
+<br/>
 
 ### Additional Resources {.tabset}
 
@@ -193,6 +194,8 @@ and algorithm along with a description of enhancements that followed.
 
 * [NGS_Normalization_Methods_Review](spike_ins/NGS_Normalization_Methods_Review.html)
 
+
+<br/>
 
 ####   Published Data {-}
 
@@ -217,7 +220,7 @@ and algorithm along with a description of enhancements that followed.
 study: 
 
    - Spike-in Normalization and 
-   - Model Selection
+   - Cancer Model Selection
 
 <br/>
 
@@ -255,7 +258,9 @@ summary of these as shift.
 * [_cfmedip_normalization_presentation](spike_ins/new_slides/_cfmedip_normalization_presentation.html)
 
 
-## Model Selection
+<br/>
+
+## Cancer Model Selection
 
 *  Examine more  model structures - enet, rf, pam, svm, gbm, knn, xgb
    - in addition to the error rate, we need to examine
