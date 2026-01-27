@@ -178,25 +178,37 @@ and algorithm along with a description of enhancements that followed.
 * [Rmarkdown](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
    - contents of the paper are detailed.
    - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
-* Additional markdowns
-  - [framework](spike_ins/_spike_in_normalization_cfMeDIP_report.html)
-  - [biological validation](spike_ins/_Wilson_2022_Critical_Analysis_Biological_Validation.html)
 
-*  Published Data
-   - **GEO Accession GSE166259:**
-      - Raw HCT116 cell line data (public)
-      - Processed AML patient data (public)
 
-   - **EGA Accession EGAS00001005069:**
-      - Raw AML patient data (controlled access)
-      - Available via University Health Network Genomics Data Access Committee
+### Additional Resources {.tabset}
 
-   - **Zenodo Deposits:**
-      - Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
-      - spiky package: https://doi.org/10.18129/B9.bioc.spiky
+#### Home {-}
+
+<br/>
+
+#### Additional markdowns {-} 
+
+* [framework](spike_ins/_spike_in_normalization_cfMeDIP_report.html)
+* [biological validation](spike_ins/_Wilson_2022_Critical_Analysis_Biological_Validation.html)
 
 * [NGS_Normalization_Methods_Review](spike_ins/NGS_Normalization_Methods_Review.html)
 
+
+####   Published Data {-}
+
+* **GEO Accession GSE166259:**
+   - Raw HCT116 cell line data (public)
+   - Processed AML patient data (public)
+
+* **EGA Accession EGAS00001005069:**
+   - Raw AML patient data (controlled access)
+   - Available via University Health Network Genomics Data Access Committee
+
+* **Zenodo Deposits:**
+   - Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
+   - spiky package: https://doi.org/10.18129/B9.bioc.spiky
+
+<br/>
 <br/>
 
 # Re-analysis 
@@ -209,7 +221,13 @@ study:
 
 <br/>
 
-## Spike-in Normalization
+## Spike-in Normalization {.tabset}
+
+### Home {-}
+
+<br/>
+
+### Background {-}
 
 * Normalization is one of the steps in the analysis of sample cfMeDIP data
 towards cancer detection scores.
@@ -231,6 +249,11 @@ low variability estimates.
 summary of these as shift.
 
 <br/>
+
+### Re-analysis {-}
+
+* [_cfmedip_normalization_presentation](spike_ins/new_slides/_cfmedip_normalization_presentation.html)
+
 
 ## Model Selection
 
