@@ -84,11 +84,6 @@ PREFIX <- "index" #- replace by FLOWCELL???
 
 <br/>
 
-<!--
-* Donoho on Frictionless Reproducibility
-   - Donoho on the Modern History of Stats
--->
-
 # About this page {-}
 
 * In this page we review the literature
@@ -96,13 +91,12 @@ which document the development of Adela's cfMeDIP-seq Technology.
 The source of all the information contained therein is public.
 The primary references are the following:^[
 <span style="color:red">
-[@Shen2018; @Wilson2022; @Hallaaho2022; @Zeng2023]
+[@Shen2018; @Wilson2022; @Hallaaho2022; @Zeng2023; @Stutheit-Zhao2024;
+@Liu2025]
 </span>
 ]
 
 <div id="refs"></div>
-
-
 
 <br/>
 
@@ -114,7 +108,6 @@ naive prompts from Francois Collin.
 * The reporting done is intended to provide the information
 needed to understand the roots and development of 
 Adela's cfMeDIP-seq Technology.
-
 
 
 <br/>
@@ -214,6 +207,18 @@ and algorithm along with a description of enhancements that followed.
 <br/>
 <br/>
 
+## Fragment length distribution
+
+* Stutheit-Zhao (2024) [@Stutheit-Zhao2024] show that the 
+distribution of fragment lengths adds information to sequence
+data when trying to discriminate  between cancer and non-cance samples.
+
+
+**TO BE COMPLETED** - put summary here.
+
+<br/>
+<br/>
+
 # Re-analysis 
 
 * Two areas in the developmental path that are inviting to further
@@ -272,8 +277,29 @@ where the errors occur (samples) and how (miss by a lot or little)
    - compare validation and test error rates.
 
 <br/>
+<!--
 
- 
+# More recent publications {.tabset}
+
+## Home {-}
+
+<br/>
+
+## Stutheit-Zhao et al. (2024) {-}
+
+* claude.ai sonnet
+
+
+<br/>
+
+## Liu et al. (2025)  {-}
+
+* See **Clinical Validation Studies for molDx Products**
+
+-->
+
+<br/>
+
 # Extras {.tabset}
 
 ## Home {-}
@@ -352,6 +378,16 @@ spike-in controls.
 ############################################################
 # ARCHIVED CODE BELOW
 ############################################################
+
+#bibliography_cfMeDIP1: [AI/_cfMeDIP-seq_references_1.bib]
+#bibliography_cfMeDIP2: [AI/_cfMeDIP-seq_references_2.bib]
+#bibliography_cfMeDIP3: [AI/_cfMeDIP-seq_references_2.bib]
+#bibliography_spikeins: [spike_ins/Ref/_spike_in.bib]
+
+
+\nocite{Burgener2021,DePascali2024,Hallaaho2022,Liu2025,Nassiri2020,Nuzzo2019,Nuzzo2020,Shen2018,Shen2019,Stutheit-Zhao2024,Wilson2022,Zeng2023}
+
+<div id="refs"></div>
 
 ### Norm Background {-}
 
