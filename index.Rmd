@@ -121,6 +121,11 @@ Adela's cfMeDIP-seq Technology.
    -  This compilation is for background purposes - see the documentation below 
 for comments on technical aspects of some of the studies cited.
 
+* There are several  other Dx commercial/venture companies going after methylation profiles
+to detect cancer.  Can we have a table describing all companies targeting methylation.
+
+
+
 <br/>
 
 ## cfMeDIP-seq: Protocol, Pipeline and Classifiers
@@ -358,6 +363,14 @@ spike-in controls.
    -  Wilson et al. (2022) [@Wilson2022]
 
 </div>
+
+<!--
+## Companies targeting methylation
+-->
+
+```{r,  child="methylation_cancer_dx_landscape.md"}
+```
+
 
 
 

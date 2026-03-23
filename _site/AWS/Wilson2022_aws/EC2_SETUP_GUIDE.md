@@ -649,9 +649,11 @@ sudo passwd ubuntu
 
 # Check status
 sudo systemctl status rstudio-server
+
 ```
 
-Access RStudio at: `http://YOUR_INSTANCE_IP:8787`
+Access RStudio at: `http://YOUR_INSTANCE_IP:8787`  
+
 - **Username**: ubuntu
 - **Password**: [password you set]
 
