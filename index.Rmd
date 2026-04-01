@@ -172,39 +172,30 @@ and algorithm along with a description of enhancements that followed.
 ## spike-in control normalization 
 
 
-* [slides](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review_slides/_Wilson2022_SpikeIns.html)
-* [Rmarkdown](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
-   - contents of the paper are detailed.
-   - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
+<p><p/>
+* Wilson et al. 2022 [@Wilson:2022aa]
+   - [slides](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review_slides/_Wilson2022_SpikeIns.html)
+   - [Rmarkdown](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
+      - contents of the paper are detailed.
+      - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
 
-<br/>
+<p><p/>
+* Additional markdowns 
+   -  [framework](spike_ins/_spike_in_normalization_cfMeDIP_report.html)
+   -  [biological validation](spike_ins/_Wilson_2022_Critical_Analysis_Biological_Validation.html)
+   -  [NGS_Normalization_Methods_Review](spike_ins/NGS_Normalization_Methods_Review.html)
 
-### Additional Resources {.tabset}
+<p><p/>
+* Published Data 
+   -  **GEO Accession GSE166259:**
+      - Raw HCT116 cell line data (public)
+      - Processed AML patient data (public)
 
-#### Home {-}
+   -  **EGA Accession EGAS00001005069:**
+      - Raw AML patient data (controlled access)
+      - Available via University Health Network Genomics Data Access Committee
 
-<br/>
-
-#### Additional markdowns {-} 
-
-* [framework](spike_ins/_spike_in_normalization_cfMeDIP_report.html)
-* [biological validation](spike_ins/_Wilson_2022_Critical_Analysis_Biological_Validation.html)
-
-* [NGS_Normalization_Methods_Review](spike_ins/NGS_Normalization_Methods_Review.html)
-
-
-<br/>
-
-####   Published Data {-}
-
-* **GEO Accession GSE166259:**
-   - Raw HCT116 cell line data (public)
-   - Processed AML patient data (public)
-
-* **EGA Accession EGAS00001005069:**
-   - Raw AML patient data (controlled access)
-   - Available via University Health Network Genomics Data Access Committee
-
+<p><p/>
 * **Zenodo Deposits:**
    - Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
    - spiky package: https://doi.org/10.18129/B9.bioc.spiky
