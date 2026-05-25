@@ -1,0 +1,149 @@
+PMID- 39052479
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20240830
+LR  - 20250121
+IS  - 2211-1247 (Electronic)
+VI  - 43
+IP  - 8
+DP  - 2024 Aug 27
+TI  - Transcriptional programming mediated by the histone demethylase KDM5C regulates 
+      dendritic cell population heterogeneity and function.
+PG  - 114506
+LID - S2211-1247(24)00835-0 [pii]
+LID - 10.1016/j.celrep.2024.114506 [doi]
+AB  - Functional and phenotypic heterogeneity of dendritic cells (DCs) play crucial 
+      roles in facilitating the development of diverse immune responses essential for 
+      host protection. Here, we report that KDM5C, a histone lysine demethylase, 
+      regulates conventional or classical DC (cDC) and plasmacytoid DC (pDC) population 
+      heterogeneity and function. Mice deficient in KDM5C in DCs have increased 
+      proportions of cDC2Bs and cDC1s, which is partly dependent on type I interferon 
+      (IFN) and pDCs. Loss of KDM5C results in an increase in Ly6C(-) pDCs, which, 
+      compared to Ly6C(+) pDCs, have limited ability to produce type I IFN and more 
+      efficiently stimulate antigen-specific CD8 T cells. KDM5C-deficient DCs have 
+      increased expression of inflammatory genes, altered expression of 
+      lineage-specific genes, and decreased function. In response to Listeria 
+      infection, KDM5C-deficient mice mount reduced CD8 T cell responses due to 
+      decreased antigen presentation by cDC1s. Thus, KDM5C is a key regulator of DC 
+      heterogeneity and critical driver of the functional properties of DCs.
+CI  - Copyright © 2024 The Authors. Published by Elsevier Inc. All rights reserved.
+FAU - Guak, Hannah
+AU  - Guak H
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA; Department of Pediatrics, University of Michigan, Ann 
+      Arbor, MI 48109, USA.
+FAU - Weiland, Matthew
+AU  - Weiland M
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA.
+FAU - Ark, Alexandra Vander
+AU  - Ark AV
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA.
+FAU - Zhai, Lukai
+AU  - Zhai L
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA.
+FAU - Lau, Kin
+AU  - Lau K
+AD  - Bioinformatics and Biostatistics Core, Van Andel Institute, Grand Rapids, MI 
+      49503, USA.
+FAU - Corrado, Mario
+AU  - Corrado M
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA; Department of Internal Medicine, University of Toronto, 
+      Toronto, ON M5S 3H2, Canada.
+FAU - Davidson, Paula
+AU  - Davidson P
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA.
+FAU - Asiedu, Ebenezer
+AU  - Asiedu E
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA.
+FAU - Mabvakure, Batsirai
+AU  - Mabvakure B
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA; Department of Oncology, Georgetown University School of 
+      Medicine, Washington, DC 20057, USA; Georgetown Lombardi Comprehensive Cancer 
+      Center, Georgetown University, Washington, DC 20057, USA.
+FAU - Compton, Shelby
+AU  - Compton S
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA.
+FAU - DeCamp, Lisa
+AU  - DeCamp L
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA.
+FAU - Scullion, Catherine A
+AU  - Scullion CA
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA; Department of Experimental Medicine, Dana-Farber Cancer 
+      Institute, Boston, MA 02215, USA.
+FAU - Jones, Russell G
+AU  - Jones RG
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA.
+FAU - Nowinski, Sara M
+AU  - Nowinski SM
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA.
+FAU - Krawczyk, Connie M
+AU  - Krawczyk CM
+AD  - Department of Metabolism and Nutritional Programming, Van Andel Institute, Grand 
+      Rapids, MI 49503, USA. Electronic address: connie.krawczyk@vai.org.
+LA  - eng
+GR  - R21 AI153997/AI/NIAID NIH HHS/United States
+PT  - Journal Article
+PT  - Research Support, N.I.H., Extramural
+PT  - Research Support, Non-U.S. Gov't
+DEP - 20240724
+PL  - United States
+TA  - Cell Rep
+JT  - Cell reports
+JID - 101573691
+RN  - EC 1.14.11.- (Histone Demethylases)
+RN  - EC 1.14.11.- (Kdm5c protein, mouse)
+RN  - 0 (Interferon Type I)
+SB  - IM
+MH  - *Dendritic Cells/metabolism/immunology
+MH  - Animals
+MH  - Mice
+MH  - *Histone Demethylases/metabolism/genetics
+MH  - *CD8-Positive T-Lymphocytes/immunology/metabolism
+MH  - Mice, Inbred C57BL
+MH  - Transcription, Genetic
+MH  - Interferon Type I/metabolism
+MH  - Antigen Presentation
+PMC - PMC11416765
+MID - NIHMS2019929
+OTO - NOTNLM
+OT  - CP: Immunology
+OT  - CP: Molecular biology
+OT  - DC development
+OT  - IRF
+OT  - IRF8
+OT  - KDM5C
+OT  - antigen presentation
+OT  - dendritic cells
+OT  - epigenetics
+OT  - histone demethylase
+OT  - interferon
+OT  - metabolism
+COIS- Declaration of interests The authors declare no competing interests.
+EDAT- 2024/07/26 12:43
+MHDA- 2024/08/31 09:44
+PMCR- 2024/09/22
+CRDT- 2024/07/25 12:36
+PHST- 2023/11/06 00:00 [received]
+PHST- 2024/03/30 00:00 [revised]
+PHST- 2024/06/27 00:00 [accepted]
+PHST- 2024/08/31 09:44 [medline]
+PHST- 2024/07/26 12:43 [pubmed]
+PHST- 2024/07/25 12:36 [entrez]
+PHST- 2024/09/22 00:00 [pmc-release]
+AID - S2211-1247(24)00835-0 [pii]
+AID - 10.1016/j.celrep.2024.114506 [doi]
+PST - ppublish
+SO  - Cell Rep. 2024 Aug 27;43(8):114506. doi: 10.1016/j.celrep.2024.114506. Epub 2024 
+      Jul 24.

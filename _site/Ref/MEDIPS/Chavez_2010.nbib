@@ -1,0 +1,86 @@
+PMID- 20802089
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20110128
+LR  - 20220408
+IS  - 1549-5469 (Electronic)
+IS  - 1088-9051 (Print)
+IS  - 1088-9051 (Linking)
+VI  - 20
+IP  - 10
+DP  - 2010 Oct
+TI  - Computational analysis of genome-wide DNA methylation during the differentiation 
+      of human embryonic stem cells along the endodermal lineage.
+PG  - 1441-50
+LID - 10.1101/gr.110114.110 [doi]
+AB  - The generation of genome-wide data derived from methylated DNA 
+      immunoprecipitation followed by sequencing (MeDIP-seq) has become a major tool 
+      for epigenetic studies in health and disease. The computational analysis of such 
+      data, however, still falls short on accuracy, sensitivity, and speed. We propose 
+      a time-efficient statistical method that is able to cope with the inherent 
+      complexity of MeDIP-seq data with similar performance compared with existing 
+      methods. In order to demonstrate the computational approach, we have analyzed 
+      alterations in DNA methylation during the differentiation of human embryonic stem 
+      cells (hESCs) to definitive endoderm. We show improved correlation of normalized 
+      MeDIP-seq data in comparison to available whole-genome bisulfite sequencing data, 
+      and investigated the effect of differential methylation on gene expression. 
+      Furthermore, we analyzed the interplay between DNA methylation, histone 
+      modifications, and transcription factor binding and show that in contrast to de 
+      novo methylation, demethylation is mainly associated with regions of low CpG 
+      densities.
+FAU - Chavez, Lukas
+AU  - Chavez L
+AD  - Department of Vertebrate Genomics, Max-Planck-Institute for Molecular Genetics, 
+      D-14195 Berlin, Germany. chavez@molgen.mpg.de
+FAU - Jozefczuk, Justyna
+AU  - Jozefczuk J
+FAU - Grimm, Christina
+AU  - Grimm C
+FAU - Dietrich, Jörn
+AU  - Dietrich J
+FAU - Timmermann, Bernd
+AU  - Timmermann B
+FAU - Lehrach, Hans
+AU  - Lehrach H
+FAU - Herwig, Ralf
+AU  - Herwig R
+FAU - Adjaye, James
+AU  - Adjaye J
+LA  - eng
+SI  - GEO/GSE21715
+PT  - Evaluation Study
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+DEP - 20100827
+PL  - United States
+TA  - Genome Res
+JT  - Genome research
+JID - 9518021
+SB  - IM
+MH  - *Cell Differentiation
+MH  - Computational Biology/*methods
+MH  - *DNA Methylation
+MH  - Embryonic Stem Cells/*cytology/metabolism
+MH  - Endoderm/*metabolism
+MH  - Epigenomics
+MH  - Gene Expression
+MH  - Gene Expression Profiling
+MH  - Genome, Human
+MH  - Humans
+MH  - Immunoprecipitation
+MH  - Sequence Analysis, DNA
+MH  - *Software
+PMC - PMC2945193
+EDAT- 2010/08/31 06:00
+MHDA- 2011/02/01 06:00
+PMCR- 2011/04/01
+CRDT- 2010/08/31 06:00
+PHST- 2010/08/31 06:00 [entrez]
+PHST- 2010/08/31 06:00 [pubmed]
+PHST- 2011/02/01 06:00 [medline]
+PHST- 2011/04/01 00:00 [pmc-release]
+AID - gr.110114.110 [pii]
+AID - 10.1101/gr.110114.110 [doi]
+PST - ppublish
+SO  - Genome Res. 2010 Oct;20(10):1441-50. doi: 10.1101/gr.110114.110. Epub 2010 Aug 
+      27.

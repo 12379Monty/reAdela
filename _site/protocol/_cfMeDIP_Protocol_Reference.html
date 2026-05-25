@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>cfMeDIP-seq Protocol Reference</title>
+<style>
+/* ─── Base ─────────────────────────────────────────────── */
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,sans-serif;font-size:13px;background:#f0f2f5;color:#1a1a2e;padding:18px 24px}
+h1{text-align:center;font-size:19px;color:#1a1a2e;margin-bottom:4px}
+.doc-sub{text-align:center;font-size:11px;color:#666;margin-bottom:20px}
+
+/* ─── Flowchart box ─────────────────────────────────────── */
+.fc-wrap{background:#fff;border:1px solid #dde;border-radius:8px;padding:14px;margin-bottom:24px;overflow-x:auto}
+.fc-wrap h2{font-size:14px;text-align:center;color:#2471A3;margin-bottom:8px}
+
+/* ─── Stage cards ───────────────────────────────────────── */
+.stage-card{background:#fff;border-radius:8px;border:1px solid #dde;margin-bottom:26px;overflow:hidden}
+.stage-header{padding:9px 14px;font-size:13.5px;font-weight:700;letter-spacing:.3px;color:#fff}
+.s1 .stage-header{background:#2471A3}
+.s2 .stage-header{background:#922B21}
+.s3 .stage-header{background:#7d5a0a}
+.s4 .stage-header{background:#1A5276}
+
+/* ─── Section labels inside cards ──────────────────────── */
+.section-label{padding:5px 14px;font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;background:#f7f8fa;border-top:1px solid #eee;border-bottom:1px solid #eee;color:#555}
+
+/* ─── Tables ─────────────────────────────────────────────── */
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{padding:7px 10px;background:#f0f2f5;font-weight:700;text-align:left;border-bottom:2px solid #dde;white-space:nowrap;color:#333}
+td{padding:7px 10px;border-bottom:1px solid #eee;vertical-align:top;line-height:1.45}
+tr:last-child td{border-bottom:none}
+tr:nth-child(even) td{background:#fafbfc}
+
+/* Column widths – steps table */
+.steps-table th:nth-child(1),
+.steps-table td:nth-child(1){width:52px;font-weight:700;color:#2471A3;white-space:nowrap}
+.steps-table th:nth-child(2),
+.steps-table td:nth-child(2){width:180px;font-weight:600}
+.steps-table th:nth-child(3),
+.steps-table td:nth-child(3){min-width:300px}
+.steps-table th:nth-child(4),
+.steps-table td:nth-child(4){width:72px;white-space:nowrap;color:#555;font-style:italic}
+
+/* Column widths – metrics table */
+.metrics-table th:nth-child(1),
+.metrics-table td:nth-child(1){width:170px;font-weight:600}
+.metrics-table th:nth-child(2),
+.metrics-table td:nth-child(2){min-width:200px}
+.metrics-table th:nth-child(3),
+.metrics-table td:nth-child(3){width:150px}
+.metrics-table th:nth-child(4),
+.metrics-table td:nth-child(4){min-width:180px}
+.metrics-table th:nth-child(5),
+.metrics-table td:nth-child(5){width:145px;white-space:nowrap}
+
+/* ─── Variability panel ──────────────────────────────────── */
+.var-panel{padding:8px 14px;display:flex;flex-wrap:wrap;gap:6px 20px}
+.var-item{font-size:12px;padding:3px 0;padding-left:14px;position:relative;line-height:1.4}
+.var-item::before{content:"▸";position:absolute;left:0;color:#aaa}
+.var-high .var-item::before{color:#E74C3C;content:"▲ HIGH ▸"}
+.var-high .var-item{padding-left:62px;color:#922B21;font-weight:600}
+.var-mod .var-item::before{color:#F39C12;content:"◆ MOD ▸"}
+.var-mod .var-item{padding-left:62px;color:#7d5a0a}
+.var-low .var-item::before{color:#27AE60}
+
+/* ─── QC limits coloring ─────────────────────────────────── */
+.qc{font-weight:600;white-space:nowrap}
+.qc-go{color:#1a5c2e}
+.qc-warn{color:#7d5a0a}
+.gate{background:#E8F8F5;border-left:3px solid #1a5c2e;font-weight:700;color:#1a5c2e}
+.gate td{background:#E8F8F5!important}
+
+/* ─── UMI badge ──────────────────────────────────────────── */
+.umi{display:inline-block;background:#8E44AD;color:#fff;font-size:9px;font-weight:700;padding:1px 5px;border-radius:3px;vertical-align:middle;margin-left:4px}
+.umi-note{font-size:11px;color:#6c3483;font-style:italic;margin-top:3px}
+
+/* ─── Var group headings ──────────────────────────────────── */
+.var-group{font-size:11px;font-weight:700;color:#555;padding:4px 14px 2px;background:#f0f2f5;border-top:1px solid #eee;text-transform:uppercase;letter-spacing:.4px}
+</style>
+</head>
+<body>
+
+<h1>cfMeDIP-seq Protocol Reference</h1>
+<p class="doc-sub">Shen et al. 2019 · Burgener et al. 2021 · Wilson et al. 2022 &nbsp;|&nbsp; 4 Stages · 15 Steps · QC Metrics</p>
+
+<!-- ══════════════════════════════════════════════════════
+     FLOWCHART
+═══════════════════════════════════════════════════════════ -->
+<div class="fc-wrap">
+<h2>Protocol Flowchart with UMI Processing</h2>
+<svg viewBox="0 0 960 1280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:960px;display:block;margin:auto">
+<defs>
+  <marker id="arr"  markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3z" fill="#555"/></marker>
+  <marker id="arrP" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3z" fill="#8E44AD"/></marker>
+  <marker id="arrB" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L0,6 L7,3z" fill="#2471A3"/></marker>
+</defs>
+
+<!-- Legend -->
+<rect x="710" y="16" width="230" height="148" rx="6" fill="white" stroke="#ccc"/>
+<text x="825" y="32" text-anchor="middle" font-size="11" font-weight="bold" fill="#333">Legend</text>
+<rect x="720" y="40" width="14" height="14" fill="#E74C3C" rx="2"/><text x="740" y="51" font-size="9.5" fill="#333">HIGH variability</text>
+<rect x="720" y="60" width="14" height="14" fill="#F39C12" rx="2"/><text x="740" y="71" font-size="9.5" fill="#333">MODERATE variability</text>
+<rect x="720" y="80" width="14" height="14" fill="#D5F5E3" rx="2" stroke="#27AE60"/><text x="740" y="91" font-size="9.5" fill="#333">LOW variability</text>
+<rect x="720" y="100" width="14" height="14" fill="#F5EEF8" rx="2" stroke="#8E44AD"/><text x="740" y="111" font-size="9.5" fill="#8E44AD" font-weight="bold">UMI-specific node</text>
+<line x1="720" y1="129" x2="754" y2="129" stroke="#8E44AD" stroke-dasharray="5,3"/><text x="759" y="133" font-size="9.5" fill="#8E44AD">UMI pathway (dashed)</text>
+<text x="720" y="155" font-size="8.5" fill="#888" font-style="italic">★ = measurement recorded at this step</text>
+
+<!-- ─── STAGE 1 ─── -->
+<rect x="10" y="14" width="680" height="20" rx="4" fill="#2471A3" opacity="0.15"/>
+<text x="350" y="28" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1A5276">STAGE 1 — Library Preparation (Day 1)</text>
+
+<!-- Step 1 -->
+<rect x="50" y="40" width="220" height="60" rx="6" fill="#D5F5E3" stroke="#27AE60" stroke-width="1.5"/>
+<text x="160" y="57" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1a5c2e">Step 1 · End-Repair &amp; A-Tailing</text>
+<text x="160" y="70" text-anchor="middle" font-size="8.5" fill="#333">Input: 1–10 ng plasma cfDNA</text>
+<text x="160" y="82" text-anchor="middle" font-size="8.5" fill="#333">Blunt ends + 3′ A-overhang for ligation</text>
+<text x="160" y="94" text-anchor="middle" font-size="8" fill="#1a7c3e">★ cfDNA input (Qubit) · ~2–3 h</text>
+
+<line x1="160" y1="100" x2="160" y2="120" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Step 2 -->
+<rect x="50" y="120" width="220" height="66" rx="6" fill="#FEF9E7" stroke="#F39C12" stroke-width="1.5"/>
+<text x="160" y="137" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#7d5a0a">Step 2 · Adapter Ligation</text>
+<text x="160" y="150" text-anchor="middle" font-size="8.5" fill="#333">Ligate methylated sequencing adapters</text>
+<text x="160" y="162" text-anchor="middle" font-size="8.5" fill="#333">Adapter dimer formation risk</text>
+<text x="160" y="174" text-anchor="middle" font-size="8" fill="#7d5a0a">★ Post-ligation yield · ~2–3 h</text>
+
+<!-- UMI branch from Step 2 -->
+<line x1="270" y1="153" x2="320" y2="153" stroke="#8E44AD" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrP)"/>
+<rect x="320" y="120" width="205" height="66" rx="6" fill="#F5EEF8" stroke="#8E44AD" stroke-width="1.5"/>
+<text x="422" y="137" text-anchor="middle" font-size="10" font-weight="bold" fill="#6c3483">UMI Adapters</text>
+<text x="422" y="149" text-anchor="middle" font-size="8.5" fill="#333">8–10 nt random barcode embedded</text>
+<text x="422" y="161" text-anchor="middle" font-size="8.5" fill="#333">in adapter sequence (Burgener 2021)</text>
+<text x="422" y="173" text-anchor="middle" font-size="8" fill="#6c3483">Enables post-seq PCR deduplication</text>
+
+<line x1="160" y1="186" x2="160" y2="206" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Step 3 -->
+<rect x="50" y="206" width="220" height="60" rx="6" fill="#D5F5E3" stroke="#27AE60" stroke-width="1.5"/>
+<text x="160" y="223" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1a5c2e">Step 3 · SPRI Bead Purification</text>
+<text x="160" y="236" text-anchor="middle" font-size="8.5" fill="#333">Remove excess adapters &amp; reaction components</text>
+<text x="160" y="248" text-anchor="middle" font-size="8.5" fill="#333">Bead-to-DNA ratio critical for recovery</text>
+<text x="160" y="260" text-anchor="middle" font-size="8" fill="#1a7c3e">★ Adapter dimer % (Bioanalyzer) · ~1 h</text>
+
+<!-- Stage 1→2 arrow -->
+<line x1="160" y1="266" x2="160" y2="296" stroke="#2471A3" stroke-width="2.2" marker-end="url(#arrB)"/>
+<text x="174" y="284" font-size="8" fill="#2471A3" font-style="italic">Go/No-Go: yield &amp; dimer check</text>
+
+<!-- ─── STAGE 2 ─── -->
+<rect x="10" y="300" width="680" height="20" rx="4" fill="#E74C3C" opacity="0.14"/>
+<text x="350" y="314" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#922B21">STAGE 2 — Methylated DNA Immunoprecipitation (Day 2)</text>
+
+<!-- Step 4 -->
+<rect x="50" y="326" width="220" height="70" rx="6" fill="#FADBD8" stroke="#E74C3C" stroke-width="1.5"/>
+<text x="160" y="343" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#922B21">Step 4 · Filler DNA + Spike-Ins</text>
+<text x="160" y="356" text-anchor="middle" font-size="8.5" fill="#333">Adjust to ~1 µg total (Lambda or genomic)</text>
+<text x="160" y="368" text-anchor="middle" font-size="8.5" fill="#922B21" font-weight="bold">⚠ Filler type = major batch effect</text>
+<text x="160" y="380" text-anchor="middle" font-size="8.5" fill="#333">Add Arabidopsis or synthetic spike-ins</text>
+<text x="160" y="390" text-anchor="middle" font-size="8" fill="#922B21">★ Spike-in input amounts · ~30 min</text>
+<line x1="160" y1="396" x2="160" y2="416" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Step 5 -->
+<rect x="50" y="416" width="220" height="52" rx="6" fill="#D5F5E3" stroke="#27AE60" stroke-width="1.5"/>
+<text x="160" y="434" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1a5c2e">Step 5 · Denaturation (95°C, 10 min)</text>
+<text x="160" y="447" text-anchor="middle" font-size="8.5" fill="#333">Heat-denature dsDNA → ssDNA; chill on ice</text>
+<text x="160" y="460" text-anchor="middle" font-size="8" fill="#888" font-style="italic">No measurement · ~15 min</text>
+<line x1="160" y1="468" x2="160" y2="488" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Step 6 -->
+<rect x="50" y="488" width="220" height="66" rx="6" fill="#FADBD8" stroke="#E74C3C" stroke-width="1.5"/>
+<text x="160" y="505" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#922B21">Step 6 · Anti-5mC IP (overnight 4°C)</text>
+<text x="160" y="518" text-anchor="middle" font-size="8.5" fill="#333">5 µg antibody; 16–18 h rotation</text>
+<text x="160" y="530" text-anchor="middle" font-size="8.5" fill="#922B21" font-weight="bold">⚠ Antibody lot-to-lot variation</text>
+<text x="160" y="542" text-anchor="middle" font-size="8.5" fill="#333">Binding efficiency varies across lots</text>
+<text x="160" y="548" text-anchor="middle" font-size="8" fill="#888" font-style="italic">No measurement</text>
+<line x1="160" y1="554" x2="160" y2="574" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Step 7 -->
+<rect x="50" y="574" width="220" height="52" rx="6" fill="#FEF9E7" stroke="#F39C12" stroke-width="1.5"/>
+<text x="160" y="591" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#7d5a0a">Step 7 · Protein A/G Bead Capture</text>
+<text x="160" y="604" text-anchor="middle" font-size="8.5" fill="#333">Magnetic beads; 2 h, 4°C with rotation</text>
+<text x="160" y="618" text-anchor="middle" font-size="8" fill="#888" font-style="italic">No measurement · ~2 h</text>
+<line x1="160" y1="626" x2="160" y2="646" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Step 8 -->
+<rect x="50" y="646" width="220" height="52" rx="6" fill="#FEF9E7" stroke="#F39C12" stroke-width="1.5"/>
+<text x="160" y="663" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#7d5a0a">Step 8 · Washing (3–5×)</text>
+<text x="160" y="676" text-anchor="middle" font-size="8.5" fill="#333">IP buffer washes; remove non-specific DNA</text>
+<text x="160" y="690" text-anchor="middle" font-size="8" fill="#888" font-style="italic">No measurement · ~30 min</text>
+<line x1="160" y1="698" x2="160" y2="718" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Step 9 -->
+<rect x="50" y="718" width="220" height="52" rx="6" fill="#D5F5E3" stroke="#27AE60" stroke-width="1.5"/>
+<text x="160" y="735" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1a5c2e">Step 9 · Elution (proteinase K, 50°C)</text>
+<text x="160" y="748" text-anchor="middle" font-size="8.5" fill="#333">Elute DNA from beads; 2–3 h at 50°C</text>
+<text x="160" y="762" text-anchor="middle" font-size="8" fill="#888" font-style="italic">No measurement · ~3 h</text>
+<line x1="160" y1="770" x2="160" y2="790" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Step 10 -->
+<rect x="50" y="790" width="220" height="64" rx="6" fill="#D5F5E3" stroke="#27AE60" stroke-width="1.5"/>
+<text x="160" y="807" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1a5c2e">Step 10 · Purification of IP DNA</text>
+<text x="160" y="820" text-anchor="middle" font-size="8.5" fill="#333">SPRI cleanup of eluted DNA</text>
+<text x="160" y="832" text-anchor="middle" font-size="8" fill="#1a7c3e">★ IP recovery (Qubit)</text>
+<text x="160" y="844" text-anchor="middle" font-size="8" fill="#1a7c3e">★ Specificity &amp; fold-enrichment (qPCR) · ~1 h</text>
+
+<!-- Stage 2→3 arrow -->
+<line x1="160" y1="854" x2="160" y2="884" stroke="#2471A3" stroke-width="2.2" marker-end="url(#arrB)"/>
+<text x="174" y="872" font-size="8" fill="#2471A3" font-style="italic">GO / NO-GO · Specificity &gt;95%, Fold &gt;25</text>
+
+<!-- ─── STAGE 3 ─── -->
+<rect x="10" y="888" width="680" height="20" rx="4" fill="#F39C12" opacity="0.16"/>
+<text x="350" y="902" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#7d5a0a">STAGE 3 — Library Amplification (Day 3)</text>
+
+<!-- Step 11 -->
+<rect x="50" y="914" width="220" height="66" rx="6" fill="#D5F5E3" stroke="#27AE60" stroke-width="1.5"/>
+<text x="160" y="931" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1a5c2e">Step 11 · qPCR Specificity Check</text>
+<text x="160" y="944" text-anchor="middle" font-size="8.5" fill="#333">qPCR on IP aliquot; Go/No-Go gate</text>
+<text x="160" y="956" text-anchor="middle" font-size="8" fill="#1a7c3e">★ Ct value; fold-enrichment (HIST1H2BA/GAPDH)</text>
+<text x="160" y="968" text-anchor="middle" font-size="8" fill="#1a7c3e">★ Specificity · ~2 h</text>
+<text x="160" y="974" text-anchor="middle" font-size="7.5" fill="#888" font-style="italic">Gate: fold &gt;25 AND specificity &gt;95%</text>
+<line x1="160" y1="980" x2="160" y2="1000" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Step 12 -->
+<rect x="50" y="1000" width="220" height="64" rx="6" fill="#FEF9E7" stroke="#F39C12" stroke-width="1.5"/>
+<text x="160" y="1017" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#7d5a0a">Step 12 · PCR Amplification</text>
+<text x="160" y="1030" text-anchor="middle" font-size="8.5" fill="#333">Indexed primers; high-fidelity polymerase</text>
+<text x="160" y="1042" text-anchor="middle" font-size="8" fill="#7d5a0a">★ # PCR cycles; library concentration · ~2 h</text>
+<text x="160" y="1056" text-anchor="middle" font-size="7.5" fill="#888">Target 12–15 cycles; &gt;15 = duplication risk</text>
+
+<!-- UMI branch from Step 12 -->
+<line x1="270" y1="1032" x2="320" y2="1032" stroke="#8E44AD" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrP)"/>
+<rect x="320" y="1000" width="205" height="64" rx="6" fill="#F5EEF8" stroke="#8E44AD" stroke-width="1.5"/>
+<text x="422" y="1017" text-anchor="middle" font-size="10" font-weight="bold" fill="#6c3483">UMI Extraction (bioinformatics)</text>
+<text x="422" y="1030" text-anchor="middle" font-size="8.5" fill="#333">umi_tools extract → trim UMI barcode</text>
+<text x="422" y="1042" text-anchor="middle" font-size="8.5" fill="#333">BWA align → umi_tools dedup</text>
+<text x="422" y="1056" text-anchor="middle" font-size="8" fill="#6c3483">★ UMI diversity; dedup rate</text>
+
+<line x1="160" y1="1064" x2="160" y2="1084" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Step 13 -->
+<rect x="50" y="1084" width="220" height="54" rx="6" fill="#D5F5E3" stroke="#27AE60" stroke-width="1.5"/>
+<text x="160" y="1101" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1a5c2e">Step 13 · Purification &amp; Size Selection</text>
+<text x="160" y="1114" text-anchor="middle" font-size="8.5" fill="#333">SPRI cleanup; size-select 200–600 bp</text>
+<text x="160" y="1126" text-anchor="middle" font-size="8" fill="#888" font-style="italic">No measurement · ~1 h</text>
+<line x1="160" y1="1138" x2="160" y2="1158" stroke="#555" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<!-- Step 14 -->
+<rect x="50" y="1158" width="220" height="64" rx="6" fill="#D5F5E3" stroke="#27AE60" stroke-width="1.5"/>
+<text x="160" y="1175" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#1a5c2e">Step 14 · Library Quantification &amp; QC</text>
+<text x="160" y="1188" text-anchor="middle" font-size="8.5" fill="#333">Qubit or qPCR; Bioanalyzer/TapeStation</text>
+<text x="160" y="1200" text-anchor="middle" font-size="8" fill="#1a7c3e">★ Library conc; fragment size; adapter dimers</text>
+<text x="160" y="1212" text-anchor="middle" font-size="7.5" fill="#888" font-style="italic">Gate: ≥2 nM; peak 250–400 bp; no dimers</text>
+
+<!-- Stage 3→4 arrow -->
+<line x1="160" y1="1222" x2="160" y2="1250" stroke="#2471A3" stroke-width="2.2" marker-end="url(#arrB)"/>
+<text x="174" y="1238" font-size="8" fill="#2471A3" font-style="italic">GO / NO-GO · conc ≥2 nM, size OK</text>
+
+<!-- ─── STAGE 4 ─── -->
+<rect x="10" y="1254" width="680" height="20" rx="4" fill="#1A5276" opacity="0.15"/>
+<text x="350" y="1268" text-anchor="middle" font-size="11.5" font-weight="bold" fill="#1A5276">STAGE 4 — Sequencing (Day 4+)</text>
+
+<!-- Step 15 -->
+<rect x="50" y="1278" width="220" height="74" rx="6" fill="#FEF9E7" stroke="#F39C12" stroke-width="1.5"/>
+<text x="160" y="1294" text-anchor="middle" font-size="10.5" font-weight="bold" fill="#7d5a0a">Step 15 · Paired-End Sequencing</text>
+<text x="160" y="1307" text-anchor="middle" font-size="8.5" fill="#333">Illumina PE (2×75 or 2×150 bp)</text>
+<text x="160" y="1319" text-anchor="middle" font-size="8.5" fill="#333">5–20 M read pairs per sample</text>
+<text x="160" y="1331" text-anchor="middle" font-size="8" fill="#7d5a0a">★ Q30; mapping; duplication; CpG enrich</text>
+<text x="160" y="1343" text-anchor="middle" font-size="8" fill="#7d5a0a">★ Spike-in ratio; insert size · Day 4+</text>
+
+<!-- UMI bioinformatics branch -->
+<line x1="270" y1="1315" x2="320" y2="1315" stroke="#8E44AD" stroke-width="1.5" stroke-dasharray="5,3" marker-end="url(#arrP)"/>
+<rect x="320" y="1278" width="205" height="74" rx="6" fill="#F5EEF8" stroke="#8E44AD" stroke-width="1.5"/>
+<text x="422" y="1295" text-anchor="middle" font-size="10" font-weight="bold" fill="#6c3483">UMI Bioinformatics Pipeline</text>
+<text x="422" y="1307" text-anchor="middle" font-size="8.5" fill="#333">1. FastQC + Trim Galore</text>
+<text x="422" y="1319" text-anchor="middle" font-size="8.5" fill="#333">2. umi_tools extract (--bc-pattern)</text>
+<text x="422" y="1331" text-anchor="middle" font-size="8.5" fill="#333">3. BWA-MEM alignment</text>
+<text x="422" y="1343" text-anchor="middle" font-size="8.5" fill="#333">4. umi_tools dedup (directional)</text>
+
+</svg>
+</div><!-- /fc-wrap -->
+
+
+<!-- ══════════════════════════════════════════════════════
+     STAGE 1 TABLE
+═══════════════════════════════════════════════════════════ -->
+<div class="stage-card s1">
+  <div class="stage-header">STAGE 1 — Library Preparation &nbsp;(Day 1 · Steps 1–3)</div>
+
+  <div class="section-label">Protocol Steps</div>
+  <table class="steps-table">
+    <thead>
+      <tr><th>#</th><th>Step Name</th><th>Processing</th><th>Duration</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>End-Repair &amp; A-Tailing</td>
+        <td>Input 1–10 ng plasma cfDNA. Enzymatic repair creates blunt ends with 5′ phosphates; T4 DNA polymerase and Klenow add 3′ adenosine (A) overhangs required for adapter ligation.</td>
+        <td>~2–3 h</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td>Adapter Ligation <span class="umi">UMI</span></td>
+        <td>Ligate methylated Y-shaped sequencing adapters to the A-tailed library. In UMI implementations (Burgener et al. 2021), adapters carry an embedded 8–10 nt random barcode for downstream PCR deduplication.
+          <div class="umi-note">UMI option: adapter barcode incorporated here; no extra wet-lab step</div></td>
+        <td>~2–3 h</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td>SPRI Bead Purification</td>
+        <td>Solid-Phase Reversible Immobilization (SPRI) cleanup removes excess adapters, enzymes, and small fragments. Bead-to-sample ratio controls size cutoff.</td>
+        <td>~1 h</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="var-group">Sources of Variability</div>
+  <div class="var-panel">
+    <div class="var-mod"><div class="var-item">Input DNA quantity and quality — low or degraded input amplifies stochasticity throughout the protocol</div></div>
+    <div class="var-mod"><div class="var-item">Ligation efficiency — affected by adapter concentration, enzyme lot, and temperature; drives adapter dimer formation</div></div>
+    <div class="var-low"><div class="var-item">Enzymatic reaction temperature and timing (end-repair, ligation)</div></div>
+    <div class="var-low"><div class="var-item">SPRI bead-to-DNA ratio — affects recovery yield and adapter removal completeness</div></div>
+    <div class="var-low"><div class="var-item">Ethanol wash quality and evaporation timing during SPRI</div></div>
+  </div>
+
+  <div class="section-label">QC Metrics</div>
+  <table class="metrics-table">
+    <thead>
+      <tr><th>Metric</th><th>Description</th><th>Input Material / Method</th><th>Result Interpretation</th><th>QC Limit / Target</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>cfDNA input concentration</td>
+        <td>Starting cfDNA mass before Step 1; establishes baseline for all downstream yields</td>
+        <td>Pre-Step 1 plasma cfDNA · Qubit fluorometry</td>
+        <td>Low input (&lt;1 ng) → stochastic library; inconsistent CpG coverage</td>
+        <td class="qc qc-go">≥1 ng (target 1–10 ng)</td>
+      </tr>
+      <tr>
+        <td>Post-ligation yield</td>
+        <td>DNA mass recovered after adapter ligation and first SPRI cleanup</td>
+        <td>Post-Step 2–3 · Qubit</td>
+        <td>Low yield → insufficient library; may not produce adequate sequencing reads</td>
+        <td class="qc qc-go">≥80% recovery of input</td>
+      </tr>
+      <tr>
+        <td>Adapter dimer content</td>
+        <td>Percentage of ~120–150 bp fragments arising from adapter self-ligation</td>
+        <td>Post-Step 3 · Bioanalyzer / TapeStation (optional)</td>
+        <td>High dimer content → wasted sequencing capacity; reduced effective read depth</td>
+        <td class="qc qc-warn">&lt;20% dimers; no dimer peak visible</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     STAGE 2 TABLE
+═══════════════════════════════════════════════════════════ -->
+<div class="stage-card s2">
+  <div class="stage-header">STAGE 2 — Methylated DNA Immunoprecipitation &nbsp;(Day 2 · Steps 4–10) &nbsp;⚠ Core of assay; highest variability</div>
+
+  <div class="section-label">Protocol Steps</div>
+  <table class="steps-table">
+    <thead>
+      <tr><th>#</th><th>Step Name</th><th>Processing</th><th>Duration</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>4</td>
+        <td>Filler DNA + Spike-In Addition</td>
+        <td>Add filler DNA to bring total DNA to ~1 µg. Filler options: Lambda phage (unmethylated) or human genomic DNA (methylated). Add Arabidopsis thaliana spike-ins (methylated + unmethylated) or synthetic spike-ins (Wilson et al. 2022) for specificity calibration. Filler type is the single largest source of inter-lab batch effects.</td>
+        <td>~30 min</td>
+      </tr>
+      <tr>
+        <td>5</td>
+        <td>DNA Denaturation</td>
+        <td>Heat to 95°C for 10 min to convert dsDNA to ssDNA accessible to anti-5mC antibody. Immediately chill on ice to prevent re-annealing.</td>
+        <td>~15 min</td>
+      </tr>
+      <tr>
+        <td>6</td>
+        <td>Anti-5mC Immunoprecipitation</td>
+        <td>Incubate denatured DNA with 5 µg anti-5-methylcytosine (5mC) antibody overnight at 4°C with continuous rotation. Antibody selectively binds methylated ssDNA fragments.</td>
+        <td>~16–18 h</td>
+      </tr>
+      <tr>
+        <td>7</td>
+        <td>Protein A/G Bead Capture</td>
+        <td>Add Protein A/G-conjugated magnetic beads to capture antibody–DNA complexes. Incubate 2 h at 4°C with rotation.</td>
+        <td>~2 h</td>
+      </tr>
+      <tr>
+        <td>8</td>
+        <td>Washing</td>
+        <td>Wash beads 3–5× with IP wash buffer to remove non-specifically bound DNA and unbound antibody. Number and vigor of washes directly control background signal.</td>
+        <td>~30 min</td>
+      </tr>
+      <tr>
+        <td>9</td>
+        <td>Elution</td>
+        <td>Elute captured DNA from beads via proteinase K digestion at 50°C for 2–3 h to degrade the antibody and release DNA.</td>
+        <td>~3 h</td>
+      </tr>
+      <tr>
+        <td>10</td>
+        <td>Purification of IP DNA</td>
+        <td>SPRI bead cleanup of eluted DNA. This is the primary measurement checkpoint for Stage 2: IP recovery (Qubit) and specificity/fold-enrichment (qPCR) are measured here.</td>
+        <td>~1 h</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="var-group">Sources of Variability</div>
+  <div class="var-panel">
+    <div class="var-high"><div class="var-item">Filler DNA type (methylated vs unmethylated) — drives systematic differences in IP efficiency; accounts for ~5% of variance (Wilson et al. 2022); major inter-lab batch effect</div></div>
+    <div class="var-high"><div class="var-item">Antibody lot-to-lot variation — different lots show different binding efficiencies; affects all samples in a batch uniformly; difficult to correct without spike-in standards</div></div>
+    <div class="var-mod"><div class="var-item">Wash stringency — number and vigor of washes controls background; inconsistency introduces run-to-run variability</div></div>
+    <div class="var-mod"><div class="var-item">Antibody concentration and incubation conditions (temperature, rotation speed, mixing efficiency)</div></div>
+    <div class="var-low"><div class="var-item">Denaturation temperature accuracy and cooling rate</div></div>
+    <div class="var-low"><div class="var-item">Bead quality, non-specific binding, and magnetic separation efficiency</div></div>
+    <div class="var-low"><div class="var-item">Proteinase K activity and elution temperature/timing</div></div>
+  </div>
+
+  <div class="section-label">QC Metrics &nbsp;(all measured at Step 10, post-elution)</div>
+  <table class="metrics-table">
+    <thead>
+      <tr><th>Metric</th><th>Description</th><th>Input Material / Method</th><th>Result Interpretation</th><th>QC Limit / Target</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>IP recovery yield</td>
+        <td>Total DNA mass recovered after elution and purification; reflects overall IP efficiency</td>
+        <td>Post-Step 10 eluate · Qubit</td>
+        <td>Very low yield → IP failure; insufficient template for amplification</td>
+        <td class="qc qc-go">Sufficient for PCR (typically 0.1–5 ng)</td>
+      </tr>
+      <tr class="gate">
+        <td>Methylation specificity</td>
+        <td>% of captured DNA that is methylated, calculated from methylated vs unmethylated spike-in recovery</td>
+        <td>Post-Step 10 · qPCR with spike-in primers</td>
+        <td>&lt;95% → poor IP enrichment; high unmethylated background; do not proceed to amplification</td>
+        <td class="qc qc-go">▶ GO/NO-GO: &gt;95%</td>
+      </tr>
+      <tr class="gate">
+        <td>Fold-enrichment ratio</td>
+        <td>Ct(HIST1H2BA, methylated locus) relative to Ct(GAPDH, unmethylated locus); measures IP specificity for endogenous targets</td>
+        <td>Post-Step 10 · qPCR</td>
+        <td>&lt;25-fold → IP failure or antibody lot problem; repeat IP or change antibody lot</td>
+        <td class="qc qc-go">▶ GO/NO-GO: &gt;25-fold</td>
+      </tr>
+      <tr>
+        <td>Spike-in recovery balance</td>
+        <td>Ratio of reads/signal from methylated vs unmethylated spike-ins; batch effect diagnostic</td>
+        <td>Post-Step 10 · qPCR with spike-in primers</td>
+        <td>Imbalanced ratio → filler DNA or antibody batch effect; flags need for normalization</td>
+        <td class="qc qc-warn">&gt;19:1 (meth:unmeth)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     STAGE 3 TABLE
+═══════════════════════════════════════════════════════════ -->
+<div class="stage-card s3">
+  <div class="stage-header">STAGE 3 — Library Amplification &nbsp;(Day 3 · Steps 11–14)</div>
+
+  <div class="section-label">Protocol Steps</div>
+  <table class="steps-table">
+    <thead>
+      <tr><th>#</th><th>Step Name</th><th>Processing</th><th>Duration</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>11</td>
+        <td>qPCR Specificity Check</td>
+        <td>Perform qPCR on a small aliquot of the IP eluate. Measure Ct for methylated locus (HIST1H2BA, positive control) and unmethylated locus (GAPDH, negative control). Calculate fold-enrichment and spike-in specificity. This is a formal Go/No-Go gate before committing to PCR amplification.</td>
+        <td>~2 h</td>
+      </tr>
+      <tr>
+        <td>12</td>
+        <td>PCR Amplification <span class="umi">UMI</span></td>
+        <td>Amplify IP library with indexed primers and a high-fidelity polymerase. Cycle number (typically 12–15) is determined empirically by preliminary qPCR on the eluate. Fewer cycles preserve library complexity; more cycles increase duplication rate and GC/length bias.
+          <div class="umi-note">UMI: barcodes were incorporated at Step 2; post-sequencing deduplication (umi_tools dedup) removes PCR duplicates while retaining biological duplicates</div></td>
+        <td>~2 h</td>
+      </tr>
+      <tr>
+        <td>13</td>
+        <td>Final Purification &amp; Size Selection</td>
+        <td>SPRI bead cleanup of PCR product. Perform size selection (200–600 bp) to remove residual adapter dimers (~120–150 bp) and very large fragments. Size selection ratio must be precise.</td>
+        <td>~1 h</td>
+      </tr>
+      <tr>
+        <td>14</td>
+        <td>Library Quantification &amp; QC</td>
+        <td>Quantify final library by Qubit or qPCR (nM). Assess fragment size distribution by Bioanalyzer or TapeStation. Check for adapter dimer peaks. This is the second formal Go/No-Go gate before sequencing.</td>
+        <td>~1 h</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="var-group">Sources of Variability</div>
+  <div class="var-panel">
+    <div class="var-mod"><div class="var-item">PCR cycle number — more cycles increase duplication rate, GC-content bias, and fragment length bias; systematic within a batch but variable between batches</div></div>
+    <div class="var-mod"><div class="var-item">PCR GC bias — high-fidelity polymerases reduce but do not eliminate biased amplification of GC-rich methylated regions</div></div>
+    <div class="var-low"><div class="var-item">qPCR technical variability and primer efficiency — affects accuracy of Go/No-Go decision</div></div>
+    <div class="var-low"><div class="var-item">Size selection SPRI ratio — stringency directly affects fragment size profile and adapter dimer removal</div></div>
+    <div class="var-low"><div class="var-item">Quantification method accuracy — Qubit vs qPCR can differ; affects library loading for sequencing</div></div>
+  </div>
+
+  <div class="section-label">QC Metrics</div>
+  <table class="metrics-table">
+    <thead>
+      <tr><th>Metric</th><th>Description</th><th>Input Material / Method</th><th>Result Interpretation</th><th>QC Limit / Target</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Ct value (qPCR)</td>
+        <td>PCR cycle threshold for HIST1H2BA and GAPDH amplification from IP aliquot; surrogate for IP recovery before committing to amplification</td>
+        <td>IP eluate aliquot · Step 11 qPCR</td>
+        <td>High Ct (&gt;30) → insufficient IP recovery; should not proceed to amplification without investigation</td>
+        <td class="qc qc-go">Ct &lt;30 for methylated target</td>
+      </tr>
+      <tr class="gate">
+        <td>Fold-enrichment (qPCR gate)</td>
+        <td>HIST1H2BA vs GAPDH Ct ratio confirming IP specificity before amplification</td>
+        <td>IP eluate aliquot · Step 11 qPCR</td>
+        <td>&lt;25-fold → do not proceed; re-do IP or change antibody lot</td>
+        <td class="qc qc-go">▶ GO/NO-GO: &gt;25-fold</td>
+      </tr>
+      <tr class="gate">
+        <td>Specificity (qPCR gate)</td>
+        <td>Spike-in–based specificity confirming &lt;5% unmethylated contamination</td>
+        <td>IP eluate aliquot · Step 11 qPCR</td>
+        <td>&lt;95% → do not proceed; IP background too high</td>
+        <td class="qc qc-go">▶ GO/NO-GO: &gt;95%</td>
+      </tr>
+      <tr>
+        <td>PCR cycles used</td>
+        <td>Number of amplification cycles applied; recorded as a metadata variable for downstream correction</td>
+        <td>Step 12 — operator record</td>
+        <td>&gt;15 cycles → elevated duplication rate and GC/length bias in sequencing data</td>
+        <td class="qc qc-warn">12–15 cycles</td>
+      </tr>
+      <tr>
+        <td>Fragment size peak</td>
+        <td>Modal fragment size of the amplified library on Bioanalyzer/TapeStation electropherogram</td>
+        <td>Post-Step 14 · Bioanalyzer or TapeStation</td>
+        <td>Peak outside 250–400 bp → size selection problem; adapter dimer carry-over or over-selection</td>
+        <td class="qc qc-go">Peak 250–400 bp (range 100–700 bp)</td>
+      </tr>
+      <tr>
+        <td>Adapter dimer peak</td>
+        <td>Presence of ~120–150 bp peak on electropherogram indicating residual adapter self-ligation products</td>
+        <td>Post-Step 14 · Bioanalyzer or TapeStation</td>
+        <td>Present → wasted sequencing reads; repeat size-selection SPRI step</td>
+        <td class="qc qc-warn">Absent (no peak at ~150 bp)</td>
+      </tr>
+      <tr class="gate">
+        <td>Library concentration</td>
+        <td>Final library molarity before sequencing submission; determines ability to cluster on flow cell</td>
+        <td>Post-Step 14 · Qubit or qPCR (nM)</td>
+        <td>&lt;2 nM → insufficient for sequencing; re-amplify or repeat library prep</td>
+        <td class="qc qc-go">▶ GO/NO-GO: ≥2 nM</td>
+      </tr>
+      <tr>
+        <td>UMI diversity <span class="umi">UMI</span></td>
+        <td>Diversity of UMI barcodes in the library; low diversity indicates over-amplification or very low-complexity library</td>
+        <td>Post-sequencing · umi_tools dedup output</td>
+        <td>Low diversity → most reads are PCR duplicates; library complexity insufficient</td>
+        <td class="qc qc-warn">High diversity (most barcodes unique)</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ══════════════════════════════════════════════════════
+     STAGE 4 TABLE
+═══════════════════════════════════════════════════════════ -->
+<div class="stage-card s4">
+  <div class="stage-header">STAGE 4 — High-Throughput Sequencing &nbsp;(Day 4+ · Step 15)</div>
+
+  <div class="section-label">Protocol Steps</div>
+  <table class="steps-table">
+    <thead>
+      <tr><th>#</th><th>Step Name</th><th>Processing</th><th>Duration</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>15</td>
+        <td>Paired-End Sequencing <span class="umi">UMI</span></td>
+        <td>Pool indexed libraries by equimolar concentration. Sequence on Illumina platform (HiSeq, NovaSeq, or NextSeq) with paired-end reads (2×75 bp or 2×150 bp). Target depth 5–20 million read pairs per sample. Bioinformatic pipeline: FastQC → Trim Galore → (umi_tools extract if UMIs) → BWA-MEM alignment → SAMtools sort/filter → (umi_tools dedup if UMIs, else Picard MarkDuplicates) → MEDIPS or QSEA for CpG-level quantification.
+          <div class="umi-note">UMI: umi_tools extract moves barcode into read name before alignment; umi_tools dedup uses barcode + mapping coordinate to remove PCR duplicates while retaining true biological duplicates</div></td>
+        <td>Day 4+</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="var-group">Sources of Variability</div>
+  <div class="var-panel">
+    <div class="var-high"><div class="var-item">Sequencing depth — lower depth reduces sensitivity for rare methylation events and low tumor-fraction samples; predictable effect that can be partially modeled</div></div>
+    <div class="var-mod"><div class="var-item">Sequencing quality (Q-scores) — base-calling errors introduce mapping artefacts; lane-to-lane and run-to-run variation on Illumina platforms</div></div>
+    <div class="var-mod"><div class="var-item">Cluster density — over/under-clustering reduces quality scores and mapping rates</div></div>
+    <div class="var-mod"><div class="var-item">Fragment length, GC content, CpG density — biophysical properties affect antibody capture (Stage 2) and are reflected in read distributions; can be modeled with normalization</div></div>
+    <div class="var-low"><div class="var-item">Library pooling imbalance — unequal molar concentrations lead to uneven depth per sample</div></div>
+  </div>
+
+  <div class="section-label">QC Metrics</div>
+  <table class="metrics-table">
+    <thead>
+      <tr><th>Metric</th><th>Description</th><th>Input Material / Method</th><th>Result Interpretation</th><th>QC Limit / Target</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Raw read count</td>
+        <td>Total paired-end read pairs generated; sets the effective detection ceiling</td>
+        <td>FASTQ files · Sequencer output</td>
+        <td>Below target → insufficient sensitivity, especially for low tumor-fraction samples</td>
+        <td class="qc qc-go">5–20 M paired-end reads</td>
+      </tr>
+      <tr>
+        <td>Q30 percentage</td>
+        <td>% of bases with Phred quality score ≥30 (≤0.1% error rate); reflects overall run quality</td>
+        <td>FASTQ · FASTQC</td>
+        <td>&lt;85% → low-quality run; increased mapping errors and false-positive methylation calls</td>
+        <td class="qc qc-go">&gt;85%</td>
+      </tr>
+      <tr>
+        <td>Adapter content</td>
+        <td>% of reads containing residual adapter sequences post-trimming</td>
+        <td>FASTQ · FASTQC</td>
+        <td>&gt;5% → incomplete adapter trimming; biased alignment of short inserts</td>
+        <td class="qc qc-warn">&lt;5%</td>
+      </tr>
+      <tr class="gate">
+        <td>Mapping rate</td>
+        <td>% of reads that align to the reference genome (hg38); reflects library quality and absence of contamination</td>
+        <td>BAM · BWA-MEM / SAMtools flagstat</td>
+        <td>&lt;90% → contamination, low-quality library, or adapter issues; exclude or re-sequence</td>
+        <td class="qc qc-go">▶ INCLUDE/EXCLUDE: &gt;90%</td>
+      </tr>
+      <tr class="gate">
+        <td>Duplication rate</td>
+        <td>% of reads flagged as PCR or optical duplicates; high values indicate over-amplification (Stage 3) or low-complexity library</td>
+        <td>BAM · SAMtools / Picard MarkDuplicates; or umi_tools dedup (UMI)</td>
+        <td>&gt;30% → excessive PCR amplification; data quality compromised; may warrant exclusion</td>
+        <td class="qc qc-go">▶ INCLUDE/EXCLUDE: &lt;30% (ideally &lt;20%)</td>
+      </tr>
+      <tr>
+        <td>Properly paired rate</td>
+        <td>% of read pairs with correct orientation and concordant alignment; flags ligation or library-prep issues</td>
+        <td>BAM · SAMtools flagstat</td>
+        <td>&lt;85% → adapter ligation problem, library structure issue, or contaminating sequences</td>
+        <td class="qc qc-warn">&gt;85%</td>
+      </tr>
+      <tr>
+        <td>Insert size distribution</td>
+        <td>Fragment length profile of sequenced inserts; should reflect nucleosomal cfDNA architecture</td>
+        <td>BAM · Picard CollectInsertSizeMetrics</td>
+        <td>Non-nucleosomal peak or very broad distribution → library degradation, size-selection failure, or contamination</td>
+        <td class="qc qc-go">Peak ~166 bp (mononucleosomal); range 100–700 bp</td>
+      </tr>
+      <tr class="gate">
+        <td>CpG enrichment</td>
+        <td>Ratio of observed CpG frequency in reads vs expected genome-wide CpG frequency; measures methylation capture success</td>
+        <td>BAM · MEDIPS (CpG.enrichment)</td>
+        <td>&lt;1.5 → poor methylation enrichment; antibody or IP failure reflected in sequencing data; exclude sample</td>
+        <td class="qc qc-go">▶ INCLUDE/EXCLUDE: &gt;1.5</td>
+      </tr>
+      <tr>
+        <td>Saturation</td>
+        <td>Whether additional sequencing reads would capture new genomic regions; determines if depth is adequate</td>
+        <td>BAM · MEDIPS (saturation analysis)</td>
+        <td>Not at plateau → library under-sequenced; additional reads would improve coverage</td>
+        <td class="qc qc-go">Approaching saturation plateau</td>
+      </tr>
+      <tr>
+        <td>Spike-in read counts</td>
+        <td>Reads mapping to Arabidopsis thaliana or synthetic spike-in sequences; used for inter-sample normalization</td>
+        <td>BAM · BWA alignment to spike-in genome</td>
+        <td>Inconsistent counts across samples → batch effects from Stage 2 (filler type or antibody lot); triggers normalization</td>
+        <td class="qc qc-warn">Consistent proportion across all samples in batch</td>
+      </tr>
+      <tr>
+        <td>Spike-in meth/unmeth ratio</td>
+        <td>Ratio of reads from methylated spike-ins to unmethylated spike-ins; directly mirrors IP specificity in sequencing data</td>
+        <td>BAM · Custom spike-in demultiplexing</td>
+        <td>&lt;19:1 → poor IP specificity carried into sequencing data; flag sample for review</td>
+        <td class="qc qc-go">&gt;19:1 (meth:unmeth)</td>
+      </tr>
+      <tr>
+        <td>UMI dedup rate <span class="umi">UMI</span></td>
+        <td>% of reads removed by UMI-aware deduplication; distinguishes PCR duplicates from true biological duplicates</td>
+        <td>BAM · umi_tools dedup output log</td>
+        <td>Very high dedup rate (&gt;70%) → low library complexity; may indicate IP failure or over-amplification</td>
+        <td class="qc qc-warn">Consistent with PCR cycles used; &lt;50% expected at 12–15 cycles</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<p style="text-align:center;font-size:10px;color:#aaa;margin-top:8px">cfMeDIP-seq Protocol Reference · Shen et al. 2019 · Burgener et al. 2021 · Wilson et al. 2022</p>
+
+</body>
+</html>

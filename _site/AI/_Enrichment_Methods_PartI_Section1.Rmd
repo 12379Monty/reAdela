@@ -1,5 +1,5 @@
 ---
-title:  "Enrichment-Based Differential Methylation Analysis"
+title:  "Quantification and Differential Methylation Analysis - Enrichment-Based Assays"
 subtitle: "Review of Bioinformatics Pipelines and Statistical Models"
 author: "claude.ai Opus 4.5 with prompts from [Francois Collin](https://www.linkedin.com/in/francoisz/)"
 date: "`r format(Sys.time(), '%B %d, %Y')`"

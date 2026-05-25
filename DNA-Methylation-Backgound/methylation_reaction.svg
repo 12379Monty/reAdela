@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="0 0 760 360" xmlns="http://www.w3.org/2000/svg" width="760" height="360">
+  <defs>
+    <marker id="arrowhead" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f4e79"/>
+    </marker>
+    <marker id="arrowhead-small" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#1f4e79"/>
+    </marker>
+  </defs>
+
+  <!-- ===================== CYTOSINE (left) ===================== -->
+  <line x1="160" y1="125" x2="207.6" y2="152.5" stroke="#222" stroke-width="2"/>
+  <line x1="207.6" y1="207.5" x2="160" y2="235" stroke="#222" stroke-width="2"/>
+  <line x1="160" y1="235" x2="112.4" y2="207.5" stroke="#222" stroke-width="2"/>
+  <line x1="112.4" y1="207.5" x2="112.4" y2="152.5" stroke="#222" stroke-width="2"/>
+  <line x1="207.6" y1="152.5" x2="207.6" y2="207.5" stroke="#222" stroke-width="2"/>
+  <line x1="200.6" y1="158" x2="200.6" y2="202" stroke="#222" stroke-width="2"/>
+  <line x1="112.4" y1="152.5" x2="160" y2="125" stroke="#222" stroke-width="2"/>
+  <line x1="119.4" y1="158" x2="158" y2="135" stroke="#222" stroke-width="2"/>
+
+  <line x1="160" y1="235" x2="160" y2="265" stroke="#222" stroke-width="2"/>
+  <line x1="155" y1="240" x2="155" y2="265" stroke="#222" stroke-width="2"/>
+  <text x="160" y="284" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222" text-anchor="middle">O</text>
+
+  <line x1="207.6" y1="152.5" x2="232" y2="128" stroke="#222" stroke-width="2"/>
+  <text x="246" y="124" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222" text-anchor="middle">NH</text>
+  <text x="263" y="129" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#222" text-anchor="middle">2</text>
+
+  <line x1="160" y1="125" x2="160" y2="100" stroke="#222" stroke-width="2"/>
+  <text x="160" y="92" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222" text-anchor="middle">H</text>
+
+  <line x1="112.4" y1="207.5" x2="88" y2="222" stroke="#222" stroke-width="2"/>
+  <text x="78" y="234" font-family="Helvetica,Arial,sans-serif" font-size="16" fill="#777" text-anchor="middle">DNA</text>
+
+  <rect x="200.5" y="200" width="14" height="16" fill="white"/>
+  <text x="207.6" y="213" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222" text-anchor="middle">N</text>
+  <rect x="105" y="200" width="14" height="16" fill="white"/>
+  <text x="112.4" y="213" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222" text-anchor="middle">N</text>
+
+  <text x="180" y="120" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#888" text-anchor="middle" font-style="italic">5</text>
+
+  <text x="160" y="320" font-family="Helvetica,Arial,sans-serif" font-size="16" fill="#1f4e79" text-anchor="middle" font-weight="bold">Cytosine</text>
+
+  <!-- ===================== ARROW + LABELS ===================== -->
+  <line x1="290" y1="180" x2="430" y2="180" stroke="#1f4e79" stroke-width="2.5" marker-end="url(#arrowhead)"/>
+  <text x="360" y="160" font-family="Helvetica,Arial,sans-serif" font-size="16" fill="#1f4e79" text-anchor="middle" font-weight="bold">DNMT</text>
+  <text x="320" y="208" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#1f4e79" text-anchor="middle">SAM</text>
+  <text x="400" y="208" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#1f4e79" text-anchor="middle">SAH</text>
+  <line x1="340" y1="203" x2="385" y2="203" stroke="#1f4e79" stroke-width="1.2" marker-end="url(#arrowhead-small)"/>
+
+  <!-- ===================== 5-METHYLCYTOSINE (right) ===================== -->
+  <line x1="560" y1="125" x2="607.6" y2="152.5" stroke="#222" stroke-width="2"/>
+  <line x1="607.6" y1="207.5" x2="560" y2="235" stroke="#222" stroke-width="2"/>
+  <line x1="560" y1="235" x2="512.4" y2="207.5" stroke="#222" stroke-width="2"/>
+  <line x1="512.4" y1="207.5" x2="512.4" y2="152.5" stroke="#222" stroke-width="2"/>
+  <line x1="607.6" y1="152.5" x2="607.6" y2="207.5" stroke="#222" stroke-width="2"/>
+  <line x1="600.6" y1="158" x2="600.6" y2="202" stroke="#222" stroke-width="2"/>
+  <line x1="512.4" y1="152.5" x2="560" y2="125" stroke="#222" stroke-width="2"/>
+  <line x1="519.4" y1="158" x2="558" y2="135" stroke="#222" stroke-width="2"/>
+
+  <line x1="560" y1="235" x2="560" y2="265" stroke="#222" stroke-width="2"/>
+  <line x1="555" y1="240" x2="555" y2="265" stroke="#222" stroke-width="2"/>
+  <text x="560" y="284" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222" text-anchor="middle">O</text>
+
+  <line x1="607.6" y1="152.5" x2="632" y2="128" stroke="#222" stroke-width="2"/>
+  <text x="646" y="124" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222" text-anchor="middle">NH</text>
+  <text x="663" y="129" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#222" text-anchor="middle">2</text>
+
+  <line x1="560" y1="125" x2="560" y2="95" stroke="#c0392b" stroke-width="3"/>
+  <text x="554" y="82" font-family="Helvetica,Arial,sans-serif" font-size="20" fill="#c0392b" text-anchor="middle" font-weight="bold">CH</text>
+  <text x="572" y="87" font-family="Helvetica,Arial,sans-serif" font-size="14" fill="#c0392b" text-anchor="middle" font-weight="bold">3</text>
+
+  <line x1="512.4" y1="207.5" x2="488" y2="222" stroke="#222" stroke-width="2"/>
+  <text x="478" y="234" font-family="Helvetica,Arial,sans-serif" font-size="16" fill="#777" text-anchor="middle">DNA</text>
+
+  <rect x="600.5" y="200" width="14" height="16" fill="white"/>
+  <text x="607.6" y="213" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222" text-anchor="middle">N</text>
+  <rect x="505" y="200" width="14" height="16" fill="white"/>
+  <text x="512.4" y="213" font-family="Helvetica,Arial,sans-serif" font-size="18" fill="#222" text-anchor="middle">N</text>
+
+  <text x="580" y="120" font-family="Helvetica,Arial,sans-serif" font-size="12" fill="#888" text-anchor="middle" font-style="italic">5</text>
+
+  <text x="560" y="320" font-family="Helvetica,Arial,sans-serif" font-size="16" fill="#1f4e79" text-anchor="middle" font-weight="bold">5-methylcytosine</text>
+
+  <text x="380" y="350" font-family="Helvetica,Arial,sans-serif" font-size="13" fill="#555" text-anchor="middle" font-style="italic">A methyl group (red) is added at the 5 position of the cytosine ring; DNMT catalyses the transfer from S-adenosyl methionine (SAM).</text>
+</svg>

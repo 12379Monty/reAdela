@@ -1,0 +1,256 @@
+PMID- 30429608
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20190520
+LR  - 20200901
+IS  - 1476-4687 (Electronic)
+IS  - 0028-0836 (Linking)
+VI  - 563
+IP  - 7732
+DP  - 2018 Nov
+TI  - Sensitive tumour detection and classification using plasma cell-free DNA 
+      methylomes.
+PG  - 579-583
+LID - 10.1038/s41586-018-0703-0 [doi]
+AB  - The use of liquid biopsies for cancer detection and management is rapidly gaining 
+      prominence(1). Current methods for the detection of circulating tumour DNA 
+      involve sequencing somatic mutations using cell-free DNA, but the sensitivity of 
+      these methods may be low among patients with early-stage cancer given the limited 
+      number of recurrent mutations(2-5). By contrast, large-scale epigenetic 
+      alterations-which are tissue- and cancer-type specific-are not similarly 
+      constrained(6) and therefore potentially have greater ability to detect and 
+      classify cancers in patients with early-stage disease. Here we develop a 
+      sensitive, immunoprecipitation-based protocol to analyse the methylome of small 
+      quantities of circulating cell-free DNA, and demonstrate the ability to detect 
+      large-scale DNA methylation changes that are enriched for tumour-specific 
+      patterns. We also demonstrate robust performance in cancer detection and 
+      classification across an extensive collection of plasma samples from several 
+      tumour types. This work sets the stage to establish biomarkers for the minimally 
+      invasive detection, interception and classification of early-stage cancers based 
+      on plasma cell-free DNA methylation patterns.
+FAU - Shen, Shu Yi
+AU  - Shen SY
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Singhania, Rajat
+AU  - Singhania R
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Fehringer, Gordon
+AU  - Fehringer G
+AD  - Lunenfeld-Tanenbaum Research Institute, Sinai Health System, Toronto, Ontario, 
+      Canada.
+FAU - Chakravarthy, Ankur
+AU  - Chakravarthy A
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Roehrl, Michael H A
+AU  - Roehrl MHA
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Memorial Sloan Kettering Cancer Center, New York, NY, USA.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Chadwick, Dianne
+AU  - Chadwick D
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Zuzarte, Philip C
+AU  - Zuzarte PC
+AD  - Genome Technologies, Ontario Institute for Cancer Research, Toronto, Ontario, 
+      Canada.
+FAU - Borgida, Ayelet
+AU  - Borgida A
+AD  - Lunenfeld-Tanenbaum Research Institute, Sinai Health System, Toronto, Ontario, 
+      Canada.
+FAU - Wang, Ting Ting
+AU  - Wang TT
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Li, Tiantian
+AU  - Li T
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Kis, Olena
+AU  - Kis O
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Zhao, Zhen
+AU  - Zhao Z
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Spreafico, Anna
+AU  - Spreafico A
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Medina, Tiago da Silva
+AU  - Medina TDS
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Wang, Yadon
+AU  - Wang Y
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Roulois, David
+AU  - Roulois D
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - UMR_S 1236, Univ Rennes 1, Inserm, Etablissement Français du sang Bretagne, 
+      Rennes, France.
+FAU - Ettayebi, Ilias
+AU  - Ettayebi I
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Chen, Zhuo
+AU  - Chen Z
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Chow, Signy
+AU  - Chow S
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Murphy, Tracy
+AU  - Murphy T
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Arruda, Andrea
+AU  - Arruda A
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - O'Kane, Grainne M
+AU  - O'Kane GM
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Liu, Jessica
+AU  - Liu J
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Mansour, Mark
+AU  - Mansour M
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - McPherson, John D
+AU  - McPherson JD
+AD  - Department of Biochemistry and Molecular Medicine, UC Davis Comprehensive Cancer 
+      Center, Sacramento, CA, USA.
+FAU - O'Brien, Catherine
+AU  - O'Brien C
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Leighl, Natasha
+AU  - Leighl N
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Bedard, Philippe L
+AU  - Bedard PL
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Fleshner, Neil
+AU  - Fleshner N
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Liu, Geoffrey
+AU  - Liu G
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+AD  - Division of Epidemiology, Dalla Lana School of Public Health, University of 
+      Toronto, Toronto, Ontario, Canada.
+FAU - Minden, Mark D
+AU  - Minden MD
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Gallinger, Steven
+AU  - Gallinger S
+AD  - Fred Litwin Centre for Cancer Genetics, Lunenfeld-Tanenbaum Research Institute, 
+      Mount Sinai Hospital, Toronto, Ontario, Canada.
+AD  - Department of Surgery, Toronto General Hospital, Toronto, Ontario, Canada.
+FAU - Goldenberg, Anna
+AU  - Goldenberg A
+AD  - Department of Computer Science, University of Toronto, Toronto, Ontario, Canada.
+FAU - Pugh, Trevor J
+AU  - Pugh TJ
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Hoffman, Michael M
+AU  - Hoffman MM
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+AD  - Department of Computer Science, University of Toronto, Toronto, Ontario, Canada.
+FAU - Bratman, Scott V
+AU  - Bratman SV
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Hung, Rayjean J
+AU  - Hung RJ
+AD  - Lunenfeld-Tanenbaum Research Institute, Sinai Health System, Toronto, Ontario, 
+      Canada. rayjean.hung@lunenfeld.ca.
+AD  - Division of Epidemiology, Dalla Lana School of Public Health, University of 
+      Toronto, Toronto, Ontario, Canada. rayjean.hung@lunenfeld.ca.
+FAU - De Carvalho, Daniel D
+AU  - De Carvalho DD
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada. ddecarv@uhnresearch.ca.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada. ddecarv@uhnresearch.ca.
+LA  - eng
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+DEP - 20181114
+PL  - England
+TA  - Nature
+JT  - Nature
+JID - 0410462
+RN  - 0 (Biomarkers, Tumor)
+RN  - 0 (Cell-Free Nucleic Acids)
+RN  - 0 (DNA, Neoplasm)
+SB  - IM
+CIN - Int J Radiat Oncol Biol Phys. 2020 Jan 1;106(1):1-4. doi: 
+      10.1016/j.ijrobp.2019.10.017. PMID: 31836074
+MH  - Adenocarcinoma/blood/genetics
+MH  - Animals
+MH  - Biomarkers, Tumor/genetics
+MH  - Cell Line, Tumor
+MH  - Cell-Free Nucleic Acids/*blood/*metabolism
+MH  - Colorectal Neoplasms/blood/genetics
+MH  - *DNA Methylation
+MH  - DNA Mutational Analysis
+MH  - DNA, Neoplasm/*blood/*metabolism
+MH  - Early Detection of Cancer/*methods
+MH  - Epigenesis, Genetic
+MH  - Female
+MH  - Heterografts
+MH  - Humans
+MH  - Liquid Biopsy
+MH  - Male
+MH  - Mice
+MH  - Mice, Inbred NOD
+MH  - Mice, SCID
+MH  - Neoplasm Transplantation
+MH  - Neoplasms/blood/*classification/*genetics
+MH  - Organ Specificity
+MH  - Pancreatic Neoplasms/blood/genetics
+EDAT- 2018/11/16 06:00
+MHDA- 2019/05/21 06:00
+CRDT- 2018/11/16 06:00
+PHST- 2016/12/05 00:00 [received]
+PHST- 2018/09/25 00:00 [accepted]
+PHST- 2018/11/16 06:00 [pubmed]
+PHST- 2019/05/21 06:00 [medline]
+PHST- 2018/11/16 06:00 [entrez]
+AID - 10.1038/s41586-018-0703-0 [pii]
+AID - 10.1038/s41586-018-0703-0 [doi]
+PST - ppublish
+SO  - Nature. 2018 Nov;563(7732):579-583. doi: 10.1038/s41586-018-0703-0. Epub 2018 Nov 
+      14.

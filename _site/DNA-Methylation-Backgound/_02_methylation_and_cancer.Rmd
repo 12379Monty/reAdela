@@ -1,0 +1,151 @@
+---
+title: "DNA Methylation and Cancer"
+subtitle: "Section 2 of 3 — An Introduction for a Mixed Audience"
+author: ""
+date: ""
+output:
+  revealjs::revealjs_presentation:
+    theme: simple
+    transition: none
+    slide_level: 2
+    self_contained: true
+    reveal_options:
+      slideNumber: true
+      controls: true
+      progress: true
+      width: 1200
+      height: 800
+---
+
+<style>
+.reveal h1, .reveal h2, .reveal h3 {
+  color: #1f4e79;
+  text-align: left;
+}
+.reveal .slides section,
+.reveal .slides section * {
+  text-align: left;
+}
+.reveal section {
+  font-size: 0.85em;
+}
+.reveal .slides > section,
+.reveal .slides > section > section {
+  height: 95vh;
+  overflow-y: auto !important;
+}
+.reveal ul, .reveal ol { margin-left: 1.2em; }
+.reveal li { margin-bottom: 0.35em; }
+</style>
+
+# DNA Methylation and Cancer
+
+Section 2 of 3. Builds on Section 1 (biology of DNA methylation).
+Section 3 will cover the bio-technology of MeDIP.
+
+## The cancer methylome at a glance
+
+- The cancer methylome is characterised by a **paradoxical, simultaneous** pair of changes:
+    1. **Global hypomethylation** — loss of 5mC across the bulk of the genome, especially at repeat elements and gene bodies.
+    2. **Focal hypermethylation** — gain of 5mC at specific CpG islands, often at the promoters of tumor-suppressor and developmental genes that are normally unmethylated.
+- Both changes are reproducible across tumor types, but their *magnitude*, *targets*, and *kinetics* differ between cancers and even between subtypes of the same cancer.
+- **Sequence of events.** Bulk hypomethylation is generally an early and progressive event; focal hypermethylation is more locus-specific and accumulates with progression. Neither is monotonic — methylation patterns evolve with subclones.
+- **Conceptual point.** Methylation alterations in cancer are *abundant*. Distinguishing **drivers** (functionally selected) from **passengers** (a consequence of altered cell state, mitotic history, or genomic instability) is non-trivial and remains a central interpretive challenge.
+
+## Global hypomethylation
+
+- Most prominent at **repetitive elements** — LINE-1, Alu, satellite DNA — and at **gene bodies** of low-expression genes.
+- Mechanistic consequences:
+    - **Genomic instability.** Loss of repeat methylation is associated with chromosomal rearrangements, increased recombination at pericentromeric satellites, and reactivation of transposable elements.
+    - **Aberrant transcription.** Cryptic promoters and endogenous retroviruses (ERVs) can become active, producing chimeric or non-coding transcripts and, in some contexts, viral mimicry that engages innate immunity.
+    - **Loss of imprinting (LOI).** Notably at *IGF2* in colorectal cancer.
+- Hypomethylation is detectable in tumor tissue and in circulating tumor DNA, and is one biological reason cell-free DNA fragmentation patterns differ between cancer patients and healthy controls.
+- **LINE-1 methylation** is sometimes used as a global hypomethylation surrogate, but its level is itself influenced by age, sex, and smoking — confounders that recur throughout the cancer methylation literature.
+
+## Focal hypermethylation at tumor-suppressor genes
+
+- Promoter CpG islands at tumor-suppressor and developmental regulators acquire 5mC, producing stable transcriptional silencing.
+- Classic examples:
+    - **CDKN2A/p16** — frequently silenced across many cancer types.
+    - **MLH1** — DNA mismatch-repair silencing in microsatellite-unstable colorectal and endometrial cancers.
+    - **BRCA1** — promoter methylation in a subset of triple-negative breast and high-grade serous ovarian cancers (an alternative route to BRCA1 deficiency without germline or somatic mutation).
+    - **MGMT** — methylation predicts temozolomide response in glioblastoma and is the canonical clinically actionable methylation biomarker.
+- **Knudson's two-hit hypothesis, extended.** A tumor suppressor can be inactivated by mutation, deletion, **or methylation**. Biallelic inactivation often combines mechanisms: e.g., LOH on one allele + promoter methylation on the other. This is sometimes loosely referred to as methylation acting as a *"third hit"* category alongside mutation and copy-number loss.
+- **Caution.** Promoter methylation is *necessary but not sufficient* for silencing — chromatin context, transcription factor availability, and gene-body methylation status all contribute. Correlation between methylation and expression is loci-specific, not universal.
+
+## CIMP — the CpG island methylator phenotype
+
+- A subset of tumors shows **coordinated hypermethylation** at many CpG islands simultaneously, beyond what is seen in average tumors of the same type.
+- **Colorectal cancer CIMP** (Toyota *et al.*, 1999) is the prototype: CIMP-high tumors are enriched for **BRAF V600E**, MSI from MLH1 silencing, proximal location, and a distinct prognosis.
+- **Glioma G-CIMP** is mechanistically tied to **IDH1/IDH2 mutations**:
+    - Mutant IDH produces **2-hydroxyglutarate (2-HG)**, a competitive inhibitor of α-ketoglutarate-dependent dioxygenases — including **TET enzymes** and certain **histone lysine demethylases**.
+    - The result is a global block on active demethylation, producing the hypermethylator phenotype.
+- CIMP-like phenotypes have been described in gastric, endometrial, breast, and other cancers, but **definitions vary** between studies. CIMP is best understood as a useful clinical/biological grouping rather than a single mechanistic entity.
+
+## Mutations in the epigenetic machinery
+
+- Cancer genomes routinely carry mutations in genes that **write**, **erase**, or **read** DNA methylation:
+
+| Gene | Activity | Cancer association |
+|------|----------|--------------------|
+| **DNMT3A** | *De novo* methyltransferase | AML (R882 hotspot), clonal hematopoiesis |
+| **DNMT1** | Maintenance methyltransferase | Rarer somatic mutations; germline → HSAN1E |
+| **TET2** | 5mC oxidation | AML, MDS, CMML, lymphomas, clonal hematopoiesis |
+| **IDH1 / IDH2** | Indirect (via 2-HG → TET inhibition) | AML, glioma, chondrosarcoma, cholangiocarcinoma |
+| **EZH2** | H3K27 methyltransferase (chromatin, not DNA) | Lymphoma (gain-of-function), MDS (loss-of-function) |
+| **MBD4** | Methyl-CpG reader / glycosylase | Hypermutator phenotype when biallelically lost |
+
+- These mutations show that **epigenetic regulation is a target of selection in cancer**, not merely a downstream consequence of transformation.
+- They also create a partial map from genotype to methylome phenotype — useful but incomplete, since most tumor methylome variation is *not* explained by mutations in this short list.
+
+## Methylation as a stable archive of cellular history
+
+- Each cell type has a characteristic methylation signature, established during differentiation and reasonably stable through divisions.
+- **Two implications for cancer:**
+    1. **Cell-of-origin signal.** Tumors largely retain the methylation imprint of their tissue and cell-of-origin. This is the biological basis for methylation-based tumor classification (e.g., the DKFZ central nervous system tumor classifier) and for tissue-of-origin prediction in plasma-based MCED tests.
+    2. **Mitotic history / "epigenetic age".** Stochastic drift at certain CpGs accumulates with cell division (e.g., epiTOC, MiAge, Horvath clocks). In cancer, "epigenetic age" is typically accelerated — but this is a property of proliferative tissue in general, not a cancer-specific signal.
+- **Important confounder for cfDNA studies.** A plasma sample is a mixture of cfDNA from many cell types; in healthy individuals, leukocytes dominate. The "tumor signal" in plasma is a small perturbation of a large, age- and inflammation-dependent background. *Studies that compare cancer vs healthy without matching for these confounders risk reporting differences that are not cancer-specific.*
+
+## Translational implications
+
+- **Diagnosis and classification.**
+    - DKFZ methylation classifier for CNS tumors (clinical use in many neuropathology centers).
+    - Tissue-of-origin prediction for cancers of unknown primary.
+- **Early detection (MCED).**
+    - Bisulfite-based: GRAIL Galleri (targeted methylation panel).
+    - Enrichment-based: cfMeDIP-seq (the Adela platform; foundational paper Shen *et al.* *Nature* 2018).
+- **Minimal residual disease (MRD) and recurrence monitoring.**
+    - Tissue-informed approaches use individualized panels.
+    - Tissue-agnostic approaches (e.g., cfMeDIP-seq-based MRD) attempt to detect tumor signal without prior tumor sequencing.
+- **Therapy.**
+    - **DNMT inhibitors** — azacitidine, decitabine — are standard of care in MDS and AML.
+    - **IDH inhibitors** (ivosidenib, enasidemib) restore 2-HG to physiological levels, partially reversing the hypermethylator state.
+    - **MGMT** methylation predicts temozolomide benefit in GBM.
+- **Prognosis.** Methylation-derived risk scores have been described in many cancers, but few have reached clinical decision-making.
+
+## Assumptions and confounders that should not be glossed over
+
+- **Methylation features are not independent.** Adjacent CpGs are highly correlated (co-methylation blocks of hundreds of bp to several kb). Classifier evaluations and power calculations that *assume independence* across features systematically overstate information content and significance. This applies to many published cfMeDIP-seq simulations and effect-size projections.
+- **Cell-of-origin and cell-composition confounding.** Differential methylation between cancer and control cohorts can reflect **shifts in cell-type proportions** (in tissue or in plasma) rather than de novo cancer-specific reprogramming. Reference-based or reference-free deconvolution is required to separate these contributions; many studies do not perform it.
+- **Demographic and lifestyle confounders.** Age, sex, ancestry, BMI, smoking, alcohol, and chronic inflammation produce reproducible methylation shifts that overlap with cancer-associated signals. Case–control studies that fail to match on these axes can confound their endpoints.
+- **5mC vs 5hmC.** Antibody-based and bisulfite-based readouts generally do not separate 5mC from 5hmC. Tissues with high 5hmC (notably brain) contribute differently than naive 5mC-only models would predict.
+- **Publication context.** A substantial fraction of high-profile cfMeDIP-seq publications come from groups with a direct commercial interest in the platform. This is not a reason to dismiss the work, but it is a reason to read performance claims as **showcase studies** — best-case demonstrations under optimised conditions — rather than as neutral platform evaluations. External, independent replication on standardised cohorts remains limited.
+
+## Summary
+
+- The cancer methylome is paradoxical: bulk hypomethylation co-existing with focal hypermethylation.
+- Hypermethylation can silence tumor suppressors and substitute, mechanistically, for mutational inactivation.
+- CIMP describes a coordinated hypermethylator state, mechanistically grounded in IDH mutation in glioma.
+- Mutations in DNMT3A, TET2, IDH1/2 and related genes show that epigenetic machinery is itself under selection in cancer.
+- The methylome carries a stable cell-of-origin signature — the basis for methylation-based diagnostics, MCED, and tissue-of-origin inference, and the source of the most important confounder in plasma studies.
+
+
+
+<!-- To run
+
+## nohup Rscript -e "rmarkdown::render('02_methylation_and_cancer.Rmd')" > 02_methylation_and_cancer.log  &
+    
+--> 
+
+
+- Independence assumptions across CpG features, and inattention to demographic and cell-composition confounders, are two recurring failure modes of the published cancer methylation literature that are worth carrying forward into Section 3.

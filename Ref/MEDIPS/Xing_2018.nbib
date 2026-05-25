@@ -1,0 +1,105 @@
+PMID- 29224147
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20180716
+LR  - 20240610
+IS  - 1940-6029 (Electronic)
+IS  - 1064-3745 (Print)
+IS  - 1064-3745 (Linking)
+VI  - 1708
+DP  - 2018
+TI  - Comprehensive Whole DNA Methylome Analysis by Integrating MeDIP-seq and MRE-seq.
+PG  - 209-246
+LID - 10.1007/978-1-4939-7481-8_12 [doi]
+AB  - Understanding the role of DNA methylation often requires accurate assessment and 
+      comparison of these modifications in a genome-wide fashion. Sequencing-based DNA 
+      methylation profiling provides an unprecedented opportunity to map and compare 
+      complete DNA CpG methylomes. These include whole genome bisulfite sequencing 
+      (WGBS), Reduced-Representation Bisulfite-Sequencing (RRBS), and enrichment-based 
+      methods such as MeDIP-seq, MBD-seq, and MRE-seq. An investigator needs a method 
+      that is flexible with the quantity of input DNA, provides the appropriate balance 
+      among genomic CpG coverage, resolution, quantitative accuracy, and cost, and 
+      comes with robust bioinformatics software for analyzing the data. In this 
+      chapter, we describe four protocols that combine state-of-the-art experimental 
+      strategies with state-of-the-art computational algorithms to achieve this goal. 
+      We first introduce two experimental methods that are complementary to each other. 
+      MeDIP-seq, or methylation-dependent immunoprecipitation followed by sequencing, 
+      uses an anti-methylcytidine antibody to enrich for methylated DNA fragments, and 
+      uses massively parallel sequencing to reveal identity of enriched DNA. MRE-seq, 
+      or methylation-sensitive restriction enzyme digestion followed by sequencing, 
+      relies on a collection of restriction enzymes that recognize CpG containing 
+      sequence motifs, but only cut when the CpG is unmethylated. Digested DNA 
+      fragments enrich for unmethylated CpGs at their ends, and these CpGs are revealed 
+      by massively parallel sequencing. The two computational methods both implement 
+      advanced statistical algorithms that integrate MeDIP-seq and MRE-seq data. M&M is 
+      a statistical framework to detect differentially methylated regions between two 
+      samples. methylCRF is a machine learning framework that predicts CpG methylation 
+      levels at single CpG resolution, thus raising the resolution and coverage of 
+      MeDIP-seq and MRE-seq to a comparable level of WGBS, but only incurring a cost of 
+      less than 5% of WGBS. Together these methods form an effective, robust, and 
+      affordable platform for the investigation of genome-wide DNA methylation.
+FAU - Xing, Xiaoyun
+AU  - Xing X
+AD  - The Edison Family Center for Genome Sciences and Systems Biology, Department of 
+      Genetics, Washington University, 4515 McKinley Ave., St. Louis, MO, 63108, USA.
+FAU - Zhang, Bo
+AU  - Zhang B
+AD  - The Edison Family Center for Genome Sciences and Systems Biology, Department of 
+      Genetics, Washington University, 4515 McKinley Ave., St. Louis, MO, 63108, USA.
+FAU - Li, Daofeng
+AU  - Li D
+AD  - The Edison Family Center for Genome Sciences and Systems Biology, Department of 
+      Genetics, Washington University, 4515 McKinley Ave., St. Louis, MO, 63108, USA.
+FAU - Wang, Ting
+AU  - Wang T
+AD  - The Edison Family Center for Genome Sciences and Systems Biology, Department of 
+      Genetics, Washington University, 4515 McKinley Ave., St. Louis, MO, 63108, USA. 
+      twang@genetics.wustl.edu.
+LA  - eng
+GR  - U01 HG009391/HG/NHGRI NIH HHS/United States
+GR  - U01 ES017154/ES/NIEHS NIH HHS/United States
+GR  - R01 HG007175/HG/NHGRI NIH HHS/United States
+GR  - U01 CA200060/CA/NCI NIH HHS/United States
+GR  - R01 ES024992/ES/NIEHS NIH HHS/United States
+GR  - R25 DA027995/DA/NIDA NIH HHS/United States
+GR  - U24 ES026699/ES/NIEHS NIH HHS/United States
+GR  - R01 HG007354/HG/NHGRI NIH HHS/United States
+PT  - Journal Article
+PT  - Research Support, N.I.H., Extramural
+PT  - Research Support, Non-U.S. Gov't
+PL  - United States
+TA  - Methods Mol Biol
+JT  - Methods in molecular biology (Clifton, N.J.)
+JID - 9214969
+RN  - EC 3.1.21.- (DNA Restriction Enzymes)
+SB  - IM
+MH  - Algorithms
+MH  - Cells, Cultured
+MH  - Computational Biology/*methods
+MH  - CpG Islands
+MH  - *DNA Methylation
+MH  - DNA Restriction Enzymes/metabolism
+MH  - Epigenesis, Genetic
+MH  - Genome, Human
+MH  - High-Throughput Nucleotide Sequencing/*methods
+MH  - Humans
+MH  - Immunoprecipitation
+MH  - Sequence Analysis, DNA/*methods
+PMC - PMC6007844
+MID - NIHMS971446
+OTO - NOTNLM
+OT  - M&M
+OT  - MRE-seq
+OT  - MeDIP-seq
+OT  - methylCRF
+EDAT- 2017/12/11 06:00
+MHDA- 2018/07/17 06:00
+PMCR- 2019/01/01
+CRDT- 2017/12/11 06:00
+PHST- 2017/12/11 06:00 [entrez]
+PHST- 2017/12/11 06:00 [pubmed]
+PHST- 2018/07/17 06:00 [medline]
+PHST- 2019/01/01 00:00 [pmc-release]
+AID - 10.1007/978-1-4939-7481-8_12 [doi]
+PST - ppublish
+SO  - Methods Mol Biol. 2018;1708:209-246. doi: 10.1007/978-1-4939-7481-8_12.

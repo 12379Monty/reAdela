@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>cfMeDIP-seq Stage Tables v3</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Segoe UI",Arial,sans-serif;font-size:12px;background:#f0f2f5;
+     color:#1a1a2e;padding:16px 20px}
+h1{text-align:center;font-size:17px;margin-bottom:3px}
+.sub{text-align:center;font-size:10px;color:#777;margin-bottom:18px}
+
+/* ── stage card ── */
+.card{background:#fff;border-radius:7px;border:1px solid #dde;
+      margin-bottom:22px;overflow:hidden}
+.hdr{padding:8px 12px;font-size:12.5px;font-weight:700;color:#fff;
+     letter-spacing:.2px}
+.s1 .hdr{background:#27AE60}
+.s2 .hdr{background:#CB4335}
+.s3 .hdr{background:#D68910}
+.s4 .hdr{background:#2471A3}
+
+/* ── 3-column body ── */
+.cols{display:flex;align-items:stretch;border-top:1px solid #eee}
+
+/* column wrappers */
+.col-steps{flex:0 0 38%;border-right:1px solid #eee;overflow:hidden}
+.col-var  {flex:0 0 22%;border-right:1px solid #eee;overflow:hidden}
+.col-met  {flex:1 1 40%;overflow:hidden}
+
+.col-label{font-size:9.5px;font-weight:700;text-transform:uppercase;
+           letter-spacing:.5px;color:#666;background:#f7f8fa;
+           padding:4px 8px;border-bottom:1px solid #eee}
+
+/* ── inner tables ── */
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{padding:5px 7px;background:#f7f8fa;font-weight:700;text-align:left;
+   border-bottom:1.5px solid #dde;color:#444;font-size:10.5px;white-space:nowrap}
+td{padding:5px 7px;border-bottom:1px solid #f0f0f0;vertical-align:top;
+   line-height:1.4}
+tr:last-child td{border-bottom:none}
+
+/* steps table col widths */
+.col-steps td:nth-child(1){width:24px;font-weight:700;color:#2471A3;
+                            white-space:nowrap;font-size:11px}
+.col-steps td:nth-child(2){width:100px;font-weight:600}
+.col-steps td:nth-child(3){font-size:10.5px;color:#333}
+
+/* variability */
+.col-var td:nth-child(1){font-weight:600}
+.hi{color:#922B21;font-weight:700}
+.md{color:#7d5a0a;font-weight:600}
+.lo{color:#1a5c2e}
+.lv{font-size:9px;font-weight:700;white-space:nowrap}
+.lv-h{color:#922B21}.lv-m{color:#7d5a0a}.lv-l{color:#1a5c2e}
+
+/* metrics */
+.col-met td:nth-child(1){font-weight:600;white-space:normal;min-width:90px}
+.col-met td:nth-child(2){color:#555;white-space:nowrap;font-size:10.5px}
+.col-met td:nth-child(3){font-size:10.5px}
+.gate td{background:#EAF7EF!important;font-weight:700;color:#1a5c2e}
+.lim{font-weight:700;white-space:nowrap}
+.lim-go{color:#1a5c2e}.lim-w{color:#7d5a0a}
+
+/* gate label inline */
+.gl{font-size:8.5px;font-weight:700;color:#1a5c2e;
+    border:1px solid #1a5c2e;border-radius:3px;
+    padding:0 3px;margin-left:3px;white-space:nowrap}
+</style>
+</head>
+<body>
+
+<h1>cfMeDIP-seq Protocol — Stage Tables</h1>
+<p class="sub">Shen et al. 2019 · Burgener et al. 2021 · Wilson et al. 2022</p>
+
+<!-- ══════════ STAGE 1 ══════════ -->
+<div class="card s1">
+  <div class="hdr">STAGE 1 — Library Preparation &nbsp;·&nbsp; Day 1 &nbsp;·&nbsp; Steps 1–3</div>
+  <div class="cols">
+
+    <!-- STEPS -->
+    <div class="col-steps">
+      <div class="col-label">Steps</div>
+      <table>
+        <thead><tr><th>#</th><th>Name</th><th>Processing (Time)</th></tr></thead>
+        <tbody>
+          <tr><td>1</td><td>End-Repair &amp; A-Tailing</td>
+              <td>Repair ends to blunt; add 3′ A-overhang; input 1–10 ng cfDNA <em>(2–3 h)</em></td></tr>
+          <tr><td>2</td><td>Adapter Ligation</td>
+              <td>Ligate methylated adapters carrying unique molecular barcodes <em>(2–3 h)</em></td></tr>
+          <tr><td>3</td><td>SPRI Purification</td>
+              <td>SPRI bead cleanup; remove excess adapters and enzymes <em>(1 h)</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- VARIABILITY -->
+    <div class="col-var">
+      <div class="col-label">Variability</div>
+      <table>
+        <thead><tr><th>Source</th><th>Level</th></tr></thead>
+        <tbody>
+          <tr><td>DNA input quantity &amp; integrity</td>
+              <td><span class="lv lv-m">MOD</span></td></tr>
+          <tr><td>Ligation efficiency; dimer formation</td>
+              <td><span class="lv lv-m">MOD</span></td></tr>
+          <tr><td>SPRI ratio; ethanol wash</td>
+              <td><span class="lv lv-l">LOW</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- METRICS -->
+    <div class="col-met">
+      <div class="col-label">Metrics</div>
+      <table>
+        <thead><tr><th>Metric</th><th>Method</th><th>Interpretation &amp; Limit</th></tr></thead>
+        <tbody>
+          <tr><td>cfDNA input</td>
+              <td>Qubit, pre-Step 1</td>
+              <td>&lt;1 ng → stochastic library · <span class="lim lim-go">≥1 ng</span></td></tr>
+          <tr><td>Post-ligation yield</td>
+              <td>Qubit, post-Step 3</td>
+              <td>Low → insufficient library · <span class="lim lim-go">≥80% of input</span></td></tr>
+          <tr><td>Adapter dimer %</td>
+              <td>Bioanalyzer, post-Step 3</td>
+              <td>High → wasted reads · <span class="lim lim-w">&lt;20%; no peak</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════ STAGE 2 ══════════ -->
+<div class="card s2">
+  <div class="hdr">STAGE 2 — Methylated DNA Immunoprecipitation &nbsp;·&nbsp; Day 2 &nbsp;·&nbsp; Steps 4–10 &nbsp;·&nbsp; ⚠ Core; highest variability</div>
+  <div class="cols">
+
+    <div class="col-steps">
+      <div class="col-label">Steps</div>
+      <table>
+        <thead><tr><th>#</th><th>Name</th><th>Processing (Time)</th></tr></thead>
+        <tbody>
+          <tr><td>4</td><td>Filler + Spike-Ins</td>
+              <td>Bring total DNA to ~1 µg; add meth + unmeth spike-in controls <em>(30 min)</em></td></tr>
+          <tr><td>5</td><td>Denaturation</td>
+              <td>95°C, 10 min → ssDNA; chill on ice <em>(15 min)</em></td></tr>
+          <tr><td>6</td><td>Anti-5mC IP</td>
+              <td>5 µg anti-5mC antibody; 16–18 h, 4°C with rotation <em>(16–18 h)</em></td></tr>
+          <tr><td>7</td><td>Bead Capture</td>
+              <td>Protein A/G magnetic beads capture antibody–DNA complexes <em>(2 h)</em></td></tr>
+          <tr><td>8</td><td>Washing</td>
+              <td>3–5× IP buffer washes; remove non-specific DNA <em>(30 min)</em></td></tr>
+          <tr><td>9</td><td>Elution</td>
+              <td>Proteinase K at 50°C releases IP DNA from beads <em>(2–3 h)</em></td></tr>
+          <tr><td>10</td><td>IP Purification</td>
+              <td>SPRI cleanup of eluate; primary measurement checkpoint <em>(1 h)</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-var">
+      <div class="col-label">Variability</div>
+      <table>
+        <thead><tr><th>Source</th><th>Level</th></tr></thead>
+        <tbody>
+          <tr><td>Filler DNA type (meth vs unmeth)</td>
+              <td><span class="lv lv-h">HIGH</span></td></tr>
+          <tr><td>Antibody lot-to-lot efficiency</td>
+              <td><span class="lv lv-h">HIGH</span></td></tr>
+          <tr><td>Wash stringency (# and vigor)</td>
+              <td><span class="lv lv-m">MOD</span></td></tr>
+          <tr><td>Antibody conc.; incubation temp.</td>
+              <td><span class="lv lv-m">MOD</span></td></tr>
+          <tr><td>Bead binding; ProtK activity</td>
+              <td><span class="lv lv-l">LOW</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-met">
+      <div class="col-label">Metrics &nbsp;<span style="font-weight:400;font-size:9px;color:#888">(all measured at Step 10)</span></div>
+      <table>
+        <thead><tr><th>Metric</th><th>Method</th><th>Interpretation &amp; Limit</th></tr></thead>
+        <tbody>
+          <tr><td>IP recovery yield</td>
+              <td>Qubit, post-Step 10</td>
+              <td>Very low → IP failure · <span class="lim lim-go">0.1–5 ng</span></td></tr>
+          <tr class="gate"><td>Methylation specificity <span class="gl">GATE</span></td>
+              <td>qPCR, spike-in primers</td>
+              <td>&lt;95% → poor enrichment; do not proceed · <span class="lim lim-go">&gt;95%</span></td></tr>
+          <tr class="gate"><td>Fold-enrichment <span class="gl">GATE</span></td>
+              <td>qPCR, HIST1H2BA/GAPDH</td>
+              <td>&lt;25 → IP or antibody failure · <span class="lim lim-go">&gt;25-fold</span></td></tr>
+          <tr><td>Spike-in balance</td>
+              <td>qPCR, spike-in primers</td>
+              <td>Imbalanced → batch effect · <span class="lim lim-w">&gt;19:1</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════ STAGE 3 ══════════ -->
+<div class="card s3">
+  <div class="hdr">STAGE 3 — Library Amplification &nbsp;·&nbsp; Day 3 &nbsp;·&nbsp; Steps 11–14</div>
+  <div class="cols">
+
+    <div class="col-steps">
+      <div class="col-label">Steps</div>
+      <table>
+        <thead><tr><th>#</th><th>Name</th><th>Processing (Time)</th></tr></thead>
+        <tbody>
+          <tr><td>11</td><td>qPCR QC</td>
+              <td>qPCR on IP aliquot: HIST1H2BA (pos.) vs GAPDH (neg.); Go/No-Go gate <em>(2 h)</em></td></tr>
+          <tr><td>12</td><td>PCR Amplification</td>
+              <td>12–15 cycles; indexed primers; high-fidelity polymerase <em>(2 h)</em></td></tr>
+          <tr><td>13</td><td>Size Selection</td>
+              <td>SPRI bead cleanup; select 200–600 bp; remove adapter dimers <em>(1 h)</em></td></tr>
+          <tr><td>14</td><td>Library QC</td>
+              <td>Qubit/qPCR for concentration; Bioanalyzer/TapeStation for size; Go/No-Go gate <em>(1 h)</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-var">
+      <div class="col-label">Variability</div>
+      <table>
+        <thead><tr><th>Source</th><th>Level</th></tr></thead>
+        <tbody>
+          <tr><td>PCR cycle number → dup. rate</td>
+              <td><span class="lv lv-m">MOD</span></td></tr>
+          <tr><td>GC amplification bias</td>
+              <td><span class="lv lv-m">MOD</span></td></tr>
+          <tr><td>qPCR primer efficiency</td>
+              <td><span class="lv lv-l">LOW</span></td></tr>
+          <tr><td>SPRI size-selection ratio</td>
+              <td><span class="lv lv-l">LOW</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-met">
+      <div class="col-label">Metrics</div>
+      <table>
+        <thead><tr><th>Metric</th><th>Method</th><th>Interpretation &amp; Limit</th></tr></thead>
+        <tbody>
+          <tr><td>Ct value</td>
+              <td>qPCR, Step 11 aliquot</td>
+              <td>Ct &gt;30 → low IP recovery · <span class="lim lim-go">&lt;30</span></td></tr>
+          <tr class="gate"><td>Fold-enrichment <span class="gl">GATE</span></td>
+              <td>qPCR, Step 11</td>
+              <td>&lt;25 → repeat IP · <span class="lim lim-go">&gt;25-fold</span></td></tr>
+          <tr class="gate"><td>Specificity <span class="gl">GATE</span></td>
+              <td>qPCR, Step 11</td>
+              <td>&lt;95% → repeat IP · <span class="lim lim-go">&gt;95%</span></td></tr>
+          <tr><td>PCR cycles used</td>
+              <td>Operator record</td>
+              <td>&gt;15 → elevated duplication &amp; bias · <span class="lim lim-w">12–15</span></td></tr>
+          <tr><td>Fragment size peak</td>
+              <td>Bioanalyzer, Step 14</td>
+              <td>Off-target → size-selection issue · <span class="lim lim-go">250–400 bp</span></td></tr>
+          <tr><td>Adapter dimer peak</td>
+              <td>Bioanalyzer, Step 14</td>
+              <td>Present → repeat SPRI · <span class="lim lim-w">absent</span></td></tr>
+          <tr class="gate"><td>Library concentration <span class="gl">GATE</span></td>
+              <td>Qubit/qPCR, Step 14</td>
+              <td>&lt;2 nM → re-amplify · <span class="lim lim-go">≥2 nM</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+
+<!-- ══════════ STAGE 4 ══════════ -->
+<div class="card s4">
+  <div class="hdr">STAGE 4 — High-Throughput Sequencing &nbsp;·&nbsp; Day 4+ &nbsp;·&nbsp; Step 15</div>
+  <div class="cols">
+
+    <div class="col-steps">
+      <div class="col-label">Steps</div>
+      <table>
+        <thead><tr><th>#</th><th>Name</th><th>Processing (Time)</th></tr></thead>
+        <tbody>
+          <tr><td>15</td><td>Paired-End Sequencing</td>
+              <td>Pool equimolar libraries; Illumina PE 2×75 or 2×150 bp; target 5–20 M read pairs per sample <em>(Day 4+)</em></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-var">
+      <div class="col-label">Variability</div>
+      <table>
+        <thead><tr><th>Source</th><th>Level</th></tr></thead>
+        <tbody>
+          <tr><td>Sequencing depth; sensitivity</td>
+              <td><span class="lv lv-h">HIGH</span></td></tr>
+          <tr><td>Base-call quality; cluster density</td>
+              <td><span class="lv lv-m">MOD</span></td></tr>
+          <tr><td>GC/CpG density capture bias</td>
+              <td><span class="lv lv-m">MOD</span></td></tr>
+          <tr><td>Library pooling imbalance</td>
+              <td><span class="lv lv-l">LOW</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="col-met">
+      <div class="col-label">Metrics</div>
+      <table>
+        <thead><tr><th>Metric</th><th>Method</th><th>Interpretation &amp; Limit</th></tr></thead>
+        <tbody>
+          <tr><td>Raw read count</td>
+              <td>Sequencer output</td>
+              <td>Low → insufficient sensitivity · <span class="lim lim-go">5–20 M pairs</span></td></tr>
+          <tr><td>Q30 %</td>
+              <td>FASTQC</td>
+              <td>Low → base-call errors, false calls · <span class="lim lim-go">&gt;85%</span></td></tr>
+          <tr><td>Adapter content</td>
+              <td>FASTQC</td>
+              <td>High → trim failure; alignment bias · <span class="lim lim-w">&lt;5%</span></td></tr>
+          <tr class="gate"><td>Mapping rate <span class="gl">GATE</span></td>
+              <td>BWA / SAMtools flagstat</td>
+              <td>&lt;90% → contamination or library failure · <span class="lim lim-go">&gt;90%</span></td></tr>
+          <tr class="gate"><td>Duplication rate <span class="gl">GATE</span></td>
+              <td>Picard MarkDuplicates</td>
+              <td>&gt;30% → over-amplification; data compromised · <span class="lim lim-go">&lt;30%</span></td></tr>
+          <tr><td>Properly paired rate</td>
+              <td>SAMtools flagstat</td>
+              <td>Low → library structure issue · <span class="lim lim-w">&gt;85%</span></td></tr>
+          <tr><td>Insert size peak</td>
+              <td>Picard InsertSizeMetrics</td>
+              <td>Off-nucleosomal → size-selection failure · <span class="lim lim-go">~166 bp</span></td></tr>
+          <tr class="gate"><td>CpG enrichment <span class="gl">GATE</span></td>
+              <td>MEDIPS CpG.enrichment</td>
+              <td>&lt;1.5 → IP failure; exclude sample · <span class="lim lim-go">&gt;1.5</span></td></tr>
+          <tr><td>Saturation</td>
+              <td>MEDIPS saturation</td>
+              <td>Not saturated → under-sequenced · <span class="lim lim-go">plateau</span></td></tr>
+          <tr><td>Spike-in read counts</td>
+              <td>BWA to spike-in genome</td>
+              <td>Inconsistent → Stage 2 batch effect · <span class="lim lim-w">stable across batch</span></td></tr>
+          <tr><td>Spike-in meth/unmeth ratio</td>
+              <td>Custom demultiplexing</td>
+              <td>&lt;19:1 → poor IP specificity · <span class="lim lim-go">&gt;19:1</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+</div>
+
+<p style="text-align:center;font-size:9.5px;color:#bbb;margin-top:4px">
+  GATE = formal Go/No-Go decision point &nbsp;·&nbsp;
+  Limits in <strong style="color:#1a5c2e">green</strong> = hard thresholds &nbsp;·&nbsp;
+  Limits in <strong style="color:#7d5a0a">amber</strong> = advisory
+</p>
+
+</body>
+</html>

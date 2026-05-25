@@ -1,0 +1,51 @@
+Provider: Silverchair
+Database: AmericanAssociationforCancerResearch
+Content: text/plain; charset="UTF-8"
+
+TY  - JOUR
+AU  - Park, Ben H.
+AU  - Shen, Shu Yi
+AU  - Min, Jun
+AU  - Fleshner, Neil
+AU  - Knox, Jennifer
+AU  - May, Taymaa
+AU  - Ailles, Laurie
+AU  - Newton, Yulia
+AU  - Zhang, Junjun
+AU  - Singhania, Rajat
+AU  - Weichert, Morgan
+AU  - Burgener, Justin
+AU  - Cirlan, Iulia
+AU  - Zhang, Jing
+AU  - Wang, Yarong
+AU  - Sosa, Eduardo
+AU  - Polio, Angelica
+AU  - Hall, Owen
+AU  - Goldberg, Sarah
+AU  - Mazzone, Peter
+AU  - Rini, Brian
+AU  - Bratman, Scott
+AU  - Allen, Brian
+AU  - Brown, Krystal
+AU  - Licon, Abel
+AU  - Hartman, Anne-Renee
+AU  - De Carvalho, Daniel D.
+AU  - Liu, Geoffrey
+T1  - Abstract 1030: Development of a genome-wide methylome enrichment platform for multi-cancer early detection (MCED)
+PY  - 2023
+Y1  - 2023/05/29
+DO  - 10.1158/1538-7445.AM2023-1030
+JO  - Cancer Research
+JA  - Cancer Res
+VL  - 83
+IS  - 7_Supplement
+SP  - 1030
+EP  - 1030
+SN  - 0008-5472
+AB  - Background: Plasma cell-free DNA (cfDNA) tests represent a promising approach for cancer screening. cfDNA methylome approaches are well-suited for MCED; however, different methodologies vary in performance and many tests show decreased performance for early-stage or low-shedding tumors. Here we present a retrospective case-control study evaluating the performance of a novel genome-wide methylome enrichment platform for MCED.Methods: The full cohort (N=4,322) includes cancer cases (individuals with newly diagnosed treatment-naïve cancer) and age- and gender-matched non-cancer controls. Samples were analyzed with a bisulfite-free, non-degradative genome-wide DNA methylation enrichment platform using cfDNA isolated from plasma. Samples were split into distinct sets to train and test a machine learning classifier consisting of differentially methylated regions to distinguish cases from controls. Initial training in 1,536 samples across 8 cancer types is reported here (100 iterations of random splits (80:20) for cross-validation). The area under the receiver operating characteristic curves (AUC) and 95% confidence intervals for the median probabilities are reported in the cross-validation.Results: Cancer cases were distinguished from controls with an AUC of 0.94 (0.93, 0.96), with AUCs for individual cancer types ranging from 0.91 to 0.97. The AUC was 0.94 (0.92, 0.95) for stage I/II cancers and 0.95 (0.94, 0.96) for stage III/IV cancers. The AUC was 0.92 (0.91, 0.94) in the subset of cancers typically considered low shedding, with similar performance for stage I/II (0.91; 0.89, 0.93) and stage III/IV (0.93; 0.91, 0.95) in that subset.Conclusions: Initial analysis of case-control data demonstrates feasibility of a genome-wide methylome enrichment platform for MCED. The high detection of low-shedding and early-stage cancers is promising for MCED applications, as this will be critical for screening to identify cancers for which treatment may be more effective.Overall AUC (95% CI) for the full cohort and by cancer type.Cancer TypeAll Stages*Stage I/IIStage III/IVAll CancersN931461437AUC (95% CI)0.94 (0.93, 0.96)0.94 (0.92, 0.95)0.95 (0.94, 0.96)Bladder Cancer**N755216AUC (95% CI)0.93 (0.91, 0.96)0.93 (0.90, 0.96)0.97 (0.95, 0.99)Breast Cancer**N1317637AUC (95% CI)0.94 (0.91, 0.96)0.92 (0.88, 0.95)0.96 (0.94, 0.98)Colorectal CancerN1829488AUC (95% CI)0.97 (0.96, 0.98)0.97 (0.96, 0.98)0.97 (0.96, 0.99)Head &amp; Neck CancerN752055AUC (95% CI)0.96 (0.94, 0.98)0.93 (0.86, 1)0.97 (0.96, 0.99)Lung CancerN1477275AUC (95% CI)0.96 (0.95, 0.98)0.96 (0.95, 0.98)0.96 (0.95, 0.98)Ovarian CancerN461234AUC (95% CI)0.96 (0.93, 0.98)0.98 (0.96, 0.99)0.95 (0.92, 0.98)Prostate Cancer**N1458459AUC (95% CI)0.91 (0.88, 0.93)0.92 (0.89, 0.95)0.90 (0.87, 0.93)Renal Cancer**N1305173AUC (95% CI)0.91 (0.89, 0.94)0.89 (0.84, 0.94)0.93 (0.89, 0.96)*Samples without stage information are included in this category**Typically considered low-shedding tumorCitation Format: Ben H. Park, Shu Yi Shen, Jun Min, Neil Fleshner, Jennifer Knox, Taymaa May, Laurie Ailles, Yulia Newton, Junjun Zhang, Rajat Singhania, Morgan Weichert, Justin Burgener, Iulia Cirlan, Jing Zhang, Yarong Wang, Eduardo Sosa, Angelica Polio, Owen Hall, Sarah Goldberg, Peter Mazzone, Brian Rini, Scott Bratman, Brian Allen, Krystal Brown, Abel Licon, Anne-Renee Hartman, Daniel D. De Carvalho, Geoffrey Liu. Development of a genome-wide methylome enrichment platform for multi-cancer early detection (MCED) [abstract]. In: Proceedings of the American Association for Cancer Research Annual Meeting 2023; Part 1 (Regular and Invited Abstracts); 2023 Apr 14-19; Orlando, FL. Philadelphia (PA): AACR; Cancer Res 2023;83(7_Suppl):Abstract nr 1030.
+Y2  - 4/9/2026
+UR  - https://doi.org/10.1158/1538-7445.AM2023-1030
+ER  - 
+
+
+

@@ -1,0 +1,72 @@
+PMID- 19906696
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20100308
+LR  - 20211020
+IS  - 1362-4962 (Electronic)
+IS  - 0305-1048 (Print)
+IS  - 0305-1048 (Linking)
+VI  - 38
+IP  - 2
+DP  - 2010 Jan
+TI  - MBD-isolated Genome Sequencing provides a high-throughput and comprehensive 
+      survey of DNA methylation in the human genome.
+PG  - 391-9
+LID - 10.1093/nar/gkp992 [doi]
+AB  - DNA methylation is an epigenetic modification involved in both normal 
+      developmental processes and disease states through the modulation of gene 
+      expression and the maintenance of genomic organization. Conventional methods of 
+      DNA methylation analysis, such as bisulfite sequencing, methylation sensitive 
+      restriction enzyme digestion and array-based detection techniques, have major 
+      limitations that impede high-throughput genome-wide analysis. We describe a novel 
+      technique, MBD-isolated Genome Sequencing (MiGS), which combines precipitation of 
+      methylated DNA by recombinant methyl-CpG binding domain of MBD2 protein and 
+      sequencing of the isolated DNA by a massively parallel sequencer. We utilized 
+      MiGS to study three isogenic cancer cell lines with varying degrees of DNA 
+      methylation. We successfully detected previously known methylated regions in 
+      these cells and identified hundreds of novel methylated regions. This technique 
+      is highly specific and sensitive and can be applied to any biological settings to 
+      identify differentially methylated regions at the genomic scale.
+FAU - Serre, David
+AU  - Serre D
+AD  - Genomic Medicine Institute, Lerner Research Institute, Cleveland Clinic 
+      Foundation, 9500 Euclid Ave, mail code NE50, Cleveland, OH 44195, USA. 
+      serred@ccf.org
+FAU - Lee, Byron H
+AU  - Lee BH
+FAU - Ting, Angela H
+AU  - Ting AH
+LA  - eng
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+DEP - 20091111
+PL  - England
+TA  - Nucleic Acids Res
+JT  - Nucleic acids research
+JID - 0411011
+RN  - 0 (DNA-Binding Proteins)
+RN  - 0 (MBD2 protein)
+SB  - IM
+MH  - Cell Line, Tumor
+MH  - *DNA Methylation
+MH  - DNA-Binding Proteins/chemistry
+MH  - Gene Silencing
+MH  - *Genome, Human
+MH  - Genomics/methods
+MH  - Humans
+MH  - Protein Structure, Tertiary
+MH  - Sequence Analysis, DNA/*methods
+PMC - PMC2811030
+EDAT- 2009/11/13 06:00
+MHDA- 2010/02/26 06:00
+PMCR- 2009/11/11
+CRDT- 2009/11/13 06:00
+PHST- 2009/11/13 06:00 [entrez]
+PHST- 2009/11/13 06:00 [pubmed]
+PHST- 2010/02/26 06:00 [medline]
+PHST- 2009/11/11 00:00 [pmc-release]
+AID - gkp992 [pii]
+AID - 10.1093/nar/gkp992 [doi]
+PST - ppublish
+SO  - Nucleic Acids Res. 2010 Jan;38(2):391-9. doi: 10.1093/nar/gkp992. Epub 2009 Nov 
+      11.

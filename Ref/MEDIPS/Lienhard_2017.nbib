@@ -1,0 +1,126 @@
+PMID- 27913729
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20170809
+LR  - 20191210
+IS  - 1362-4962 (Electronic)
+IS  - 0305-1048 (Print)
+IS  - 0305-1048 (Linking)
+VI  - 45
+IP  - 6
+DP  - 2017 Apr 7
+TI  - QSEA-modelling of genome-wide DNA methylation from sequencing enrichment 
+      experiments.
+PG  - e44
+LID - 10.1093/nar/gkw1193 [doi]
+AB  - Genome-wide enrichment of methylated DNA followed by sequencing (MeDIP-seq) 
+      offers a reasonable compromise between experimental costs and genomic coverage. 
+      However, the computational analysis of these experiments is complex, and 
+      quantification of the enrichment signals in terms of absolute levels of 
+      methylation requires specific transformation. In this work, we present QSEA, 
+      Quantitative Sequence Enrichment Analysis, a comprehensive workflow for the 
+      modelling and subsequent quantification of MeDIP-seq data. As the central part of 
+      the workflow we have developed a Bayesian statistical model that transforms the 
+      enrichment read counts to absolute levels of methylation and, thus, enhances 
+      interpretability and facilitates comparison with other methylation assays. We 
+      suggest several calibration strategies for the critical parameters of the model, 
+      either using additional data or fairly general assumptions. By comparing the 
+      results with bisulfite sequencing (BS) validation data, we show the improvement 
+      of QSEA over existing methods. Additionally, we generated a clinically relevant 
+      benchmark data set consisting of methylation enrichment experiments (MeDIP-seq), 
+      BS-based validation experiments (Methyl-seq) as well as gene expression 
+      experiments (RNA-seq) derived from non-small cell lung cancer patients, and show 
+      that the workflow retrieves well-known lung tumour methylation markers that are 
+      causative for gene expression changes, demonstrating the applicability of QSEA 
+      for clinical studies. QSEA is implemented in R and available from the 
+      Bioconductor repository 3.4 (www.bioconductor.org/packages/qsea).
+CI  - © The Author(s) 2016. Published by Oxford University Press on behalf of Nucleic 
+      Acids Research.
+FAU - Lienhard, Matthias
+AU  - Lienhard M
+AD  - Department of Computational Molecular Biology, Max-Planck-Institute for Molecular 
+      Genetics, Berlin 14195, Germany.
+FAU - Grasse, Sabrina
+AU  - Grasse S
+AD  - Functional Epigenomics, University Hospital Cologne, Cologne 50937, Germany.
+FAU - Rolff, Jana
+AU  - Rolff J
+AD  - Experimental Pharmacology & Oncology Berlin-Buch GmbH, Berlin 13125, Germany.
+FAU - Frese, Steffen
+AU  - Frese S
+AD  - Department of Thoracic Surgery, ELK Berlin Chest Hospital, Berlin 13125, Germany.
+FAU - Schirmer, Uwe
+AU  - Schirmer U
+AD  - Cancer Genome Research Group, German Cancer Research Center (DKFZ) and National 
+      Center for Tumor Diseases (NCT), Heidelberg 69120, Germany.
+FAU - Becker, Michael
+AU  - Becker M
+AD  - Experimental Pharmacology & Oncology Berlin-Buch GmbH, Berlin 13125, Germany.
+FAU - Börno, Stefan
+AU  - Börno S
+AD  - Sequencing Core Facility, Max-Planck-Institute for Molecular Genetics, Berlin 
+      14195, Germany.
+FAU - Timmermann, Bernd
+AU  - Timmermann B
+AD  - Sequencing Core Facility, Max-Planck-Institute for Molecular Genetics, Berlin 
+      14195, Germany.
+FAU - Chavez, Lukas
+AU  - Chavez L
+AD  - Division of Pediatric Neurooncology, German Cancer Research Center (DKFZ), 
+      Heidelberg 69120, Germany.
+FAU - Sültmann, Holger
+AU  - Sültmann H
+AD  - Cancer Genome Research Group, German Cancer Research Center (DKFZ) and National 
+      Center for Tumor Diseases (NCT), Heidelberg 69120, Germany.
+FAU - Leschber, Gunda
+AU  - Leschber G
+AD  - Department of Thoracic Surgery, ELK Berlin Chest Hospital, Berlin 13125, Germany.
+FAU - Fichtner, Iduna
+AU  - Fichtner I
+AD  - Experimental Pharmacology & Oncology Berlin-Buch GmbH, Berlin 13125, Germany.
+FAU - Schweiger, Michal R
+AU  - Schweiger MR
+AD  - Functional Epigenomics, University Hospital Cologne, Cologne 50937, Germany.
+AD  - Department of Vertebrate Genomics, Max-Planck-Institute for Molecular Genetics, 
+      Berlin 14195, Germany.
+FAU - Herwig, Ralf
+AU  - Herwig R
+AD  - Department of Computational Molecular Biology, Max-Planck-Institute for Molecular 
+      Genetics, Berlin 14195, Germany.
+LA  - eng
+PT  - Evaluation Study
+PT  - Journal Article
+PL  - England
+TA  - Nucleic Acids Res
+JT  - Nucleic acids research
+JID - 0411011
+RN  - 0 (Sulfites)
+RN  - OJ9787WBLU (hydrogen sulfite)
+SB  - IM
+MH  - Animals
+MH  - Bayes Theorem
+MH  - *DNA Methylation
+MH  - Gene Expression Regulation
+MH  - Genomics/*methods
+MH  - Humans
+MH  - Lung Neoplasms/genetics
+MH  - Mice
+MH  - Promoter Regions, Genetic
+MH  - Sequence Analysis, DNA/*methods
+MH  - Sulfites
+MH  - Workflow
+PMC - PMC5389680
+EDAT- 2016/12/04 06:00
+MHDA- 2017/08/10 06:00
+PMCR- 2016/11/29
+CRDT- 2016/12/04 06:00
+PHST- 2016/06/30 00:00 [received]
+PHST- 2016/11/17 00:00 [accepted]
+PHST- 2016/12/04 06:00 [pubmed]
+PHST- 2017/08/10 06:00 [medline]
+PHST- 2016/12/04 06:00 [entrez]
+PHST- 2016/11/29 00:00 [pmc-release]
+AID - gkw1193 [pii]
+AID - 10.1093/nar/gkw1193 [doi]
+PST - ppublish
+SO  - Nucleic Acids Res. 2017 Apr 7;45(6):e44. doi: 10.1093/nar/gkw1193.

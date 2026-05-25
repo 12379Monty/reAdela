@@ -1,0 +1,221 @@
+PMID- 41714824
+OWN - NLM
+STAT- Publisher
+LR  - 20260219
+IS  - 2662-1347 (Electronic)
+IS  - 2662-1347 (Linking)
+DP  - 2026 Feb 19
+TI  - A pan-cancer compendium of 1,294 plasma cell-free DNA methylomes and fragmentomes 
+      enabling multicancer detection.
+LID - 10.1038/s43018-026-01116-3 [doi]
+AB  - Cell-free DNA analysis via methylation and fragmentation profiling has advanced 
+      minimally invasive cancer detection; however, broader application has been 
+      limited by small cohorts and inconsistent data processing. Here we collated 1,074 
+      cfMeDIP-seq profiles across 9 studies, comprising cancer samples from 11 cancer 
+      types, carriers of Li-Fraumeni syndrome and healthy controls. We developed a 
+      uniform computational workflow to mitigate technical and biological confounders 
+      across cohorts. This analysis identified 14,202 pancancer differentially 
+      methylated regions for cancer detection, along with cancer-specific markers for 
+      subtype monitoring. Fragmentomic profiling revealed distinguishing differences in 
+      5' end motifs, fragment lengths and nucleosome footprints across cancers. 
+      Integrating methylome and fragmentome features enhanced cancer detection and 
+      classification. Validation in 220 independent samples, including 3 cancer types 
+      absent from the primary dataset, confirmed the robustness of our findings. 
+      Altogether, this work provides a pancancer cell-free DNA resource of 1,294 
+      samples to support future methylome and fragmentome studies.
+CI  - © 2026. The Author(s).
+FAU - Zeng, Yong
+AU  - Zeng Y
+AUID- ORCID: 0000-0001-5719-1272
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada. Yong.Zeng@uhn.ca.
+FAU - Abelman, Dor D
+AU  - Abelman DD
+AUID- ORCID: 0000-0002-6765-4733
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Singhawansa, Althaf
+AU  - Singhawansa A
+AUID- ORCID: 0009-0008-2985-4794
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Cheng, Nicholas
+AU  - Cheng N
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada.
+FAU - Fang, Yuanchang
+AU  - Fang Y
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Main, Sasha C
+AU  - Main SC
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Bell, Emma
+AU  - Bell E
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada.
+FAU - Ye, Wenbin
+AU  - Ye W
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Luo, Ping
+AU  - Luo P
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Wilson, Samantha L
+AU  - Wilson SL
+AUID- ORCID: 0000-0003-4346-9696
+AD  - Department of Obstetrics and Gynecology, McMaster University, Hamilton, Ontario, 
+      Canada.
+FAU - Stutheit-Zhao, Eric Y
+AU  - Stutheit-Zhao EY
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Wong, Derek
+AU  - Wong D
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Division of Genomic Diagnostics, Department of Pathology and Laboratory Medicine, 
+      Children's Hospital of Philadelphia, Philadelphia, PA, USA.
+FAU - Znassi, Nadia
+AU  - Znassi N
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Chen, Kui
+AU  - Chen K
+AUID- ORCID: 0009-0004-3366-9090
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Toronto General Hospital Research Institute, University Health Network, Toronto, 
+      Ontario, Canada.
+FAU - Mohanraj, Suluxan
+AU  - Mohanraj S
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Sanz-Garcia, Enrique
+AU  - Sanz-Garcia E
+AUID- ORCID: 0000-0002-3119-3832
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Division of Medical Oncology, Department of Medicine, University of Toronto, 
+      Toronto, Ontario, Canada.
+FAU - Notta, Faiyaz
+AU  - Notta F
+AUID- ORCID: 0000-0002-5748-3985
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada.
+FAU - Ghanekar, Anand
+AU  - Ghanekar A
+AD  - Toronto General Hospital Research Institute, University Health Network, Toronto, 
+      Ontario, Canada.
+AD  - Division of General Surgery, Department of Surgery, University of Toronto, 
+      Toronto, Ontario, Canada.
+FAU - Awadalla, Philip
+AU  - Awadalla P
+AD  - Department of Population Health, Big Data Institute, University of Oxford, 
+      Oxford, UK.
+FAU - Lok, Benjamin H
+AU  - Lok BH
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Hoffman, Michael M
+AU  - Hoffman MM
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+AD  - Vector Institute, Toronto, Ontario, Canada.
+FAU - Kim, Raymond H
+AU  - Kim RH
+AUID- ORCID: 0000-0002-2147-8674
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada.
+AD  - The Hospital for Sick Children, Toronto, Ontario, Canada.
+FAU - Zadeh, Gelareh
+AU  - Zadeh G
+AUID- ORCID: 0000-0002-6637-4502
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Division of Neurosurgery, Department of Surgery, University of Toronto, Toronto, 
+      Ontario, Canada.
+FAU - De Carvalho, Daniel D
+AU  - De Carvalho DD
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Bratman, Scott V
+AU  - Bratman SV
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada.
+FAU - Lupien, Mathieu
+AU  - Lupien M
+AUID- ORCID: 0000-0003-0929-9478
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada. Mathieu.Lupien@uhn.ca.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada. Mathieu.Lupien@uhn.ca.
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada. 
+      Mathieu.Lupien@uhn.ca.
+FAU - Pugh, Trevor J
+AU  - Pugh TJ
+AUID- ORCID: 0000-0002-8073-5888
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada. Trevor.Pugh@utoronto.ca.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada. Trevor.Pugh@utoronto.ca.
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada. 
+      Trevor.Pugh@utoronto.ca.
+FAU - He, Housheng Hansen
+AU  - He HH
+AUID- ORCID: 0000-0003-2898-3363
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada. Hansen.He@uhn.ca.
+AD  - Department of Medical Biophysics, University of Toronto, Toronto, Ontario, 
+      Canada. Hansen.He@uhn.ca.
+LA  - eng
+PT  - Journal Article
+DEP - 20260219
+PL  - England
+TA  - Nat Cancer
+JT  - Nature cancer
+JID - 101761119
+SB  - IM
+COIS- Competing interests: S.V.B. declares stock ownership in Adela; a leadership 
+      position in Adela; patents licensed to Roche, Adela; and royalties from Roche. 
+      T.J.P. reports personal fees from AstraZeneca, Canadian Pension Plan Investment 
+      Board, Chrysalis Biomedical Advisors, Illumina, Merck, PACT Pharma and SAGA 
+      Diagnostics, and grants from Roche/Genentech outside the submitted work. B.H.L. 
+      reports grants from Pfizer and grants, personal fees and nonfinancial support 
+      from AstraZeneca and personal fees from Daiichi-Sankyo outside the submitted 
+      work. E.S.G. reports research funding from GSK and Rgenta, as well as consulting 
+      roles with GSK and Lutris. H.H.H. reports personal fees from Synth-Med outside 
+      the submitted work. S.L.W. and M.M.H. have a patent application licensed to 
+      Adela. E.Y.S.-Z. has provided consulting for Adela. N.Z. reports stock ownership 
+      and a leadership position in Otaksa. The other authors declare no competing 
+      interests.
+EDAT- 2026/02/20 00:32
+MHDA- 2026/02/20 00:32
+CRDT- 2026/02/19 23:36
+PHST- 2024/07/06 00:00 [received]
+PHST- 2026/01/09 00:00 [accepted]
+PHST- 2026/02/20 00:32 [medline]
+PHST- 2026/02/20 00:32 [pubmed]
+PHST- 2026/02/19 23:36 [entrez]
+AID - 10.1038/s43018-026-01116-3 [pii]
+AID - 10.1038/s43018-026-01116-3 [doi]
+PST - aheadofprint
+SO  - Nat Cancer. 2026 Feb 19. doi: 10.1038/s43018-026-01116-3.

@@ -1,0 +1,93 @@
+# DNA Methylation-Based Cancer Diagnostics: Company Landscape
+
+> Regulatory status as of early 2026. LDT = laboratory-developed test (CLIA-certified lab, not FDA-cleared).  
+> **Genomic scope**: WG = whole-genome; Large panel = tens of thousands to hundreds of thousands of CpG sites (targeted enrichment); Small panel = tens to low hundreds of loci/regions.  
+> **Detection chemistry**: BS-seq = bisulfite sequencing (sodium bisulfite conversion + NGS); MS-PCR = methylation-specific PCR (bisulfite conversion + allele-specific primers); qPCR-BS = bisulfite conversion + quantitative PCR; MeDIP = methylated DNA immunoprecipitation; cfMeDIP = cell-free MeDIP.
+
+---
+
+## Company Table
+
+| Company / Product | Use Case | Sample | Cancers | Genomic Scope | Detection Chemistry | Methylation Approach | Regulatory / Stage | Geography |
+|---|---|---|---|---|---|---|---|---|
+| **GRAIL** / Galleri® | Multi-cancer early detection screening | Blood | Multi (>50) | Large targeted panel (~1M CpG sites across >100K regions) | Targeted BS-seq | cfDNA bisulfite converted; hybrid-capture target enrichment; ML classifier trained on CCGA cohort (n=15,254); WGBS used in discovery, refined to targeted panel for clinical assay | LDT commercial; FDA Breakthrough Designation | US, EU (NHS pilot) |
+| **Exact Sciences** / CancerGuard™ | Multi-cancer early detection + CRC | Blood | Multi | Targeted panel (methylation loci + mutation panel + protein markers) | Targeted BS-seq + amplicon seq + immunoassay (multi-analyte) | Bisulfite-converted cfDNA for methylation; separate mutation calling; protein biomarkers combined via ML; CancerSEEK lineage; ASCEND-2 study (n=11,000) | Clinical validation | US (Abbott acquisition pending) |
+| **Guardant Health** / Shield MCD | Multi-cancer early detection | Blood | Multi (bladder, CRC, lung, pancreatic) | Targeted panel | Targeted BS-seq (NGS) | cfDNA methylation + NGS; tissue-of-origin prediction; multi-cancer signal via bisulfite-sequenced targeted regions | LDT commercial; FDA Breakthrough Designation | US |
+| **BillionToOne** / Northstar Response® | Treatment response monitoring (stage III-IV) | Blood | Pan-cancer | Targeted panel (>2,200 loci; >500 loci for core assay) | Targeted BS-seq + QCT molecular counting | Bisulfite conversion of cfDNA; proprietary Quantitative Counting Template (QCT) spike-ins enable single-molecule absolute quantification of methylated ctDNA; tumor-naive (tissue-free) | LDT commercial | US (Nasdaq: BLLN) |
+| **Burning Rock Biotech** / OverC / ELSA-seq | Multi-cancer early detection + MRD | Blood | Multi (9-22 cancers) | Large targeted panel (161,984 CpG sites) | Targeted BS-seq (ELSA-seq) | ELSA-seq = enhanced liquid biopsy sequencing; bisulfite conversion of cfDNA followed by targeted capture; deep sequencing at 161,984 informative CpG sites; ML tissue-of-origin; THUNDER study (n=2,385): 98.9% specificity, 69.1% sensitivity | CE mark; FDA Breakthrough Designation | China, EU, US (Nasdaq: BNR) |
+| **Singlera Genomics** / PanSeer | Multi-cancer early detection | Blood | Multi (CRC, esophageal, liver, lung, stomach) | Targeted panel (12,000 sites across 600 regions) | Targeted BS-seq (methylation haplotype) | Bisulfite sequencing with methylation haplotype calling; analyses coordinated CpG methylation patterns on contiguous DNA strands rather than per-site averages; captures tumour-specific co-methylation patterns | Clinical validation | US, China |
+| **Nucleix** / Bladder EpiCheck | Bladder cancer surveillance & detection | Urine | Bladder | Small targeted panel (15 genomic regions) | qPCR-BS (MS-PCR) | Bisulfite conversion of urinary cfDNA; methylation-specific qPCR across 15 regions; objective numeric score 0-100; sensitivity 91% high-grade, NPV 99% | FDA 510(k) cleared; CE mark | US, EU |
+| **Epigenomics AG** / Epi proColon 2.0 / Epi proLung / HCCBloodTest | CRC screening; lung & HCC detection | Blood | CRC, lung, HCC | Small targeted panel (single genes: SEPT9, SHOX2, SEPT7) | qPCR-BS (MS-PCR) | Bisulfite conversion of plasma cfDNA; methylation-specific PCR targeting SEPT9 promoter (CRC), SHOX2 (lung), SEPT7 (HCC); single-gene locus approach; first FDA-approved blood-based CRC test | FDA approved; CE mark; restructuring / asset sale pending | US, EU, China |
+| **MDxHealth** / AssureMDx | Bladder cancer diagnosis | Urine | Bladder | Small targeted panel (3 methylation genes + 3 mutation genes) | qPCR-BS + mutation PCR (hybrid) | Bisulfite conversion for methylation of OTX1, ONECUT2, TWIST1 in exfoliated urinary cells; combined with FGFR3, TERT, HRAS mutation detection; logistic regression model including patient age; sensitivity 97%, specificity 83% | LDT commercial | US, EU |
+| **Adela** / Adela MCED | Multi-cancer early detection | Blood | Multi | Large targeted panel | Targeted BS-seq + fragmentomics (multi-modal) | cfDNA bisulfite-based methylation analysis integrated with cfDNA fragmentation profiles (nucleosome positioning signals); multi-modal epigenetic signal intended to improve sensitivity at low tumour fractions | Development | US, Canada |
+| **Precision Epigenomics** / EpiSeek | Multi-cancer early detection screening | Blood | Multi (>12 types) | Targeted panel (proprietary marker set) | MS-PCR (bisulfite-based) | Methylation-specific PCR following bisulfite conversion; proprietary software-derived marker panel; distributed via TruDiagnostic CLIA lab (~40K clinicians) | LDT commercial | US |
+| **EarlyDiagnostics** / CancerRadar | Multi-cancer early detection | Blood | Multi | Targeted panel | Targeted BS-seq (presumed) | cfDNA methylation + ML algorithms; blood-based multi-analyte signal detection | Development | US |
+| **Genomictree** / EarlyTect Bladder / Colon | Bladder & CRC detection | Urine / Blood | Bladder, CRC | Small targeted panel | qPCR-BS (MS-PCR) | qPCR-based methylation of validated genomic and epigenomic targets in cfDNA from urine; EarlyTect Bladder detects ONECUT2; East Asian validation cohorts | Approved (Korea) | Korea, East Asia |
+
+---
+
+## Assay Chemistry Notes
+
+### Bisulfite sequencing (BS-seq) — the dominant paradigm
+
+Sodium bisulfite treatment converts unmethylated cytosines to uracil (read as thymine after PCR), leaving 5-methylcytosine intact. This enables single-base resolution methylation calling but degrades ~96% of DNA, which is particularly problematic for cfDNA where input is already scarce. All major MCED players (GRAIL, Burning Rock, Singlera, Guardant, Exact Sciences, BillionToOne) use bisulfite conversion paired with next-generation sequencing, differing primarily in the scope and design of the capture/enrichment panel applied before sequencing.
+
+GRAIL's discovery work (CCGA substudy 1) used whole-genome bisulfite sequencing (WGBS, ~30M CpG sites) and demonstrated that methylation outperformed mutation-based approaches. The commercial Galleri assay refined this to a targeted panel (~1M CpG sites) to make the approach clinically and economically viable.
+
+### Methylation-specific PCR (MS-PCR) — the mature commercial pathway
+
+Bisulfite conversion followed by PCR with allele-specific primers that distinguish methylated from unmethylated sequences. Lower information content than sequencing but far cheaper, faster, and already well-validated for single-gene markers. This is the basis for Epigenomics AG's SEPT9 assay (first FDA-approved blood-based CRC test), Nucleix's Bladder EpiCheck, MDxHealth's AssureMDx, Genomictree's EarlyTect, and Precision Epigenomics' EpiSeek. The regulatory maturity advantage is clear: MS-PCR-based tests have achieved FDA clearance/approval; NGS-based MCED tests are still navigating the LDT or PMA pathway.
+
+### Alternative chemistries (emerging / not yet dominant in commercial Dx)
+
+| Chemistry | Principle | Commercial adoption |
+|---|---|---|
+| **MeDIP / cfMeDIP** | Immunoprecipitation with anti-5mC antibody enriches methylated fragments before sequencing; no bisulfite damage to DNA | Research / academic pipeline; cfMeDIP-seq used in foundational cancer detection studies (e.g., Shen et al. 2018 *Nature*); not yet a commercial product |
+| **EM-seq (enzymatic methylation sequencing)** | Enzymatic conversion (TET2 + APOBEC3A) instead of bisulfite; preserves DNA integrity significantly better | Reagent kit (NEB); adopted in some research workflows; not yet deployed commercially for cancer Dx |
+| **Nanopore direct sequencing** | Oxford Nanopore detects 5mC natively from ionic current signal without conversion; enables long-read methylation haplotypes | Research stage for cfDNA cancer detection; low input sensitivity remains a barrier |
+| **EPIC / 850K array** | Illumina bead array covering ~850K CpG sites; bisulfite-based | Tissue biobank / research standard; not used for liquid biopsy Dx due to input requirements |
+| **Restriction enzyme-based (e.g., MSRE, IMPRESS)** | Methylation-sensitive restriction enzymes cut only unmethylated sites; coupled with sequencing or smMIP | Academic proof-of-concept; avoids bisulfite degradation; not yet commercial |
+
+---
+
+## Key Observations
+
+### Technical differentiation
+
+Companies split into roughly three technical tiers:
+
+1. **Large-panel cfDNA targeted BS-seq** — GRAIL, Burning Rock, Singlera, Guardant, Exact Sciences, BillionToOne. These interrogate tens of thousands to ~1 million CpG sites and rely heavily on ML classifiers for both cancer detection and tissue-of-origin prediction. Highest information content but also highest cost and analytical complexity. All use bisulfite conversion as the core chemistry.
+
+2. **Small-panel MS-PCR / qPCR-BS** — Nucleix, Epigenomics, MDxHealth, Genomictree, Precision Epigenomics. These anchor on a small number of well-validated methylation markers (e.g., SEPT9, SHOX2, OTX1, ONECUT2) and use PCR-based quantification. More commercially mature, lower cost, and further along in regulatory clearance — but inherently single-cancer or narrow-scope.
+
+3. **Hybrid / multi-analyte approaches** — Exact Sciences (CancerGuard), Guardant (Shield), MDxHealth (AssureMDx). These combine methylation signals with somatic mutation profiles and/or protein biomarkers to boost sensitivity, particularly for early-stage cancers where cfDNA shedding is low.
+
+BillionToOne sits in a distinct niche: their QCT technology turns methylation into a precise quantitative tumor burden metric (absolute molecule counting) rather than a binary detection signal, making it better suited for longitudinal treatment monitoring than early detection screening.
+
+### Commercial maturity spectrum
+
+Nucleix (Bladder EpiCheck) and Epigenomics AG (Epi proColon) are the oldest players with actual regulatory clearances. However, Epigenomics AG is now in financial restructuring (asset sale to New Day Diagnostics pending as of 2024). The urine-based bladder cancer niche (Nucleix, MDxHealth, Genomictree) is more commercially mature than the blood-based MCED space, because the signal-to-noise problem is more tractable in urine for a single organ.
+
+Among blood-based MCED players, GRAIL's Galleri is the furthest along commercially (LDT, NHS pilot, Pathfinder 2 study n=35,000). Guardant's Shield MCD and BillionToOne's Northstar Response are commercially launched as LDTs. Most others remain in clinical validation or development.
+
+### Geographic split
+
+Several methylation-based MCED tests have advanced further in Asia before entering US/EU markets:
+
+- **Burning Rock** (OverC / ELSA-seq): CE mark obtained 2022; extensive China-based validation studies (THUNDER, PREDICT, PRESCIENT); FDA Breakthrough Designation obtained subsequently.
+- **Singlera Genomics** (PanSeer): large retrospective validation conducted in collaboration with Fudan University; detection up to 4 years pre-clinical diagnosis demonstrated.
+- **Genomictree** (EarlyTect): approved in Korea; validation studies primarily in East Asian cohorts.
+
+This geographic pattern reflects both the high GI cancer burden in East Asia (making CRC, liver, and esophageal cancers natural targets) and more accessible early-stage regulatory and study infrastructure in China and Korea.
+
+### The Adela distinction
+
+Adela uses a cfDNA methylation approach that also incorporates fragmentation patterns — recognizing that nucleosome positioning leaves interpretable marks on cfDNA fragment lengths in addition to the methylation signal itself. This multi-modal epigenetic signal (methylation + fragmentomics) may improve sensitivity at low tumour fractions.
+
+### Why not cfMeDIP in commercial Dx?
+
+cfMeDIP-seq (cell-free methylated DNA immunoprecipitation sequencing) is widely used in academic research and avoids the DNA degradation problem of bisulfite conversion, which is particularly advantageous for low-input cfDNA. However, no commercial diagnostic company has yet brought a cfMeDIP-based test to market. The likely barriers are: (1) antibody lot-to-lot variability complicating assay standardization and regulatory submission; (2) bisulfite-based targeted sequencing has now been sufficiently optimized (with low-input library prep) to compete on sensitivity; and (3) the regulatory and clinical validation precedents are all built on BS-seq data.
+
+---
+
+*Table compiled from public sources. Last updated: April 2026.*

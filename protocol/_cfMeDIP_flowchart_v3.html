@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>cfMeDIP-seq Flowchart v3</title>
+<style>
+  body{margin:0;padding:16px 12px;background:#f4f6f8;font-family:Arial,sans-serif}
+  .wrap{background:#fff;border-radius:8px;padding:14px 8px 10px;box-shadow:0 1px 5px rgba(0,0,0,.12)}
+  svg{display:block;margin:auto;width:100%;max-width:960px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<svg viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg">
+
+<!-- TITLE -->
+<text x="480" y="16" text-anchor="middle" font-family="Arial" font-size="13"
+      font-weight="bold" fill="#1a1a2e">cfMeDIP-seq Protocol · 4 Stages · 15 Steps · Shen et al. 2019</text>
+
+<!--
+  5 columns · stride 188px · box 178×106px
+  col centres: 99  287  475  663  851
+  box left:     10  198  386  574  762
+  box right:   188  376  564  752  940
+
+  ROW 1  y-band=24  y-labels=40/51  y-box=57  y-bot=163
+  ROW 2  y-band=172 y-labels=188/199 y-box=205 y-bot=311
+  ROW 3  y-band=320 y-labels=336/347 y-box=353 y-bot=459
+  LEGEND y=468
+-->
+
+<!-- ═══════════ ROW 1 · Steps 1–5 ═══════════ -->
+<!-- Stage 1 band cols 0-2 x10→564 -->
+<rect x="10"  y="24" width="554" height="15" rx="3" fill="#27AE60"/>
+<text x="287" y="35" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE 1 · Library Preparation (Day 1)</text>
+
+<!-- Stage 2 band cols 3-4 x574→940 -->
+<rect x="574" y="24" width="366" height="15" rx="3" fill="#CB4335"/>
+<text x="757" y="35" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE 2 · Immunoprecipitation (Day 2)</text>
+
+<!-- Step 1 cx=99 -->
+<text x="99" y="49"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#1a5c2e">1 – End-Repair &amp; A-Tailing</text>
+<rect x="10" y="57" width="178" height="106" rx="5" fill="#E8F8F0" stroke="#27AE60" stroke-width="1.5"/>
+<text x="99" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Repair ends; add 3′ A-overhang</text>
+<text x="99" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Input: 1–10 ng cfDNA</text>
+<text x="99" y="108" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ cfDNA input (Qubit)</text>
+<text x="99" y="123" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~2–3 h</text>
+
+<!-- Step 2 cx=287 -->
+<text x="287" y="49"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#1a5c2e">2 – Adapter Ligation</text>
+<rect x="198" y="57" width="178" height="106" rx="5" fill="#E8F8F0" stroke="#27AE60" stroke-width="1.5"/>
+<text x="287" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Ligate methylated adapters</text>
+<text x="287" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Adapters carry unique barcodes</text>
+<text x="287" y="108" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Post-ligation yield (Qubit)</text>
+<text x="287" y="123" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~2–3 h</text>
+
+<!-- Step 3 cx=475 -->
+<text x="475" y="49"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#1a5c2e">3 – SPRI Purification</text>
+<rect x="386" y="57" width="178" height="106" rx="5" fill="#E8F8F0" stroke="#27AE60" stroke-width="1.5"/>
+<text x="475" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">SPRI bead cleanup</text>
+<text x="475" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Remove excess adapters</text>
+<text x="475" y="108" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Adapter dimer % (Bioanalyzer)</text>
+<text x="475" y="123" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~1 h</text>
+
+<!-- Step 4 cx=663 -->
+<text x="663" y="49"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">4 – Filler DNA + Spike-Ins</text>
+<rect x="574" y="57" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="663" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Adjust to ~1 µg total DNA</text>
+<text x="663" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Add meth + unmeth spike-ins</text>
+<text x="663" y="108" text-anchor="middle" font-family="Arial" font-size="10" fill="#C0392B" font-weight="bold">⚠ Filler type = batch effect</text>
+<text x="663" y="123" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~30 min</text>
+
+<!-- Step 5 cx=851 -->
+<text x="851" y="49"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">5 – Denaturation</text>
+<rect x="762" y="57" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="851" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Heat to 95°C, 10 min</text>
+<text x="851" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">dsDNA → ssDNA; chill on ice</text>
+<text x="851" y="108" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">No measurement</text>
+<text x="851" y="123" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~15 min</text>
+
+<!-- row 1 end hint -->
+<text x="950" y="168" text-anchor="end" font-family="Arial" font-size="8" fill="#bbb" font-style="italic">↩ row 2</text>
+
+<!-- ═══════════ ROW 2 · Steps 6–10 ═══════════ -->
+<!-- Stage 2 cont full width -->
+<rect x="10" y="172" width="940" height="15" rx="3" fill="#CB4335"/>
+<text x="480" y="183" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE 2 (continued)</text>
+
+<!-- Step 6 cx=99 -->
+<text x="99" y="197"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">6 – Anti-5mC IP</text>
+<rect x="10" y="205" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="99" y="224"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">5 µg anti-5mC antibody</text>
+<text x="99" y="239"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">16–18 h, 4°C with rotation</text>
+<text x="99" y="256"  text-anchor="middle" font-family="Arial" font-size="10" fill="#C0392B" font-weight="bold">⚠ Antibody lot variation</text>
+<text x="99" y="271"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~16–18 h</text>
+
+<!-- Step 7 cx=287 -->
+<text x="287" y="197"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">7 – Bead Capture</text>
+<rect x="198" y="205" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="287" y="224"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Protein A/G magnetic beads</text>
+<text x="287" y="239"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">2 h, 4°C rotation</text>
+<text x="287" y="256"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">No measurement</text>
+<text x="287" y="271"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~2 h</text>
+
+<!-- Step 8 cx=475 -->
+<text x="475" y="197"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">8 – Washing</text>
+<rect x="386" y="205" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="475" y="224"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">3–5× IP buffer washes</text>
+<text x="475" y="239"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Remove non-specific DNA</text>
+<text x="475" y="256"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">No measurement</text>
+<text x="475" y="271"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~30 min</text>
+
+<!-- Step 9 cx=663 -->
+<text x="663" y="197"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">9 – Elution</text>
+<rect x="574" y="205" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="663" y="224"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Proteinase K at 50°C</text>
+<text x="663" y="239"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Release DNA from beads</text>
+<text x="663" y="256"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">No measurement</text>
+<text x="663" y="271"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~2–3 h</text>
+
+<!-- Step 10 cx=851 -->
+<text x="851" y="197"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">10 – IP Purification</text>
+<rect x="762" y="205" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="851" y="224"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">SPRI cleanup of eluate</text>
+<text x="851" y="239"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ IP yield; fold-enrichment</text>
+<text x="851" y="254"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Specificity (spike-in)</text>
+<text x="851" y="271"  text-anchor="middle" font-family="Arial" font-size="9.5" fill="#1a5c2e" font-weight="bold">▶ GO / NO-GO</text>
+
+<!-- row 2 end hint -->
+<text x="950" y="316" text-anchor="end" font-family="Arial" font-size="8" fill="#bbb" font-style="italic">↩ row 3</text>
+
+<!-- ═══════════ ROW 3 · Steps 11–15 ═══════════ -->
+<!-- Stage 3 band cols 0-3 x10→752 -->
+<rect x="10"  y="320" width="742" height="15" rx="3" fill="#D68910"/>
+<text x="381" y="331" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE 3 · Library Amplification (Day 3)</text>
+
+<!-- Stage 4 band col 4 x762→940 -->
+<rect x="762" y="320" width="178" height="15" rx="3" fill="#2471A3"/>
+<text x="851" y="331" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE 4 · Sequencing</text>
+
+<!-- Step 11 cx=99 -->
+<text x="99" y="345"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#6E4C09">11 – qPCR QC</text>
+<rect x="10" y="353" width="178" height="106" rx="5" fill="#FEF5E7" stroke="#D68910" stroke-width="1.5"/>
+<text x="99" y="372"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">HIST1H2BA vs GAPDH</text>
+<text x="99" y="387"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Fold-enrichment</text>
+<text x="99" y="402"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Specificity (spike-in)</text>
+<text x="99" y="419"  text-anchor="middle" font-family="Arial" font-size="9.5" fill="#1a5c2e" font-weight="bold">▶ GO / NO-GO</text>
+
+<!-- Step 12 cx=287 -->
+<text x="287" y="345"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#6E4C09">12 – PCR Amplification</text>
+<rect x="198" y="353" width="178" height="106" rx="5" fill="#FEF5E7" stroke="#D68910" stroke-width="1.5"/>
+<text x="287" y="372"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">12–15 cycles; indexed primers</text>
+<text x="287" y="387"  text-anchor="middle" font-family="Arial" font-size="10" fill="#C0392B" font-weight="bold">⚠ Cycle # → dup. rate</text>
+<text x="287" y="402"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Cycles; library conc.</text>
+<text x="287" y="419"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~2 h</text>
+
+<!-- Step 13 cx=475 -->
+<text x="475" y="345"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#6E4C09">13 – Size Selection</text>
+<rect x="386" y="353" width="178" height="106" rx="5" fill="#FEF5E7" stroke="#D68910" stroke-width="1.5"/>
+<text x="475" y="372"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">SPRI · select 200–600 bp</text>
+<text x="475" y="387"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Remove adapter dimers</text>
+<text x="475" y="402"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">No measurement</text>
+<text x="475" y="419"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~1 h</text>
+
+<!-- Step 14 cx=663 -->
+<text x="663" y="345"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#6E4C09">14 – Library QC</text>
+<rect x="574" y="353" width="178" height="106" rx="5" fill="#FEF5E7" stroke="#D68910" stroke-width="1.5"/>
+<text x="663" y="372"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Qubit + Bioanalyzer/TapeStation</text>
+<text x="663" y="387"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Conc (nM); size peak; dimers</text>
+<text x="663" y="402" text-anchor="middle" font-family="Arial" font-size="9.5" fill="#1a5c2e" font-weight="bold">▶ GO / NO-GO</text>
+<text x="663" y="419"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~1 h</text>
+
+<!-- Step 15 cx=851 -->
+<text x="851" y="345"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#1A5276">15 – Sequencing</text>
+<rect x="762" y="353" width="178" height="106" rx="5" fill="#EBF5FB" stroke="#2980B9" stroke-width="1.5"/>
+<text x="851" y="372"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Illumina PE · 5–20 M reads</text>
+<text x="851" y="387"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Q30; mapping; dup. rate</text>
+<text x="851" y="402"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ CpG enrich.; spike-ins</text>
+<text x="851" y="419"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">Day 4+</text>
+
+<!-- ═══ LEGEND ═══ -->
+<line x1="10" y1="464" x2="950" y2="464" stroke="#e0e0e0"/>
+<rect x="10"  y="468" width="9" height="9" fill="#1a7c3e" rx="1"/>
+<text x="23"  y="476" font-family="Arial" font-size="8.5" fill="#555">★ Measurement recorded</text>
+<rect x="200" y="468" width="9" height="9" fill="#C0392B" rx="1"/>
+<text x="213" y="476" font-family="Arial" font-size="8.5" fill="#555">⚠ High variability source</text>
+<text x="400" y="476" font-family="Arial" font-size="8.5" fill="#1a5c2e" font-weight="bold">▶ Go/No-Go gate</text>
+<text x="580" y="476" font-family="Arial" font-size="8.5" fill="#aaa">Flow: left→right, top row then middle then bottom</text>
+
+</svg>
+</div>
+</body>
+</html>

@@ -1,0 +1,214 @@
+---
+title:  Technical Review of Stutheit-Zhao et al. (2024)
+subtitle: Early Changes in Tumor-Naive Cell-Free Methylomes and Fragmentomes Predict Outcomes in Pembrolizumab-Treated Solid Tumors \n  Cancer Discovery 14:1048–1063
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+always_allow_html: yes
+output:
+  #html_document:
+  # for use of .tabset
+  rmarkdown::html_document:
+    code_folding: hide
+    code_download: true
+    toc: true
+    toc_depth: 2
+    # does this have an effect
+    fig_caption: yes
+    # this has no effect
+    number_sections: yes
+    # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
+#bibliography: [AI/_cfMeDIP-seq_references.bib, spike_ins/Ref/_spike_in.bib]
+csl: ../_csl/cell-numeric.csl
+link-citations: true
+---
+
+**Perspective:** Experienced statistician focused on data processing, feature quantification, normalization methodology, and the development/validation structure of the analytical pipeline.
+
+---
+
+
+#  Normalization and Quantification Methods
+
+##  Methylation Probability Estimation (Core Quantification Step)
+
+This is the foundational computational step. The genome is divided into contiguous **300 bp bins**, and coverage per bin is computed as the *sum of fractional fragment overlaps* — a fragment fully within a bin contributes 1 unit; a fragment with 50/150 bp overlap contributes 1/3. This is a weighted coverage scheme, not simple read counting.
+
+**CpG density correction** is applied via a **mixture model of two negative binomial (NegBinom) distributions**, representing methylated and unmethylated components:
+
+- *Unmethylated component:*
+
+$$y_u \sim \text{NegBinom}(\mu = \alpha_0 + \alpha_1 g,\ \theta_u)$$
+
+where $g \in [0,1]$ is the GC content of the bin. Parameters $\alpha_0$, $\alpha_1$, $\theta_u$ are inferred by fitting a NegBinom GLM to **bins with zero CpGs** — i.e., the unmethylated component is estimated entirely from CpG-free bins.
+
+- *Methylated component:*
+
+$$y_m \sim \text{NegBinom}(\mu = \beta_0 + \beta_1 c,\ \theta_m)$$
+
+where $c \in \mathbb{Z},\ c \geq 1$ is the **CpG count** of the bin. Fit via **expectation-maximization (EM)**.
+
+- *Methylation probability per bin:*
+
+$$P(\text{methylated}) = \frac{L_m}{L_m + L_u}$$
+
+where $L_m$ and $L_u$ are the NegBinom likelihoods under each component, using the alternative parametrization $p = \theta/(\mu + \theta)$.
+
+**Key observations:**
+
+This EM procedure estimates a *per-bin* posterior probability of methylation. It does **not** produce read-level methylation calls (unlike bisulfite sequencing, where each CpG yields a binary observation). The output is a continuous probability in [0,1] per 300 bp bin.
+
+There is **no explicit depth normalization** step described (e.g., no reads-per-million scaling). The NegBinom mixture implicitly absorbs sequencing depth variation through the model parameters, but this is not explicitly stated or validated. This approach is consistent with the MEDIPS/Shen et al. 2018 lineage — the standard cfMeDIP-seq quantification framework from the De Carvalho/Bratman/Pugh labs.
+
+---
+
+##  Cancer-Specific Methylation (CSM) Score
+
+**Definition:** The CSM score is the **arithmetic sum** of methylation probabilities across all 300 bp bins overlapping the 200 immune-depleted differentially methylated CpGs (DMCs) in the pan-cancer signature:
+
+$$\text{CSM} = \sum_{i \in \text{signature}} P(\text{methylated})_i$$
+
+**Key properties:**
+
+- This is an **unnormalized sum** — it scales with the number of signature bins contributing non-zero probability, and implicitly with sequencing depth, because deeper sequencing increases per-bin coverage and thus affects the NegBinom mixture. The authors do not formally assess whether CSM is comparable across samples with substantially different sequencing depths.
+
+- Actual median read depth was 80.0 million clusters (range: 9.9–176.2M), representing a **17.8-fold range** across samples. The impact of this depth variation on CSM is not assessed.
+
+- CSM is log-transformed for use in the logistic regression (log CSM), which partially stabilizes variance but does not resolve the depth dependence question.
+
+**Spike-in DNA was added but not used for normalization.** Arabidopsis spike-in DNA was incorporated during library construction and methylated Arabidopsis enrichment is listed as a pre-analytic QC metric — but it is **not used to normalize methylation probabilities or CSM scores**. This means the normalization approach here differs fundamentally from the Wilson et al. 2022 spike-in normalization framework.
+
+---
+
+## Fragment-Length Score (FLS)
+
+**Definition:** FLS is computed using only fragments **overlapping the CSM signature regions** (not genome-wide):
+
+$$\text{FLS} = \frac{1}{N} \sum_{j=1}^{N} \log_2\!\left(\frac{f_{\text{cancer}}(l_j)}{f_{\text{normal}}(l_j)}\right)$$
+
+where $l_j$ is the length of fragment $j$, and $f_{\text{cancer}}(\cdot)$, $f_{\text{normal}}(\cdot)$ are **pre-computed reference fragment-length frequency distributions** from cancer and normal cfDNA, sourced from Vessies et al. 2022 (*Mol Oncol*) — an external NSCLC post-surgery ctDNA dataset.
+
+**Key observations:**
+
+- FLS is computed against **external reference distributions** derived from a different disease context (NSCLC) and, critically, a different assay technology (not cfMeDIP-seq for the reference distributions). There is no correction for potential technology-specific fragment-length biases between the reference and study data.
+
+- FLS > 0 indicates more cancer-like fragmentation; FLS < 0 indicates more normal-like fragmentation.
+
+- Restricting fragment analysis to regions overlapping the 200-DMC signature **ties the fragmentomic and methylomic scores together by construction**. Both CSM and FLS are computed in the same genomic windows. This co-localization is an explicit design choice intended to maximize signal, but it also explains the observed correlation between the two scores (Spearman ρ = 0.655, *P* < 0.001), which complicates their interpretation as independent biomarkers in joint models.
+
+---
+
+##  Joint Score (Log Odds of Cancer)''
+A logistic regression model is trained on 85 baseline cancer samples vs. 100 normal controls:
+
+$$\log \text{odds}(\text{cancer}) = \beta_0 + \beta_1 \log(\text{CSM}) + \beta_2 \cdot \text{FLS}$$
+
+The model achieved AUROC = 0.902 for discriminating cancer from normal samples. A clearance threshold of **−1.754** on the joint log-odds score was selected by maximizing F1 accuracy against CMC (mutation-based ctDNA) undetectability.
+
+This threshold was **determined in the same cohort used for downstream analysis** — there is no held-out set for threshold selection. The authors acknowledge that this threshold requires validation in independent cohorts.
+
+---
+
+#  Signature Development and the Development/Validation Structure
+
+##  Signature Development: TCGA 450K Array Data
+
+The 200-DMC pan-cancer signature was derived entirely from **external, independent data**:
+
+- **Source:** TCGA PanCanAtlas 450K methylation array IDAT files, processed with ChAMP v2.21.1
+- **Scope:** 27 cancer types, ≥50 primary tumors each; 50 randomly sampled per type (1,350 tumors total)
+- **DMC identification:** limma pairwise comparisons between all cancer-type pairs; CpGs selected if hypermethylated ≥2-fold over ≥2/3 of all other TCGA cohorts (adjusted *P* < 0.05)
+
+**Sequential filtering to remove non-cancer signal:**
+
+1. Exclude CpGs with mean normal control methylation probability >0.01 **or** max >0.1 among cfMeDIP-seq data from 100 normal controls
+2. Restrict to PBL-depleted regions derived from prior PBL MeDIP-seq (Burgener et al. 2021, *Clin Cancer Res*)
+3. Final PBL filter: retain only the 200 CpGs with lowest mean beta value among blood cell types (GSE122126 cell-type methylation atlas), all with mean blood beta value <0.086
+
+**Important circularity:** The 100 normal controls used in filtering step 1 are the **same controls used in the logistic regression model** for the joint cfMeDIP-seq score. The signature is therefore not fully independent of the cfMeDIP-seq data used in downstream analysis — the normal controls influenced both signature filtering and model training.
+
+## Cross-Assay Validation of the Signature
+
+Signature generalizability was checked using external WGBS datasets:
+
+| Dataset | GEO Accession | Cancer Type |
+|---------|---------------|-------------|
+| Cao et al. 2020, *Nat Commun* | GSE149608 | Esophageal squamous cell carcinoma |
+| Guillen et al. 2022, *Nat Cancer* | GSE186747 | Breast cancer |
+
+These serve as cross-platform sanity checks (450K array → WGBS). The CSM metric was approximated as the sum of WGBS beta values overlapping signature sites, averaged within each window. This confirms that signature regions are indeed hypermethylated in cancer relative to adjacent normal tissue across different profiling technologies.
+
+## The Validation Problem
+
+The authors are explicit: **"there does not exist true independent validation data."**
+
+The full analytical pipeline was developed and evaluated within a single cohort:
+
+| Component | Development Data | Validation Data |
+|-----------|-----------------|-----------------|
+| 200-DMC pan-cancer signature | TCGA PanCanAtlas (external ✓) | INSPIRE cohort (first test) |
+| Logistic regression model (CSM + FLS → log odds) | INSPIRE baseline + 100 normal controls | None held out ✗ |
+| Clearance threshold (−1.754) | Set within INSPIRE data | None held out ✗ |
+| Survival associations (ΔCSM, ΔFLS) | INSPIRE cohort | None ✗ |
+
+The INSPIRE cohort functions simultaneously as the first validation of the TCGA-derived signature and as the development set for all downstream model fitting and threshold selection. This is a **single-cohort retrospective analysis**.
+
+**Sample sizes for survival analyses:**
+
+| Analysis | N |
+|----------|---|
+| Baseline CSM vs. OS/PFS | 85 |
+| ΔCSM / ΔFLS (baseline → cycle 3) vs. OS/PFS | 53 (paired) |
+| Clearance analysis | 11 who cleared |
+
+The n = 53 paired analysis drives the primary survival findings. The multivariable Cox models adjusting simultaneously for cohort (5 levels), PD-L1, and TMB with n = 53 patients approach the 10-events-per-variable guideline. The models are not overparameterized by design, but power is limited and confidence intervals are wide throughout.
+
+---
+
+# Code and Data Availability
+
+The paper provides unusually comprehensive open access to analysis resources:
+
+| Resource | Location |
+|----------|----------|
+| Raw cfMeDIP-seq reads (INSPIRE patients) | European Genome-Phenome Archive: **EGAS00001003280** |
+| Normal controls (Ontario Health Study) | Request via [ontariohealthstudy.ca](https://www.ontariohealthstudy.ca/for-researchers/data-access-forms-and-templates/) |
+| cfMeDIP-seq analysis pipeline (Snakemake) | [github.com/pughlab/cfMeDIP-seq-analysis-pipeline](https://github.com/pughlab/cfMeDIP-seq-analysis-pipeline) |
+| Fragmentomics pipeline | [github.com/pughlab/fragmentomics](https://github.com/pughlab/fragmentomics) |
+| Complete R Markdown (all figures + numeric values) | [github.com/pughlab/paper-inspire-cfmedip](https://github.com/pughlab/paper-inspire-cfmedip) |
+| Code Ocean compute capsule | [codeocean.com/capsule/3574944/tree/v1](https://codeocean.com/capsule/3574944/tree/v1) |
+| TCGA 450K array data | TCGA PanCanAtlas (public) |
+| PBL methylation atlas | GEO: **GSE122126** |
+
+The Code Ocean capsule provides a fully reproducible compute environment for all reported figures and numeric values.
+
+---
+
+# 4. =Summary of Key Statistical Considerations
+
+| Issue | Severity | Detail |
+|-------|----------|--------|
+| No explicit depth normalization of CSM | Moderate | 17.8× depth range across samples; NegBinom mixture implicitly absorbs depth but this is not formally validated |
+| Spike-in added but not used for normalization | Moderate | Arabidopsis DNA included in library prep; enrichment used as QC metric only |
+| Normal controls overlap signature filtering and model training | Moderate | Same 100 controls used in DMC filtering step and logistic regression training |
+| No independent validation cohort | High | Authors acknowledge; all model parameters and thresholds set within INSPIRE |
+| Clearance threshold determined in same data used to evaluate it | Moderate | Overfits threshold to this cohort; requires external validation |
+| Small n for paired survival analyses | Moderate | n = 53; MVA models with 5-level cohort covariate + PD-L1 + TMB approach degrees-of-freedom limits |
+| FLS reference distributions from different disease context and technology | Low–Moderate | External NSCLC WGS data used as fragment-length reference for cfMeDIP-seq samples |
+| CSM and FLS correlated by construction | Low | ρ = 0.655; both computed within identical signature windows; treated as independent in joint Cox models |
+
+The paper represents an honest, well-documented exploratory study. Its primary contribution is demonstrating the **feasibility** of integrating methylome and fragmentome information from a single cfMeDIP-seq assay for treatment response monitoring — not providing a clinically validated biomarker pipeline. The Code Ocean capsule and GitHub repositories make this one of the more reproducible studies in the cfMeDIP-seq literature.
+
+---
+
+*Review prepared April 2026*
+
+
+    
+<!-- To run
+# nohup Rscript -e "knitr::knit2html('Stutheit-Zhao_2024_Technical_Review.Rmd')" > Stutheit-Zhao_2024_Technical_Review.log  &
+    
+# Or 
+# nohup Rscript -e "rmarkdown::render('Stutheit-Zhao_2024_Technical_Review.Rmd')" > Stutheit-Zhao_2024_Technical_Review.log  &
+    
+-->
+
+

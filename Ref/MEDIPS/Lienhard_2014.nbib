@@ -1,0 +1,90 @@
+PMID- 24227674
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20140702
+LR  - 20220316
+IS  - 1367-4811 (Electronic)
+IS  - 1367-4803 (Print)
+IS  - 1367-4803 (Linking)
+VI  - 30
+IP  - 2
+DP  - 2014 Jan 15
+TI  - MEDIPS: genome-wide differential coverage analysis of sequencing data derived 
+      from DNA enrichment experiments.
+PG  - 284-6
+LID - 10.1093/bioinformatics/btt650 [doi]
+AB  - MOTIVATION: DNA enrichment followed by sequencing is a versatile tool in 
+      molecular biology, with a wide variety of applications including genome-wide 
+      analysis of epigenetic marks and mechanisms. A common requirement of these 
+      diverse applications is a comparison of read coverage between experimental 
+      conditions. The amount of samples generated for such comparisons ranges from few 
+      replicates to hundreds of samples per condition for epigenome-wide association 
+      studies. Consequently, there is an urgent need for software that allows for fast 
+      and simple processing and comparison of sequencing data derived from enriched 
+      DNA. RESULTS: Here, we present a major update of the R/Bioconductor package 
+      MEDIPS, which allows for an arbitrary number of replicates per group and 
+      integrates sophisticated statistical methods for the detection of differential 
+      coverage between experimental conditions. Our approach can be applied to a 
+      diversity of quantitative sequencing data. In addition, our update adds novel 
+      functionality to MEDIPS, including correlation analysis between samples, and 
+      takes advantage of Bioconductor's annotation databases to facilitate annotation 
+      of specific genomic regions. AVAILABILITY AND IMPLEMENTATION: The latest version 
+      of MEDIPS is available as version 1.12.0 and part of Bioconductor 2.13. The 
+      package comes with a manual containing detailed description of its functionality 
+      and is available at http://www.bioconductor.org.
+FAU - Lienhard, Matthias
+AU  - Lienhard M
+AD  - Departments of Vertebrate Genomics and Developmental Biology, Max Planck 
+      Institute for Molecular Genetics, Ihnestrasse 63-73, 14195 Berlin, Germany, 
+      Department of Rheumatology and Clinical Immunology, Institute of Pathology, 
+      Laboratory of Molecular Tumour Pathology, Charité Universitätsmedizin Berlin, 
+      10117 Berlin, Germany and Division of Signaling and Gene Expression, La Jolla 
+      Institute for Allergy and Immunology, La Jolla, CA 92037, USA.
+FAU - Grimm, Christina
+AU  - Grimm C
+FAU - Morkel, Markus
+AU  - Morkel M
+FAU - Herwig, Ralf
+AU  - Herwig R
+FAU - Chavez, Lukas
+AU  - Chavez L
+LA  - eng
+PT  - Journal Article
+PT  - Research Support, Non-U.S. Gov't
+DEP - 20131113
+PL  - England
+TA  - Bioinformatics
+JT  - Bioinformatics (Oxford, England)
+JID - 9808944
+RN  - 0 (DNA-Binding Proteins)
+RN  - 0 (Mbd1 protein, mouse)
+SB  - IM
+MH  - Adenoma/genetics
+MH  - Animals
+MH  - Chromatin Immunoprecipitation
+MH  - CpG Islands
+MH  - *DNA Methylation
+MH  - DNA-Binding Proteins/metabolism
+MH  - Databases, Factual
+MH  - Epigenomics
+MH  - *Genome-Wide Association Study
+MH  - Genomics/*methods
+MH  - Intestinal Neoplasms/genetics
+MH  - Mice
+MH  - Quality Control
+MH  - Sequence Analysis, DNA/*methods
+MH  - *Software
+PMC - PMC3892689
+EDAT- 2013/11/15 06:00
+MHDA- 2014/07/06 06:00
+PMCR- 2013/11/13
+CRDT- 2013/11/15 06:00
+PHST- 2013/11/15 06:00 [entrez]
+PHST- 2013/11/15 06:00 [pubmed]
+PHST- 2014/07/06 06:00 [medline]
+PHST- 2013/11/13 00:00 [pmc-release]
+AID - btt650 [pii]
+AID - 10.1093/bioinformatics/btt650 [doi]
+PST - ppublish
+SO  - Bioinformatics. 2014 Jan 15;30(2):284-6. doi: 10.1093/bioinformatics/btt650. Epub 
+      2013 Nov 13.

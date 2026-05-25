@@ -1,0 +1,858 @@
+---
+title: "Adela's cfMeDIP-seq Technology"
+#subtitle:
+author: "Francois Collin ([CV](https://francoiscollin-cv.netlify.app), [linkedin](https://www.linkedin.com/in/francoisz/))"
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+always_allow_html: yes
+output:
+  #html_document:
+  # for use of .tabset
+  rmarkdown::html_document:
+    code_folding: hide
+    code_download: true
+    toc: true
+    toc_depth: 2
+    # does this have an effect
+    fig_caption: yes
+    # this has no effect
+    number_sections: yes
+    # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
+bibliography: [AI/_cfMeDIP-seq_references.bib, spike_ins/Ref/_spike_in.bib]
+csl: ../_csl/cell-numeric.csl
+link-citations: true
+---
+
+<p style="background-color: yellow; padding: 5px;">
+  <span style="font-weight: bold;">⚠️ Work in Progress:</span> This content is incomplete.
+</p>
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      comment = NA,
+                      warning = FALSE,
+                      error = FALSE,
+                      message = FALSE,
+                      cache = FALSE,
+                      fig.width = 8,
+                      fig.height = 4)
+```
+
+
+```{r infex-GlobalOptions, results="hide", include=FALSE, cache=FALSE}
+
+knitr::opts_knit$set(stop_on_error = 2L) #really make it stop
+options(knitr.table.format = 'html')
+
+options(stringsAsFactors=F)
+
+ #knitr::dep_auto()
+
+```
+<!-- ######################################################################## -->
+
+
+```{r index-Prelims,  include=FALSE, echo=FALSE, results='hide', message=FALSE} 
+
+
+FN <- "index"
+if(sum(grepl(FN, list.files()))==0) stop("Check FN")
+
+PREFIX <- "index" #- replace by FLOWCELL???
+
+ suppressMessages(require(rmarkdown))
+ suppressMessages(require(knitr))
+
+ suppressPackageStartupMessages(require(methods))
+ suppressPackageStartupMessages(require(bookdown))
+
+ suppressPackageStartupMessages(require(magrittr))
+
+ # Shotcuts for knitting and rendering while in R session (Invoke interactive R from R/Scripts folder)
+ kk <- function(n='') knitr::knit2html(paste("t", n, sep=''), envir=globalenv(),
+       output=paste(FN,".html", sep=''))
+
+ rr <- function(n='') rmarkdown::render(paste("t", n, sep=''), envir=globalenv(),
+       output_file=paste(FN,".html", sep='')) ##, output_dir='Scripts')
+
+ bb <- function(n='') browseURL(paste(FN,".html", sep=''))
+
+ # The usual shortcuts
+ zz <- function(n='') source(paste("t", n, sep=''))
+
+```
+<!-- ################################################################## -->
+
+<!--
+# AI Reports 
+
+* AI reports are produced by claude.ai Opus 4.5 with 
+naive prompts from Francois Collin.
+
+* The reporting done is intended to provide the information
+needed to understand the roots and development of 
+Adela's cfMeDIP-seq Technology.
+-->
+
+```{css, echo = FALSE}
+.nav-pills>li>a:hover, 
+.nav-pills>li>a:focus, 
+.nav-pills>li.active>a, 
+.nav-pills>li.active>a:hover, 
+.nav-pills>li.active>a:focus{
+    background-color: #2c3e50; /* Active tab color */
+    color: white; /* Text color */
+}
+```
+
+
+# DNA methylation - Background {.tabset}
+
+## Home {-}
+
+<br/>
+
+## The Biology
+
+* 5 - 6 slides describing methylation at the leevel of a senior 
+biology class
+   - including a diagram of the chemnical rewaction
+
+**Terry Speed**
+
+<br/>
+
+## The connection to cancer 
+
+
+<br/>
+
+##  Methylated DNA Immunoprecipitation
+
+* Detailed description including the role of filler DNA
+
+* how does anti-5-methylcytosine (5mC) antibody work? 
+where does the variablity come from?
+
+* can variability be attributed to its proper source - 
+anti-5-methylcytosine (5mC) antibody or filler DNA?
+
+
+
+
+
+<br/>
+
+# The cfMeDIP-seq Technology  {.tabset}
+
+## Home {-}
+
+<br/>
+
+
+## cfMeDIP-seq Protocol {.tabset}
+
+### Home {-}
+
+<br/>
+
+
+### Flowchart {-}
+
+
+```{r index-app-flowchart-v3, echo=FALSE, results='asis', eval=F}
+cat(readLines("protocol/_cfMeDIP_flowchart_v3.html"), sep="\n")
+```
+
+```{=html}
+<iframe src="protocol/_cfMeDIP_flowchart_v3.html" width="100%" height="500px"></iframe>
+```
+
+<br/>
+
+### Protocol Steps Table {-}
+
+```{r index-app-prot-steps-v3, echo=FALSE, results='asis', eval=F}
+cat(readLines("protocol/_cfMeDIP_tables_v3.html"), sep="\n")
+```
+
+
+```{=html}
+<iframe src="protocol/_cfMeDIP_tables_v3.html" width="100%" height="500px"></iframe>
+```
+
+<br/>
+
+## cfMeDIP-seq Data Processing {.tabset}
+
+### Home {-}
+
+<br/>
+
+### Fastq to BAM {-}
+
+
+```{=html}
+<iframe src="protocol/_cfMeDIP_fastq_to_bam.html" width="100%" height="500px"></iframe>
+```
+
+<br/>
+
+### BAM to Methylation Quantification {-}
+
+
+```{=html}
+<iframe src="protocol/_cfMeDIP_bam_to_quant.html" width="100%" height="500px"></iframe>
+```
+
+Notes:
+
+* 300 bp window size is a parameter determined based on empirical
+performance
+
+<br/>
+
+# Other Technical Assessments {.tabset}
+
+## Home {-}
+
+<br/>
+
+## spike-in control normalization 
+
+
+<p><p/>
+* Wilson et al. 2022 [@Wilson2022]
+   - [slides](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review_slides/_Wilson2022_SpikeIns.html)
+   - [Rmarkdown](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
+      - contents of the paper are detailed.
+      - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
+   - [Rmarkdown for summary similar to Stutheit-Zhao (2024)](./spoke_ins/Wilson_2022_Technical_Review.html) -
+see Section \ref(#frag-len-dist).
+
+<p><p/>
+* Additional markdowns 
+   -  [framework](spike_ins/_spike_in_normalization_cfMeDIP_report.html)
+   -  [biological validation](spike_ins/_Wilson_2022_Critical_Analysis_Biological_Validation.html)
+   -  [NGS_Normalization_Methods_Review](spike_ins/NGS_Normalization_Methods_Review.html)
+
+<p><p/>
+* Published Data 
+   -  **GEO Accession GSE166259:**
+      - Raw HCT116 cell line data (public)
+      - Processed AML patient data (public)
+
+   -  **EGA Accession EGAS00001005069:**
+      - Raw AML patient data (controlled access)
+      - Available via University Health Network Genomics Data Access Committee
+
+   -  **Zenodo Deposits:**
+      -  Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
+      -  spiky package: https://doi.org/10.18129/B9.bioc.spiky
+
+<p><p/>
+* Wilson et al. 2022 [@Wilson2022]  does not use
+sharp metrics or suitable evaluation data to assess the
+success of the normalization procedure.                         
+   - For model performance, 
+*Used held-out spike-ins to assess prediction accuracy*
+      - this tells us nothing about the relevant performance -
+are the sample normalized methylation profiles better than
+the un-normalized methylation profiles.
+      - the usefulness of the normalization step can only be judged
+by examining the  normalized methylation profiles of samples with
+some designed or known truth.
+
+<br/>
+
+* **As a normalization method the spike-in control normalization
+remains unproven.**
+
+ 
+<br/>
+
+## Fragment length distribution   {#frag-len-disrt}
+
+* Stutheit-Zhao (2024) [@Stutheit-Zhao2024] show that the 
+distribution of fragment lengths adds information to sequence
+data when trying to discriminate  between cancer and non-cancer samples.
+   - [Rmarkdown](./fragment_length/Stutheit-Zhao_2024_Technical_Review.html)
+   - This article contributes more examples of innovative analyses that
+are not vetted to any reasonable degree.  There are three methodologies
+introduced:
+      - 1- Methylation Probability Estimation to get a
+Cancer-Specific Methylation (CSM) Score
+         - fitting a model with an unmethylated component to a data set which
+only targets methylated DNA fragments is an interesting approach.
+         - How does it work?  Why does it work?  We are provided no clue.
+      - 2- Using reference dstribution of fragment length for
+normal and cancer populations to obtain a Fragment length score.
+         - Using fragment lengths from samples processed on a different
+platform is another interesting choice.
+      - 3-  The two scores are combined with the weighting determined by 
+a logistic regression fit the linear combination of both.
+         - the assumprion of independent additive effects should be checked.
+
+
+
+`r CAPTION <-
+paste("Figure 2B from Stutheit-Zhao (2024).",
+"  The figure indicates that this fragment length feature",
+"adds very little predictive power, if any, to the methylation index.",
+"  Recall that this fragment length feature is computed using",
+" a reference distribution of fragment length collected",
+" using  a different platform."
+)`
+
+    
+```{r index-fig-2b, fig.cap = CAPTION, include=T, fig.align='center', eval=T}
+
+knitr::include_graphics( "fragment_length/Figure2B.png", dpi=50)
+
+```                   
+
+
+<br/>
+<br/>
+
+<p><p/>
+* The analyses have apparenrt flaws so one should not generalize these
+resulrts too broadly, if al all.
+   - Fragmentation patterns in cfDNA have proven to be informative
+in detecting the presence of cancer in many contexts.  Using a bad
+reference may be he problem here.
+   - **To Do: a literature review on the ways fragmentation patterns 
+can be recorded.**
+
+
+
+
+<!--
+### claude prompt {-}
+
+* Review  Stutheit-Zhao (2024) [@Stutheit-Zhao2024] 
+
+<p><p/>
+* Perspective: experienced statistician interested in the technical
+aspects of data processing leading to the feature measures used in
+the downstream analyses.
+
+<p><p/>
+* Focus: 
+   - What methods were used for normalization and quantification
+   - Data source for development and validation (see 
+Section \@ref(mol-dx-val) on validation)
+
+* Link to source code and data
+
+-->
+
+<br/>
+<br/>
+
+
+<!--
+# On Molecular Diagnostic Instrument Validation {#mol-dx-val}
+
+-->
+
+
+<br/>
+
+---
+
+
+# Differential Methylation Analysis {.tabset}
+
+## Home {-}
+
+<br/>
+
+## DMA  by Assay Type {-}
+ 
+
+* [Differential Methylation Analysis Methodology](AI/_Differential_Methylation_Analysis_Report.html)
+   - Exhaustive survey of DMA methods used with each  assay type. 
+      - Not specific to Adela
+   - Describe the analysis data in each step
+   - Survey of benchmarking studies and tools
+
+<br/>
+
+## Enrichment Based DMA {-}
+
+<p><p/>
+* [Enrichment-Based Differential Methylation Analysis](AI/_Enrichment_Methods_PartI_Section1.html)
+   - For enrichment-Based assays, a look at Bioinformatics Pipelines and 
+Statistical Methods for Differential Methylation Analysis: 
+      - Common Bioinformatics Pipeline:FASTQ->BAN[ ](AI/_Enrichment_Methods_PartI_Section1.html#common-bioinformatics-pipeline-fastq-to-bam)
+      - DMA Methods for Enrichment based assays[ ](AI/_Enrichment_Methods_PartI_Section1.html#dma-methods)
+         - many of the methods produce estimates of `absolute beta`, 
+a measure of methylation level.  These would then be further analyzed to
+get DMA results.
+
+<br/>
+ 
+
+# Variability in  cfMeDIP-seq Data {.tabset}
+
+<p/>
+* The key components of the assay - filler DNA and antibody instance - 
+are associated with a considerable amount of variability.
+   - [docname](./docname.html) provides a detailed look at
+the Methylated DNA Immunoprecipitation Stage of the protocol.
+   - questions to address:
+      - how does the filler DNA operate?  where does the variability
+come from?
+      - how does anti-5-methylcytosine (5mC) antibody work?
+where does the variablity come from?
+      - can variability be attributed to its proper source -
+anti-5-methylcytosine (5mC) antibody or filler DNA?
+'
+<br/>
+
+# Other methylation platforms {.tabset}
+
+
+## Home {-}
+
+<br/>
+
+
+
+## DNA Methylation Company Landscape {.tabset}
+
+```{r,  child="methylation_cancer_dx_landscape.md"}
+```
+
+<br/>
+
+
+## Adela vs GRAIL
+
+* [slides](AI/_Adela_vs_GRAIL_MCED_Comparison_slides/_Adela_vs_GRAIL_MCED.html)
+
+* [Rmarkdown](AI/_Adela_vs_GRAIL_MCED_Comparison.html)
+   -  A fairly comprehensive, high level comparison of the two platforms.
+   -  This compilation is for background purposes - see the documentation below 
+for comments on technical aspects of some of the studies cited.
+
+* There are several  other Dx commercial/venture companies going after methylation profiles
+to detect cancer.  Can we have a table describing all companies targeting methylation.
+
+
+
+<br/>
+
+# Appendix {.tabset}
+
+## Home {-}
+
+<br/>
+
+## Protocol {.tabset}
+
+### Home {-}
+
+<br/>
+
+### Flowchart {-}
+
+This is a longer version of the same above.
+
+```{r index-app-flowchart-v2, echo=FALSE, results='asis', eval=F}
+cat(readLines("protocol/_cfMeDIP_flowchart_v2.html"), sep="\n")
+```
+
+
+```{=html}
+<iframe src="protocol/_cfMeDIP_flowchart_v2.html" width="100%" height="500px"></iframe>
+```
+<br/>
+
+### Protocol Steps Table {-}
+
+```{r,  child="protocol/_cfMeDIP_tables_v2.md"}
+```
+
+
+<br/>
+
+## Protocol, Pipeline and Classifier Methods 
+
+* [slides](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers_slides/_cfMeDIP_Evolution.html)
+
+* [Rmarkdown](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers.html) 
+   - The report is a fairly comprehensive, high level description of the assay
+and algorithm along with a description of enhancements that followed.
+   - The evolution of Adela's cfMeDIP-seq Protocol, Pipeline 
+and Classifiers is traced.
+
+<br/>
+
+*  Code Repositories
+
+| Resource | URL | Description |
+|----------|-----|-------------|
+| MEDIPIPE | https://github.com/pughlab/MEDIPIPE | Main analysis pipeline |
+| cfMeDIP-seq analysis | https://github.com/pughlab/cfMeDIP-seq-analysis-pipeline | Post-processing pipeline |
+| Halla-aho scripts | https://github.com/hallav/cfMeDIP-seq | Classifier comparison code |
+| Shen et al. ML models | http://doi.org/10.5281/zenodo.1242697 | Original classifier code |
+| Protocol tables | https://github.com/bratmanlab/cfMeDIP_Protocol | Processed data tables |
+
+<br/>
+
+* Public Data Repositories 
+
+| Dataset | Repository | Accession | Access |
+|---------|------------|-----------|--------|
+| HCT116 cell line | GEO | GSE79838 | Public |
+| Brain tumors | Zenodo | (see Nassiri et al.) | Public |
+| Healthy controls | EGA | EGAD50000000652 | Controlled |
+| INSPIRE study | EGA | EGAD00001011312 | Controlled |
+
+<br/>
+
+## Re-analysis  {.tabset}
+
+* Areas in the developmental path that are inviting to further
+study: 
+
+   1. Spike-in Normalization 
+   2. Incorporating fragment length, or other fragmentation feature,
+into the sample processing and analysis pipeline
+   3. Normalization of a large heterogeneous set
+   4. Cancer Model Selection
+
+<br/>
+
+### Spike-in Normalization {.tabset}
+
+<div style="color:green">
+
+*  Rerun the analyses which assess the performance of the
+spike-in controls.
+   -  Wilson et al. (2022) [@Wilson2022]
+
+</div>
+
+#### Home {-}
+
+<br/>
+
+#### Background {-}
+
+* [_cfmedip_normalization_presentation](spike_ins/new_slides/_cfmedip_normalization_presentation.html)
+
+
+<br/>
+<!--
+* [Wilson2022_aws](AWS/Wilson2022_aws) - setup docs
+-->
+
+#### EC2 Install  {-}
+
+* [EC2_SETUP_GUIDE](AWS/Wilson2022_aws/EC2_SETUP_GUIDE.html)
+
+* [EC2_TROUBLESHOOTING_GUIDE](AWS/Wilson2022_aws/EC2_TROUBLESHOOTING_GUIDE.html)
+
+* [master_setup](AWS/Wilson2022_aws/master_setup.html)
+
+* [QUICK_REFERENCE](AWS/Wilson2022_aws/QUICK_REFERENCE.html)
+
+* [WILSON_PIPELINE](AWS/Wilson2022_aws/WILSON_PIPELINE.html)
+
+<br/>
+<br/>
+
+ 
+#### Data and Code {-}
+
+* [Data Download and Organization Guide](spike_ins/_Wilson2022_Data_Download_Guide.html)
+
+<br/>
+
+
+
+### Cancer Model Selection
+
+*  Examine more  model structures - enet, rf, pam, svm, gbm, knn, xgb
+   - in addition to the error rate, we need to examine
+where the errors occur (samples) and how (miss by a lot or little)
+   - compare validation and test error rates.
+
+<br/>
+
+
+# References 
+
+<p><p/>
+* Protocol and processing pipeline development:  [@Shen2018; @Wilson2022; 
+@Hallaaho2022; @Zeng2023; @Stutheit-Zhao2024]
+
+* Recent assessment of variability: [@Zeng2026]
+
+* A commercial-grade, tissue-agnostic plasma cfDNA methylation platform 
+for immunotherapy response monitoring: [@Stutheit-Zhao2026] 
+referencing [
+
+
+<div id="refs"></div>
+
+<br/>
+
+```{r, echo=FALSE}
+  knitr::knit_exit()
+```
+
+############################################################
+# ARCHIVED CODE BELOW
+############################################################
+<br/>
+
+### Earlier Versions {.tabset -}
+
+#### Home {-}
+
+#### Horizontal Flowchart {-}
+
+```{r , child = "AI/_cfMeDIP_Protocol_Flowchart_LR.Rmd"}
+```
+
+<br/>
+
+
+#### Vertical Flowchart {-}
+
+  
+```{r , child = "AI/_cfMeDIP_Protocol_Flowchart.Rmd"}
+```
+    
+
+* In this page we review the literature
+which document the development of Adela's cfMeDIP-seq Technology.
+
+The source of all the information contained therein is public.
+The primary references are the following:^[
+<span style="color:red">
+[@Shen2018; @Wilson2022; @Hallaaho2022; @Zeng2023; @Stutheit-Zhao2024;
+@Liu2025, XXXXXX]
+</span>
+]
+
+<div id="refs"></div>
+
+<br/>
+
+
+#bibliography_cfMeDIP1: [AI/_cfMeDIP-seq_references_1.bib]
+#bibliography_cfMeDIP2: [AI/_cfMeDIP-seq_references_2.bib]
+#bibliography_cfMeDIP3: [AI/_cfMeDIP-seq_references_2.bib]
+#bibliography_spikeins: [spike_ins/Ref/_spike_in.bib]
+
+
+\nocite{Burgener2021,DePascali2024,Hallaaho2022,Liu2025,Nassiri2020,Nuzzo2019,Nuzzo2020,Shen2018,Shen2019,Stutheit-Zhao2024,Wilson2022,Zeng2023}
+
+<div id="refs"></div>
+
+### Norm Background {-}
+
+* Normalization is one of the steps in the analysis of sample cfMeDIP data
+towards cancer detection scores.
+* Two models are used, each has the binned coverage as input
+   - first model predicts the probability of cancer
+   - second model predicts the cancer type
+* a 27 fragment spike-in normalization is suggested to adjust coverage levels
+   - a scaling factor adjusted for 3 covariates is suggested
+   - 4 parameters computed from 27 points which may or may not represent
+the sample distribution
+
+* In the task of normalization, we need to counterweigh
+the desire to have unbiased estimates with the need to have
+low variability estimates.
+   - the data need to be examined to see we are on the continuum.
+   - a 27 fragment spike-in normalization is going to be on the noisy side
+
+* Alternatively, identify 1000 stably expressed bins and use some one-poarameter
+summary of these as shift.
+
+<br/>
+
+# Appendix: Full list of reports
+
+```{r , child=c('_index.Rmd')}
+```
+
+
+## Full List of AI Reports
+
+
+```{r , child=c('_index_AI.Rmd')}
+```
+
+<br/>
+
+### Study by Study Execution Outline  {-}
+
+#### **Shen et al. (2018) [@Shen2018]** {-}
+
+* Was the Differentially Methylated Regions (DMRs) status between cancer and controls
+used for selecting features?
+
+* CV is to determine the hyper-parameters
+
+```
+Training:
+
+* 10-fold cross-validation for hyper-parameter tuning
+* Nested cross-validation for performance estimation
+* Class imbalance handled by:
+   - Weighted loss function
+   - Or downsampling of majority class
+
+```
+ 
+* class imbalance is not an issue when comparing algorithms based on the same sample set.
+
+<p><p/>
+* auROC is not a good summary
+   - spec at fixed sens would be better
+   - but both would order algorithms similarly.
+
+
+
+<br/>
+
+### Controls, Controls, Controls 
+
+<p><p/>
+* Spike-In Controls - Wilson et al. (2022) [@Wilson2022]
+   - How are the Synthetic Spike-In Controls used to reduce unwanted variability?
+
+
+   - Spike-ins may not be affected by some important sources of variability,
+but they can only contribute adjustments for variability it is subjected to.
+   - What else could be done with these?  
+   - What other controls could be exploited? 
+      - endogenous controls
+      - sample controls
+
+<br/>
+
+### Before any modeling, fitting, etc. 
+
+<p><p/>
+* We need to examine the data to get a sense of what the problem is:
+   - are there obvious quality issues?
+   - are there less obvious quality issues?  
+   - visually, how hard of a classification problem  do we have?
+      - are cancer types distinct?
+      - are there outlier points?  Is the outlier due to technical reasons?
+ 
+<br/>
+
+<!--
+#### Word on modeling
+
+* It is the error structure in the dataset that dictates the properties 
+and validity of the computed statistics 
+
+* Combining data points works well statistically if they are independent with
+common mean and variance (+/-)
+
+* statistical modeling is essentially the problem of finding                    contrasts among variables or transformations of variables such that
+the contrasts are independent with common mean and sd.
+
+-->
+
+
+## Full List of AI Reports
+
+
+```{r , child=c('_index_AI.Rmd')}
+```
+
+<br/>
+
+### Study by Study Execution Outline  {-}
+
+#### **Shen et al. (2018) [@Shen2018]** {-}
+
+* Was the Differentially Methylated Regions (DMRs) status between cancer and controls
+used for selecting features?
+
+* CV is to determine the hyper-parameters
+
+```
+Training:
+
+* 10-fold cross-validation for hyper-parameter tuning
+* Nested cross-validation for performance estimation
+* Class imbalance handled by:
+   - Weighted loss function
+   - Or downsampling of majority class
+
+```
+ 
+* class imbalance is not an issue when comparing algorithms based on the same sample set.
+
+<p><p/>
+* auROC is not a good summary
+   - spec at fixed sens would be better
+   - but both would order algorithms similarly.
+
+
+
+<br/>
+
+### Controls, Controls, Controls 
+
+<p><p/>
+* Spike-In Controls - Wilson et al. (2022) [@Wilson2022]
+   - How are the Synthetic Spike-In Controls used to reduce unwanted variability?
+
+
+   - Spike-ins may not be affected by some important sources of variability,
+but they can only contribute adjustments for variability it is subjected to.
+   - What else could be done with these?  
+   - What other controls could be exploited? 
+      - endogenous controls
+      - sample controls
+
+<br/>
+
+### Before any modeling, fitting, etc. 
+
+<p><p/>
+* We need to examine the data to get a sense of what the problem is:
+   - are there obvious quality issues?
+   - are there less obvious quality issues?  
+   - visually, how hard of a classification problem  do we have?
+      - are cancer types distinct?
+      - are there outlier points?  Is the outlier due to technical reasons?
+ 
+<br/>
+
+<!--
+#### Word on modeling
+
+* It is the error structure in the dataset that dictates the properties 
+and validity of the computed statistics 
+
+* Combining data points works well statistically if they are independent with
+common mean and variance (+/-)
+
+* statistical modeling is essentially the problem of finding                    contrasts among variables or transformations of variables such that
+the contrasts are independent with common mean and sd.
+
+-->
+
+
+
+    
+<!-- To run
+## nohup Rscript -e "knitr::knit2html('index.Rmd')" > index.log  &
+    
+## Or 
+## nohup Rscript -e "rmarkdown::render('index.Rmd')" > index.log  &
+    
+-->

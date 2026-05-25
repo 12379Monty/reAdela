@@ -1,0 +1,300 @@
+---
+title: "DNA Methylation Dynamics"
+subtitle: "Supplement to Section 1 — Reverse Reaction, Replication, Inheritance, and Adult Somatic Processes"
+author: ""
+date: ""
+output:
+  revealjs::revealjs_presentation:
+    theme: simple
+    transition: none
+    slide_level: 2
+    self_contained: true
+    reveal_options:
+      slideNumber: true
+      controls: true
+      progress: true
+      width: 1200
+      height: 800
+---
+
+<style>
+.reveal h1, .reveal h2, .reveal h3 {
+  color: #1f4e79;
+  text-align: left;
+}
+.reveal .slides section,
+.reveal .slides section * {
+  text-align: left;
+}
+.reveal section {
+  font-size: 0.85em;
+}
+.reveal .slides > section,
+.reveal .slides > section > section {
+  height: 95vh;
+  overflow-y: auto !important;
+}
+.reveal ul, .reveal ol { margin-left: 1.2em; }
+.reveal li { margin-bottom: 0.35em; }
+.reveal table { font-size: 0.85em; }
+.reveal pre code { font-size: 0.75em; }
+</style>
+
+# DNA Methylation Dynamics
+
+A supplement to Section 1. Four questions on the *dynamics* of the mark:
+
+- How does it come off?
+- How is it copied at cell division?
+- How is it inherited at birth?
+- What happens in adult somatic tissue?
+
+# Part 1 — The reverse reaction
+
+## Methylated → unmethylated: two routes off
+
+- There is **no enzyme that simply removes a methyl group** from 5mC and returns it to cytosine.
+- Biology took the long route. Two routes off:
+    - **Passive demethylation** — replication-coupled dilution, no enzyme required.
+    - **Active demethylation** — a multi-step oxidation, excision, and repair cascade.
+- The mark can be *erased*, but it cannot be *un-written* directly.
+
+## Passive demethylation
+
+- After every replication round, each previously fully-methylated CpG passes through a **hemimethylated** intermediate (methyl on the parental strand only).
+- If maintenance methylation fails — i.e. if DNMT1 is not delivered to the daughter strand — the methylated fraction at that locus halves with the next division:
+
+$$\text{fully methylated} \;\to\; \text{hemimethylated} \;\to\; \text{unmethylated}$$
+
+- No enzyme required. Pure dilution by DNA synthesis.
+- This is the dominant route during pre-implantation development, where DNMT1 is actively excluded from the maternal nucleus.
+
+## Active demethylation — the TET / TDG / BER cascade
+
+The DNA is not directly de-methylated. The modified base is oxidised, then physically replaced.
+
+**Step 1 — TET-mediated oxidation.** TET1, TET2, TET3 are Fe²⁺ / α-ketoglutarate-dependent dioxygenases. They iteratively oxidise 5mC:
+
+$$\text{5mC} \;\xrightarrow{\text{TET}}\; \text{5hmC} \;\xrightarrow{\text{TET}}\; \text{5fC} \;\xrightarrow{\text{TET}}\; \text{5caC}$$
+
+**Step 2 — base excision.** TDG (thymine DNA glycosylase) excises 5fC and 5caC, leaving an abasic site.
+
+**Step 3 — repair.** Base excision repair (BER) fills in unmodified cytosine.
+
+## The asymmetry that matters
+
+- Methylation is **one** SAM-dependent enzymatic step.
+- Demethylation requires an **entire** oxidation + glycosylase + repair pathway.
+- The system is mechanistically biased toward **retaining** the mark — appropriate for something that encodes cellular identity.
+
+**A relevant aside for MeDIP.** Anti-5mC antibodies cross-react with 5hmC at variable, lot-dependent levels. Tissues with active TET signalling — particularly brain, where 5hmC reaches 0.5–1% of cytosines — produce a MeDIP signal that mixes 5mC and 5hmC. This is the basis for the "5mC vs 5hmC indistinguishability" caveat in Section 3.
+
+# Part 2 — Replication of the mark
+
+## The problem at replication
+
+DNA replication is semiconservative. The methyl mark cannot simply be copied like a base — it sits on a covalent modification of the parental strand only.
+
+```
+   Before replication              After replication
+                                  
+5'... C p G ...3'             5'... C p G ...3'   <- parental
+       |                              |
+       Me                             Me
+3'... G p C ...5'             3'... G p C ...5'   <- new daughter
+       |                              (no Me yet)
+       Me
+```
+
+- Every previously fully-methylated CpG passes briefly through a **hemimethylated** state.
+- Recovery of the symmetric pattern requires a dedicated reader–writer relay.
+
+## The reader–writer relay
+
+1. **UHRF1** binds the hemimethylated CpG via its **SRA domain**.
+   - Also reads **H3K9me3** on adjacent histones via TTD/PHD domains.
+   - The system is therefore coupled to **chromatin state**, not just to DNA.
+2. UHRF1 **ubiquitinates histone H3**.
+3. Together with **PCNA at the replication fork**, this recruits **DNMT1**.
+4. **DNMT1** has a 30–40-fold preference for hemimethylated over unmethylated CpG.
+5. DNMT1 methylates the daughter-strand cytosine — pattern restored.
+
+## Fidelity, drift, and clocks
+
+- Per-CpG, per-division fidelity is high but **not perfect** — typically estimated at ~96–99%.
+- Two consequences:
+    - The somatic methylome is **clonally inherited** through cell divisions in a recognisable form.
+    - The residual per-division error rate is the molecular basis for **epigenetic clocks**.
+- Methylation drift accumulates with mitotic age in a slow but locus-specific way. This is what Horvath, Hannum, PhenoAge, GrimAge and related clocks read out.
+
+## Coupling to chromatin
+
+- Maintenance methylation is **not a stand-alone DNA process**.
+- UHRF1's dependence on H3K9me3 means:
+    - Loss of the histone mark can drag DNA methylation down with it.
+    - And vice versa — DNA methylation supports the H3K9me3 state.
+- This is one mechanism by which **heterochromatin domains stay heterochromatic** across divisions.
+- It is also one reason cancer-associated chromatin disorganisation often reads out as methylome drift, even without direct mutation of DNA-methylation enzymes.
+
+# Part 3 — Inheritance at birth
+
+## The key fact, up front
+
+The methylation landscape of a newborn's somatic cells is **not** directly inherited from the parents' somatic methylomes.
+
+It is the product of **two prior waves** of genome-wide reprogramming, with a small set of regions deliberately exempted:
+
+- **Wave 1** — pre-implantation, in the early embryo
+- **Wave 2** — in primordial germ cells, for the *next* generation
+
+What survives the waves is sparse, specific, and biologically deliberate.
+
+## Wave 1 — pre-implantation reprogramming
+
+Sperm DNA arrives heavily methylated (~85% of CpGs). Egg DNA is less methylated (~40%).
+
+Immediately after fertilisation:
+
+- The **paternal genome** is demethylated **rapidly and actively** — predominantly TET3-mediated, before the first cleavage division.
+- The **maternal genome** is demethylated **slowly and passively** — through replication-coupled dilution, as DNMT1 is excluded from the early embryonic nucleus.
+
+The embryo reaches its 5mC nadir around the **blastocyst** stage.
+
+Then **DNMT3A and DNMT3B** lay down a fresh methylation pattern *de novo* around implantation — establishing the embryonic somatic methylome. Lineage-specific elaboration follows through gastrulation and organogenesis.
+
+## Wave 2 — germline reprogramming
+
+A second, separate wave of demethylation occurs in **primordial germ cells (PGCs)** as they migrate to the genital ridge. This wave is **more thorough** than Wave 1 — crucially, it **erases parental imprints**.
+
+Sex-specific imprints are then re-established de novo in the developing germline:
+
+- **Male germline:** DNMT3A and DNMT3L re-establish paternal imprints during fetal life.
+- **Female germline:** maternal imprints are largely set **post-natally**, during oocyte growth.
+
+## What survives both waves
+
+A small number of regions retain methylation through reprogramming and are inherited in a parent-of-origin manner:
+
+- **Imprinting control regions (ICRs).** ~150 imprinted genes in humans. Their parent-of-origin methylation survives Wave 1 — that is the entire point of imprinting.
+- **Some retrotransposon families.** Notably IAPs in mouse, which retain methylation across reprogramming and provide a substrate for transgenerational epigenetic stability.
+
+## The snapshot at birth
+
+The newborn's somatic cells carry:
+
+- A Wave-1-established, lineage-elaborated **somatic methylome**.
+- A complete set of **parent-of-origin imprints** surviving from Wave 1.
+
+The female germline of the same newborn is **still in the middle of Wave 2** for the next generation — maternal imprint establishment continues post-natally during oocyte growth.
+
+## Why "inheritance" is the wrong word here
+
+In the colloquial sense, somatic methylation is **not** inherited from parents the way DNA sequence is. Parental somatic methylomes are not transmitted.
+
+What *is* transmitted:
+
+- **DNA sequence**, which constrains where DNMT3A/B place de novo marks.
+- **Imprints at ICRs**, in a parent-of-origin manner.
+- **A small residue** of incompletely-erased marks at specific repeat families.
+
+The rest of the somatic methylome at birth is **established fresh** in the embryo from sequence and chromatin context — not copied from the parents.
+
+# Part 4 — Adult somatic dynamics
+
+## The adult steady state
+
+In differentiated adult tissue, the methylome is **largely stable — but not static**.
+
+Both methylation and demethylation machineries remain active. The steady state is a dynamic equilibrium, with characteristic locus-specific drift over time.
+
+Quick orientation:
+
+| Process | Machinery | Where active |
+|---|---|---|
+| Maintenance methylation | UHRF1 → DNMT1 | All replicating cells, post-S phase |
+| *De novo* methylation | DNMT3A, DNMT3B | Stem cells, differentiation events |
+| Active demethylation | TET1/2/3 → TDG → BER | All tissues; highest in brain, ES, immune |
+| Passive demethylation | DNMT1 failure during replication | Replicating compartments only |
+
+## Maintenance dominates quantitatively
+
+- Every replication forces every previously methylated CpG through a hemimethylated intermediate that the **UHRF1–DNMT1 axis** must re-symmetrise.
+- In dividing somatic compartments — intestinal crypts, hematopoietic progenitors, epidermal basal layers — this is the **dominant methylation activity by far**.
+- *De novo* activity persists. DNMT3A and DNMT3B remain expressed at lower levels and contribute to:
+    - Re-establishment where maintenance has failed.
+    - Refinement of patterns during differentiation in stem-cell compartments.
+    - Context-specific changes in response to signalling (immune activation, hormonal cues).
+- DNMT3A is the most frequently mutated epigenetic gene in **clonal hematopoiesis and AML** — easier to understand once we recognise that DNMT3A is operationally active in adult HSCs.
+
+## Active demethylation never switches off
+
+- 5hmC is detectable at ~**0.1% of cytosines** in most somatic tissues.
+- Substantially higher in **brain (0.5–1%)** and embryonic stem cells.
+- TET activity is **part of the adult steady state**, not a developmental relic.
+- Functional readouts:
+    - Continuous low-level erasure at TF-bound enhancers, allowing context-specific gene expression changes.
+    - Higher activity in tissues with dynamic transcriptional programs (brain, immune).
+    - A reservoir of 5hmC that, depending on tissue, may be a stable mark in its own right.
+
+## Replicative burden varies by tissue
+
+- **High burden:** intestinal crypts (~daily turnover), hematopoietic compartments, epidermis. The maintenance machinery is under heavy demand; small per-division errors accumulate.
+- **Intermediate:** liver, kidney, glandular epithelia.
+- **Negligible:** post-mitotic neurons, cardiomyocytes. Passive drift is essentially absent here, but active TET-driven turnover can still operate.
+
+This explains why **epigenetic clocks tick at tissue-specific rates** — the underlying drift mechanisms are not uniform across the body.
+
+## Aging produces characteristic, locus-specific drift
+
+The molecular basis for **epigenetic clocks**. Mechanistic contributors:
+
+- Imperfect maintenance accumulating over divisions.
+- Declining TET activity at some loci, increasing at others.
+- **Clonal selection** in stem-cell compartments — clones with particular methylation signatures expand with age. Clonal hematopoiesis is the best-characterised example.
+- Senescence-associated chromatin remodeling, which redistributes both 5mC and H3K9me3.
+
+The aggregate signal — measurable as a methylation-derived "biological age" — is reproducible enough across cohorts that it has become a **standard covariate** in methylation studies.
+
+## Environmental and lifestyle exposures
+
+Reproducible somatic methylation shifts have been documented for:
+
+- **Smoking** — *AHRR* and *F2RL3* hypomethylation are among the most reproducible exposure-associated CpG findings in EWAS.
+- **Chronic inflammation** — sustained shifts in immune-cell methylomes.
+- **Nutritional and metabolic state** — one-carbon metabolism (folate, B12, methionine, choline, betaine) feeds the SAM pool and shifts the SAM:SAH ratio, the *methylation potential* of the cell.
+- **Age, sex, BMI, alcohol** — all produce reproducible methylation shifts.
+
+These are **not minor effects** relative to the cancer-associated signals that liquid biopsy is trying to read out. They are real, characteristic, and a primary reason that case–control studies must match on demographic and lifestyle covariates — the failure mode flagged in Section 2.
+
+## Summary — adult somatic methylome
+
+The adult somatic methylome is best thought of as a **cellular identity record**:
+
+- Copied with **high but imperfect fidelity** at every division.
+- **Refined** by ongoing low-rate writing and erasure.
+- **Slowly drifting** in characteristic ways with age and exposure.
+
+That stability — combined with that drift — is what makes the methylome simultaneously useful as a **tissue-of-origin classifier** and **dangerous as a cancer biomarker** if confounders are not controlled.
+
+# Closing
+
+## Take-aways across the four parts
+
+- **Off-switch.** Methylation comes off either by passive dilution at the fork or via the TET → 5fC/5caC → TDG → BER cascade. The system is biased toward retention.
+- **Replication.** The mark survives cell division through the UHRF1 → DNMT1 reader–writer relay, with ~96–99% per-division fidelity. The residual error is what epigenetic clocks measure.
+- **Birth.** The neonatal somatic methylome is *not* inherited — it is established fresh after two waves of reprogramming, with imprints and a small repeat residue exempted.
+- **Adult.** A dynamic equilibrium of maintenance, *de novo* writing, active demethylation, and slow drift. Tissue-specific replicative burden and environmental exposures shape the trajectory.
+
+These dynamics underlie both the *signal* and the *confounders* in any cfDNA-based liquid biopsy approach.
+
+
+
+
+
+<!-- To run
+
+## nohup Rscript -e "rmarkdown::render('_01_supplement_methylation_dynamics_slides.Rmd')" > _01_supplement_methylation_dynamics_slides.log  &
+    
+--> 
+
+

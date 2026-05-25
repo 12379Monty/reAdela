@@ -1,0 +1,75 @@
+PMID- 41020861
+OWN - NLM
+STAT- PubMed-not-MEDLINE
+DCOM- 20250929
+LR  - 20251002
+IS  - 1467-3045 (Electronic)
+IS  - 1467-3037 (Print)
+IS  - 1467-3037 (Linking)
+VI  - 47
+IP  - 9
+DP  - 2025 Sep 10
+TI  - Multi-Biofluid Approaches for cftDNA and cftRNA Biomarker Detection: Advances in 
+      Early Cancer Detection and Monitoring.
+LID - 10.3390/cimb47090738 [doi]
+LID - 738
+AB  - Cell-free tumor DNA (cftDNA) and cell-free tumor RNA (cftRNA) are emerging as 
+      powerful biomarkers for cancer detection, monitoring, and prognosis. These 
+      nucleic acids, released into the bloodstream by tumor cells, carry 
+      cancer-specific genetic and epigenetic alterations and can be detected 
+      non-invasively. Detection before clinical diagnosis offers a unique opportunity 
+      for earlier intervention yet requires longitudinal cohort studies to establish 
+      pre-diagnostic biomarker profiles. Current technologies enable sensitive 
+      quantification of cftDNA and cftRNA, with spike-in controls allowing for absolute 
+      quantification of single nucleosome-bound cftDNA, addressing a key limitation in 
+      liquid biopsy assays. Advances, such as DNA-PAINT, now permit single-molecule 
+      resolution detection of point mutations and methylation patterns characteristic 
+      of cancer, while new proteomics methods can identify the tissue of origin of 
+      exosome-derived nucleic acid. This review discusses the state-of-the-art 
+      detection strategies for cftDNA and cftRNA, highlights the gaps in longitudinal 
+      sampling, and outlines future research directions toward integrating multiomic 
+      liquid biopsy approaches for improved early diagnosis, monitoring, and relapse 
+      detection.
+FAU - Ruden, Douglas M
+AU  - Ruden DM
+AUID- ORCID: 0000-0002-0070-437X
+AD  - Department of Obstetrics and Gynecology, C. S. Mott Center for Human Growth and 
+      Development, Institute of Environmental Health Sciences, Wayne State University, 
+      Detroit, MI 48201, USA.
+LA  - eng
+GR  - 5P30ES036084/NH/NIH HHS/United States
+GR  - 5P42ES030991-03/NH/NIH HHS/United States
+PT  - Journal Article
+PT  - Review
+DEP - 20250910
+PL  - Switzerland
+TA  - Curr Issues Mol Biol
+JT  - Current issues in molecular biology
+JID - 100931761
+PMC - PMC12468784
+OTO - NOTNLM
+OT  - DNA-PAINT
+OT  - cancer biomarkers
+OT  - cell-free tumor DNA
+OT  - cell-free tumor RNA
+OT  - exosomes
+OT  - liquid biopsy
+OT  - nucleosome-bound DNA
+OT  - proteomics
+COIS- The author declares no conflicts of interest.
+EDAT- 2025/09/29 13:18
+MHDA- 2025/09/29 13:19
+PMCR- 2025/09/10
+CRDT- 2025/09/29 11:00
+PHST- 2025/08/15 00:00 [received]
+PHST- 2025/09/04 00:00 [revised]
+PHST- 2025/09/08 00:00 [accepted]
+PHST- 2025/09/29 13:19 [medline]
+PHST- 2025/09/29 13:18 [pubmed]
+PHST- 2025/09/29 11:00 [entrez]
+PHST- 2025/09/10 00:00 [pmc-release]
+AID - cimb47090738 [pii]
+AID - cimb-47-00738 [pii]
+AID - 10.3390/cimb47090738 [doi]
+PST - epublish
+SO  - Curr Issues Mol Biol. 2025 Sep 10;47(9):738. doi: 10.3390/cimb47090738.

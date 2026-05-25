@@ -1,0 +1,127 @@
+# DNA Methylation-Based Cancer Diagnostics: Company Landscape
+
+> Regulatory status as of early 2026.  
+> **Abbreviations** — Chemistry: BSC = bisulfite conversion; MS-PCR = methylation-specific PCR; IP = immunoprecipitation. Scope: LP = large panel (>10K CpG sites); SP = small panel (<1K CpG sites/regions). LDT = laboratory-developed test (CLIA-certified, not FDA-cleared).
+
+---
+
+## Table 1 — Company Overview
+
+| Company / Product | Use Case | Sample | Cancers | Chemistry | Scope | Regulatory / Stage | Geography |
+|---|---|---|---|---|---|---|---|
+| **GRAIL** / Galleri® | Multi-cancer screening | Blood | Multi (>50) | BSC + targeted NGS | LP (~1M CpGs) | LDT; FDA Breakthrough | US, EU (NHS) |
+| **Exact Sciences** / CancerGuard™ | Multi-cancer detection + CRC | Blood | Multi | BSC + NGS + immunoassay | LP + protein panel | Clinical validation | US (Abbott acq. pending) |
+| **Guardant Health** / Shield MCD | Multi-cancer detection | Blood | Multi (bladder, CRC, lung, pancreatic) | BSC + targeted NGS | LP | LDT; FDA Breakthrough | US |
+| **BillionToOne** / Northstar Response® | Treatment response monitoring | Blood | Pan-cancer | BSC + targeted NGS + QCT counting | LP (>2,200 loci) | LDT commercial | US (Nasdaq: BLLN) |
+| **Burning Rock** / OverC™ / ELSA-seq | Multi-cancer detection + MRD | Blood | Multi (9–22) | BSC + targeted NGS (ELSA-seq) | LP (161,984 CpGs) | CE mark; FDA Breakthrough | China, EU, US (Nasdaq: BNR) |
+| **Singlera Genomics** / PanSeer™ | Multi-cancer detection | Blood | Multi (5 types) | BSC + targeted NGS (haplotype) | LP (12,000 sites) | Clinical validation | US, China |
+| **Nucleix** / Bladder EpiCheck® | Bladder surveillance & detection | Urine | Bladder | BSC + MS-PCR | SP (15 regions) | FDA 510(k); CE mark | US, EU |
+| **Epigenomics AG** / Epi proColon® / Epi proLung® / HCCBloodTest | CRC, lung, HCC screening | Blood | CRC, lung, HCC | BSC + MS-PCR | SP (1 gene each) | FDA approved; CE mark; restructuring | US, EU, China |
+| **MDxHealth** / AssureMDx™ | Bladder cancer diagnosis | Urine | Bladder | BSC + MS-PCR + mutation PCR | SP (3 methyl + 3 mut. genes) | LDT commercial | US, EU |
+| **Adela** / Adela MCED | Multi-cancer detection | Blood | Multi | BSC + NGS + fragmentomics | LP | Development | US, Canada |
+| **Precision Epigenomics** / EpiSeek™ | Multi-cancer screening | Blood | Multi (>12) | BSC + MS-PCR | SP (proprietary panel) | LDT commercial | US |
+| **EarlyDiagnostics** / CancerRadar™ | Multi-cancer detection | Blood | Multi | BSC + targeted NGS (presumed) | LP | Development | US |
+| **Genomictree** / EarlyTect® | Bladder & CRC detection | Urine / Blood | Bladder, CRC | BSC + MS-PCR | SP (targeted loci) | Approved (Korea) | Korea, East Asia |
+
+---
+
+## Table 2 — Assay Detail
+
+| Company / Product | Factor | Detail |
+|---|---|---|
+| **GRAIL** / Galleri® | Enrichment method | Sodium bisulfite conversion of plasma cfDNA; hybrid-capture enrichment of >100,000 differentially methylated regions |
+| | Detection | Targeted NGS (Illumina); neural network ML classifier |
+| | Key loci / regions | ~1 million CpG sites across >100K genomic regions |
+| | Distinguishing features | WGBS used in discovery (CCGA substudy 1); refined to targeted panel for clinical scalability; tissue-of-origin (TOO) classification across >50 cancer types; trained on CCGA cohort (n=15,254) |
+| **Exact Sciences** / CancerGuard™ | Enrichment method | Bisulfite conversion of cfDNA (methylation arm); amplicon sequencing (mutation arm); immunoassay (protein arm) |
+| | Detection | Multi-analyte ML integrating methylation score + mutation score + protein score |
+| | Key loci / regions | Methylation: undisclosed targeted panel; Mutations: cancer driver genes; Proteins: CA125, CEA, HGF, OPN + others (CancerSEEK lineage) |
+| | Distinguishing features | Three independent biomarker classes combined; ASCEND-2 (n=11,000): 50.9% sensitivity, 98.5% specificity |
+| **Guardant Health** / Shield MCD | Enrichment method | Bisulfite conversion of plasma cfDNA; targeted capture enrichment |
+| | Detection | Targeted NGS; tissue-of-origin ML classifier |
+| | Key loci / regions | Undisclosed targeted methylation panel; coverage of loci informative for bladder, CRC, lung, and pancreatic cancer |
+| | Distinguishing features | FDA Breakthrough Device Designation (Jun 2025); average-risk population ages 45+ |
+| **BillionToOne** / Northstar Response® | Enrichment method | Bisulfite conversion of plasma cfDNA; targeted enrichment of cancer-specific hypermethylated loci |
+| | Detection | Targeted NGS with proprietary QCT (Quantitative Counting Template) spike-in controls enabling single-molecule counting |
+| | Key loci / regions | >2,200 cancer-specific hypermethylated loci (core assay: >500 loci) |
+| | Distinguishing features | Absolute tumour burden quantification (not relative VAF); tissue-naive — no biopsy required; LOD down to 0.01% tumour fraction; validated across 12 cancer types (*Sci Rep* 2025) |
+| **Burning Rock** / OverC™ / ELSA-seq | Enrichment method | Bisulfite conversion of plasma cfDNA; targeted capture of 161,984 pre-selected CpG sites |
+| | Detection | Deep targeted NGS (ELSA-seq); ML classifier for detection and TOO |
+| | Key loci / regions | 161,984 CpG sites (custom panel from public + in-house methylome data); MRD product: CanCatch® |
+| | Distinguishing features | THUNDER study (n=2,385): 98.9% specificity, 69.1% sensitivity, 91.7% top-2 TOO accuracy; included in China's 2024 Primary Liver Cancer clinical guidelines |
+| **Singlera Genomics** / PanSeer™ | Enrichment method | Bisulfite conversion of plasma cfDNA; targeted sequencing of 600 pre-selected genomic regions |
+| | Detection | Targeted NGS with methylation haplotype calling (co-methylation pattern analysis on single DNA strands) |
+| | Key loci / regions | 12,000 CpG sites across 600 regions |
+| | Distinguishing features | Analyses coordinated multi-CpG patterns on single strands rather than per-site averages; detection demonstrated up to 4 years pre-clinical diagnosis |
+| **Nucleix** / Bladder EpiCheck® | Enrichment method | Bisulfite conversion of urinary cfDNA; no capture enrichment |
+| | Detection | qPCR with methylation-specific primers; continuous numeric output score 0–100 |
+| | Key loci / regions | 15 genomic regions (sequences proprietary) |
+| | Distinguishing features | CE marked + FDA 510(k) cleared; sensitivity 91% high-grade disease, NPV 99%; objective score avoids subjective cytology interpretation |
+| **Epigenomics AG** / Epi proColon® 2.0 | Enrichment method | Bisulfite conversion of plasma cfDNA; no capture enrichment |
+| | Detection | Real-time MS-PCR targeting SEPT9 promoter methylation |
+| | Key loci / regions | SEPT9 promoter |
+| | Distinguishing features | First FDA-approved blood-based CRC screening test; company currently in financial restructuring |
+| **Epigenomics AG** / Epi proLung® | Enrichment method | Bisulfite conversion of bronchial lavage cfDNA |
+| | Detection | MS-PCR targeting SHOX2 methylation |
+| | Key loci / regions | SHOX2 gene |
+| | Distinguishing features | CE marked; workup aid for suspected lung malignancy |
+| **Epigenomics AG** / HCCBloodTest | Enrichment method | Bisulfite conversion of plasma cfDNA |
+| | Detection | NGS bisulfite sequencing targeting SEPT7 methylation |
+| | Key loci / regions | SEPT7 gene |
+| | Distinguishing features | Sensitivity 76.7%, specificity 64.1% in clinical study NCT03804593 |
+| **MDxHealth** / AssureMDx™ | Enrichment method | Bisulfite conversion of exfoliated urinary cells; no capture enrichment |
+| | Detection | qPCR: MS-PCR for methylation loci + allele-specific PCR for mutation loci |
+| | Key loci / regions | Methylation: OTX1, ONECUT2, TWIST1; Mutations: FGFR3, TERT, HRAS |
+| | Distinguishing features | Hybrid methylation + mutation assay; logistic regression model including patient age; sensitivity 97%, specificity 83% |
+| **Adela** / Adela MCED | Enrichment method | Bisulfite conversion of plasma cfDNA; targeted capture (methylation arm); genome-wide cfDNA recovery (fragmentomics arm) |
+| | Detection | Targeted NGS (methylation) + cfDNA fragment length and end-motif analysis; ML integration of both signals |
+| | Key loci / regions | Undisclosed targeted methylation panel; genome-wide fragmentation features |
+| | Distinguishing features | Multi-modal: methylation + nucleosome positioning footprint (fragmentomics); intended to improve sensitivity at low ctDNA shedding |
+| **Precision Epigenomics** / EpiSeek™ | Enrichment method | Bisulfite conversion of blood cfDNA; no capture enrichment |
+| | Detection | MS-PCR with proprietary software-derived marker panel |
+| | Key loci / regions | Proprietary panel (undisclosed); validated across lung, breast, colon, prostate and others |
+| | Distinguishing features | Self-pay / functional medicine distribution via TruDiagnostic (~40K clinicians); lower cost than NGS-based competitors |
+| **EarlyDiagnostics** / CancerRadar™ | Enrichment method | Bisulfite conversion of blood cfDNA (presumed) |
+| | Detection | Targeted NGS + ML (limited public detail) |
+| | Key loci / regions | Undisclosed |
+| | Distinguishing features | Early-stage; limited published validation data available |
+| **Genomictree** / EarlyTect® Bladder | Enrichment method | Bisulfite conversion of urinary cfDNA |
+| | Detection | qPCR targeting ONECUT2 methylation |
+| | Key loci / regions | ONECUT2 |
+| | Distinguishing features | Approved in Korea; designed for urine-based surveillance |
+| **Genomictree** / EarlyTect® Colon | Enrichment method | Bisulfite conversion of blood or stool cfDNA |
+| | Detection | qPCR targeting CRC-associated methylation loci |
+| | Key loci / regions | Undisclosed CRC methylation panel |
+| | Distinguishing features | Commercially available in East Asia |
+
+---
+
+## Key Observations
+
+### Technique landscape
+
+All commercially deployed methylation-based cancer diagnostics use **bisulfite conversion (BSC)** as the core chemistry — differing in what follows:
+
+- **BSC + targeted NGS** (GRAIL, Burning Rock, Singlera, Guardant, Exact Sciences, BillionToOne): large panels captured by hybrid enrichment and sequenced; ML classifiers interpret the methylation signal. Most information-rich but highest cost. Best suited for multi-cancer detection and tissue-of-origin localisation.
+- **BSC + MS-PCR / qPCR** (Epigenomics, Nucleix, MDxHealth, Genomictree, Precision Epigenomics): bisulfite-treated DNA amplified with allele-specific or methylation-sensitive primers at a small number of pre-validated loci. Lower cost, faster turnaround, already achieving FDA clearance/approval — but limited to single-cancer or narrow-scope applications.
+- **BSC + multi-analyte** (Exact Sciences CancerGuard, MDxHealth AssureMDx): methylation combined with somatic mutation and/or protein biomarkers; ML integrates across analyte types to boost sensitivity at low tumour fractions.
+
+**No commercial diagnostic test currently uses immunoprecipitation-based enrichment (MeDIP / cfMeDIP) or enzymatic conversion (EM-seq)**, despite their advantages in preserving cfDNA integrity. Regulatory and standardisation barriers have kept these confined to the research setting.
+
+### Alternative chemistries — current status
+
+| Chemistry | Principle | Why not commercial yet |
+|---|---|---|
+| **MeDIP / cfMeDIP** | Anti-5mC antibody IP enriches methylated fragments; no bisulfite DNA degradation | Antibody lot-to-lot variability; regulatory precedent absent; optimised low-input BS-seq now competitive |
+| **EM-seq** | Enzymatic conversion (TET2 + APOBEC3A) preserves DNA integrity better than bisulfite | NEB research kit available; no clinical validation datasets; no Dx company has committed |
+| **Nanopore direct sequencing** | Native 5mC detection from ionic current; no conversion; long reads enable methylation haplotypes | cfDNA input sensitivity not yet validated for clinical use |
+| **Illumina EPIC / 850K array** | Bisulfite + bead array; ~850K CpGs | Requires micrograms of input DNA; not suitable for cfDNA liquid biopsy |
+| **Restriction enzyme-based (MSRE, IMPRESS)** | Methylation-sensitive enzymes cut unmethylated sites; bisulfite-free | Academic proof-of-concept only; not yet clinical |
+
+### Genomic scope vs. commercial maturity
+
+The smaller the panel, the more commercially mature: single-gene MS-PCR tests (SEPT9, SHOX2) achieved FDA approval first; large-panel NGS tests are still operating as LDTs or navigating the PMA pathway. The trade-off is sensitivity and cancer-type breadth — a large-panel approach is required to detect low-abundance early-stage methylation signals across multiple tumour types simultaneously.
+
+---
+
+*Table compiled from public sources. Last updated: April 2026.*

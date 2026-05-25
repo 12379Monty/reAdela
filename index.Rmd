@@ -17,9 +17,11 @@ output:
     # this has no effect
     number_sections: yes
     # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
-bibliography: [AI/_cfMeDIP-seq_references.bib, spike_ins/Ref/_spike_in.bib]
+bibliography: [Ref/_MEDIPS.bib, Ref/_cfMeDIP-seq_references.bib, spike_ins/Ref/_spike_in.bib]
 csl: ../_csl/cell-numeric.csl
 link-citations: true
+nocite: |
+  @Shen2018, @Shen2019, @Wilson2022, @Hallaaho2022, @Zeng2023, @Stutheit-Zhao2024, @Stutheit-Zhao2026, @Liu2025, @Zeng2026
 ---
 
 <p style="background-color: yellow; padding: 5px;">
@@ -48,7 +50,7 @@ options(stringsAsFactors=F)
  #knitr::dep_auto()
 
 ```
-<!-- ######################################################################## -->
+<!-- ################################################################### -->
 
 
 ```{r index-Prelims,  include=FALSE, echo=FALSE, results='hide', message=FALSE} 
@@ -80,26 +82,9 @@ PREFIX <- "index" #- replace by FLOWCELL???
  zz <- function(n='') source(paste("t", n, sep=''))
 
 ```
-<!-- ######################################################################## -->
+<!-- ################################################################## -->
 
-<br/>
-
-# About this page {-}
-
-* In this page we review the literature
-which document the development of Adela's cfMeDIP-seq Technology.
-The source of all the information contained therein is public.
-The primary references are the following:^[
-<span style="color:red">
-[@Shen2018; @Wilson2022; @Hallaaho2022; @Zeng2023; @Stutheit-Zhao2024;
-@Liu2025]
-</span>
-]
-
-<div id="refs"></div>
-
-<br/>
-
+<!--
 # AI Reports 
 
 * AI reports are produced by claude.ai Opus 4.5 with 
@@ -108,45 +93,258 @@ naive prompts from Francois Collin.
 * The reporting done is intended to provide the information
 needed to understand the roots and development of 
 Adela's cfMeDIP-seq Technology.
+-->
+
+```{css, echo = FALSE}
+.nav-pills>li>a:hover, 
+.nav-pills>li>a:focus, 
+.nav-pills>li.active>a, 
+.nav-pills>li.active>a:hover, 
+.nav-pills>li.active>a:focus{
+    background-color: #2c3e50; /* Active tab color */
+    color: white; /* Text color */
+}
+```
+
+<br/>
+
+# Introduction
+
+* We study the development of the cfMeDIP-seq,
+a platform used to characterize methylation  patterns in 
+cell-free DNA extracted from plasma.
+
+* The cfMeDIP-seq assay is the result of optimizing the
+low-input MeDIP-seq protocol of Taiwo et. al. (2012) [@Taiwo2012],
+which in turn was a specialized version of the protocol
+established by Weber et al. (2005) [@Weber:2005aa].
+
+* The sequence data analysis is based on the methods developed for the analysis
+of data produced under the regular MeDIP-seq protocol (input > 100 ng).
+See Chavez et al. (2010) [@Chavez:2010aa] and Lienhard et al. 2014
+[@Lienhard:2014aa]  and Lienhard et al. 2017    [@Lienhard:2017aa] .
+
 
 
 <br/>
 
-## Adela vs GRAIL
 
-* [slides](AI/_Adela_vs_GRAIL_MCED_Comparison_slides/_Adela_vs_GRAIL_MCED.html)
+# DNA methylation - Background {.tabset}
 
-* [Rmarkdown](AI/_Adela_vs_GRAIL_MCED_Comparison.html)
-   -  A fairly comprehensive, high level comparison of the two platforms.
-   -  This compilation is for background purposes - see the documentation below 
-for comments on technical aspects of some of the studies cited.
+1. The Biochemistry and Biology of DNA Methylation
+2. DNA Methylation and Cancer
+3. The Bio-Technology of Methylated DNA Immunoprecipitation
 
-* There are several  other Dx commercial/venture companies going after methylation profiles
-to detect cancer.  Can we have a table describing all companies targeting methylation.
+## Home {-}
+
+<br/>
+
+##  {#Biochemistry-and-Biology}
+
+* [1. The Biochemistry and Biology of DNA Methylation](DNA-Methylation-Backgound/_01_biology_of_DNA_methylation.html).
+
+
+<p><p/>
+* [Supplementary notes — DNA methylation dynamics](DNA-Methylation-Backgound/_01_supplement_methylation_dynamics.html)
+   - [slides](DNA-Methylation-Backgound/_01_supplement_methylation_dynamics_slides.html)
+
+
+<br/>
+
+##  {#DNA-Methylation-and-Cancer}
+
+* [DNA Methylation and Cancer](DNA-Methylation-Backgound/_02_methylation_and_cancer.html)
+
+<br/>
+
+##   {#Bio-Technology-of-MeDNA-IP}
+
+
+* [The Bio-Technology of Methylated DNA Immunoprecipitation](DNA-Methylation-Backgound/_03_biotechnology_of_MeDIP.html)
+
+
+<!--
+<p><p/>
+* The key components of the assay - filler DNA and antibody instance - 
+are associated with a considerable amount of variability.
+   - [docname](./docname.html) provides a detailed look at
+the Methylated DNA Immunoprecipitation Stage of the protocol.
+   - questions to address:
+      - how does the filler DNA operate?  where does the variability
+come from?
+      - how does anti-5-methylcytosine (5mC) antibody work?
+where does the variablity come from?
+      - can variability be attributed to its proper source -
+anti-5-methylcytosine (5mC) antibody or filler DNA?
+-->
+
+<br/>
+
+# The cfMeDIP-seq Technology  {.tabset}
+
+1. Protocol steps and QC
+2. Data Processing: from fastq to count matrix
+3. Methyl Quantifiication and DMA
+
+## Home {-}
+
+<br/>
+
+##  {#Protocol .tabset}
+
+1. Protocol steps and QC
+
+### Home {-}
+
+<br/>
+
+
+### Flowchart {-}
+
+
+```{r index-app-flowchart-v3, echo=FALSE, results='asis', eval=F}
+cat(readLines("protocol/_cfMeDIP_flowchart_v3.html"), sep="\n")
+```
+
+```{=html}
+<iframe src="protocol/_cfMeDIP_flowchart_v3.html" width="100%" height="500px"></iframe>
+```
+
+<br/>
+
+### Protocol Steps Table {-}
+
+```{=html}
+<iframe src="protocol/_cfMeDIP_tables_v3.html" width="100%" height="500px"></iframe>
+```
+
+<br/>
+
+##  {#Data-Processing .tabset}
+
+2. Data Processing: from fastq to count matrix
+
+### Home {-}
+
+<br/>
+
+### Fastq to BAM {-}
+
+
+```{=html}
+<iframe src="protocol/_cfMeDIP_fastq_to_bam.html" width="100%" height="500px"></iframe>
+```
+
+<br/>
+
+### BAM to Count Matrix {-}
+
+
+```{=html}
+
+<iframe src="protocol/_cfMeDIP_bam_to_quant.html" width="100%" height="500px"></iframe>
+```
+
+<br/>
+
+
+
+##  {#methyl-quant-dma .tabset}
+
+3. Methyl Quantifiication and DMA
+
+
+TO BE COMPLETED
+
+<p><p/>
+* MEDIPS  
+   - Lienhard et al. (2014) [@Lienhard:2014aa] *Bioinformatics* 30:284-286;
+   - Chavez et al. (2010) [@Chavez:2010aa] *Genome Research* 20:1441-1450
+
+*  QSEA (Quantitative Sequencing Enrichment Analysis) 
+   - Lienhard et al. (2017) [@Lienhard:2017aa] *Nucleic Acids Research* 45:e44
+
+* MethRaFo
+   - Ding & Bar-Joseph (2017) [@Ding:2017aa] Bioinformatics 33:3477-3479
+
+
+<br/>
+
+
+# Technical Assessments {.tabset}
+
+1. Proof of concept study
+2. Pan-cancer compendium of variability
+
+## Home {-}
+
+<br/>
+
+##    {#ProofOfConceptStudy}
+
+1. Proof of concept study
+
+[Shen et al. 2018 (Nature) [@Shen2018]](protocol-assess/_Shen_2018_Nature_Critical_Review.html)
+
+
+```{r,  eval=F, child="protocol-assess/_Shen_2018_Nature_Critical_Review.md"}
+```
+
+<br/>
+
+##    {#pan-cancer-variability}
+
+2. Pan-cancer compendium of variability
+
+[Zeng et al. 2026 (Nature) [@Zeng2026]](protocol-assess/_Zeng_2026_Technical_Review.html)  
+
+<!--
+                                                                         
+-->
+ 
+```{r,  eval = F, child="protocol-assess/_Zeng_2026_Technical_Review.md"}
+```
+
+
 
 
 
 <br/>
 
-## cfMeDIP-seq: Protocol, Pipeline and Classifiers
+# Appendix {.tabset}
+
+1. Protocol, Pipeline and Classifier Methods 
+2. Software
+3. feature selection and modeling 
+4. spike-in control normalization 
+5. Fragment length distribution
+6. GRAIL vs cfMeDIP=seq
+7. DNA Methylation Company Landscape
+
+
+## Home {-}
+
+<br/>
+
+##
+
+1. Protocol, Pipeline and Classifier Methods 
 
 * [slides](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers_slides/_cfMeDIP_Evolution.html)
 
 * [Rmarkdown](AI/_cfMeDIP-seq_Protocol_Pipeline_Classifiers.html) 
-   - The evolution of Adela's cfMeDIP-seq Protocol, Pipeline and Classifiers is 
-traced.
    - The report is a fairly comprehensive, high level description of the assay
 and algorithm along with a description of enhancements that followed.
+   - The evolution of Adela's cfMeDIP-seq Protocol, Pipeline 
+and Classifiers is traced.
 
 <br/>
 
-### Supplementary Resources {.tabset}
+## 
 
-#### Home {-}
+2. Software
 
-<br/>
-
-#### Code Repositories {-}
+*  Code Repositories
 
 | Resource | URL | Description |
 |----------|-----|-------------|
@@ -158,7 +356,7 @@ and algorithm along with a description of enhancements that followed.
 
 <br/>
 
-####  Public Data Repositories {-}
+* Public Data Repositories 
 
 | Dataset | Repository | Accession | Access |
 |---------|------------|-----------|--------|
@@ -169,15 +367,42 @@ and algorithm along with a description of enhancements that followed.
 
 <br/>
 
-## spike-in control normalization 
+| Resource | URL | Description |
+|----------|-----|-------------|
+| MEDIPIPE | https://github.com/pughlab/MEDIPIPE | Main analysis pipeline |
+| cfMeDIP-seq analysis | https://github.com/pughlab/cfMeDIP-seq-analysis-pipeline | Post-processing pipeline |
+| Bioconductor MEDIPS | https://bioconductor.org/packages//2.10/bioc/html/MEDIPS.html | MeDIP-Seq data analysis |
 
+
+* The cfMeDIP-seq analysis relies heavily on MEDIPS (Lienhard et. al. 2014)
+whose methods are implemented in the Bioconductor MEDIPS package.  
+   - [Tutorial updated October 2024](https://bioconductor.posit.co/packages/3.20/bioc/vignettes/MEDIPS/inst/doc/MEDIPS.pdf)
+
+
+##      {#featureSelectionAndModeling}
+
+3. feature selection and modeling 
+
+[Halla-aho et sl. 2022](protocol-assess/_Halla-aho_2022_Critical_Review.html)
+
+
+```{r,  eval=F, child="protocol-assess/_Halla-aho_2022_Critical_Review.md"}
+```
+
+<br/>
+
+##       {#spike-inControlNormalization}
+
+4. spike-in control normalization 
 
 <p><p/>
-* Wilson et al. 2022 [@Wilson:2022aa]
+* Wilson et al. 2022 [@Wilson2022]
    - [slides](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review_slides/_Wilson2022_SpikeIns.html)
    - [Rmarkdown](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
       - contents of the paper are detailed.
       - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
+   - [Rmarkdown for summary similar to Stutheit-Zhao (2024)](./spoke_ins/Wilson_2022_Technical_Review.html) -
+see Section \ref(#frag-len-dist).
 
 <p><p/>
 * Additional markdowns 
@@ -195,47 +420,179 @@ and algorithm along with a description of enhancements that followed.
       - Raw AML patient data (controlled access)
       - Available via University Health Network Genomics Data Access Committee
 
+   -  **Zenodo Deposits:**
+      -  Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
+      -  spiky package: https://doi.org/10.18129/B9.bioc.spiky
+
 <p><p/>
-* **Zenodo Deposits:**
-   - Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
-   - spiky package: https://doi.org/10.18129/B9.bioc.spiky
+* Wilson et al. 2022 [@Wilson2022]  does not use
+sharp metrics or suitable evaluation data to assess the
+success of the normalization procedure.                         
+   - For model performance, 
+*Used held-out spike-ins to assess prediction accuracy*
+      - this tells us nothing about the relevant performance -
+are the sample normalized methylation profiles better than
+the un-normalized methylation profiles.
+      - the usefulness of the normalization step can only be judged
+by examining the  normalized methylation profiles of samples with
+some designed or known truth.
 
 <br/>
+
+* **As a normalization method the spike-in control normalization
+remains unproven.**
+
+ 
 <br/>
 
-## Fragment length distribution
+##     {#FragmentLengthDistribution}
+
+5. Fragment length distribution
 
 * Stutheit-Zhao (2024) [@Stutheit-Zhao2024] show that the 
 distribution of fragment lengths adds information to sequence
-data when trying to discriminate  between cancer and non-cance samples.
+data when trying to discriminate  between cancer and non-cancer samples.
+   - [Rmarkdown](./fragment_length/Stutheit-Zhao_2024_Technical_Review.html)
+   - This article contributes more examples of innovative analyses that
+are not vetted to any reasonable degree.  There are three methodologies
+introduced:
+      - 1- Methylation Probability Estimation to get a
+Cancer-Specific Methylation (CSM) Score
+         - fitting a model with an unmethylated component to a data set which
+only targets methylated DNA fragments is an interesting approach.
+         - How does it work?  Why does it work?  We are provided no clue.
+      - 2- Using reference distribution of fragment length for
+normal and cancer populations to obtain a Fragment length score.
+         - Using fragment lengths from samples processed on a different
+platform is another interesting choice.
+      - 3-  The two scores are combined with the weighting determined by 
+a logistic regression fit the linear combination of both.
+         - the assumption of independent additive effects should be checked.
 
 
-**TO BE COMPLETED** - put summary here.
+
+`r CAPTION <-
+paste("Figure 2B from Stutheit-Zhao (2024).",
+"  The figure indicates that this fragment length feature",
+"adds very little predictive power, if any, to the methylation index.",
+"  Recall that this fragment length feature is computed using",
+" a reference distribution of fragment length collected",
+" using  a different platform."
+)`
+
+    
+```{r index-fig-2b, fig.cap = CAPTION, include=T, fig.align='center', eval=T}
+
+knitr::include_graphics( "fragment_length/Figure2B.png", dpi=50)
+
+```                   
+
 
 <br/>
 <br/>
 
-# Re-analysis 
+<p><p/>
+* The analyses have apparent flaws so one should not generalize these
+results too broadly, if al all.
+   - Fragmentation patterns in cfDNA have proven to be informative
+in detecting the presence of cancer in many contexts.  Using a bad
+reference may be he problem here.
+   - **To Do: a literature review on the ways fragmentation patterns 
+can be recorded.**
 
-* Two areas in the developmental path that are inviting to further
+
+
+<br/>
+
+##  
+
+6. GRAIL vs cfMeDIP=seq
+
+* [slides](AI/_Adela_vs_GRAIL_MCED_Comparison_slides/_Adela_vs_GRAIL_MCED.html)
+
+* [Rmarkdown](AI/_Adela_vs_GRAIL_MCED_Comparison.html)
+   -  A fairly comprehensive, high level comparison of the two platforms.
+   -  This compilation is for background purposes - see the documentation below 
+for comments on technical aspects of some of the studies cited.
+
+* There are several  other Dx ommercial/venture companies going after methylation profiles
+to detect cancer.  Can we have a table describing all companies targeting methylation.
+
+
+<br/>
+
+## 
+
+7. DNA Methylation Company Landscape
+
+[methylation_cancer_dx_landscape](methylation_cancer_dx_landscape.html)
+
+```{r,  eval=F, child="methylation_cancer_dx_landscape.md"}
+```
+
+
+
+
+---
+
+
+
+<br/>
+
+# References
+
+
+
+<div id="refs"></div>
+
+
+
+```{r, echo=FALSE}
+  knitr::knit_exit()
+```
+
+############################################################
+# ARCHIVED CODE BELOW
+############################################################
+
+## Re-analysis  {.tabset}
+
+* Areas in the developmental path that are inviting to further
 study: 
 
-   - Spike-in Normalization and 
-   - Cancer Model Selection
+   1. Spike-in Normalization 
+   2. Incorporating fragment length, or other fragmentation feature,
+into the sample processing and analysis pipeline
+   3. Normalization of a large heterogeneous set
+   4. Cancer Model Selection
 
 <br/>
 
-## Spike-in Normalization {.tabset}
+### Spike-in Normalization {.tabset}
 
-### Home {-}
+<div style="color:green">
+
+*  Rerun the analyses which assess the performance of the
+spike-in controls.
+   -  Wilson et al. (2022) [@Wilson2022]
+
+</div>
+
+#### Home {-}
 
 <br/>
 
+#### Background {-}
+
+* [_cfmedip_normalization_presentation](spike_ins/new_slides/_cfmedip_normalization_presentation.html)
+
+
+<br/>
 <!--
 * [Wilson2022_aws](AWS/Wilson2022_aws) - setup docs
 -->
 
-### EC2 Install  {-}
+#### EC2 Install  {-}
 
 * [EC2_SETUP_GUIDE](AWS/Wilson2022_aws/EC2_SETUP_GUIDE.html)
 
@@ -251,137 +608,114 @@ study:
 <br/>
 
  
-### Data and Code {-}
+#### Data and Code {-}
 
 * [Data Download and Organization Guide](spike_ins/_Wilson2022_Data_Download_Guide.html)
 
 <br/>
 
 
-### Re-analysis {-}
 
-* [_cfmedip_normalization_presentation](spike_ins/new_slides/_cfmedip_normalization_presentation.html)
-
-
-<br/>
-
-## Cancer Model Selection
+### Cancer Model Selection
 
 *  Examine more  model structures - enet, rf, pam, svm, gbm, knn, xgb
    - in addition to the error rate, we need to examine
 where the errors occur (samples) and how (miss by a lot or little)
    - compare validation and test error rates.
+## Protocol {.tabset}
+
+### Home {-}
 
 <br/>
-<!--
 
-# More recent publications {.tabset}
+### Flowchart {-}
+
+This is a longer version of the same above.
+
+```{r eval=F, index-app-flowchart-v2, echo=FALSE, results='asis'}
+cat(readLines("protocol/_cfMeDIP_flowchart_v2.html"), sep="\n")
+```
+
+
+```{=html}
+<iframe src="protocol/_cfMeDIP_flowchart_v2.html" width="100%" height="500px"></iframe>
+```
+<br/>
+
+### Protocol Steps Table {-}
+
+```{r,  child="protocol/_cfMeDIP_tables_v2.md"}
+```
+
+
+<br/>
+
+# Differential Methylation Analysis {.tabset}
 
 ## Home {-}
 
 <br/>
 
-## Stutheit-Zhao et al. (2024) {-}
-
-* claude.ai sonnet
-
-
-<br/>
-
-## Liu et al. (2025)  {-}
-
-* See **Clinical Validation Studies for molDx Products**
-
--->
-
-<br/>
-
-# Extras {.tabset}
-
-## Home {-}
-
-<br/>
-
-## DMA {-}
+## DMA  by Assay Type {-}
  
 
 * [Differential Methylation Analysis Methodology](AI/_Differential_Methylation_Analysis_Report.html)
-
-<p/>
-* Exhaustive survey of DMA methods used with each  assay type. 
-   - Not specific to Adela
-* Describe the analysis data in each step
-* Survey of benchmarking studies and tools
+   - Exhaustive survey of DMA methods used with each  assay type. 
+      - Not specific to Adela
+   - Describe the analysis data in each step
+   - Survey of benchmarking studies and tools
 
 <br/>
 
-## Enrichment Based DNA {-}
+## Enrichment Based DMA {-}
 
-
+<p><p/>
 * [Enrichment-Based Differential Methylation Analysis](AI/_Enrichment_Methods_PartI_Section1.html)
-
-<p/>
-* For enrichment-Based assays, a look at Bioinformatics Pipelines and 
+   - For enrichment-Based assays, a look at Bioinformatics Pipelines and 
 Statistical Methods for Differential Methylation Analysis: 
-   - Common Bioinformatics Pipeline:FASTQ->BAN[ ](AI/_Enrichment_Methods_PartI_Section1.html#common-bioinformatics-pipeline-fastq-to-bam)
-   - DMA Methods for Enrichment based assays[ ](AI/_Enrichment_Methods_PartI_Section1.html#dma-methods)
-      - many of the methods produce estimates of `absolute beta`, a measure of
-methylation level.  These would then be further analyzed to
+      - Common Bioinformatics Pipeline:FASTQ->BAN[ ](AI/_Enrichment_Methods_PartI_Section1.html#common-bioinformatics-pipeline-fastq-to-bam)
+      - DMA Methods for Enrichment based assays[ ](AI/_Enrichment_Methods_PartI_Section1.html#dma-methods)
+         - many of the methods produce estimates of `absolute beta`, 
+a measure of methylation level.  These would then be further analyzed to
 get DMA results.
 
 <br/>
  
+<br/>
 
-## Variability in  cfMeDIP-seq Data {-}
+### Earlier Versions {.tabset -}
 
-<p/>
-* The key components of the assay - filler DNA and antibody instance - 
-are associated with a considerable amount of variability.
-   - [docname](./docname.html) provides a detailed look at
-the Methylated DNA Immunoprecipitation Stage of the protocol.
-   - questions to address:
-      - how does the filler DNA operate?  where does the variability
-come from?
-      - how does anti-5-methylcytosine (5mC) antibody work?
-where does the variablity come from?
-      - can variability be attributed to its proper source -
-anti-5-methylcytosine (5mC) antibody or filler DNA?
+#### Home {-}
 
-<div style="color:green">
+#### Horizontal Flowchart {-}
 
-*  Rerun the analyses which assess the performance of the
-spike-in controls.
-   -  Wilson et al. (2022) [@Wilson2022]
-
-</div>
-
-<!--
-## Companies targeting methylation
--->
-
-```{r,  child="methylation_cancer_dx_landscape.md"}
+```{r , child = "AI/_cfMeDIP_Protocol_Flowchart_LR.Rmd"}
 ```
-
-
-
-
 
 <br/>
 
-# References 
+
+#### Vertical Flowchart {-}
+
+  
+```{r , child = "AI/_cfMeDIP_Protocol_Flowchart.Rmd"}
+```
+    
+* In this page we review the literature
+which document the development of Adela's cfMeDIP-seq Technology.
+
+The source of all the information contained therein is public.
+The primary references are the following:^[
+<span style="color:red">
+[@Shen2018; @Wilson2022; @Hallaaho2022; @Zeng2023; @Stutheit-Zhao2024;
+@Liu2025, XXXXXX]
+</span>
+]
 
 <div id="refs"></div>
 
 <br/>
 
-
-```{r, echo=FALSE}
-  knitr::knit_exit()
-```
-
-############################################################
-# ARCHIVED CODE BELOW
-############################################################
 
 #bibliography_cfMeDIP1: [AI/_cfMeDIP-seq_references_1.bib]
 #bibliography_cfMeDIP2: [AI/_cfMeDIP-seq_references_2.bib]
@@ -434,8 +768,8 @@ summary of these as shift.
 
 #### **Shen et al. (2018) [@Shen2018]** {-}
 
-* Was the Differentially Methylated Regions (DMRs) status between cancer and controls
-used for selecting features?
+* Was the Differentially Methylated Regions (DMRs) status between cancer 
+and controls used for selecting features?
 
 * CV is to determine the hyper-parameters
 

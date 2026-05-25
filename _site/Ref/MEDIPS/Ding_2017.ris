@@ -1,0 +1,25 @@
+Provider: Silverchair
+Database: Oxford University Press
+Content: text/plain; charset="UTF-8"
+
+TY  - JOUR
+AU  - Ding, Jun
+AU  - Bar-Joseph, Ziv
+T1  - MethRaFo: MeDIP-seq methylation estimate using a Random Forest Regressor
+PY  - 2017
+Y1  - 2017/11/01
+DO  - 10.1093/bioinformatics/btx449
+JO  - Bioinformatics
+JA  - Bioinformatics
+VL  - 33
+IS  - 21
+SP  - 3477
+EP  - 3479
+SN  - 1367-4803
+AB  - Profiling of genome wide DNA methylation is now routinely performed when studying development, cancer and several other biological processes. Although Whole genome Bisulfite Sequencing provides high-quality methylation measurements at the resolution of nucleotides, it is relatively costly and so several studies have used alternative methods for such profiling. One of the most widely used low cost alternatives is MeDIP-Seq. However, MeDIP-Seq is biased for CpG enriched regions and thus its results need to be corrected in order to determine accurate methylation levels.Here we present a method for correcting MeDIP-Seq results based on Random Forest regression. Applying the method to real data from several different tissues (brain, cortex, penis) we show that it achieves almost 4 fold decrease in run time while increasing accuracy by as much as 20% over prior methods developed for this task.MethRaFo is freely available as a python package (with a R wrapper) at https://github.com/phoenixding/methrafo.Supplementary data are available at Bioinformatics online.
+Y2  - 4/28/2026
+UR  - https://doi.org/10.1093/bioinformatics/btx449
+ER  - 
+
+
+

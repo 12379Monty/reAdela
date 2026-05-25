@@ -1,0 +1,22 @@
+TY  - EJOUR
+AU  - Ridha, Inam 
+AU  - Xu, Chenxi 
+AU  - Zhang, Yining 
+AU  - Chung, Yunro 
+AU  - Park, Jin G. 
+AU  - LaBaer, Joshua 
+AU  - Murugan, Vel 
+TI  - Multiplexed Methylated DNA Immunoprecipitation Sequencing (Mx-MeDIP-Seq) to Study DNA Methylation Using Low Amounts of DNA
+T2  - DNA
+PY  - 2024
+VL  - 4
+IS  - 4
+SN  - 2673-8856
+SP  - 397
+EP  - 416
+AB  - Background/Objectives: DNA methylation is a key epigenetic mark involved in regulating gene expression. Aberrant DNA methylation contributes to various human diseases, including cancer, autoimmune disorders, atherosclerosis, and cardiovascular diseases. While whole-genome bisulfite sequencing and methylated DNA immunoprecipitation (MeDIP) are standard techniques for studying DNA methylation, they are typically limited to a few samples per run, making them expensive and low-throughput. Therefore, an automation-friendly method is needed to increase throughput and reduce costs without compromising data quality. Methods and Results: We developed a novel method called Multiplexed Methylated DNA Immunoprecipitation Sequencing (Mx-MeDIP-Seq), which can be used to analyze many DNA samples in parallel, requiring only small amounts of input DNA. In this method, 10 different DNA samples were fragmented, purified, barcoded, and pooled prior to immunoprecipitation. In a head-to-head comparison, we observed a 99% correlation between MeDIP-Seq performed individually or combined as Mx-MeDIP-Seq. Moreover, multiplexed MeDIP led to more than 95% normalized percent recovery and a 25-fold enrichment ratio by qPCR, like the enrichment of the conventional method. This technique was successfully performed with as little as 25 ng of DNA, equivalent to 3400 to 6200 cells. Up to 10 different samples were processed simultaneously in a single run. Overall, the Mx-MeDIP-Seq method is cost-effective with faster processing to analyze DNA methylome, making this technique more suitable for high-throughput DNA methylome analysis. Conclusions: Mx-MeDIP-Seq is a cost-effective and efficient method for high-throughput DNA methylation analysis, offering faster processing and reduced sample requirements. This technique makes DNA methylome analysis more accessible for large-scale studies.
+KW  - methylated DNA immunoprecipitation
+KW  - epigenetics
+KW  - DNA methylation
+DO  - 10.3390/dna4040028
+ER  -

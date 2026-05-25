@@ -1,0 +1,37 @@
+TY  - JOUR
+T1  - Validation of a liquid biopsy assay with increased sensitivity for clinical comprehensive genomic profiling
+AU  - Bower, Xavier S.
+AU  - Wignall, Jan
+AU  - Varga, Matthew G.
+AU  - Zhu, Joyce
+AU  - O'Sullivan, Michael
+AU  - Searle, Naomi E.
+AU  - Hong, Lenny K.
+AU  - Dogruluk, Turgut
+AU  - Li, Zeqian
+AU  - Farmer, Tiffany E.
+AU  - Rosas-Linhard, Emilio
+AU  - Luong, Jason
+AU  - Lin, Esther
+AU  - Simon, Marie Erica
+AU  - Tsao, David S.
+AU  - ten Bosch, John R.
+AU  - Palmer, Gary
+AU  - Gajra, Ajeet
+AU  - Huynh, Chanh
+AU  - Zhou, Wen
+JO  - The Journal of Liquid Biopsy
+VL  - 9
+SP  - 100322
+PY  - 2025
+DA  - 2025/09/01/
+SN  - 2950-1954
+DO  - https://doi.org/10.1016/j.jlb.2025.100322
+UR  - https://www.sciencedirect.com/science/article/pii/S2950195425000384
+KW  - Liquid biopsy
+KW  - Circulating tumor DNA
+KW  - Comprehensive genomic profiling
+KW  - Next generation sequencing
+KW  - Precision oncology
+AB  - Recent advancements in precision oncology have affirmed the need for comprehensive genomic profiling (CGP) liquid biopsy assays with increased sensitivity, especially for detecting alterations in tumors which shed circulating tumor DNA (ctDNA) at low abundance. Such tests could address the limitations of tissue biopsies while simultaneously enhancing the detection of clinically actionable variants. This study included analytical and clinical validation studies of Northstar Select, a plasma-based, tumor-naive CGP assay covering 84 genes. The assay detects SNV/Indels, CNVs (gain and loss), fusions, and microsatellite instability (MSI-H). A retrospective analysis of 674 analytical patient samples collected during routine care in the United States, covering various solid tumor types, was conducted to investigate performance across tumor types. In addition, clinical validation was conducted in a prospective head-to-head comparison study of 182 patients, assessing the performance of Northstar Select and on-market CGP liquid biopsy assays. Analytical validation demonstrated a 95 % Limit of Detection of 0.15 % variant allele frequency (VAF) for SNV/Indels, which was confirmed by digital droplet PCR. Northstar Select demonstrated sensitive detection of CNVs in liquid down to 2.11 copies for amplifications and 1.80 copies for losses, and 0.30 % for gene fusions, addressing a key challenge in liquid biopsy testing. It outperformed on-market CGP assays, identifying 51 % more pathogenic SNV/indels and 109 % more CNVs. Additionally, this resulted in 45 % fewer null reports with no pathogenic or actionable results. The majority (91 %) of additional clinically actionable SNV/indels found were detected below 0.5 % VAF. Northstar Select demonstrated analytical and clinical validity, with high sensitivity across all variant classes. The low LOD allows for reliable detection of variants at lower VAFs compared to existing commercial assays. Northstar Select can therefore enhance clinical decision-making by providing the opportunity to identify more actionable genomic alterations, which may be especially beneficial for patients with low-shedding tumors.
+ER  - 

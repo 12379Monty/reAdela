@@ -1,0 +1,276 @@
+---
+title: Technical Review -  Wilson et al. (2022)
+subtitle: Sensitive and Reproducible Cell-Free Methylome Quantification with Synthetic Spike-in Controls\n Cell Reports Methods 2, 100294
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+always_allow_html: yes
+output:
+  #html_document:
+  # for use of .tabset
+  rmarkdown::html_document:
+    code_folding: hide
+    code_download: true
+    toc: true
+    toc_depth: 2
+    # does this have an effect
+    fig_caption: yes
+    # this has no effect
+    number_sections: yes
+    # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
+#bibliography: [AI/_cfMeDIP-seq_references.bib, spike_ins/Ref/_spike_in.bib]
+csl: ../_csl/cell-numeric.csl
+link-citations: true
+---
+
+
+**Perspective:** Experienced statistician focused on the technical details of normalization methodology, quantification modeling, and the development/validation structure of the analytical pipeline.
+
+---
+
+# 1. Motivation and Problem Statement
+
+Standard cfMeDIP-seq quantification normalizes read counts by total sequencing depth (reads per million or equivalent), which corrects for variation in sequencing depth but has two critical limitations:
+
+1. It **cannot adjust for fragment-level biophysical biases** that differentially affect immunoprecipitation efficiency — specifically fragment length, G+C content, and CpG fraction. These properties systematically influence how many reads a given methylated fragment generates, independent of its true methylation level.
+
+2. It produces **relative, not absolute** quantification — read counts or methylation probabilities are interpretable only within an experiment, not across batches or platforms.
+
+The Arabidopsis spike-in used in the Shen et al. 2019 Nature Protocols framework addressed the first problem partially (as a binary enrichment QC metric) but not the second, and could not model fragment-level biases because the Arabidopsis genome has very different fragment property distributions from human cfDNA. Wilson et al. address both limitations through a designed factorial spike-in system.
+
+---
+
+# 2. Spike-in Design: The Factorial Experimental Structure
+
+## 2.1 Design Parameters
+
+The spike-in library consists of synthetic DNA fragments with combinations of three biophysical properties observed to influence cfMeDIP enrichment, chosen based on published cfDNA fragment property distributions (Mouliere et al. 2018):
+
+| Property | Levels |
+|----------|--------|
+| Fragment length | 80 bp, 160 bp, 320 bp |
+| G+C content | 35%, 50%, 65% |
+| CpG fraction | 1/80 bp, 1/40 bp, 1/20 bp |
+| Methylation status | Methylated, Unmethylated |
+
+This generates a **3 × 3 × 3 × 2 = 54 designed fragment combinations**. In practice, 52 were synthesized successfully (two 160 bp fragments with 35% G+C and 1/20 bp CpG fraction failed commercial synthesis). An additional complication arose with 320 bp / 65% G+C fragments, which had excessive secondary structure — these were replaced with **alternative sequences** having the same biophysical parameters but different sequences, producing a total of 3 sets of sequence alternatives for specific 320 bp parameter combinations.
+
+## 2.2 Fragment Sequence Generation
+
+Sequences were generated using first-order Markov models (GenRGenS v2.0) constrained to produce target G+C content and CpG fraction. Sequences were filtered to exclude:
+- Any alignment to the human reference genome (GRCh38/hg38; blastn, alignment bit score threshold ≤50)
+- Predicted secondary structure (UNAFold for 80/160 bp; RNAstructure v6.2 for 320 bp)
+
+This non-human, non-structured sequence design ensures that spike-in reads can be unambiguously separated from biological sample reads during alignment.
+
+## 2.3 Methylation and Quantification of Spike-in Stocks
+
+- Fragments designated as methylated were treated with M.SssI CpG methyltransferase (37°C, 30 min; 65°C, 20 min inactivation).
+- Methylation success was verified by restriction digest (HpyCH4IV, HpaII, or AfeI depending on the fragment's restriction sites) followed by gel electrophoresis — the methylated fragment should remain uncut.
+- Molar amounts of each fragment stock were determined by Qubit dsDNA HS Assay, converting mass concentration to molar amount using the known fragment molecular weight.
+
+**Critical detail:** The accuracy of the entire downstream normalization model depends on the accuracy of these per-fragment molar amount determinations. The Qubit assay measures total dsDNA mass; any contamination, PCR-induced double-strand artifacts, or pipetting error at this stock preparation step propagates directly into the calibration model. The paper does not report uncertainty estimates for these stock concentration measurements.
+
+## 2.4 Addition to Samples
+
+**0.01 ng of pooled spike-in control DNA** is added to each sample prior to cfMeDIP-seq. This amount was selected after testing 0.01, 0.05, and 0.1 ng additions into 10 ng of HCT116 genomic DNA mimic:
+
+- 0.01 ng consumed <1% of total reads for spike-in sequences
+- Retained >650,000 spike-in reads for modeling
+- Preserved >99% of reads for the biological sample
+
+The spike-in DNA and sample cfDNA are combined **before** the immunoprecipitation step, so the spike-in experiences the same enrichment process as the biological cfDNA. This is the correct design for measuring and correcting enrichment biases.
+
+---
+
+# 3. Normalization Model: Absolute Quantification via Generalized Linear Model
+
+## 3.1 Model Specification
+
+The normalization model is a **Gaussian generalized linear model (GLM)** trained on spike-in read counts (after deduplication via UMI consensus) to predict molar amount. The model is trained separately for each experiment/sample using the spike-in data from that sample.
+
+The model estimates molar amount $\hat{h}$ for each DNA fragment:
+
+$$\hat{h} = \beta_0 + \beta_{\text{reads}} x_{\text{reads}} + \beta_{\text{len}} x_{\text{len}} + \beta_{\text{GC}} x_{\text{GC}} + \beta_{\text{CpG}} x_{\text{CpG}}^{1/3}$$
+
+where:
+- $x_{\text{reads}}$ = deduplicated read count for the spike-in fragment
+- $x_{\text{len}}$ = fragment length (bp)
+- $x_{\text{GC}}$ = G+C content (fraction)
+- $x_{\text{CpG}}^{1/3}$ = CpG fraction, **cube-root transformed** to reduce left skew
+
+**Key observations on model specification:**
+
+- The response variable is **molar amount in picomoles** — the known quantity added for each spike-in type. The model thus learns a mapping from read count → picomoles, adjusted for the three biophysical covariates.
+- The GLM uses a **Gaussian (identity link) family**, treating molar amount as a continuous normal outcome. Given that molar amounts are strictly non-negative and right-skewed, this is an approximation. A log-link or gamma GLM would be more natural but the authors report excellent prediction accuracy (mean absolute error ≤0.002 pmol), suggesting the Gaussian approximation is adequate at the scale of the data.
+- The cube-root transformation of CpG fraction is a pragmatic variance-stabilizing choice, not derived from a mechanistic model of enrichment efficiency.
+- The model has **5 parameters** ($\beta_0$, $\beta_{\text{reads}}$, $\beta_{\text{len}}$, $\beta_{\text{GC}}$, $\beta_{\text{CpG}}$) fitted to up to 52 spike-in data points per sample (one observation per spike-in fragment type, post-deduplication). The model is thus well-determined (10:1 data:parameter ratio at minimum), not overparameterized.
+- A **separate model is fit for each sample** using that sample's own spike-in read counts. This means the $\beta$ coefficients vary across samples, capturing sample-specific enrichment characteristics. The biological sample reads are then **predicted** using the fitted model — i.e., the model learned on spike-ins is applied to biological genome windows.
+
+## 3.2 Application to Biological Sample Windows
+
+After fitting the model on spike-in data, it is applied to biological cfDNA reads. For each 300 bp genomic window in the human genome:
+
+$$\hat{h}_{\text{window}} = \beta_0 + \beta_{\text{reads}} x_{\text{reads}} + \beta_{\text{len}} x_{\text{len}} + \beta_{\text{GC}} x_{\text{GC}} + \beta_{\text{CpG}} x_{\text{CpG}}^{1/3}$$
+
+The output $\hat{h}_{\text{window}}$ is molar amount in picomoles — the estimated absolute quantity of methylated DNA from the original sample that maps to that genomic window.
+
+**Overlap-adjusted molar amount:** Because cfDNA fragments can span multiple 300 bp windows, a fragment's contribution to a given window is proportional to the fraction of its length overlapping that window:
+
+$$\hat{h}'_{\text{window}} = \frac{\ell_{\text{overlap}}}{\ell_{\text{window}}} \cdot \hat{h}$$
+
+where $\ell_{\text{overlap}} \in [1, 300]$ bp is the overlap length and $\ell_{\text{window}} = 300$ bp. This distributes each fragment's estimated molar amount across all windows it overlaps, analogous to a weighted coverage calculation.
+
+## 3.3 Extrapolation Assumption
+
+The model is trained on spike-in fragments with:
+- Lengths: 80, 160, 320 bp
+- G+C: 35%, 50%, 65%  
+- CpG fractions: 1/80, 1/40, 1/20
+
+Human cfDNA spans a much broader range of these properties. Applying the spike-in model to biological windows **requires extrapolation** beyond the training range for fragments with properties outside these discrete levels. The paper does not assess the magnitude or impact of this extrapolation. For example, highly CpG-dense regions (CpG islands with CpG fractions well above 1/20) will receive extrapolated predictions, and the linear model may perform poorly in these regions. This is a meaningful limitation given that CpG-dense regions are precisely the regions most enriched by cfMeDIP-seq.
+
+---
+
+# 4. Biological Sample and Validation Experiments
+
+## 4.1 Technical Assessment: HCT116 Cell Line cfDNA Mimic
+
+The primary technical validation uses **sheared HCT116 colon cancer genomic DNA** (size-selected to ~150 bp to mimic cfDNA) as the biological sample. This is a cell-line-based cfDNA mimic, not actual plasma-derived cfDNA from patients. Key implications:
+
+- HCT116 cfDNA mimic has a controlled, uniform fragment length distribution (size selected to 150 bp) rather than the variable nucleosomal ladder distribution of plasma cfDNA
+- The methylation landscape of HCT116 is that of a cancer cell line, not a mixture of tumor and normal cfDNA at the low tumor fractions typical of liquid biopsy samples
+- There is no biological variability between technical replicates — HCT116 replicates represent purely technical variation, providing an optimistic estimate of spike-in performance in real clinical samples
+
+## 4.2 Correlation with EPIC Array M-values
+
+The spike-in normalized molar amounts are benchmarked against **Infinium MethylationEPIC BeadChip array M-values** from the same HCT116 genomic DNA:
+
+| CpG probes per 300 bp window | Molar amount *r* | Read count *r* |
+|------------------------------|------------------|----------------|
+| ≥3 (N = 34,735 windows) | 0.62 | 0.62 |
+| ≥5 (N = 7,203 windows) | 0.80 | 0.81 |
+| ≥7 (N = 1,898 windows) | 0.82 | 0.85 |
+| ≥10 (N = 147 windows) | 0.87 | 0.88 |
+
+**Critical finding:** Molar amount and raw read counts correlate with array M-values **essentially identically** at every CpG density threshold. The correlations are not significantly different between the two methods. This is the paper's central methodological tension: the spike-in normalization produces absolute quantification, but it does not improve correlation with a reference methylation measure relative to simple read counts. The paper acknowledges this directly, noting that molar amount "provided the advantage of absolute quantification" rather than superior correlation. This means the biological information content of the two methods is equivalent for this comparison — the value of spike-in normalization lies in cross-sample comparability and bias correction, not in improved within-sample methylation estimation.
+
+## 4.3 Clinical Validation: AML Patient Samples Across Three Labs
+
+Five AML patient plasma cfDNA samples were processed by **three independent laboratories** (Labs A, B, C), each performing cfMeDIP-seq with intentional procedural variations:
+
+| Variable | Lab A | Lab B | Lab C |
+|----------|-------|-------|-------|
+| Adapters | IDT xGen UDI (3-4 bp UMI) | Custom IDT (2 bp UMI) | IDT xGen UDI (3-4 bp UMI) |
+| Ligation temperature | 4°C, 16 h | 20°C, 2 h | 4°C, 16 h |
+| Antibody lot | RD004 | RD001 | RD004 |
+| Filler DNA | 50% methylated λ | 50% methylated λ | **100% unmethylated λ** |
+| PCR cycles | 13–15 (optimized) | 13 | 11 |
+| Sequencer | NovaSeq 6000 | NovaSeq 6000 | NextSeq 550 |
+| Read length | PE 100 bp | PE 100 bp | PE 75 bp |
+| Target depth | 60M reads | 100M reads | 85M reads |
+
+Lab C's use of **unmethylated-only filler DNA** is the most consequential variation — the filler competes with cfDNA for non-specific antibody binding, and unmethylated filler reduces the effective enrichment of methylated cfDNA. This is detectable in the data as lower methylation specificity for Lab C samples.
+
+---
+
+# 5. Batch Effect Analysis: PCA Results
+
+The paper uses PCA to assess how different normalization strategies handle batch-associated variance. Four conditions are compared:
+
+| Normalization | PC1 variance | Significant batch association |
+|---------------|-------------|-------------------------------|
+| Raw read counts | 80% | PC3 (5%, batch, *p* < 0.001) |
+| QSEA | 81% | PC1 (81%, filler, *p* < 0.001) — *introduced by normalization* |
+| Spike-in (all windows) | 78% | PC3 (6%, batch, *p* < 0.001) |
+| Spike-in + filtering | 83% | PC2 (6%, batch and filler, *p* < 0.001); PC1 associated with sample/sex |
+
+**Key interpretive points for a statistician:**
+
+1. **QSEA normalization actively introduces a spurious batch effect** — filler DNA composition becomes significantly associated with PC1 after QSEA normalization, an association absent in raw data. This suggests QSEA's internal normalization model is sensitive to filler composition in a way that amplifies rather than corrects this technical variable.
+
+2. **Spike-in normalization does not eliminate batch association with PC3**, but it repositions the biological variables (sample identity, sex) to be more dominant in PC1 than in the raw data. The batch effect is reduced from primary to secondary variance.
+
+3. The critical metric — **batch-associated variance as a fraction of total variance** — is reported as "<1% of total" in the highlights, referring to the residual batch association after spike-in normalization and filtering. This is specific to the filtered spike-in condition (condition 4 above) and should not be generalized to the unfiltered spike-in condition (condition 3), where batch association in PC3 remains significant.
+
+4. The sample size for this comparison is small: **5 AML patients × 3 labs = 15 samples** total. PCA on 15 samples is interpretable but statistically underpowered for formal inference about variance partitioning.
+
+---
+
+# 6. Filtering Recommendations and Their Statistical Implications
+
+The paper recommends removing genomic windows that meet any of the following criteria:
+
+| Filter | Rationale | Windows removed |
+|--------|-----------|-----------------|
+| UCSC simple repeats | Systematic mapping artifacts | 1,070,387 windows |
+| ENCODE blacklist regions | Known problematic regions | 239,461 windows |
+| Umap k100 mappability ≤0.5 | Multi-read mapping ambiguity | 549,876 windows |
+| Replicate SD of molar amount ≥0.05 | Inconsistent quantification | 906 windows |
+
+After filtering, **4,446,375 genomic windows** remain for analysis.
+
+The SD-based filter (removing windows where molar amount SD between replicates ≥0.05 pmol) requires replicate samples and **cannot be applied in single-sample analyses** — a significant practical limitation for clinical liquid biopsy applications where patient samples are typically run once. The paper does not address how to substitute for this filter in single-sample settings.
+
+The high molar amount outlier windows (≥0.25 pmol, n=11) after filtering predominantly overlap Alu SINE elements — repetitive elements with high CpG density and characteristic hypermethylation. The presence of these outliers even after standard blacklist filtering suggests that standard genomic exclusion lists are insufficient for cfMeDIP-seq data, particularly for repetitive elements not well-represented in ENCODE tier 1/2 data.
+
+---
+
+# 7. Model Accuracy Assessment
+
+The model accuracy assessment uses a held-out cross-validation design within the AML Lab A dataset:
+
+- For each training set size from 6 to 25 spike-in fragments (of the available 52), 100 random training sets were selected
+- The remaining spike-ins served as test data
+- Performance metric: **mean absolute error (MAE)** between known and predicted molar amount in picomoles
+
+Results: MAE ≤0.002 pmol in every case, across all training set sizes. This is remarkably low and reflects that the model fits the spike-in data well. However, this cross-validation assesses **interpolation within the spike-in design space**, not generalization to the biological sample's read-count/molar-amount relationship. The spike-in cross-validation confirms the GLM is well-specified for the spike-in data; it does not directly validate the molar amount predictions for biological windows.
+
+The minimum training set size of 6 spike-ins was chosen to ensure the model has more data points than parameters (5 terms). At 6 training points, the model is barely identified and variance in MAE is high, with notable outliers (denoted with crosses in Figure 5). With the full recommended set of spike-ins, model fitting is stable and well-determined.
+
+---
+
+# 8. Data and Code Availability
+
+| Resource | Location |
+|----------|----------|
+| cfMeDIP-seq cell line data (HCT116) | GEO: **GSE166259** (public) |
+| AML patient cfMeDIP-seq data (raw) | EGA: **EGAS00001005069** (controlled access; request via dac@uhn.ca) |
+| AML processed data | GEO: **GSE166259** (public) |
+| `spiky` R package | Bioconductor: [bioconductor.org/packages/spiky](https://bioconductor.org/packages/spiky) |
+| `spiky` source code | GitHub: [github.com/trichelab/spiky](https://github.com/trichelab/spiky) |
+| All paper code | GitHub: [github.com/hoffmangroup/2020spikein](https://github.com/hoffmangroup/2020spikein); Zenodo: [doi.org/10.5281/zenodo.4683791](https://doi.org/10.5281/zenodo.4683791) |
+
+The `spiky` Bioconductor package implements the GLM training and molar amount prediction workflow. It is actively maintained and directly supports reanalysis of existing cfMeDIP-seq datasets if spike-in reads are available.
+
+---
+
+# 9. Summary of Key Statistical Considerations
+
+| Issue | Severity | Detail |
+|-------|----------|--------|
+| Molar amount correlates with array M-values no better than raw read counts | High | Central validation benchmark shows no improvement in biological information content; advantage is absolute scale, not signal quality |
+| Model extrapolates beyond the spike-in design space | Moderate | Biological windows with CpG fractions, lengths, or G+C content outside the 3×3×3 factorial grid receive extrapolated predictions |
+| Validation uses HCT116 cfDNA mimic, not real plasma cfDNA | Moderate | Cell-line mimic has uniform fragment lengths and cancer-only methylation; does not capture the complexity of clinical liquid biopsy samples |
+| SD-based filter requires replicates | Moderate | Cannot be applied to single-sample clinical analyses; no alternative guidance provided |
+| AML batch experiment n=5 patients × 3 labs | Moderate | Small sample size for PCA-based variance partitioning; batch effects may be under- or over-estimated |
+| Gaussian GLM for non-negative skewed outcome | Low | Pragmatic approximation; prediction accuracy is empirically good but mechanistic justification is absent |
+| Stock concentration uncertainty not propagated | Low | Qubit-based molar amount measurements of spike-in stocks carry measurement error that is not accounted for in the downstream model |
+| Batch-associated variance "<1% of total" claim requires careful reading | Low | Applies only to the filtered spike-in condition; unfiltered spike-in normalization still shows significant batch association in PC3 |
+
+The paper makes a genuine and important methodological contribution: it provides the field's first designed factorial spike-in system for cfMeDIP-seq and demonstrates that it mitigates batch effects and enables absolute quantification. The central limitation — that spike-in normalization does not improve the correlation of cfMeDIP-seq signal with reference methylation measures relative to raw read counts — suggests that the method's primary value is in **cross-sample and cross-batch comparability** rather than improved within-sample methylation estimation. This distinction is critical when evaluating whether spike-in normalization is expected to improve downstream biological signal detection (e.g., cancer classification performance) versus technical reproducibility metrics.
+
+---
+
+*Review prepared April 2026*
+
+
+    
+<!-- To run
+## nohup Rscript -e "knitr::knit2html('Wilson_2022_Technical_Review.Rmd')" > Wilson_2022_Technical_Review.log  &
+    
+## Or 
+## nohup Rscript -e "rmarkdown::render('Wilson_2022_Technical_Review.Rmd')" > Wilson_2022_Technical_Review.log  &
+    
+-->
+
+
+

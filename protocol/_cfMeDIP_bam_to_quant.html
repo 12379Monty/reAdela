@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>cfMeDIP-seq · BAM to Methylation Quantification</title>
+<style>
+  body{margin:0;padding:16px 12px;background:#f4f6f8;font-family:Arial,sans-serif}
+  .wrap{background:#fff;border-radius:8px;padding:14px 8px 10px;box-shadow:0 1px 5px rgba(0,0,0,.12)}
+  svg{display:block;margin:auto;width:100%;max-width:960px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<svg viewBox="0 0 960 340" xmlns="http://www.w3.org/2000/svg">
+
+<!-- TITLE -->
+<text x="480" y="16" text-anchor="middle" font-family="Arial" font-size="13"
+      font-weight="bold" fill="#1a1a2e">cfMeDIP-seq · Methylation Quantification Pipeline · BAM → Raw Count Matrix</text>
+
+<!--
+  4 columns · stride 235px · box 225×100px
+  col centres: 122  357  592  827
+  box left:     10  245  480  715
+
+  ROW 1  y-band=24  y-label=49  y-box=57  y-bot=157
+  ROW 2  y-band=166 y-label=191 y-box=199 y-bot=299
+  LEGEND y=308
+-->
+
+<!-- ═══════════ ROW 1 · Steps 1–4 ═══════════ -->
+<!-- Stage IV band  cols 0-1  x10→470 -->
+<rect x="10"  y="24" width="460" height="15" rx="3" fill="#1F618D"/>
+<text x="240" y="35" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE IV · Setup &amp; Read Partitioning</text>
+
+<!-- Stage V band  cols 2-3  x480→940 -->
+<rect x="480" y="24" width="460" height="15" rx="3" fill="#117A65"/>
+<text x="710" y="35" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE V · Counting &amp; CpG Annotation</text>
+
+<!-- Step 1 cx=122 -->
+<text x="122" y="49" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#1A5276">1 – Spike-in Separation</text>
+<rect x="10" y="57" width="225" height="100" rx="5" fill="#EBF5FB" stroke="#1F618D" stroke-width="1.5"/>
+<text x="122" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Partition reads: hg38 vs spike-in</text>
+<text x="122" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">SAMtools view by contig name</text>
+<text x="122" y="106" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Spike-in read count</text>
+<text x="122" y="121" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~10 min</text>
+
+<!-- Step 2 cx=357 -->
+<text x="357" y="49" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#1A5276">2 – Genomic Window Definition</text>
+<rect x="245" y="57" width="225" height="100" rx="5" fill="#EBF5FB" stroke="#1F618D" stroke-width="1.5"/>
+<text x="357" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">300 bp non-overlapping tiles (hg38)</text>
+<text x="357" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Annotate CpG count per window</text>
+<text x="357" y="106" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">MEDIPS.createROIset / QSEA</text>
+<text x="357" y="121" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~5 min</text>
+
+<!-- Step 3 cx=592 -->
+<text x="592" y="49" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#0E6655">3 – Read Counting</text>
+<rect x="480" y="57" width="225" height="100" rx="5" fill="#E8F8F5" stroke="#117A65" stroke-width="1.5"/>
+<text x="592" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Count fragments per 300 bp window</text>
+<text x="592" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">MEDIPS.countReads / QSEA addCNV</text>
+<text x="592" y="106" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Raw count matrix (windows × samples)</text>
+<text x="592" y="121" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~20 min</text>
+
+<!-- Step 4 cx=827 -->
+<text x="827" y="49" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#0E6655">4 – CpG Density Annotation</text>
+<rect x="715" y="57" width="225" height="100" rx="5" fill="#E8F8F5" stroke="#117A65" stroke-width="1.5"/>
+<text x="827" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">BSgenome CpG density per window</text>
+<text x="827" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">CpG observed/expected ratio</text>
+<text x="827" y="106" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ CpG enrichment (MEDIPS)</text>
+<text x="827" y="121" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~10 min</text>
+
+<!-- row 1 hint -->
+<text x="950" y="160" text-anchor="end" font-family="Arial" font-size="8" fill="#bbb" font-style="italic">↩ row 2</text>
+
+<!-- ═══════════ ROW 2 · Steps 5–8 ═══════════ -->
+<!-- Stage VI band  full width -->
+<rect x="10" y="166" width="940" height="15" rx="3" fill="#1A5276"/>
+<text x="480" y="177" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE VI · QC &amp; Output</text>
+
+<!-- Step 5 cx=122 -->
+<text x="122" y="191" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#1A5276">5 – CpG Enrichment QC</text>
+<rect x="10" y="199" width="225" height="100" rx="5" fill="#D6EAF8" stroke="#1A5276" stroke-width="1.5"/>
+<text x="122" y="218" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">MEDIPS CpG.enrichment()</text>
+<text x="122" y="233" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Observed vs expected CpG freq.</text>
+<text x="122" y="248" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Enrichment score per sample</text>
+<text x="122" y="263" text-anchor="middle" font-family="Arial" font-size="9"  fill="#1a5c2e" font-weight="bold">▶ INCLUDE / EXCLUDE (&gt;1.5)</text>
+
+<!-- Step 6 cx=357 -->
+<text x="357" y="191" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#1A5276">6 – Saturation Analysis</text>
+<rect x="245" y="199" width="225" height="100" rx="5" fill="#D6EAF8" stroke="#1A5276" stroke-width="1.5"/>
+<text x="357" y="218" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">MEDIPS saturationAnalysis()</text>
+<text x="357" y="233" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Est. correlation vs subsamples</text>
+<text x="357" y="248" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Saturation curve per sample</text>
+<text x="357" y="263" text-anchor="middle" font-family="Arial" font-size="9"  fill="#1a5c2e" font-weight="bold">▶ Flag if not at plateau</text>
+
+<!-- Step 7 cx=592 -->
+<text x="592" y="191" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#1A5276">7 – Raw Count Matrix Output</text>
+<rect x="480" y="199" width="225" height="100" rx="5" fill="#D6EAF8" stroke="#1A5276" stroke-width="1.5"/>
+<text x="592" y="218" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Windows × samples count matrix</text>
+<text x="592" y="233" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Per-sample QC summary table</text>
+<text x="592" y="248" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ All QC metrics consolidated</text>
+<text x="592" y="263" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">→ Input for normalization assessment</text>
+
+<!-- Output indicator col 4 -->
+<rect x="715" y="199" width="225" height="100" rx="5"
+      fill="#F2F3F4" stroke="#AAB7B8" stroke-width="1.5" stroke-dasharray="6,4"/>
+<text x="827" y="233" text-anchor="middle" font-family="Arial" font-size="10" fill="#888" font-style="italic">Raw counts +</text>
+<text x="827" y="248" text-anchor="middle" font-family="Arial" font-size="10" fill="#888" font-style="italic">QC data + metadata</text>
+<text x="827" y="263" text-anchor="middle" font-family="Arial" font-size="10" fill="#888" font-style="italic">→ Normalization assessment</text>
+
+<!-- ═══ LEGEND ═══ -->
+<line x1="10" y1="308" x2="950" y2="308" stroke="#e0e0e0"/>
+<rect x="10"  y="312" width="9" height="9" fill="#1a7c3e" rx="1"/>
+<text x="23"  y="320" font-family="Arial" font-size="8.5" fill="#555">★ Measurement recorded</text>
+<text x="230" y="320" font-family="Arial" font-size="8.5" fill="#1a5c2e" font-weight="bold">▶ Include/Exclude or flag decision</text>
+<text x="500" y="320" font-family="Arial" font-size="8.5" fill="#aaa">Flow: left→right, top row then bottom row · Output: raw count matrix + QC data + metadata</text>
+
+</svg>
+</div>
+</body>
+</html>

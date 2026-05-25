@@ -1,0 +1,9 @@
+
+
+processing file: 01_biology_of_DNA_methylation.Rmd
+1/1
+output file: 01_biology_of_DNA_methylation.knit.md
+
+/usr/local/bin/pandoc +RTS -K512m -RTS 01_biology_of_DNA_methylation.knit.md --to revealjs --from markdown+autolink_bare_uris+tex_math_single_backslash-implicit_figures --output 01_biology_of_DNA_methylation.html --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/latex-div.lua --lua-filter /Users/fcollin/Library/R/x86_64/4.4/library/rmarkdown/rmarkdown/lua/table-classes.lua --embed-resources --standalone --template /Users/fcollin/Library/R/x86_64/4.4/library/revealjs/rmarkdown/templates/revealjs_presentation/resources/default.html --variable center=false --slide-level 2 --variable theme=simple --variable transition=none --variable backgroundTransition=fade --variable history=true --variable slideNumber=true --variable controls=true --variable progress=true --variable width=1200 --variable height=800 --mathjax --variable 'mathjax-url=https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML' --include-in-header /var/folders/jk/d24lm6n944q5y650lph85m7w0000gp/T//RtmpcNX50L/rmarkdown-str758575573efb.html --variable revealjs-url=/Users/fcollin/Library/R/x86_64/4.4/library/revealjs/reveal.js-4.2.1 --highlight-style pygments 
+
+Output created: 01_biology_of_DNA_methylation.html

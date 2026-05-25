@@ -1,0 +1,183 @@
+---
+title: "The Bio-Technology of Methylated DNA Immunoprecipitation"
+subtitle: "Section 3 of 3 — An Introduction for a Mixed Audience"
+author: ""
+date: ""
+output:
+  revealjs::revealjs_presentation:
+    theme: simple
+    transition: none
+    slide_level: 2
+    self_contained: true
+    reveal_options:
+      slideNumber: true
+      controls: true
+      progress: true
+      width: 1200
+      height: 800
+---
+
+<style>
+.reveal h1, .reveal h2, .reveal h3 {
+  color: #1f4e79;
+  text-align: left;
+}
+.reveal .slides section,
+.reveal .slides section * {
+  text-align: left;
+}
+.reveal section {
+  font-size: 0.82em;
+}
+.reveal .slides > section,
+.reveal .slides > section > section {
+  height: 95vh;
+  overflow-y: auto !important;
+}
+.reveal ul, .reveal ol { margin-left: 1.2em; }
+.reveal li { margin-bottom: 0.3em; }
+.reveal table { font-size: 0.9em; }
+</style>
+
+# The Bio-Technology of Methylated DNA Immunoprecipitation
+
+Section 3 of 3. Builds on Section 1 (biology) and Section 2 (cancer).
+Focus: the wet-lab biochemistry of MeDIP, with particular attention to the
+immunoprecipitation step itself and what it does — and does not — measure.
+Computational and statistical analysis of MeDIP data, including approaches
+intended to correct or normalise the wet-lab signal, is deferred to a
+later, dedicated session.
+
+## What MeDIP is, and what it is not
+
+- **MeDIP = Methylated DNA Immunoprecipitation.** An antibody specific to **5-methylcytosine (5mC)** is used to physically separate methylated DNA fragments from unmethylated ones. Originally described by Weber *et al.* (2005).
+- **Affinity-enrichment**, not chemical conversion. Unlike bisulfite or enzymatic methyl-sequencing, MeDIP does not modify the bases. Methylation status is inferred from **enrichment** at a region, not from per-base read-out.
+- **Resolution is set by the fragment, not the CpG.** A fragment is pulled down (or not) as a unit. Per-CpG methylation calls are not produced; the natural unit of analysis is a region or bin.
+- **cfMeDIP-seq** is the cell-free DNA adaptation: MeDIP applied to plasma cfDNA, which is naturally fragmented (mode ~167 bp) and present at very low input (single-digit ng).
+- **What MeDIP cannot do natively:**
+    - Distinguish **5mC from 5hmC** (the antibody recognises both, with variable cross-reactivity).
+    - Provide **absolute methylation fractions** (% methylated alleles) without further inference.
+    - Resolve **allele-specific** or **strand-specific** methylation directly.
+
+## The 5mC antibody and what it actually binds
+
+- The dominant reagent is the **mouse monoclonal anti-5mC antibody, clone 33D3**. Other clones are also in use.
+- **Critical biophysical point: the antibody binds single-stranded DNA, not duplex DNA.** In B-form dsDNA the methyl group on C5 sits in the major groove but is poorly accessible. **Heat denaturation to ssDNA is required to expose the epitope.** This is the step that distinguishes MeDIP from chromatin IP.
+- **Affinity is non-linear in CpG density.** Single methylated CpGs in low-density regions are pulled down inefficiently; CpG-rich, densely methylated regions are pulled down strongly — but the response saturates as the antibody footprint becomes fully occupied. The result is a **CpG-density–dependent enrichment bias** that is intrinsic to the chemistry.
+- **5mC vs 5hmC cross-reactivity.** Most "anti-5mC" clones bind 5mC much more strongly than 5hmC, but cross-reactivity is non-zero and lot-dependent. Tissues with appreciable 5hmC (especially brain) require explicit consideration.
+- **Lot-to-lot variability is documented and substantial.** Different lots of nominally the same antibody clone can yield meaningfully different enrichment profiles. This is one practical reason cross-batch comparison of MeDIP data is fragile.
+
+## The IP biochemistry — what is happening physically
+
+The immunoprecipitation reaction is a **sequence of equilibria**, not a single binding event. The key molecular species are:
+
+- **Target:** ssDNA fragments containing one or more 5mC residues
+- **Antibody:** intact IgG (typically mouse IgG1 for clone 33D3), bivalent
+- **Capture matrix:** magnetic beads coated with an Fc-binding ligand — most commonly **Protein G**, **Protein A**, or an **anti-mouse IgG** secondary antibody
+
+Binding equilibria, in order:
+
+1. **Antibody–antigen.** Anti-5mC IgG binds 5mC-containing ssDNA in solution. Affinity rises with the number of accessible 5mC residues per fragment, until steric and saturation limits are reached.
+2. **Bead–antibody (Fc capture).** Protein G/A binds the antibody Fc region; alternatively, an anti-mouse IgG secondary on the bead binds the primary IgG. The Protein G–IgG1 interaction is high-affinity (Kd ~10⁻⁹ M); equilibration is fast.
+3. **Magnetic separation.** Bead-bound complexes are pulled to a magnet; unbound DNA is removed in the supernatant.
+4. **Wash equilibria.** Each wash dilutes loosely bound DNA and re-equilibrates the bound–free distribution. Higher-stringency washes reduce non-specific carryover at the cost of recovery of weakly methylated targets.
+5. **Elution.** Typically **proteinase K** digestion releases DNA from antibody and beads; competitive elution with free 5mC nucleoside is an alternative.
+
+**Two practical consequences of viewing IP as a chain of equilibria:**
+
+- **Recovery is never complete.** A non-trivial fraction of true methylated targets ends up in the unbound or wash fractions, and a non-trivial fraction of unmethylated background ends up in the eluate. The IP is an enrichment, not a purification.
+- **Conditions matter quantitatively.** Bead amount, antibody amount, blocker concentration, salt, detergent, temperature, and incubation time all shift the equilibria. Modest protocol drift between batches produces measurable signal drift.
+
+## The IP protocol — step by step
+
+A representative cfMeDIP-seq IP, simplified:
+
+1. **Input library.** Adapter-ligated cfDNA library (see next slide for why library prep precedes IP in cfMeDIP-seq), brought to a workable mass with **filler DNA**.
+2. **Denaturation.** Heat to **95 °C for ~10 min**, then snap-cool on ice. Yields ssDNA. *This is the step that distinguishes MeDIP from chromatin IP — the target must be single-stranded.*
+3. **Pre-clear (optional).** Incubate with bare beads to remove DNA that binds beads non-specifically.
+4. **Antibody binding.** Add anti-5mC primary antibody, scaled to total target mass. Incubate at 4 °C with rotation, typically overnight or several hours. The aim is to reach binding equilibrium without prolonged degradation.
+5. **Bead capture.** Add Protein G (or anti-mouse IgG) magnetic beads. Incubate 1–2 h at 4 °C with rotation. The IgG–Fc interaction is the lever by which DNA is pulled to the magnet.
+6. **Wash.** Several washes with IP buffer (typical: ~10 mM Na-phosphate pH 7, ~140 mM NaCl, low detergent). Each wash is itself an equilibration step.
+7. **Elution.** Proteinase K digestion (~3 h at 50–65 °C) cleaves the antibody and releases DNA. Heat-inactivate.
+8. **Purification.** Column or bead-based cleanup removes proteins, salts, and detergents.
+9. **Amplification.** Indexed PCR amplification of the eluted, adapter-ligated, methyl-enriched library, followed by sequencing.
+
+A parallel **input** (no-IP) sample is sometimes sequenced as a denominator for enrichment, although in low-input cfMeDIP-seq the input fraction is sometimes omitted.
+
+## cfMeDIP-seq — what changes at low input
+
+cfMeDIP-seq is not just "MeDIP on plasma." Several deliberate adaptations are needed:
+
+- **Library preparation precedes IP.** Adapters are ligated to cfDNA *before* the IP reaction, not after. Reasons:
+    - Adapter ligation works on dsDNA; doing it after denaturation–IP would be inefficient.
+    - Allows **post-IP PCR amplification** to recover usable yield from ng-scale input.
+    - Defines fragment ends before any IP-induced bias.
+
+  In contrast, classical tissue MeDIP performs IP first and library prep afterward.
+- **Filler / carrier DNA is essential.** Plasma cfDNA input is typically **1–10 ng** — well below the working range of a robust IP. Exogenous filler DNA is added to bring total mass to a standard amount (commonly ~100 ng).
+- **Filler composition is non-trivial — and matters more than is sometimes acknowledged.**
+    - The filler must be ~**50% methylated and 50% unmethylated**, mimicking native cfDNA composition.
+    - Using **fully unmethylated** filler (e.g., naïve λ DNA) leaves the antibody disproportionately available to the small methylated cfDNA fraction and distorts enrichment.
+    - Using **fully methylated** filler outcompetes the methylated cfDNA targets and dilutes the signal.
+    - The 50/50 specification is therefore a chemistry constraint, not a stylistic preference. Departures from it are a real source of inter-study variability.
+- **Antibody-to-DNA stoichiometry** is rescaled to total mass (cfDNA + filler), not to cfDNA alone — otherwise the antibody is in vast excess relative to the actual targets.
+
+## Sources of bias and variability
+
+Sources can be split into **systematic** (in principle modelable, and reproducible across runs) and **stochastic** (sample-to-sample noise):
+
+**Systematic, biophysical:**
+
+- **CpG-density bias.** Antibody affinity rises non-linearly with CpG density and saturates; recovery is *not* a linear function of methylation level.
+- **Fragment-length bias.** Longer fragments are more likely to contain a CpG by chance and have a larger antibody footprint; recovery depends on fragment length even at fixed methylation.
+- **GC-content bias.** Inherited from upstream PCR amplification, fragmentation, and from cfDNA biology itself; AT-rich regions are under-represented.
+
+**Systematic, reagent-driven:**
+
+- **Antibody lot variability.** Different lots of the same clone yield different enrichment profiles.
+- **Filler DNA composition.** As above — the methylated/unmethylated ratio of the filler is a primary determinant of enrichment scale.
+- **Bead chemistry.** Protein G vs Protein A vs secondary-coated beads have different Fc affinities and different non-specific binding profiles.
+
+**Stochastic / batch:**
+
+- **Pipetting, incubation timing, temperature drift, magnet hold time** — all small but cumulative.
+- **PCR cycle number** post-IP — over-amplification compresses dynamic range and exaggerates bias.
+
+A point worth making explicitly: **these biases compound multiplicatively, not additively.** Treating them as independent additive contributions understates the true variance and overstates the recoverability of small biological effects.
+
+## What MeDIP measures vs. bisulfite and EM-seq
+
+| Property | cfMeDIP-seq | Bisulfite sequencing | Enzymatic methyl-seq |
+|----------|-------------|----------------------|----------------------|
+| Mechanism | Antibody enrichment of 5mC-containing ssDNA | Chemical deamination: unmethylated C → U; 5mC preserved | Enzymatic: TET2 oxidises 5mC/5hmC; APOBEC deaminates unmethylated C |
+| DNA damage | Low (denaturation only) | High (acid + bisulfite degrades cfDNA) | Low |
+| Input requirement | **1–10 ng cfDNA** (with filler) | 10–100+ ng for whole-genome | Single-digit ng possible |
+| Native resolution | Region / bin (fragment-level) | **Single CpG**, quantitative | Single CpG, quantitative |
+| Output | Read counts in regions → relative enrichment | % methylated reads per CpG | % methylated reads per CpG |
+| Coverage | Genome-wide methylome (CpG-dense regions over-represented) | Whole genome or targeted | Whole genome or targeted |
+| 5mC vs 5hmC | **Not separated** (variable cross-reactivity) | Not separated (both read as C) | Not separated by default; specialised variants distinguish |
+| Cost / depth | Lower depth per sample | Higher depth typically required | Comparable to bisulfite |
+| Quantitative methylation | **Inferred** | Direct | Direct |
+
+Two practical implications:
+
+- For per-CpG quantitative methylation, bisulfite or enzymatic methyl-seq is the appropriate tool.
+- For cost-efficient genome-wide methylome surveys at low cfDNA input, MeDIP-based enrichment has a real advantage — at the cost of analytical complexity downstream.
+
+## Methodological caveats and a note on publication context
+
+- **5mC / 5hmC indistinguishability** carries through from antibody chemistry into every downstream interpretation. In tissues with non-trivial 5hmC, "MeDIP-derived methylation" is a composite signal.
+- **CpG-density bias is intrinsic to the chemistry**, not a removable artifact. All quantitative claims rest on the bias model used to correct it.
+- **Filler DNA composition (50/50 methylated/unmethylated)** is a chemistry constraint that is sometimes underspecified in methods sections. Departures from it are a meaningful source of inter-study variability.
+- **Antibody lot variability** undermines naïve cross-batch comparisons.
+- **Bias compounding is multiplicative.** Simulation analyses and power calculations that assume independent, additive effects across CpG-density, fragment-length, GC, lot, and run dimensions systematically *understate* variance and overstate detectability of small effects.
+- **CpG features are not independent.** Adjacent CpGs and adjacent regions are highly correlated; analyses that assume independence inflate apparent significance and effective sample size.
+- **Publication context.** cfMeDIP-seq was developed by the De Carvalho group at Princess Margaret and is the technical foundation of a commercial platform (Adela). The published cfMeDIP-seq literature is overwhelmingly authored by the developing group and close collaborators. This is not an objection to the science, but it is a reason to read the published performance numbers as **showcase results** — best-case demonstrations under co-developed wet and dry pipelines — rather than as neutral evaluations. Independent, external benchmarks on standardised cohorts remain limited.
+
+## Summary
+
+- MeDIP is an antibody-based affinity enrichment that requires ssDNA, a 5mC-specific IgG, and a Protein G/A bead capture step; the IP is a chain of equilibria, not a clean partition.
+- cfMeDIP-seq adapts MeDIP to ng-scale plasma cfDNA via library-prep-before-IP and filler DNA at a defined methylation balance.
+- The chemistry imposes irreducible biases (CpG density, fragment length, GC content), compounded multiplicatively across samples, lots, and runs.
+- MeDIP gives genome-wide enrichment at low input but not single-CpG quantitative methylation; bisulfite and enzymatic methyl-seq provide the latter at higher cost and DNA damage.
+- Quantitative claims from cfMeDIP-seq depend on assumptions whose validity warrants ongoing scrutiny — particularly the assumptions of independent biases and independent CpG features. Reading the platform-developer literature as showcase studies, not as neutral evaluations, is appropriate background for the technical sessions to follow.

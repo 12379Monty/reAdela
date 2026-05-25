@@ -1,0 +1,31 @@
+I would like to provide an introduction to DNA methylation
+on 3 sections, intended for a mist of researchers, some of whom
+may be biologists who are experts, and some who know very little.
+
+Export as an rmarkdown which could be easily converted to slides.
+
+1.  The biochemistry and biology of DNA methylation.  Output to 
+markdown that could readily be converted to slides, 10 or so.
+
+2. The relationshio beteen DNA methylation and csnceer.   
+Up to 10 slides worth, by maybe less.  Output to md.
+
+3. The bio-technology of Methylated DNA immunoprecipitation
+Up to 10 slides worth, by maybe less.  Output to md.
+
+
+Let's do biology of DNA methylation first.
+
+
+---
+* What about the reverse reaction - from methylated to un-methylated?
+
+* When cells replicate, how are the meth marks replicated?
+
+* At birth, what is the methylation mark inheritance process like?
+
+* In somatics cells what are the methylation and demethylation 
+processes like?
+
+
+

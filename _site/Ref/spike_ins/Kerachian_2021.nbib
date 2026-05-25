@@ -1,0 +1,106 @@
+PMID- 34663458
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20220217
+LR  - 20240817
+IS  - 1868-7083 (Electronic)
+IS  - 1868-7075 (Print)
+IS  - 1868-7075 (Linking)
+VI  - 13
+IP  - 1
+DP  - 2021 Oct 18
+TI  - Guidelines for pre-analytical conditions for assessing the methylation of 
+      circulating cell-free DNA.
+PG  - 193
+LID - 10.1186/s13148-021-01182-7 [doi]
+LID - 193
+AB  - Methylation analysis of circulating cell-free DNA (cirDNA), as a liquid biopsy, 
+      has a significant potential to advance the detection, prognosis, and treatment of 
+      cancer, as well as many genetic disorders. The role of epigenetics in disease 
+      development has been reported in several hereditary disorders, and epigenetic 
+      modifications are regarded as one of the earliest and most significant genomic 
+      aberrations that arise during carcinogenesis. Liquid biopsy can be employed for 
+      the detection of these epigenetic biomarkers. It consists of isolation 
+      (pre-analytical) and detection (analytical) phases. The choice of pre-analytical 
+      variables comprising cirDNA extraction and bisulfite conversion methods can 
+      affect the identification of cirDNA methylation. Indeed, different techniques 
+      give a different return of cirDNA, which confirms the importance of 
+      pre-analytical procedures in clinical diagnostics. Although novel techniques have 
+      been developed for the simplification of methylation analysis, the process 
+      remains complex, as the steps of DNA extraction, bisulfite treatment, and 
+      methylation detection are each carried out separately. Recent studies have noted 
+      the absence of any standard method for the pre-analytical processing of 
+      methylated cirDNA. We have therefore conducted a comprehensive and systematic 
+      review of the important pre-analytical and analytical variables and the 
+      patient-related factors which form the basis of our guidelines for analyzing 
+      methylated cirDNA in liquid biopsy.
+CI  - © 2021. The Author(s).
+FAU - Kerachian, Mohammad Amin
+AU  - Kerachian MA
+AUID- ORCID: 0000-0001-5016-2882
+AD  - Medical Genetics Research Center, Mashhad University of Medical Sciences, 
+      Mashhad, Iran. kerachianma@mums.ac.ir.
+AD  - Department of Medical Genetics, Faculty of Medicine, Mashhad University of 
+      Medical Sciences, Mashhad, Iran. kerachianma@mums.ac.ir.
+AD  - Cancer Genetics Research Unit, Reza Radiotherapy and Oncology Center, Mashhad, 
+      Iran. kerachianma@mums.ac.ir.
+FAU - Azghandi, Marjan
+AU  - Azghandi M
+AD  - Cancer Genetics Research Unit, Reza Radiotherapy and Oncology Center, Mashhad, 
+      Iran.
+AD  - Department of Animal Science, Faculty of Agriculture, Ferdowsi University of 
+      Mashhad, Mashhad, Iran.
+FAU - Mozaffari-Jovin, Sina
+AU  - Mozaffari-Jovin S
+AD  - Medical Genetics Research Center, Mashhad University of Medical Sciences, 
+      Mashhad, Iran.
+AD  - Department of Medical Genetics, Faculty of Medicine, Mashhad University of 
+      Medical Sciences, Mashhad, Iran.
+FAU - Thierry, Alain R
+AU  - Thierry AR
+AD  - IRCM, Institute of Research in Oncology of Montpellier, Montpellier, France. 
+      alain.thierry@inserm.fr.
+AD  - INSERM, U1194, Montpellier, France. alain.thierry@inserm.fr.
+AD  - University of Montpellier, Montpellier, France. alain.thierry@inserm.fr.
+AD  - ICM, Regional Institute of Cancer of Montpellier, Montpellier, France. 
+      alain.thierry@inserm.fr.
+LA  - eng
+PT  - Journal Article
+PT  - Systematic Review
+DEP - 20211018
+PL  - Germany
+TA  - Clin Epigenetics
+JT  - Clinical epigenetics
+JID - 101516977
+RN  - 0 (Biomarkers, Tumor)
+RN  - 0 (Cell-Free Nucleic Acids)
+SB  - IM
+MH  - Biomarkers, Tumor/analysis/blood
+MH  - Carcinoma, Non-Small-Cell Lung/*diagnosis/genetics
+MH  - Cell-Free Nucleic Acids/analysis/*genetics
+MH  - DNA Methylation/genetics/*physiology
+MH  - Humans
+MH  - Prognosis
+PMC - PMC8525023
+OTO - NOTNLM
+OT  - Biomarkers
+OT  - Circulating tumor DNA
+OT  - Epigenetics
+OT  - Liquid biopsy
+OT  - Pre-analytical
+COIS- The authors declare that they have no competing interests.
+EDAT- 2021/10/20 06:00
+MHDA- 2022/02/19 06:00
+PMCR- 2021/10/18
+CRDT- 2021/10/19 05:45
+PHST- 2021/06/04 00:00 [received]
+PHST- 2021/10/04 00:00 [accepted]
+PHST- 2021/10/19 05:45 [entrez]
+PHST- 2021/10/20 06:00 [pubmed]
+PHST- 2022/02/19 06:00 [medline]
+PHST- 2021/10/18 00:00 [pmc-release]
+AID - 10.1186/s13148-021-01182-7 [pii]
+AID - 1182 [pii]
+AID - 10.1186/s13148-021-01182-7 [doi]
+PST - epublish
+SO  - Clin Epigenetics. 2021 Oct 18;13(1):193. doi: 10.1186/s13148-021-01182-7.

@@ -13,7 +13,7 @@ for the protocol, what are the mechanics which lead to inflated
 variability, and what is the final form of this step in the latest
 protocol?
 
-Explain mechanistically how variabikity is introfuced in the Immunoprecipitation
+Explain mechanistically how variability is introduced in the Immunoprecipitation
 step.
 
 

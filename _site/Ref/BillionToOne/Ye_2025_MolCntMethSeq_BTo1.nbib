@@ -1,0 +1,115 @@
+PMID- 39966612
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20250831
+LR  - 20250831
+IS  - 2045-2322 (Electronic)
+IS  - 2045-2322 (Linking)
+VI  - 15
+IP  - 1
+DP  - 2025 Feb 18
+TI  - Molecular counting enables accurate and precise quantification of methylated 
+      ctDNA for tumor-naive cancer therapy response monitoring.
+PG  - 5869
+LID - 10.1038/s41598-025-90013-3 [doi]
+LID - 5869
+AB  - Personalized cancer treatment can significantly extend survival and improve 
+      quality of life for many patients, but accurate and real-time therapy response 
+      monitoring remains challenging. To overcome logistical and technical challenges 
+      associated with therapy response monitoring via imaging scans or assays that 
+      track the variant allele fraction (VAF) of somatic mutations in circulating tumor 
+      DNA (ctDNA), we developed a tumor-naive liquid biopsy assay that leverages 
+      Quantitative Counting Template (QCT) technology to accurately and precisely 
+      quantify methylated ctDNA (Northstar Response™). The assay achieves < 10% 
+      coefficient of variation at 1% tumor fraction, which is 2 × lower than 
+      tumor-naive, targeted-panel approaches using VAF. The assay accurately 
+      distinguishes 0.25% absolute changes in contrived tumor fraction (AUC > 0.94) and 
+      performs well in 12 solid tumor types. Finally, in a small cohort of patients 
+      with lung, colorectal, or pancreatic cancer, the assay detected changes in ctDNA 
+      methylation that correlate with clinical outcomes. With its precise 
+      quantification of ctDNA methylation, Northstar Response is a novel tool for 
+      therapy response monitoring with the potential to inform clinical decision making 
+      for cancer treatment.
+CI  - © 2025. The Author(s).
+FAU - Ye, Patrick Peiyong
+AU  - Ye PP
+AD  - BillionToOne, Inc, Menlo Park, CA, USA. patrick@billiontoone.com.
+FAU - Viens, Robb
+AU  - Viens R
+AD  - BillionToOne, Inc, Menlo Park, CA, USA.
+FAU - Shelburne, Katherine E
+AU  - Shelburne KE
+AD  - BillionToOne, Inc, Menlo Park, CA, USA.
+FAU - Langpap, Sydne Scot
+AU  - Langpap SS
+AD  - BillionToOne, Inc, Menlo Park, CA, USA.
+FAU - Bower, Xavier S
+AU  - Bower XS
+AD  - BillionToOne, Inc, Menlo Park, CA, USA.
+FAU - Shi, Jonathan Jiahui
+AU  - Shi JJ
+AD  - BillionToOne, Inc, Menlo Park, CA, USA.
+FAU - Zhou, Wen
+AU  - Zhou W
+AD  - BillionToOne, Inc, Menlo Park, CA, USA.
+FAU - Wignall, Jan Christian
+AU  - Wignall JC
+AD  - BillionToOne, Inc, Menlo Park, CA, USA.
+FAU - Zhu, Joyce Jiawei
+AU  - Zhu JJ
+AD  - BillionToOne, Inc, Menlo Park, CA, USA.
+FAU - Woodward, Brian D
+AU  - Woodward BD
+AD  - University of California San Diego Moores Cancer Center, La Jolla, CA, USA.
+FAU - Husain, Hatim
+AU  - Husain H
+AD  - University of California San Diego Moores Cancer Center, La Jolla, CA, USA.
+FAU - Tsao, David S
+AU  - Tsao DS
+AD  - BillionToOne, Inc, Menlo Park, CA, USA.
+FAU - Atay, Oguzhan
+AU  - Atay O
+AD  - BillionToOne, Inc, Menlo Park, CA, USA.
+LA  - eng
+PT  - Journal Article
+DEP - 20250218
+PL  - England
+TA  - Sci Rep
+JT  - Scientific reports
+JID - 101563288
+RN  - 0 (Biomarkers, Tumor)
+RN  - 0 (Circulating Tumor DNA)
+SB  - IM
+MH  - *Biomarkers, Tumor/genetics
+MH  - *Circulating Tumor DNA/genetics
+MH  - Alleles
+MH  - Genetic Variation
+MH  - *Lung Neoplasms/genetics/therapy
+MH  - *Colorectal Neoplasms/genetics/therapy
+MH  - *Pancreatic Neoplasms/genetics/therapy
+MH  - Computational Biology
+MH  - *DNA Methylation
+MH  - Humans
+MH  - Liquid Biopsy
+MH  - Mutation
+PMC - PMC11836444
+COIS- Declarations. Competing interests: PY, RV, KS, SL, XB, JS, WZ, JW, JZ, DT, and OA 
+      are employees of BillionToOne and/or hold stock or options to hold stock in the 
+      company. Patent disclosures about this work have been filed with BillionToOne, 
+      Inc. BillionToOne, Inc. funded portions of this study. BW and HH do not have 
+      competing interests to disclose.
+EDAT- 2025/02/19 00:15
+MHDA- 2025/02/19 06:22
+PMCR- 2025/02/18
+CRDT- 2025/02/18 23:46
+PHST- 2024/12/27 00:00 [received]
+PHST- 2025/02/10 00:00 [accepted]
+PHST- 2025/02/19 06:22 [medline]
+PHST- 2025/02/19 00:15 [pubmed]
+PHST- 2025/02/18 23:46 [entrez]
+PHST- 2025/02/18 00:00 [pmc-release]
+AID - 10.1038/s41598-025-90013-3 [pii]
+AID - 90013 [pii]
+AID - 10.1038/s41598-025-90013-3 [doi]
+PST - epublish
+SO  - Sci Rep. 2025 Feb 18;15(1):5869. doi: 10.1038/s41598-025-90013-3.

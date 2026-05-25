@@ -18,7 +18,8 @@ output:
     # this has no effect
     number_sections: yes
     # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
-bibliography: [_cfMeDIP-seq_references.bib]
+bibliography: [../Ref/_MEDIPS.bib, ../Ref/_cfMeDIP-seq_references.bib, ../spike_ins/Ref/_spike_in.bib]
+
 csl: ../../_csl/cell-numeric.csl
 link-citations: true
 ---
@@ -1064,7 +1065,7 @@ MEDIPIPE implements three methods for methylation estimation, each using differe
 
 <br/>
 
-#### Method 3
+#### Method 3 {-}
 
 **Approach:**
 
@@ -1160,6 +1161,8 @@ output/
     └── methylation_MEDStrand_filtered.txt.gz
 ```
 
+<br/>
+
 ### Key QC Metrics  {-}
 
 * Key Quality Control Metrics Tracked
@@ -1195,6 +1198,8 @@ MEDIPIPE tracks comprehensive QC metrics throughout the pipeline:
 - Short-to-long fragment ratios
 - Fragmentation patterns
 
+<br/>
+
 ### Config and Flex {-}
 
 * Configuration and Flexibility
@@ -1227,6 +1232,8 @@ MEDIPIPE uses a single YAML configuration file that specifies:
 - Number of threads per step
 - Memory allocation
 - Cluster submission parameters
+
+<br/>
 
 ###  Advantages of MEDIPIPE {-}
 

@@ -1,0 +1,179 @@
+PMID- 41688797
+OWN - NLM
+STAT- Publisher
+LR  - 20260213
+IS  - 2397-768X (Print)
+IS  - 2397-768X (Linking)
+DP  - 2026 Feb 13
+TI  - Clinical validation of a tissue-agnostic genome-wide methylome enrichment assay 
+      to monitor response to pembrolizumab.
+LID - 10.1038/s41698-026-01327-y [doi]
+AB  - Immunotherapy has significantly improved the treatment of metastatic solid 
+      tumors; however, detecting early signs of response to enable timely intervention 
+      for resistant tumors remains challenging. A blood-only circulating tumor DNA 
+      (ctDNA) test may provide a rapid assessment of tumor response without reliance on 
+      matched tumor tissue. We applied a tissue-agnostic, genome-wide methylation 
+      enrichment assay, based on cell-free methylated DNA immunoprecipitation and 
+      high-throughput sequencing (cfMeDIP-seq), to plasma samples from patients in a 
+      phase 2 trial evaluating pembrolizumab across multiple solid tumors 
+      (NCT02644369). A decrease in ctDNA from baseline to pre-cycle 3 was significantly 
+      associated with higher objective response and clinical benefit rates and longer 
+      progression-free and overall survival in univariate analyses, with these 
+      associations remaining significant in multivariable models except for overall 
+      survival. These results validate a commercial-grade, tissue-agnostic plasma cfDNA 
+      methylation platform for immunotherapy response monitoring, which may facilitate 
+      earlier, more informed treatment decisions and improve patient outcomes.
+CI  - © 2026. The Author(s).
+FAU - Stutheit-Zhao, Eric Y
+AU  - Stutheit-Zhao EY
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+FAU - Zhong, Yongqi
+AU  - Zhong Y
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Melton, Collin A
+AU  - Melton CA
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Lightbody, Elizabeth D
+AU  - Lightbody ED
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Hinterberg, Michael A
+AU  - Hinterberg MA
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Wang, Yarong
+AU  - Wang Y
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Hall, Owen
+AU  - Hall O
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Sosa, Eduardo V
+AU  - Sosa EV
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Provance, Jeremy B
+AU  - Provance JB
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Zhang, Junjun
+AU  - Zhang J
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Licon, Abel
+AU  - Licon A
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Liu, Zhihui Amy
+AU  - Liu ZA
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+FAU - Abdul Razak, Albiruni R
+AU  - Abdul Razak AR
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+FAU - Spreafico, Anna
+AU  - Spreafico A
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+FAU - Bedard, Philippe L
+AU  - Bedard PL
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+FAU - Hansen, Aaron R
+AU  - Hansen AR
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+FAU - Lheureux, Stephanie
+AU  - Lheureux S
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+FAU - Ohashi, Pamela S
+AU  - Ohashi PS
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+AD  - Department of Immunology, University of Toronto, Toronto, ON, Canada.
+FAU - Williams, Alan
+AU  - Williams A
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Bratman, Scott V
+AU  - Bratman SV
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+AD  - Department of Medical Biophysics, Temerty Faculty of Medicine, University of 
+      Toronto, Toronto, ON, Canada.
+FAU - Allen, Brian A
+AU  - Allen BA
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Zhang, Jing
+AU  - Zhang J
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - De Carvalho, Daniel D
+AU  - De Carvalho DD
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+AD  - Department of Medical Biophysics, Temerty Faculty of Medicine, University of 
+      Toronto, Toronto, ON, Canada.
+FAU - Hartman, Anne-Renee
+AU  - Hartman AR
+AD  - Adela, Inc., Foster City, CA, USA.
+FAU - Siu, Lillian L
+AU  - Siu LL
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada.
+FAU - Sanz-Garcia, Enrique
+AU  - Sanz-Garcia E
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, ON, Canada. 
+      enrique.sanzgarcia@uhn.ca.
+LA  - eng
+PT  - Journal Article
+DEP - 20260213
+PL  - England
+TA  - NPJ Precis Oncol
+JT  - NPJ precision oncology
+JID - 101708166
+COIS- Competing interests: D.D.D.C. and S.V.B. are cofounders of Adela, serve in 
+      leadership positions, and own Adela shares. This arrangement has been reviewed 
+      and approved by the University Health Network in accordance with its 
+      conflict-of-interest policies. In addition, the University Health Network owns 
+      Adela equities. D.D.D.C. and S.V.B. are inventors in multiple patents related to 
+      cfDNA methylation profiling technology licensed to Adela and applied in this 
+      manuscript. D.D.D.C. is an inventor on PCT/CA2017/000108 (assignee, University 
+      Health Network) and PCT/CA2020/051507 (assignees, University Health Network, Van 
+      Andel Research Institute). D.D.D.C. and S.V.B. are inventors on PCT/CA2018/000141 
+      (assignee, University Health Network) and PCT/CA2021/050842 (assignee, University 
+      Health Network). S.V.B. is also an inventor on a patent related to cfDNA mutation 
+      analysis technology outside of this work that has been licensed to Roche 
+      [PCT/US2014/025020 (assignee, Stanford University)]. E.Y.S-Z. provided consulting 
+      services for Adela. A.R. reports grants from Merck during the conduct of the 
+      study; grants from Adaptimmune, Bayer, GlaxoSmithKline, Medison, Inhibrx; 
+      research funding from Deciphera, Karyopharm Therapeutics, Pfizer, 
+      Roche/Genentech, Bristol Myers Squibb, MedImmune, Amgen, GlaxoSmithKline, 
+      Blueprint Medicines, Merck, AbbVie, Adaptimmune, Iterion Therapeutics, Neoleukin 
+      Therapeutics, Daiichi Sankyo, Symphogen, Rain Therapeutics, and Boehringer 
+      Ingelheim; and personal fees from Boehringer Ingelheim, Merck, Eli Lilly, and 
+      Medison outside the submitted work. A.S. reports grants and personal fees from 
+      Merck, BMS, grants from Novartis, Symphogen, AstraZeneca/Medimmune, Bayer, 
+      Surface Oncology, Janssen Oncology/Johnson & Johnson, Roche, Regeneron, Alkermes, 
+      Array Biopharma/Pfizer, GSK, NuBiyota, Oncorus, Treadwell, Amgen, ALX Oncology, 
+      Genentech, Seagen, Servier, Incyte, and Gilead outside the submitted work. P.S.O. 
+      is on scientific advisory boards for Providence Therapeutics, Tikva Allocell, and 
+      Rondo Therapeutics, Inc., and holds a sponsored research agreement with 
+      Providence Therapeutics. A.H. receives honoraria from Merck, Janssen, Astellas, 
+      Pfizer, Bayer; serves a consulting or advisory role for Astellas, Merck, Bayer, 
+      Eisai, Janssen; has institutional research funding from Merck, Bristol Myers 
+      Squibb, Janssen, Advancell, AVEO, SEAGEN, Macrogenics, Tyra-Biosciences, FUSION, 
+      Full Life Technologies; and has travel grants from Bayer. P.B. receives honoraria 
+      from Boehringer Ingelheim and research funding from Bristol Myers Squibb, Sanofi, 
+      AstraZeneca, Genentech/Roche, GlaxoSmithKline, Novartis, Merck, Seattle Genetics, 
+      Lilly, Amgen, Bicara, Zymeworks, Medicenna, Bayer, Takeda, Gilead Sciences, 
+      LegoChem Biosciences, Boehringer Ingelheim, ProteinQure, Daiichi Sankyo/UCB 
+      Japan. A.-R.H is a cofounder, chief medical officer, and serves in a leadership 
+      position at Adela; and owns Adela shares and reports Illumina shares. E.S.G. 
+      reports a relationship with GSK that includes consulting fees and grants from GSK 
+      and Rgenta Therapeutics. All Adela authors (Y.Z., C.A.M., E.D.L., M.A.H., Y.W., 
+      O.H., E.V.S., J.B.P., J.Z., A.L., A.W., B.A.A., J.Z.) report full-time employment 
+      and Adela stock options. L.L.S. acts as a consultant/advisory role for Merck, 
+      Pfizer, AstraZeneca, Roche, GSK, Voronoi, Arvinas, Navire, Relay, Marengo, 
+      Daiichi Sankyo, Amgen, LTZ Therapeutics, Tubulis, Marengo, Nerviano, Pangea, 
+      Velavigo, and Incyte; receives grant/research support from Merck, Novartis, 
+      Bristol Myers Squibb, Pfizer/SeaGen, Boerhinger Ingelheim, GlaxoSmithKline, 
+      Roche/Genentech, AstraZeneca/Medimmune, Bayer, Abbvie, Amgen, EMD Serono, Daiichi 
+      Sankyo, Gilead, Marengo, Incyte; is a founder and serves in a leadership position 
+      at Treadwell Therapeutics. All other authors declare no competing financial or 
+      non-financial competing interests.
+EDAT- 2026/02/14 05:31
+MHDA- 2026/02/14 05:31
+CRDT- 2026/02/13 23:31
+PHST- 2025/08/11 00:00 [received]
+PHST- 2026/02/02 00:00 [accepted]
+PHST- 2026/02/14 05:31 [medline]
+PHST- 2026/02/14 05:31 [pubmed]
+PHST- 2026/02/13 23:31 [entrez]
+AID - 10.1038/s41698-026-01327-y [pii]
+AID - 10.1038/s41698-026-01327-y [doi]
+PST - aheadofprint
+SO  - NPJ Precis Oncol. 2026 Feb 13. doi: 10.1038/s41698-026-01327-y.

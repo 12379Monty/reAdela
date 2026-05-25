@@ -1,0 +1,191 @@
+---
+title: Critical Review — Halla-aho & Lähdesmäki 2022 [@Hallaaho2022]
+subtitle: Feature Instability in cfMeDIP-seq Classification
+always_allow_html: yes
+output:
+  html_document:
+    code_folding: hide
+    code_download: true
+    toc: true
+    toc_depth: 2
+    # does this have an effect
+    fig_caption: yes
+
+---
+
+
+<!--
+**Citation:** Halla-aho V, Lähdesmäki H. *Probabilistic modeling methods for cell-free DNA methylation based cancer classification.* BMC Bioinformatics. 2022;23:119. doi:10.1186/s12859-022-04651-9
+-->
+
+---
+
+# 1. Methodological Context and Scope {-}
+
+This paper represents a genuine *methods comparison study* — an independent evaluation by Finnish computational biologists testing alternative statistical approaches on the Shen et al. 2018 cfMeDIP-seq dataset. Unlike platform-development papers that tune methods to showcase performance, this work systematically compares feature selection and classification approaches across varying sequencing depths, providing one of the few rigorous head-to-head comparisons in the cfMeDIP-seq literature.
+
+The core research question is whether alternative statistical methods can improve cfMeDIP-seq classification performance, particularly under low sequencing depth conditions that would be relevant for clinical cost-effectiveness. The authors test combinations of:
+
+- **DMR finding methods:** Moderated t-test (original), moderated t-test with modified transformation, Fisher's exact test
+- **Feature extraction:** PCA, binary ISPCA, multiclass ISPCA  
+- **Classification:** GLMnet (original), logistic regression with regularized horseshoe prior, logistic regression with DMR count variables
+- **Sequencing depths:** 10⁴, 10⁵, 10⁶, and original (non-thinned) read counts
+
+This systematic approach makes the paper's findings on feature instability particularly concerning, as they emerge from rigorous cross-validation rather than post hoc rationalization.
+
+---
+
+# 2. The Feature Instability Problem {-}
+
+## 2.1 Evidence for Instability {-}
+
+The authors document extensive variability in which genomic regions are selected as differentially methylated regions (DMRs) across:
+
+1. **Cross-validation folds:** "Many of the DMRs are only found in less than half of the data splits"
+2. **Statistical methods:** Venn diagrams (Fig. 2) show substantial non-overlap between DMRs identified by different approaches
+3. **Sequencing depth:** DMR counts and overlaps change systematically with read depth
+
+The most direct evidence comes from their filtering analysis: when DMRs are restricted to those "found in 50 or more data splits of the total 100," the number drops substantially, indicating that most DMRs are not reproducibly identified across resampling.
+
+## 2.2 Missing Analysis: Direct Significance Vector Comparison   {-}
+
+**Critical gap:** The authors compare *sets* of selected DMRs (via Venn diagrams and counts) but never directly compare the *significance vectors* — i.e., the rank-ordering of all ~505,000 genomic windows by statistical significance under each method.
+
+This is a missed opportunity because:
+
+- **Significance correlation** would reveal whether methods agree on which regions are *most* differentially methylated, even if they disagree on significance thresholds
+- **Rank correlation analysis** would distinguish between (i) methods that fundamentally disagree about which regions matter vs. (ii) methods that agree on ranking but differ in where to cut the threshold
+- **Stability assessment** could quantify whether significance vectors are stable across cross-validation folds, separate from the threshold-dependent DMR selection
+
+The distinction matters: if two methods produce highly correlated significance vectors but different DMR lists due to threshold effects, that suggests a different kind of instability than if the methods fundamentally disagree about which regions are important.
+
+## 2.3 Implications of the Missing Comparison {-}
+
+Without direct significance vector comparison, we cannot determine:
+
+1. **Whether instability is threshold-dependent or fundamental:** Do methods agree on the most important regions but disagree on borderline cases, or do they rank regions completely differently?
+
+2. **Whether feature instability reflects measurement noise or biological signal:** Correlated significance vectors with unstable thresholds might indicate that the methods are detecting real signal but that threshold selection is arbitrary. Uncorrelated significance vectors would suggest the methods are detecting different (potentially artifactual) patterns.
+
+3. **Whether classifier equivalence despite feature instability is reassuring or concerning:** If methods produce similar classifiers because they're all leveraging the same core biological signal (evident in correlated significance vectors), that's reassuring. If they produce similar classifiers while detecting completely different patterns, that suggests the classification task may be easier than the feature selection task, but with unclear biological interpretation.
+
+---
+
+# 3. Classifier Equivalence Despite Feature Instability {-}
+
+## 3.1 The Core Question {-}
+
+The authors demonstrate that "many methods perform equally well as, and occasionally considerably better than, GLMnet," despite substantial differences in selected feature sets. This raises a fundamental question: **Does feature instability matter if downstream classifiers are equivalent?**
+
+## 3.2 Evidence for Classifier Equivalence {-}
+
+Across most conditions tested:
+- Median AUROC differences between methods are small (typically <0.05)
+- No single method consistently outperforms others across cancer types, sequencing depths, and discovery vs. validation cohorts
+- The original GLMnet approach remains competitive with more sophisticated alternatives
+
+## 3.3 Two Interpretations {-}
+
+**Interpretation 1: Robust biological signal.** Multiple feature sets capture the same underlying biological patterns that distinguish cancer from normal cfDNA. Feature instability is primarily a threshold artifact, but the core differentially methylated regions contain robust signal that multiple methods can leverage.
+
+**Interpretation 2: Task is easier than it appears.** Cancer vs. normal classification may be achievable using diverse methylation patterns, making the specific choice of features less critical. This could indicate that cfDNA contains abundant cancer-specific signal, or conversely, that the task is somehow artifactually easy.
+
+**Distinguishing between interpretations** requires the missing significance vector analysis. High correlation between significance vectors would support Interpretation 1; low correlation would support Interpretation 2.
+
+## 3.4 Clinical Implications {-}
+
+From a **clinical deployment perspective**, classifier equivalence despite feature instability suggests:
+
+- **Robustness to technical variations:** Different lab protocols, antibody lots, or analysis pipelines might select different features but achieve similar performance
+- **Transferability concerns:** If feature instability reflects fundamental uncertainty about which regions matter, classifiers might not transfer well to new populations or platforms
+- **Interpretability limitations:** Difficulty in identifying the "true" biomarkers limits biological insight and clinical confidence
+
+---
+
+# 4. Methodological Limitations {-}
+
+## 4.1 Cross-Validation Structure {-}
+
+The 100 × 80:20 splits provide good statistical power for performance comparison but do not separate feature selection from performance evaluation. **Information leakage** likely occurs when DMR selection (feature ranking) and threshold selection both use the full training set before cross-validation.
+
+**More principled approach:** Nested cross-validation where DMR selection, threshold determination, and performance evaluation are all performed on independent data splits.
+
+## 4.2 Sequencing Depth Simulation {-}
+
+The *in silico* read thinning approach has the same independence assumptions critiqued in the Shen 2018 review: 
+- Real low-depth sequencing would have different noise structure than proportional thinning
+- Batch effects, enrichment bias, and antibody performance might change non-linearly with depth
+- The simulation assumes all genomic windows thin independently
+
+## 4.3 Limited Validation Context {-}
+
+Testing is confined to:
+- Single dataset (Shen et al. cohort)
+- Single platform (cfMeDIP-seq as originally implemented)  
+- Retrospective case-control design
+
+**Missing:** Multi-site validation, different cfMeDIP-seq implementations, prospective evaluation.
+
+---
+
+# 5. Significance for cfMeDIP-seq Development {-}
+
+## 5.1 Feature Selection vs. Classification Performance {-}
+
+This work reveals a **disconnect between feature selection stability and classification performance** that has important implications:
+
+- **For method development:** Optimizing feature selection methods may yield diminishing returns if multiple feature sets achieve similar classification performance
+- **For clinical deployment:** Focus should shift to method robustness and transferability rather than finding the "optimal" feature set
+- **For biological interpretation:** Unstable feature selection limits the ability to identify definitive biomarkers
+
+## 5.2 Sequencing Depth Requirements {-}
+
+The finding that performance degrades with sequencing depth, but that multiple methods remain viable at reduced depth, provides practical guidance for clinical implementation. However, the *in silico* nature of the depth reduction limits direct clinical translation.
+
+## 5.3 Method Selection Guidance {-}
+
+**For practitioners:** The results suggest that method choice may be less critical than ensuring robust implementation, given the rough equivalence of approaches.
+
+**For researchers:** The focus should shift toward understanding why multiple feature sets yield similar performance rather than continuing to develop new feature selection methods.
+
+---
+
+# 6. Missing Experiments That Would Strengthen Conclusions {-}
+
+## 6.1 Direct Significance Vector Analysis {-}
+- Compute pairwise correlations of significance vectors across all methods
+- Assess significance vector stability across cross-validation folds  
+- Quantify how much of feature instability is threshold-dependent vs. fundamental disagreement
+
+## 6.2 Biological Validation {-}
+- Test whether different DMR sets from equivalent classifiers are enriched for similar biological pathways
+- Evaluate whether unstable regions cluster in specific genomic contexts (CpG islands, enhancers, etc.)
+
+## 6.3 Transfer Learning Analysis   {-}
+- Train classifiers on one cancer type, test feature sets on others
+- Evaluate whether feature instability affects transferability across cancer types
+
+---
+
+# 7. Overall Assessment {-}
+
+Halla-aho & Lähdesmäki 2022 makes an important contribution by systematically documenting feature instability in cfMeDIP-seq classification and demonstrating that this instability does not necessarily compromise classifier performance. However, the work stops short of the analysis needed to understand *why* unstable features yield stable classifiers.
+
+The **central unanswered question** — whether feature instability reflects robust biological signal detected through multiple pathways or indicates that the classification task is artifactually easy — has important implications for clinical deployment and biological interpretation.
+
+**Recommended follow-up:** Direct comparison of significance vectors between methods, which would distinguish between threshold artifacts and fundamental disagreement about which genomic regions matter for cancer detection.
+
+**Clinical implication:** While the rough equivalence of methods is reassuring for deployment, the feature instability limits confidence in identifying specific biomarkers and suggests that cfMeDIP-seq classification may be more empirical than mechanistically grounded.
+
+---
+
+*This review emphasizes methodological rigor while noting that feature instability, though concerning from a biomarker discovery perspective, may not preclude successful clinical classification if multiple biological pathways provide redundant cancer signal.*
+
+
+ 
+<!-- To run
+
+ nohup Rscript -e "rmarkdown::render('_Halla-aho_2022_Critical_Review.Rmd')" > _Halla-aho_2022_Critical_Review.log  &
+
+-->
+

@@ -1,0 +1,23 @@
+TY  - JOUR
+AU  - Taiwo, Oluwatosin
+AU  - Wilson, Gareth A
+AU  - Morris, Tiffany
+AU  - Seisenberger, Stefanie
+AU  - Reik, Wolf
+AU  - Pearce, Daniel
+AU  - Beck, Stephan
+AU  - Butcher, Lee M
+PY  - 2012
+DA  - 2012/04/01
+TI  - Methylome analysis using MeDIP-seq with low DNA concentrations
+JO  - Nature Protocols
+SP  - 617
+EP  - 636
+VL  - 7
+IS  - 4
+AB  - DNA methylation is an epigenetic mark that has a crucial role in many biological processes. To understand the functional consequences of DNA methylation on phenotypic plasticity, a genome-wide analysis should be embraced. This in turn requires a technique that balances accuracy, genome coverage, resolution and cost, yet is low in DNA input in order to minimize the drain on precious samples. Methylated DNA immunoprecipitation-sequencing (MeDIP-seq) fulfils these criteria, combining MeDIP with massively parallel DNA sequencing. Here we report an improved protocol using 100-fold less genomic DNA than that commonly used. We show comparable results for specificity (>97%) and enrichment (>100-fold) over a wide range of DNA concentrations (5,000–50 ng) and demonstrate the utility of the protocol for the generation of methylomes from rare bone marrow cells using 160–300 ng of starting DNA. The protocol described here, i.e., DNA extraction to generation of MeDIP-seq library, can be completed within 3–5 d.
+SN  - 1750-2799
+UR  - https://doi.org/10.1038/nprot.2012.012
+DO  - 10.1038/nprot.2012.012
+ID  - Taiwo2012
+ER  - 

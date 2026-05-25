@@ -1,0 +1,43 @@
+TY  - JOUR
+AU  - Zeng, Yong
+AU  - Abelman, Dor D.
+AU  - Singhawansa, Althaf
+AU  - Cheng, Nicholas
+AU  - Fang, Yuanchang
+AU  - Main, Sasha C.
+AU  - Bell, Emma
+AU  - Ye, Wenbin
+AU  - Luo, Ping
+AU  - Wilson, Samantha L.
+AU  - Stutheit-Zhao, Eric Y.
+AU  - Wong, Derek
+AU  - Znassi, Nadia
+AU  - Chen, Kui
+AU  - Mohanraj, Suluxan
+AU  - Sanz-Garcia, Enrique
+AU  - Notta, Faiyaz
+AU  - Ghanekar, Anand
+AU  - Awadalla, Philip
+AU  - Lok, Benjamin H.
+AU  - Hoffman, Michael M.
+AU  - Kim, Raymond H.
+AU  - Zadeh, Gelareh
+AU  - De Carvalho, Daniel D.
+AU  - Bratman, Scott V.
+AU  - Lupien, Mathieu
+AU  - Pugh, Trevor J.
+AU  - He, Housheng Hansen
+PY  - 2026
+DA  - 2026/02/01
+TI  - A pan-cancer compendium of 1,294 plasma cell-free DNA methylomes and fragmentomes enabling multicancer detection
+JO  - Nature Cancer
+SP  - 384
+EP  - 398
+VL  - 7
+IS  - 2
+AB  - Cell-free DNA analysis via methylation and fragmentation profiling has advanced minimally invasive cancer detection; however, broader application has been limited by small cohorts and inconsistent data processing. Here we collated 1,074 cfMeDIP-seq profiles across 9 studies, comprising cancer samples from 11 cancer types, carriers of Li-Fraumeni syndrome and healthy controls. We developed a uniform computational workflow to mitigate technical and biological confounders across cohorts. This analysis identified 14,202 pancancer differentially methylated regions for cancer detection, along with cancer-specific markers for subtype monitoring. Fragmentomic profiling revealed distinguishing differences in 5′ end motifs, fragment lengths and nucleosome footprints across cancers. Integrating methylome and fragmentome features enhanced cancer detection and classification. Validation in 220 independent samples, including 3 cancer types absent from the primary dataset, confirmed the robustness of our findings. Altogether, this work provides a pancancer cell-free DNA resource of 1,294 samples to support future methylome and fragmentome studies.
+SN  - 2662-1347
+UR  - https://doi.org/10.1038/s43018-026-01116-3
+DO  - 10.1038/s43018-026-01116-3
+ID  - Zeng2026
+ER  - 

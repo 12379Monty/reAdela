@@ -18,7 +18,7 @@ output:
     # this has no effect
     number_sections: yes
     # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
-bibliography: [../../_bibFiles/_healthy_aging.bib, ../../_bibFiles/_ref_free_genom_inf.bib, ../../../_bibFiles/_Breiman.bib, ../../../_bibFiles/_Yu.bib, ../../../_bibFiles/_Freedman.bib, ../../../_bibFiles/_RUV.bib, ../../../_bibFiles/_Yu.bib]
+bibliography: [../Ref/_MEDIPS.bib, ../Ref/_cfMeDIP-seq_references.bib, ../spike_ins/Ref/_spike_in.bib]
 csl: ../../_csl/cell-numeric.csl
 link-citations: true
 ---
@@ -132,7 +132,6 @@ if(sum(grepl(FN, list.files()))==0) stop("Check FN")
 
  # The usual shortcuts
  zz <- function(n='') source(paste("t", n, sep=''))
-
 
  WRKDIR <- '..'
  if(!file.exists(WRKDIR)) stop("WRKDIR ERROR", WRKDIR)
@@ -312,6 +311,26 @@ eaboth tabular and graphical formats.
 
 **Study**: "Sensitive tumour detection and classification using plasma cell-free DNA methylomes"
 
+<span style="color:blue">
+
+### **Primary Critique** {-}
+
+<p><p/>
+*  More than one model should be examined
+   - helps distinguish between model failure (only one model fails
+at given sample point) and sample failure (all models fail)
+
+<p><p/>
+* more detailed examination of results
+   - which samples are mis-classified?
+   - do all models miss the same samples?
+   - bias vs variance
+
+</span>
+
+<br/>
+
+
 ### **Data Processing** {-}
 
 **Feature Definition:**
@@ -322,10 +341,13 @@ eaboth tabular and graphical formats.
    - **Is this done with all samples?**
    - Test set should be excluded.
    - Technically, should also be inside the cv loop.
+<!--
       - when "most variable" is a considerable fraction, like 40-60%,
 it might be ok to do the selection outside the CV loop,
 but 1000 is a major filter and there is a chance that
 this selection is affected by between group differences in the test samples.
+-->
+
 </span>
 
 - Variability measured by median absolute deviation (MAD)

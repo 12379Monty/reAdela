@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<title>cfMeDIP-seq · FASTQ to BAM</title>
+<style>
+  body{margin:0;padding:16px 12px;background:#f4f6f8;font-family:Arial,sans-serif}
+  .wrap{background:#fff;border-radius:8px;padding:14px 8px 10px;box-shadow:0 1px 5px rgba(0,0,0,.12)}
+  svg{display:block;margin:auto;width:100%;max-width:960px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<svg viewBox="0 0 960 340" xmlns="http://www.w3.org/2000/svg">
+
+<!-- TITLE -->
+<text x="480" y="16" text-anchor="middle" font-family="Arial" font-size="13"
+      font-weight="bold" fill="#1a1a2e">cfMeDIP-seq · Preprocessing Pipeline · FASTQ → BAM</text>
+
+<!--
+  4 columns · stride 235px · box 225×100px
+  col centres: 122  357  592  827
+  box left:     10  245  480  715
+
+  ROW 1  y-band=24  y-label=49  y-box=57  y-bot=157
+  ROW 2  y-band=166 y-label=191 y-box=199 y-bot=299
+  LEGEND y=308
+-->
+
+<!-- ═══════════ ROW 1 · Steps 1–4 ═══════════ -->
+<!-- Stage I band  cols 0-1  x10→470 -->
+<rect x="10"  y="24" width="460" height="15" rx="3" fill="#148F77"/>
+<text x="240" y="35" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE I · Quality Control &amp; Pre-alignment</text>
+
+<!-- Stage II band  cols 2-3  x480→940 -->
+<rect x="480" y="24" width="460" height="15" rx="3" fill="#7D3C98"/>
+<text x="710" y="35" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE II · Alignment</text>
+
+<!-- Step 1 cx=122 -->
+<text x="122" y="49" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#0E6655">1 – Raw QC</text>
+<rect x="10" y="57" width="225" height="100" rx="5" fill="#E8F8F5" stroke="#148F77" stroke-width="1.5"/>
+<text x="122" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">FastQC on raw FASTQ</text>
+<text x="122" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Q30; adapter content</text>
+<text x="122" y="106" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Per-base quality; GC content</text>
+<text x="122" y="121" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~15 min</text>
+
+<!-- Step 2 cx=357 -->
+<text x="357" y="49" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#0E6655">2 – Adapter Trimming &amp; UMI Extraction</text>
+<rect x="245" y="57" width="225" height="100" rx="5" fill="#E8F8F5" stroke="#148F77" stroke-width="1.5"/>
+<text x="357" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Trim Galore (Cutadapt + FastQC)</text>
+<text x="357" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">umi_tools extract (--bc-pattern)</text>
+<text x="357" y="106" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Trimmed read length; adapter %</text>
+<text x="357" y="121" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~30 min</text>
+
+<!-- Step 3 cx=592 -->
+<text x="592" y="49" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#6C3483">3 – Alignment</text>
+<rect x="480" y="57" width="225" height="100" rx="5" fill="#F5EEF8" stroke="#7D3C98" stroke-width="1.5"/>
+<text x="592" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">BWA-MEM → hg38 + spike-in</text>
+<text x="592" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Combined reference genome</text>
+<text x="592" y="106" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Mapping rate; multimappers</text>
+<text x="592" y="121" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~1–2 h</text>
+
+<!-- Step 4 cx=827 -->
+<text x="827" y="49" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#6C3483">4 – Sort &amp; Index</text>
+<rect x="715" y="57" width="225" height="100" rx="5" fill="#F5EEF8" stroke="#7D3C98" stroke-width="1.5"/>
+<text x="827" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">SAMtools sort (coordinate)</text>
+<text x="827" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">SAMtools index → .bai</text>
+<text x="827" y="106" text-anchor="middle" font-family="Arial" font-size="10" fill="#888" font-style="italic">No measurement</text>
+<text x="827" y="121" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~30 min</text>
+
+<!-- row 1 hint -->
+<text x="950" y="160" text-anchor="end" font-family="Arial" font-size="8" fill="#bbb" font-style="italic">↩ row 2</text>
+
+<!-- ═══════════ ROW 2 · Steps 5–8 ═══════════ -->
+<!-- Stage III band  full width -->
+<rect x="10" y="166" width="940" height="15" rx="3" fill="#2E4057"/>
+<text x="480" y="177" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE III · Post-alignment Processing &amp; QC</text>
+
+<!-- Step 5 cx=122 -->
+<text x="122" y="191" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#1C2833">5 – Deduplication</text>
+<rect x="10" y="199" width="225" height="100" rx="5" fill="#EBF5FB" stroke="#2E4057" stroke-width="1.5"/>
+<text x="122" y="218" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">umi_tools dedup (if UMI)</text>
+<text x="122" y="233" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Picard MarkDuplicates (no UMI)</text>
+<text x="122" y="248" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Duplication rate</text>
+<text x="122" y="263" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~30 min</text>
+
+<!-- Step 6 cx=357 -->
+<text x="357" y="191" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#1C2833">6 – Filtering</text>
+<rect x="245" y="199" width="225" height="100" rx="5" fill="#EBF5FB" stroke="#2E4057" stroke-width="1.5"/>
+<text x="357" y="218" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">SAMtools view: MAPQ ≥20</text>
+<text x="357" y="233" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Proper pairs only; remove chrM</text>
+<text x="357" y="248" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Mapped; properly paired rate</text>
+<text x="357" y="263" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~15 min</text>
+
+<!-- Step 7 cx=592 -->
+<text x="592" y="191" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#1C2833">7 – Alignment QC</text>
+<rect x="480" y="199" width="225" height="100" rx="5" fill="#EBF5FB" stroke="#2E4057" stroke-width="1.5"/>
+<text x="592" y="218" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">SAMtools flagstat</text>
+<text x="592" y="233" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Picard CollectInsertSizeMetrics</text>
+<text x="592" y="248" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Insert size peak; flagstat</text>
+<text x="592" y="263" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~15 min</text>
+
+<!-- Step 8 cx=827 -->
+<text x="827" y="191" text-anchor="middle" font-family="Arial" font-size="9.5"
+      font-weight="bold" fill="#1C2833">8 – Aggregate QC Report</text>
+<rect x="715" y="199" width="225" height="100" rx="5" fill="#EBF5FB" stroke="#2E4057" stroke-width="1.5"/>
+<text x="827" y="218" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">MultiQC across all samples</text>
+<text x="827" y="233" text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Summarize all QC metrics</text>
+<text x="827" y="248" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Per-sample QC flags</text>
+<text x="827" y="263" text-anchor="middle" font-family="Arial" font-size="9"  fill="#1a5c2e" font-weight="bold">▶ INCLUDE / EXCLUDE</text>
+
+<!-- ═══ LEGEND ═══ -->
+<line x1="10" y1="308" x2="950" y2="308" stroke="#e0e0e0"/>
+<rect x="10"  y="312" width="9" height="9" fill="#1a7c3e" rx="1"/>
+<text x="23"  y="320" font-family="Arial" font-size="8.5" fill="#555">★ Measurement recorded</text>
+<text x="230" y="320" font-family="Arial" font-size="8.5" fill="#1a5c2e" font-weight="bold">▶ Include/Exclude decision</text>
+<text x="500" y="320" font-family="Arial" font-size="8.5" fill="#aaa">Flow: left→right, top row then bottom row · Output: filtered, indexed BAM per sample</text>
+
+</svg>
+</div>
+</body>
+</html>

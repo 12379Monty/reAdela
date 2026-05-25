@@ -1,0 +1,52 @@
+---
+title:  "Rendering md files"
+#subtitle: ""
+author: "[Francois Collin](https://www.linkedin.com/in/francoisz/)"
+#date: '`r format(Sys.time(), "%a %b %d", tz="America/Los_Angeles")`'
+always_allow_html: yes
+output:
+  html_document:
+    code_folding: hide
+    code_download: true
+    toc: true
+    toc_depth: 2
+    # does this have an effect
+    fig_caption: yes
+    # this has no effect
+    number_sections: yes
+    # css: ['../_css/pandoc3.css', '../_css/myMargins.css']
+#bibliography: [../../../_bibFiles/_Normalization.bib, ../../../_bibFiles/_RUV.bib]
+csl: ../../_csl/cell-numeric.csl
+link-citations: true
+---
+
+
+
+```{r}
+folder_in <- "mdFiles"
+
+folder_out <- "."
+
+
+for(FF in list.files(folder_in)) if(FF == "SPLASH_followup_review.md") {
+  cat("\n\nProcessing",  F,  "\n")
+  rmarkdown::render(file.path(folder_in, FF, fsep = '/'),
+  output_format = rmarkdown::html_document(toc=T, toc_depth=2),
+    output_file=paste0(sub(".md$", '', FF), '.html'),
+    output_dir = '.',
+    output_yaml = '_site.yml')
+    ####params=list(css='$css_file'))
+}
+
+```
+
+
+
+ 
+<!-- To run
+## nohup Rscript -e "knitr::knit2html('md_to_html.Rmd')" > md_to_html.log  &
+    
+## Or 
+## nohup Rscript -e "rmarkdown::render('md_to_html.Rmd')" > md_to_html.log  &
+
+-->

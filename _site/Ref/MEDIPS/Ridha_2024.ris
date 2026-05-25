@@ -1,0 +1,15 @@
+TY  - JOUR
+T1  - Multiplexed Methylated DNA Immunoprecipitation Sequencing (Mx-MeDIP-Seq) to Study DNA Methylation Using Low Amounts of DNA
+JF  - bioRxiv
+DO  - 10.1101/2023.01.09.523163
+SP  - 2023.01.09.523163
+AU  - Ridha, Inam
+AU  - Xu, Chenxi
+AU  - Chung, Yunro
+AU  - Park, Jin G
+AU  - LaBaer, Joshua
+AU  - Murugan, Vel
+Y1  - 2023/01/01
+UR  - http://biorxiv.org/content/early/2023/01/10/2023.01.09.523163.abstract
+N2  - DNA methylation is an epigenetic mark that has a crucial role in regulating gene expression. Aberrant DNA methylation results in severe diseases in humans, such as cancer, autoimmune disease, atherosclerosis, and cardiovascular diseases. Whole-genome bisulfite sequencing and methylated DNA immunoprecipitation are available to study DNA methylation changes, but they are typically used on a few samples at a time. Here, we developed a novel method called Multiplexed Methylated DNA Immunoprecipitation Sequencing (Mx-MeDIP-Seq), that can be used to analyze many DNA samples in parallel, requiring only small amounts of input DNA. In this method, 10 different DNA samples were fragmented, purified, barcoded, and pooled prior to immunoprecipitation. In a head-to-head comparison, we observed 99% correlation between MeDIP-Seq performed individually or combined as Mx-MeDIP-Seq. Moreover, multiplexed MeDIP led to more than 95% normalized percent recovery and a 25-fold enrichment ratio by qPCR, like the enrichment of the conventional method. This technique was successfully performed with as little as 25 ng of DNA, equivalent to 3400 to 6200 cells. Up to 10 different samples were processed simultaneously in a single run. Overall, the Mx-MeDIP-Seq method is cost-effective with faster processing to analyze DNA methylome, making this technique more suitable for high-throughput DNA methylome analysis.Competing Interest StatementThe authors have declared no competing interest.
+ER  - 

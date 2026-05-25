@@ -1,0 +1,188 @@
+PMID- 38393391
+OWN - NLM
+STAT- MEDLINE
+DCOM- 20240603
+LR  - 20240605
+IS  - 2159-8290 (Electronic)
+IS  - 2159-8274 (Print)
+IS  - 2159-8274 (Linking)
+VI  - 14
+IP  - 6
+DP  - 2024 Jun 3
+TI  - Early Changes in Tumor-Naive Cell-Free Methylomes and Fragmentomes Predict 
+      Outcomes in Pembrolizumab-Treated Solid Tumors.
+PG  - 1048-1063
+LID - 10.1158/2159-8290.CD-23-1060 [doi]
+AB  - Early kinetics of circulating tumor DNA (ctDNA) in plasma predict response to 
+      pembrolizumab but typically requires sequencing of matched tumor tissue or fixed 
+      gene panels. We analyzed genome-wide methylation and fragment-length profiles 
+      using cell-free methylated DNA immunoprecipitation and sequencing (cfMeDIP-seq) 
+      in 204 plasma samples from 87 patients before and during treatment with 
+      pembrolizumab from a pan-cancer phase II investigator-initiated trial (INSPIRE). 
+      We trained a pan-cancer methylation signature using independent methylation array 
+      data from The Cancer Genome Atlas to quantify cancer-specific methylation (CSM) 
+      and fragment-length score (FLS) for each sample. CSM and FLS are strongly 
+      correlated with tumor-informed ctDNA levels. Early kinetics of CSM predict 
+      overall survival and progression-free survival, independently of tumor type, 
+      PD-L1, and tumor mutation burden. Early kinetics of FLS are associated with 
+      overall survival independently of CSM. Our tumor-naïve mutation-agnostic ctDNA 
+      approach integrating methylomics and fragmentomics could predict outcomes in 
+      patients treated with pembrolizumab. SIGNIFICANCE: Analysis of methylation and 
+      fragment length in plasma using cfMeDIP-seq provides a tumor-naive approach to 
+      measure ctDNA with results comparable with a tumor-informed bespoke ctDNA. Early 
+      kinetics within the first weeks of treatment in methylation and fragment quantity 
+      can predict outcomes with pembrolizumab in patients with various advanced solid 
+      tumors. This article is featured in Selected Articles from This Issue, p. 897.
+CI  - ©2024 The Authors; Published by the American Association for Cancer Research.
+FAU - Stutheit-Zhao, Eric Y
+AU  - Stutheit-Zhao EY
+AUID- ORCID: 0000-0003-1277-6335
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Sanz-Garcia, Enrique
+AU  - Sanz-Garcia E
+AUID- ORCID: 0000-0002-3119-3832
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Liu, Zhihui Amy
+AU  - Liu ZA
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Wong, Derek
+AU  - Wong D
+AUID- ORCID: 0000-0003-2607-5265
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Marsh, Kayla
+AU  - Marsh K
+AUID- ORCID: 0000-0003-2483-7166
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada.
+FAU - Abdul Razak, Albiruni R
+AU  - Abdul Razak AR
+AUID- ORCID: 0000-0001-7657-9950
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Spreafico, Anna
+AU  - Spreafico A
+AUID- ORCID: 0000-0002-3034-3042
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Bedard, Philippe L
+AU  - Bedard PL
+AUID- ORCID: 0000-0002-6771-2999
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Hansen, Aaron R
+AU  - Hansen AR
+AUID- ORCID: 0000-0002-2363-8707
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Lheureux, Stephanie
+AU  - Lheureux S
+AUID- ORCID: 0000-0003-4405-5890
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Torti, Dax
+AU  - Torti D
+AUID- ORCID: 0000-0002-9000-5803
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada.
+FAU - Lam, Bernard
+AU  - Lam B
+AUID- ORCID: 0000-0002-6437-6491
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada.
+FAU - Yang, Shih Yu Cindy
+AU  - Yang SYC
+AUID- ORCID: 0009-0008-8412-2166
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Burgener, Justin
+AU  - Burgener J
+AUID- ORCID: 0000-0001-9522-8865
+AD  - Department of Medical Biophysics, Temerty Faculty of Medicine, University of 
+      Toronto, Toronto, Ontario, Canada.
+FAU - Luo, Ping
+AU  - Luo P
+AUID- ORCID: 0000-0002-0039-747X
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Zeng, Yong
+AU  - Zeng Y
+AUID- ORCID: 0000-0001-5719-1272
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+FAU - Cheng, Nicholas
+AU  - Cheng N
+AUID- ORCID: 0009-0007-9174-1099
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada.
+FAU - Awadalla, Philip
+AU  - Awadalla P
+AUID- ORCID: 0000-0001-9946-6393
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada.
+FAU - Bratman, Scott V
+AU  - Bratman SV
+AUID- ORCID: 0000-0001-8610-4908
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Medical Biophysics, Temerty Faculty of Medicine, University of 
+      Toronto, Toronto, Ontario, Canada.
+FAU - Ohashi, Pamela S
+AU  - Ohashi PS
+AUID- ORCID: 0000-0003-2915-9317
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Department of Immunology, University of Toronto, Toronto, Ontario, Canada.
+FAU - Pugh, Trevor J
+AU  - Pugh TJ
+AUID- ORCID: 0000-0002-8073-5888
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+AD  - Ontario Institute for Cancer Research, Toronto, Ontario, Canada.
+AD  - Department of Medical Biophysics, Temerty Faculty of Medicine, University of 
+      Toronto, Toronto, Ontario, Canada.
+FAU - Siu, Lillian L
+AU  - Siu LL
+AUID- ORCID: 0000-0002-3500-0540
+AD  - Princess Margaret Cancer Centre, University Health Network, Toronto, Ontario, 
+      Canada.
+LA  - eng
+GR  - BMO Chair in Precision Oncology/
+PT  - Journal Article
+PL  - United States
+TA  - Cancer Discov
+JT  - Cancer discovery
+JID - 101561693
+RN  - DPT0O3T46P (pembrolizumab)
+RN  - 0 (Antibodies, Monoclonal, Humanized)
+RN  - 0 (Circulating Tumor DNA)
+RN  - 0 (Biomarkers, Tumor)
+RN  - 0 (Antineoplastic Agents, Immunological)
+SB  - IM
+MH  - Humans
+MH  - *Antibodies, Monoclonal, Humanized/therapeutic use
+MH  - *Neoplasms/drug therapy/genetics/blood/mortality
+MH  - *DNA Methylation
+MH  - *Circulating Tumor DNA/blood/genetics
+MH  - Biomarkers, Tumor/genetics/blood
+MH  - Antineoplastic Agents, Immunological/therapeutic use
+MH  - Female
+MH  - Male
+MH  - Epigenome
+MH  - Prognosis
+MH  - Treatment Outcome
+PMC - PMC11145176
+EDAT- 2024/02/23 12:42
+MHDA- 2024/06/03 06:42
+PMCR- 2024/06/03
+CRDT- 2024/02/23 11:08
+PHST- 2023/10/01 00:00 [received]
+PHST- 2024/01/18 00:00 [revised]
+PHST- 2024/02/21 00:00 [accepted]
+PHST- 2024/06/03 06:42 [medline]
+PHST- 2024/02/23 12:42 [pubmed]
+PHST- 2024/02/23 11:08 [entrez]
+PHST- 2024/06/03 00:00 [pmc-release]
+AID - 734858 [pii]
+AID - CD-23-1060 [pii]
+AID - 10.1158/2159-8290.CD-23-1060 [doi]
+PST - ppublish
+SO  - Cancer Discov. 2024 Jun 3;14(6):1048-1063. doi: 10.1158/2159-8290.CD-23-1060.
