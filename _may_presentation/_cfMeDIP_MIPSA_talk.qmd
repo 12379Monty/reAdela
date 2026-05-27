@@ -1,0 +1,804 @@
+---
+title: "Same Bead, Different Question"
+subtitle: "A walk-through of cfMeDIP-seq and MIPSA count data"
+author: ""
+format:
+  revealjs:
+    theme: default
+    slide-number: c/t
+    progress: true
+    transition: fade
+    transition-speed: fast
+    controls: true
+    center: false
+    width: 1280
+    height: 760
+    margin: 0.06
+    self-contained: true
+    embed-resources: true
+    chalkboard: false
+    menu: false
+---
+
+```{=html}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:        #F4F0E6;
+    --bg-deep:   #ECE6D7;
+    --ink:       #1B1A17;
+    --ink-soft:  #4A4742;
+    --rule:      #B8AE94;
+    --accent:    #6B2E2A;
+    --accent-2:  #2C5F5D;
+    --hl-yellow: #E8C547;
+    --font-serif: "IBM Plex Serif", Georgia, serif;
+    --font-sans:  "IBM Plex Sans", system-ui, sans-serif;
+    --font-mono:  "IBM Plex Mono", ui-monospace, monospace;
+  }
+  .reveal-viewport, body, .reveal { background: var(--bg) !important; }
+  .reveal { font-family: var(--font-sans); color: var(--ink); font-weight: 400; }
+  .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+    font-family: var(--font-serif); color: var(--ink);
+    font-weight: 500; letter-spacing: -0.01em;
+    text-transform: none; margin: 0 0 0.5em 0; line-height: 1.15;
+  }
+  .reveal h1 { font-size: 2.0em; font-weight: 600; }
+  .reveal h2 { font-size: 1.4em; }
+  .reveal h3 { font-size: 1.05em; color: var(--ink-soft); font-style: italic; font-weight: 400; }
+  .reveal section { text-align: left; }
+  .reveal p, .reveal li { line-height: 1.4; }
+  .reveal ul, .reveal ol { display: block; margin-left: 1.1em; }
+  .reveal li { margin: 0.3em 0; }
+  .reveal strong { color: var(--accent); font-weight: 600; }
+  .reveal em { color: var(--ink-soft); }
+  .reveal a { color: var(--accent-2); text-decoration: underline; text-underline-offset: 3px; }
+  .rule { width: 60px; height: 1px; background: var(--rule); margin: 0 0 1.0em 0; }
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 0.6em;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.6em;
+  }
+  .section-divider .part-num {
+    font-family: var(--font-mono); font-size: 0.7em;
+    color: var(--accent); letter-spacing: 0.2em; margin-bottom: 1em;
+  }
+  .section-divider .lede {
+    font-family: var(--font-serif); font-style: italic;
+    color: var(--ink-soft); margin-top: 1em; max-width: 32em;
+  }
+  .callout {
+    border-left: 3px solid var(--accent); background: var(--bg-deep);
+    padding: 0.55em 0.9em; font-size: 0.78em; margin-top: 0.6em;
+  }
+  .callout .label {
+    font-family: var(--font-mono); font-size: 0.7em;
+    letter-spacing: 0.1em; color: var(--accent);
+    text-transform: uppercase; display: block; margin-bottom: 0.25em;
+  }
+  .reveal code {
+    font-family: var(--font-mono); background: var(--bg-deep);
+    padding: 0.1em 0.3em; font-size: 0.85em;
+  }
+  /* Molecule row */
+  .mol-row {
+    display: flex; gap: 2em; align-items: flex-start;
+    justify-content: center; margin-top: 0.8em;
+  }
+  .mol-row figure { text-align: center; margin: 0; flex: 0 0 auto; }
+  .mol-row figure svg { display: block; margin: 0 auto; height: 160px; width: auto; }
+  .mol-name {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 0.7em; color: var(--ink-soft);
+    margin-top: 0.3em;
+  }
+  .mol-symbol {
+    font-family: var(--font-mono); font-size: 0.75em;
+    color: var(--ink); letter-spacing: 0.05em; margin-top: 0.1em;
+  }
+  /* Generic diagram block */
+  .diagram { display: block; text-align: center; margin: 0.6em 0; }
+  .diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  /* Tables */
+  .reveal table { border-collapse: collapse; font-size: 0.75em; margin-top: 0.4em; }
+  .reveal th, .reveal td {
+    border-bottom: 1px solid var(--rule);
+    padding: 0.35em 0.7em; text-align: left;
+  }
+  .reveal th {
+    font-family: var(--font-mono); font-weight: 500;
+    font-size: 0.85em; color: var(--accent); letter-spacing: 0.05em;
+  }
+  /* Footnote */
+  .footnote {
+    font-family: var(--font-mono); font-size: 0.5em;
+    color: var(--ink-soft); margin-top: 0.8em;
+    border-top: 1px solid var(--rule); padding-top: 0.4em;
+  }
+  .reveal .controls { color: var(--accent); }
+  .reveal .progress { color: var(--accent); height: 2px; }
+  .reveal .slide-number {
+    font-family: var(--font-mono); color: var(--ink-soft);
+    background: transparent; font-size: 0.7em;
+  }
+  /* Flowchart container — let the SVG breathe full slide width */
+  .flowchart-wrap { width: 100%; margin-top: 0.4em; }
+  .flowchart-wrap svg { width: 100%; height: auto; display: block; }
+</style>
+```
+
+# {.section-divider}
+
+::: {.part-num}
+PART I
+:::
+
+::: {.rule}
+:::
+
+## A crash course in methylated DNA {.section-divider}
+
+::: {.lede}
+Hopefully the over-simplifications do not distort the essential truth.
+:::
+
+## The genome is A + C + G + T *(+ a footnote)* {.smaller}
+
+::: {.eyebrow}
+Slide 1 · the alphabet
+:::
+
+The canonical four bases are what reference genomes and short-read sequencers see. The footnote is **5-methylcytosine (5mC)**: a methyl group hanging off the C5 position of cytosine.
+
+- In mammals, 5mC is the dominant DNA modification.
+- Its oxidised cousin, **5-hydroxymethylcytosine (5hmC)**, exists too — relevant later for what antibodies see.
+- mA / mG / mT exist but can be left off the main plot of the human story.
+
+```{=html}
+<div class="mol-row">
+  <figure>
+    <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#1B1A17" stroke-width="1.5" fill="none">
+        <line x1="100" y1="40" x2="140" y2="60"/>
+        <line x1="140" y1="60" x2="140" y2="100"/>
+        <line x1="140" y1="100" x2="100" y2="120"/>
+        <line x1="100" y1="120" x2="60" y2="100"/>
+        <line x1="60" y1="100" x2="60" y2="60"/>
+        <line x1="60" y1="60" x2="100" y2="40"/>
+        <line x1="103" y1="46" x2="135" y2="62"/>
+        <line x1="65" y1="98" x2="97" y2="114"/>
+      </g>
+      <line x1="100" y1="40" x2="100" y2="22" stroke="#1B1A17" stroke-width="1.5"/>
+      <text x="100" y="16" text-anchor="middle" font-family="IBM Plex Serif" font-size="13" fill="#1B1A17">NH&#8322;</text>
+      <line x1="140" y1="100" x2="160" y2="112" stroke="#1B1A17" stroke-width="1.5"/>
+      <line x1="143" y1="103" x2="163" y2="115" stroke="#1B1A17" stroke-width="1.5"/>
+      <text x="172" y="120" font-family="IBM Plex Serif" font-size="13" fill="#1B1A17">O</text>
+      <text x="146" y="68" font-family="IBM Plex Serif" font-size="11" fill="#1B1A17">N</text>
+      <text x="107" y="120" font-family="IBM Plex Serif" font-size="11" fill="#1B1A17">N</text>
+      <line x1="60" y1="60" x2="40" y2="52" stroke="#1B1A17" stroke-width="1.5"/>
+      <text x="32" y="52" text-anchor="end" font-family="IBM Plex Serif" font-size="13" fill="#4A4742">H</text>
+      <text x="68" y="72" font-family="IBM Plex Mono" font-size="9" fill="#888">5</text>
+    </svg>
+    <div class="mol-name">cytosine</div>
+    <div class="mol-symbol">C</div>
+  </figure>
+  <figure>
+    <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#1B1A17" stroke-width="1.5" fill="none">
+        <line x1="100" y1="40" x2="140" y2="60"/>
+        <line x1="140" y1="60" x2="140" y2="100"/>
+        <line x1="140" y1="100" x2="100" y2="120"/>
+        <line x1="100" y1="120" x2="60" y2="100"/>
+        <line x1="60" y1="100" x2="60" y2="60"/>
+        <line x1="60" y1="60" x2="100" y2="40"/>
+        <line x1="103" y1="46" x2="135" y2="62"/>
+        <line x1="65" y1="98" x2="97" y2="114"/>
+      </g>
+      <line x1="100" y1="40" x2="100" y2="22" stroke="#1B1A17" stroke-width="1.5"/>
+      <text x="100" y="16" text-anchor="middle" font-family="IBM Plex Serif" font-size="13" fill="#1B1A17">NH&#8322;</text>
+      <line x1="140" y1="100" x2="160" y2="112" stroke="#1B1A17" stroke-width="1.5"/>
+      <line x1="143" y1="103" x2="163" y2="115" stroke="#1B1A17" stroke-width="1.5"/>
+      <text x="172" y="120" font-family="IBM Plex Serif" font-size="13" fill="#1B1A17">O</text>
+      <text x="146" y="68" font-family="IBM Plex Serif" font-size="11" fill="#1B1A17">N</text>
+      <text x="107" y="120" font-family="IBM Plex Serif" font-size="11" fill="#1B1A17">N</text>
+      <line x1="60" y1="60" x2="38" y2="48" stroke="#6B2E2A" stroke-width="2"/>
+      <text x="30" y="50" text-anchor="end" font-family="IBM Plex Serif" font-size="13" fill="#6B2E2A">CH&#8323;</text>
+      <text x="68" y="72" font-family="IBM Plex Mono" font-size="9" fill="#888">5</text>
+    </svg>
+    <div class="mol-name">5-methylcytosine</div>
+    <div class="mol-symbol">5mC</div>
+  </figure>
+  <figure>
+    <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg">
+      <g stroke="#1B1A17" stroke-width="1.5" fill="none">
+        <line x1="100" y1="40" x2="140" y2="60"/>
+        <line x1="140" y1="60" x2="140" y2="100"/>
+        <line x1="140" y1="100" x2="100" y2="120"/>
+        <line x1="100" y1="120" x2="60" y2="100"/>
+        <line x1="60" y1="100" x2="60" y2="60"/>
+        <line x1="60" y1="60" x2="100" y2="40"/>
+        <line x1="103" y1="46" x2="135" y2="62"/>
+        <line x1="65" y1="98" x2="97" y2="114"/>
+      </g>
+      <line x1="100" y1="40" x2="100" y2="22" stroke="#1B1A17" stroke-width="1.5"/>
+      <text x="100" y="16" text-anchor="middle" font-family="IBM Plex Serif" font-size="13" fill="#1B1A17">NH&#8322;</text>
+      <line x1="140" y1="100" x2="160" y2="112" stroke="#1B1A17" stroke-width="1.5"/>
+      <line x1="143" y1="103" x2="163" y2="115" stroke="#1B1A17" stroke-width="1.5"/>
+      <text x="172" y="120" font-family="IBM Plex Serif" font-size="13" fill="#1B1A17">O</text>
+      <text x="146" y="68" font-family="IBM Plex Serif" font-size="11" fill="#1B1A17">N</text>
+      <text x="107" y="120" font-family="IBM Plex Serif" font-size="11" fill="#1B1A17">N</text>
+      <line x1="60" y1="60" x2="38" y2="48" stroke="#2C5F5D" stroke-width="2"/>
+      <text x="30" y="50" text-anchor="end" font-family="IBM Plex Serif" font-size="12" fill="#2C5F5D">CH&#8322;OH</text>
+      <text x="68" y="72" font-family="IBM Plex Mono" font-size="9" fill="#888">5</text>
+    </svg>
+    <div class="mol-name">5-hydroxymethylcytosine</div>
+    <div class="mol-symbol">5hmC</div>
+  </figure>
+</div>
+```
+
+::: {.callout}
+[The hook]{.label}
+When the human genome was sequenced, **C and 5mC were indistinguishable**. Standard sequencing reads both as "C". Everything downstream — bisulfite, MeDIP, nanopore — is a way of recovering the difference.
+:::
+
+::: {.notes}
+Spend 30 seconds tops on the chemistry. Point is conceptual: the genome carries an extra layer that the four-letter alphabet hides. cfMeDIP-seq exists because sequencing alone is blind to it.
+:::
+
+## Where 5mC lives in the genome {.smaller}
+
+::: {.eyebrow}
+Slide 2 · the methylome layout
+:::
+
+- In mammals, 5mC is overwhelmingly found in a **CpG context** — a C followed by a G on the same strand.
+- By complementarity, mCpG on one strand is mirrored on the other. The unit is symmetric.
+- **~28 million CpG sites** in the human genome, clustered into **~28,000 CpG islands**, with vast intervening *CpG deserts*.
+
+```{=html}
+<div class="diagram">
+<svg viewBox="0 0 760 150" xmlns="http://www.w3.org/2000/svg">
+  <!-- Top cluster labels -->
+  <text x="140" y="12" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="#1B1A17">CpG island</text>
+  <text x="140" y="24" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4A4742">(usually unmethylated)</text>
+  <text x="425" y="12" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="#1B1A17">CpG desert / gene body</text>
+  <text x="425" y="24" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4A4742">(often methylated)</text>
+
+  <!-- Island lollipops (open) -->
+  <g stroke="#1B1A17" stroke-width="1.2">
+    <line x1="80"  y1="68" x2="80"  y2="44"/>
+    <line x1="100" y1="68" x2="100" y2="44"/>
+    <line x1="120" y1="68" x2="120" y2="44"/>
+    <line x1="140" y1="68" x2="140" y2="44"/>
+    <line x1="160" y1="68" x2="160" y2="44"/>
+    <line x1="180" y1="68" x2="180" y2="44"/>
+    <line x1="200" y1="68" x2="200" y2="44"/>
+  </g>
+  <g fill="#F4F0E6" stroke="#1B1A17" stroke-width="1.5">
+    <circle cx="80"  cy="40" r="4.5"/>
+    <circle cx="100" cy="40" r="4.5"/>
+    <circle cx="120" cy="40" r="4.5"/>
+    <circle cx="140" cy="40" r="4.5"/>
+    <circle cx="160" cy="40" r="4.5"/>
+    <circle cx="180" cy="40" r="4.5"/>
+    <circle cx="200" cy="40" r="4.5"/>
+  </g>
+
+  <!-- Desert lollipops (filled, sparse) -->
+  <g stroke="#1B1A17" stroke-width="1.2">
+    <line x1="290" y1="68" x2="290" y2="44"/>
+    <line x1="380" y1="68" x2="380" y2="44"/>
+    <line x1="470" y1="68" x2="470" y2="44"/>
+    <line x1="560" y1="68" x2="560" y2="44"/>
+  </g>
+  <g fill="#1B1A17" stroke="#1B1A17" stroke-width="1.5">
+    <circle cx="290" cy="40" r="4.5"/>
+    <circle cx="380" cy="40" r="4.5"/>
+    <circle cx="470" cy="40" r="4.5"/>
+    <circle cx="560" cy="40" r="4.5"/>
+  </g>
+
+  <!-- Chromosome backbone -->
+  <line x1="20" y1="68" x2="740" y2="68" stroke="#1B1A17" stroke-width="2"/>
+  <line x1="20" y1="76" x2="740" y2="76" stroke="#1B1A17" stroke-width="2"/>
+
+  <!-- Repeat lollipops (below the chromosome, filled) -->
+  <g stroke="#1B1A17" stroke-width="1.2">
+    <line x1="640" y1="76" x2="640" y2="100"/>
+    <line x1="660" y1="76" x2="660" y2="100"/>
+    <line x1="680" y1="76" x2="680" y2="100"/>
+    <line x1="700" y1="76" x2="700" y2="100"/>
+    <line x1="720" y1="76" x2="720" y2="100"/>
+  </g>
+  <g fill="#1B1A17" stroke="#1B1A17" stroke-width="1.5">
+    <circle cx="640" cy="104" r="4.5"/>
+    <circle cx="660" cy="104" r="4.5"/>
+    <circle cx="680" cy="104" r="4.5"/>
+    <circle cx="700" cy="104" r="4.5"/>
+    <circle cx="720" cy="104" r="4.5"/>
+  </g>
+  <text x="680" y="122" text-anchor="middle" font-family="IBM Plex Mono" font-size="11" fill="#1B1A17">repeats</text>
+  <text x="680" y="134" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4A4742">(heavily methylated)</text>
+
+  <!-- Legend (bottom-left, compact) -->
+  <g transform="translate(20,142)">
+    <line x1="6" y1="0" x2="6" y2="-8" stroke="#1B1A17" stroke-width="1.2"/>
+    <circle cx="6" cy="-10" r="4" fill="#F4F0E6" stroke="#1B1A17" stroke-width="1.5"/>
+    <text x="16" y="-4" font-family="IBM Plex Mono" font-size="9" fill="#1B1A17">unmethylated CpG</text>
+    <line x1="180" y1="0" x2="180" y2="-8" stroke="#1B1A17" stroke-width="1.2"/>
+    <circle cx="180" cy="-10" r="4" fill="#1B1A17" stroke="#1B1A17" stroke-width="1.5"/>
+    <text x="190" y="-4" font-family="IBM Plex Mono" font-size="9" fill="#1B1A17">methylated CpG (5mC)</text>
+  </g>
+</svg>
+</div>
+```
+
+::: {.callout}
+[A useful evolutionary fact]{.label}
+CpGs are **~5× under-represented** relative to chance. 5mC spontaneously deaminates to T, so CpG → TpG erodes over evolutionary time. CpG *islands* are the regions that escaped this — typically unmethylated, often at promoters, biologically privileged.
+:::
+
+::: {.notes}
+The ~28M / ~28k figures are the standard ones. The evolutionary story explains why islands are biologically meaningful rather than arbitrary, and foreshadows why methylation signal concentrates in particular regions.
+:::
+
+## What "normal" methylation looks like
+
+::: {.eyebrow}
+Slide 3 · the healthy methylome
+:::
+
+| Genomic feature | Typical methylation | Functional reading |
+|---|---|---|
+| CpG-island promoters (active genes) | Unmethylated | Open for transcription |
+| CpG-island promoters (silenced genes) | Methylated | Stable silencing |
+| Gene bodies (expressed genes) | *Methylated* — counterintuitively | Splicing, anti-spurious-transcription |
+| Enhancers | Variable, often low | Tissue-specific regulation |
+| Repetitive elements (LINE/SINE/LTR) | Heavily methylated | Transposon silencing, genome stability |
+| Imprinted loci, inactive X | Allele-specific | Mono-allelic expression |
+
+::: {.callout}
+[The takeaway]{.label}
+Each tissue type carries its own characteristic methylation pattern, and that pattern is **reproducible across healthy individuals**. So deviations from the expected pattern in a sample stand out — which is what makes the methylome useful for liquid biopsy.
+:::
+
+::: {.notes}
+The "gene bodies are methylated in expressed genes" fact is the one people don't expect. Worth pausing on.
+:::
+
+## Writing and erasing 5mC {visibility="hidden"}
+
+::: {.eyebrow}
+Slide 4 · dynamics (hidden)
+:::
+
+Content retained in source but hidden from the presentation. Restore by removing the `visibility="hidden"` attribute on the header above.
+
+## Methylomic rearrangements in tumour cells
+
+::: {.eyebrow}
+Slide 5 · cancer methylomics
+:::
+
+### Two robust, near-universal patterns
+
+- **Global hypomethylation** — repeats and gene bodies lose 5mC.
+  - Contributes to genome instability and re-activation of transposons.
+  - Drives a substantial fraction of the tumour cfDNA methylation signal in plasma.
+- **Focal hypermethylation** of CpG-island promoters at tumour-suppressor genes.
+  - Silences *CDKN2A*, *MLH1*, *BRCA1*, and others.
+  - Often tissue- and lineage-specific — useful as a fingerprint.
+
+::: {.notes}
+Keep this slide short. The two-line story (hypo + hyper) is what everyone agrees on. Anything more nuanced (PMDs, ICR mosaicism, age-related drift) can be mentioned only if there is time.
+:::
+
+# {.section-divider}
+
+::: {.part-num}
+PART II
+:::
+
+::: {.rule}
+:::
+
+## How cfMeDIP-seq captures the methylome {.section-divider}
+
+::: {.lede}
+From a tube of plasma to a matrix of counts.
+:::
+
+## The cfMeDIP-seq protocol — Shen et al. 2019 {.smaller}
+
+::: {.eyebrow}
+Slide 6 · wet-lab pipeline
+:::
+
+```{=html}
+<div class="flowchart-wrap">
+<svg viewBox="0 0 960 480" xmlns="http://www.w3.org/2000/svg">
+
+<!-- TITLE -->
+<text x="480" y="16" text-anchor="middle" font-family="Arial" font-size="13"
+      font-weight="bold" fill="#1a1a2e">cfMeDIP-seq Protocol · 4 Stages · 15 Steps · Shen et al. 2019</text>
+
+<!--
+  5 columns · stride 188px · box 178×106px
+  col centres: 99  287  475  663  851
+  box left:     10  198  386  574  762
+  box right:   188  376  564  752  940
+
+  ROW 1  y-band=24  y-labels=40/51  y-box=57  y-bot=163
+  ROW 2  y-band=172 y-labels=188/199 y-box=205 y-bot=311
+  ROW 3  y-band=320 y-labels=336/347 y-box=353 y-bot=459
+  LEGEND y=468
+-->
+
+<!-- ═══════════ ROW 1 · Steps 1–5 ═══════════ -->
+<!-- Stage 1 band cols 0-2 x10→564 -->
+<rect x="10"  y="24" width="554" height="15" rx="3" fill="#27AE60"/>
+<text x="287" y="35" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE 1 · Library Preparation (Day 1)</text>
+
+<!-- Stage 2 band cols 3-4 x574→940 -->
+<rect x="574" y="24" width="366" height="15" rx="3" fill="#CB4335"/>
+<text x="757" y="35" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE 2 · Immunoprecipitation (Day 2)</text>
+
+<!-- Step 1 cx=99 -->
+<text x="99" y="49"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#1a5c2e">1 – End-Repair &amp; A-Tailing</text>
+<rect x="10" y="57" width="178" height="106" rx="5" fill="#E8F8F0" stroke="#27AE60" stroke-width="1.5"/>
+<text x="99" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Repair ends; add 3′ A-overhang</text>
+<text x="99" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Input: 1–10 ng cfDNA</text>
+<text x="99" y="108" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ cfDNA input (Qubit)</text>
+<text x="99" y="123" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~2–3 h</text>
+
+<!-- Step 2 cx=287 -->
+<text x="287" y="49"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#1a5c2e">2 – Adapter Ligation</text>
+<rect x="198" y="57" width="178" height="106" rx="5" fill="#E8F8F0" stroke="#27AE60" stroke-width="1.5"/>
+<text x="287" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Ligate methylated adapters</text>
+<text x="287" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Adapters carry unique barcodes</text>
+<text x="287" y="108" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Post-ligation yield (Qubit)</text>
+<text x="287" y="123" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~2–3 h</text>
+
+<!-- Step 3 cx=475 -->
+<text x="475" y="49"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#1a5c2e">3 – SPRI Purification</text>
+<rect x="386" y="57" width="178" height="106" rx="5" fill="#E8F8F0" stroke="#27AE60" stroke-width="1.5"/>
+<text x="475" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">SPRI bead cleanup</text>
+<text x="475" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Remove excess adapters</text>
+<text x="475" y="108" text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Adapter dimer % (Bioanalyzer)</text>
+<text x="475" y="123" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~1 h</text>
+
+<!-- Step 4 cx=663 -->
+<text x="663" y="49"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">4 – Filler DNA + Spike-Ins</text>
+<rect x="574" y="57" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="663" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Adjust to ~1 µg total DNA</text>
+<text x="663" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Add meth + unmeth spike-ins</text>
+<text x="663" y="108" text-anchor="middle" font-family="Arial" font-size="10" fill="#C0392B" font-weight="bold">⚠ Filler type = batch effect</text>
+<text x="663" y="123" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~30 min</text>
+
+<!-- Step 5 cx=851 -->
+<text x="851" y="49"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">5 – Denaturation</text>
+<rect x="762" y="57" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="851" y="76"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Heat to 95°C, 10 min</text>
+<text x="851" y="91"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">dsDNA → ssDNA; chill on ice</text>
+<text x="851" y="108" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">No measurement</text>
+<text x="851" y="123" text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~15 min</text>
+
+<!-- row 1 end hint -->
+<text x="950" y="168" text-anchor="end" font-family="Arial" font-size="8" fill="#bbb" font-style="italic">↩ row 2</text>
+
+<!-- ═══════════ ROW 2 · Steps 6–10 ═══════════ -->
+<!-- Stage 2 cont full width -->
+<rect x="10" y="172" width="940" height="15" rx="3" fill="#CB4335"/>
+<text x="480" y="183" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE 2 (continued)</text>
+
+<!-- Step 6 cx=99 -->
+<text x="99" y="197"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">6 – Anti-5mC IP</text>
+<rect x="10" y="205" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="99" y="224"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">5 µg anti-5mC antibody</text>
+<text x="99" y="239"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">16–18 h, 4°C with rotation</text>
+<text x="99" y="256"  text-anchor="middle" font-family="Arial" font-size="10" fill="#C0392B" font-weight="bold">⚠ Antibody lot variation</text>
+<text x="99" y="271"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~16–18 h</text>
+
+<!-- Step 7 cx=287 -->
+<text x="287" y="197"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">7 – Bead Capture</text>
+<rect x="198" y="205" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="287" y="224"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Protein A/G magnetic beads</text>
+<text x="287" y="239"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">2 h, 4°C rotation</text>
+<text x="287" y="256"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">No measurement</text>
+<text x="287" y="271"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~2 h</text>
+
+<!-- Step 8 cx=475 -->
+<text x="475" y="197"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">8 – Washing</text>
+<rect x="386" y="205" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="475" y="224"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">3–5× IP buffer washes</text>
+<text x="475" y="239"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Remove non-specific DNA</text>
+<text x="475" y="256"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">No measurement</text>
+<text x="475" y="271"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~30 min</text>
+
+<!-- Step 9 cx=663 -->
+<text x="663" y="197"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">9 – Elution</text>
+<rect x="574" y="205" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="663" y="224"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Proteinase K at 50°C</text>
+<text x="663" y="239"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Release DNA from beads</text>
+<text x="663" y="256"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">No measurement</text>
+<text x="663" y="271"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~2–3 h</text>
+
+<!-- Step 10 cx=851 -->
+<text x="851" y="197"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#922B21">10 – IP Purification</text>
+<rect x="762" y="205" width="178" height="106" rx="5" fill="#FDEDEB" stroke="#CB4335" stroke-width="1.5"/>
+<text x="851" y="224"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">SPRI cleanup of eluate</text>
+<text x="851" y="239"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ IP yield; fold-enrichment</text>
+<text x="851" y="254"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Specificity (spike-in)</text>
+<text x="851" y="271"  text-anchor="middle" font-family="Arial" font-size="9.5" fill="#1a5c2e" font-weight="bold">▶ GO / NO-GO</text>
+
+<!-- row 2 end hint -->
+<text x="950" y="316" text-anchor="end" font-family="Arial" font-size="8" fill="#bbb" font-style="italic">↩ row 3</text>
+
+<!-- ═══════════ ROW 3 · Steps 11–15 ═══════════ -->
+<!-- Stage 3 band cols 0-3 x10→752 -->
+<rect x="10"  y="320" width="742" height="15" rx="3" fill="#D68910"/>
+<text x="381" y="331" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE 3 · Library Amplification (Day 3)</text>
+
+<!-- Stage 4 band col 4 x762→940 -->
+<rect x="762" y="320" width="178" height="15" rx="3" fill="#2471A3"/>
+<text x="851" y="331" text-anchor="middle" font-family="Arial" font-size="9"
+      font-weight="bold" fill="white">STAGE 4 · Sequencing</text>
+
+<!-- Step 11 cx=99 -->
+<text x="99" y="345"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#6E4C09">11 – qPCR QC</text>
+<rect x="10" y="353" width="178" height="106" rx="5" fill="#FEF5E7" stroke="#D68910" stroke-width="1.5"/>
+<text x="99" y="372"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">HIST1H2BA vs GAPDH</text>
+<text x="99" y="387"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Fold-enrichment</text>
+<text x="99" y="402"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Specificity (spike-in)</text>
+<text x="99" y="419"  text-anchor="middle" font-family="Arial" font-size="9.5" fill="#1a5c2e" font-weight="bold">▶ GO / NO-GO</text>
+
+<!-- Step 12 cx=287 -->
+<text x="287" y="345"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#6E4C09">12 – PCR Amplification</text>
+<rect x="198" y="353" width="178" height="106" rx="5" fill="#FEF5E7" stroke="#D68910" stroke-width="1.5"/>
+<text x="287" y="372"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">12–15 cycles; indexed primers</text>
+<text x="287" y="387"  text-anchor="middle" font-family="Arial" font-size="10" fill="#C0392B" font-weight="bold">⚠ Cycle # → dup. rate</text>
+<text x="287" y="402"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Cycles; library conc.</text>
+<text x="287" y="419"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~2 h</text>
+
+<!-- Step 13 cx=475 -->
+<text x="475" y="345"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#6E4C09">13 – Size Selection</text>
+<rect x="386" y="353" width="178" height="106" rx="5" fill="#FEF5E7" stroke="#D68910" stroke-width="1.5"/>
+<text x="475" y="372"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">SPRI · select 200–600 bp</text>
+<text x="475" y="387"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Remove adapter dimers</text>
+<text x="475" y="402"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">No measurement</text>
+<text x="475" y="419"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~1 h</text>
+
+<!-- Step 14 cx=663 -->
+<text x="663" y="345"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#6E4C09">14 – Library QC</text>
+<rect x="574" y="353" width="178" height="106" rx="5" fill="#FEF5E7" stroke="#D68910" stroke-width="1.5"/>
+<text x="663" y="372"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Qubit + Bioanalyzer/TapeStation</text>
+<text x="663" y="387"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Conc (nM); size peak; dimers</text>
+<text x="663" y="402" text-anchor="middle" font-family="Arial" font-size="9.5" fill="#1a5c2e" font-weight="bold">▶ GO / NO-GO</text>
+<text x="663" y="419"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">~1 h</text>
+
+<!-- Step 15 cx=851 -->
+<text x="851" y="345"  text-anchor="middle" font-family="Arial" font-size="9.5" font-weight="bold" fill="#1A5276">15 – Sequencing</text>
+<rect x="762" y="353" width="178" height="106" rx="5" fill="#EBF5FB" stroke="#2980B9" stroke-width="1.5"/>
+<text x="851" y="372"  text-anchor="middle" font-family="Arial" font-size="10" fill="#333">Illumina PE · 5–20 M reads</text>
+<text x="851" y="387"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ Q30; mapping; dup. rate</text>
+<text x="851" y="402"  text-anchor="middle" font-family="Arial" font-size="10" fill="#1a7c3e">★ CpG enrich.; spike-ins</text>
+<text x="851" y="419"  text-anchor="middle" font-family="Arial" font-size="9"  fill="#888" font-style="italic">Day 4+</text>
+
+<!-- ═══ LEGEND ═══ -->
+<line x1="10" y1="464" x2="950" y2="464" stroke="#e0e0e0"/>
+<rect x="10"  y="468" width="9" height="9" fill="#1a7c3e" rx="1"/>
+<text x="23"  y="476" font-family="Arial" font-size="8.5" fill="#555">★ Measurement recorded</text>
+<rect x="200" y="468" width="9" height="9" fill="#C0392B" rx="1"/>
+<text x="213" y="476" font-family="Arial" font-size="8.5" fill="#555">⚠ High variability source</text>
+<text x="400" y="476" font-family="Arial" font-size="8.5" fill="#1a5c2e" font-weight="bold">▶ Go/No-Go gate</text>
+<text x="580" y="476" font-family="Arial" font-size="8.5" fill="#aaa">Flow: left→right, top row then middle then bottom</text>
+
+</svg>
+</div>
+```
+
+::: {.notes}
+Walk through the four stages quickly. Stress that adapter ligation happens BEFORE the IP — every fragment is library-competent before the antibody sees it. The annotations on each box show where measurements are taken (★) and where the main sources of technical variability live (⚠).
+:::
+
+## Tracking variability {.smaller}
+
+::: {.eyebrow}
+Slide · what really drives within-study variation
+:::
+
+The flowchart flags two ⚠ sources: filler-DNA type and PCR cycle number. Both are dials a lab sets once in its SOP. Once fixed for a study, they no longer drive within-study variation. So what does?
+
+### "Antibody lot" — but the IP is four sub-steps
+
+The IP is **bead capture → washing → elution → cleanup**. Any of these could plausibly contribute to between-run variation:
+
+- Antibody lot is the usual headline. But how do we know the others *don't* matter as much?
+- ChIP-seq experience says bead binding capacity, wash stringency, and elution conditions are documented sources of variation. Has any cfMeDIP study formally separated them?
+- In published cfMeDIP analyses, "lot effect" tends to mean *whatever didn't reproduce when reagents changed*, without finer dissection.
+
+::: {.notes}
+The flowchart's ⚠ labels can mislead — they collapse antibody-lot variability with everything else in the IP cascade. Bioinformatics audiences should be aware that "batch effect" in cfMeDIP papers usually has a much coarser meaning than the underlying biology of the wet lab would suggest.
+:::
+
+## Tracking variability — what is the unit of "batch"? {.smaller}
+
+::: {.eyebrow}
+Slide · how technical and biological groupings interact
+:::
+
+- Are samples typically processed in **96-well plates**? If so, every well on a plate shares one antibody aliquot, one bead aliquot, one buffer mix — so within-plate noise and plate-to-plate noise are different things.
+- Are **multiple antibody/bead lots** ever used within a single study? If yes, are they balanced across cases and controls — or confounded with them?
+- What about **operator, day, and instrument**? Each is a candidate grouping factor.
+
+::: {.callout}
+[The question to ask of any cohort]{.label}
+What were the technical groupings (plate, day, lot), and how do they line up with the biological groupings (case, control, tissue)? If those two sets of groupings overlap, batch effect and biology are indistinguishable.
+:::
+
+::: {.notes}
+These are honest open questions. For most of them the answer depends on the specific lab's implementation and is rarely reported in detail in papers. The point is to give the audience the right things to look for when they read a cfMeDIP-seq study — not to claim we know the answers.
+:::
+
+## What the antibody pulls down {.smaller}
+
+::: {.eyebrow}
+Slide 7 · the IP step in detail
+:::
+
+The anti-5mC antibody binds the methyl mark on **single-stranded** DNA. Its avidity for a fragment grows with the **number of methylated cytosines** on that fragment.
+
+- A fragment with **many** mCpG sites is pulled down much more efficiently than one with one or two.
+- A fragment with *zero* 5mC ideally is not pulled down — in practice some background sticks.
+- The antibody has reduced (but non-zero) cross-reactivity with **5hmC**.
+
+```{=html}
+<div class="diagram">
+<svg viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans">
+  <circle cx="80" cy="100" r="32" fill="none" stroke="#1B1A17" stroke-width="1.5"/>
+  <text x="80" y="104" text-anchor="middle" font-size="12" fill="#1B1A17">bead</text>
+  <g stroke="#6B2E2A" stroke-width="2" fill="none">
+    <line x1="112" y1="100" x2="150" y2="80"/>
+    <line x1="112" y1="100" x2="150" y2="120"/>
+    <line x1="150" y1="80" x2="162" y2="68"/>
+    <line x1="150" y1="120" x2="162" y2="132"/>
+  </g>
+  <text x="135" y="158" font-size="11" fill="#6B2E2A">&#945;-5mC IgG</text>
+  <line x1="190" y1="50" x2="380" y2="50" stroke="#1B1A17" stroke-width="2"/>
+  <g fill="#6B2E2A">
+    <circle cx="215" cy="50" r="3.5"/><circle cx="240" cy="50" r="3.5"/>
+    <circle cx="270" cy="50" r="3.5"/><circle cx="305" cy="50" r="3.5"/>
+    <circle cx="345" cy="50" r="3.5"/>
+  </g>
+  <text x="395" y="55" font-size="12" fill="#1B1A17">many mCpG &#8594; strong pull</text>
+  <line x1="190" y1="105" x2="380" y2="105" stroke="#1B1A17" stroke-width="2"/>
+  <g fill="#6B2E2A">
+    <circle cx="280" cy="105" r="3.5"/>
+  </g>
+  <text x="395" y="110" font-size="12" fill="#4A4742">1 mCpG &#8594; weak pull</text>
+  <line x1="190" y1="160" x2="380" y2="160" stroke="#1B1A17" stroke-width="2" opacity="0.5"/>
+  <text x="395" y="165" font-size="12" fill="#4A4742">0 mC &#8594; background only</text>
+</svg>
+</div>
+```
+
+::: {.callout}
+[The single most important point]{.label}
+Read count at a region reflects **methylation density &times; abundance**, *not* methylation percentage.
+:::
+
+::: {.notes}
+This is the conceptual hinge for the rest of the talk. Every downstream analytic choice traces back to "signal = density times abundance, not percentage".
+:::
+
+# {.section-divider}
+
+::: {.part-num}
+PART III
+:::
+
+::: {.rule}
+:::
+
+## What we can already say *before* looking at any data {.section-divider}
+
+::: {.lede}
+A reading of the assay design, not a critique of any particular dataset.
+:::
+
+## The fragment is the feature, not the CpG {.smaller}
+
+::: {.eyebrow}
+Limitation 1 · resolution
+:::
+
+- cfDNA arrives at the assay as **~165 bp fragments** (mono-nucleosomal). The antibody catches the whole fragment, not a single base.
+- A read tells you "this fragment was methylated *somewhere*" — not which CpG, not how many.
+- Effective resolution is at best ~the fragment length; in practice analysts work with **genomic windows** (300 bp tiles, predefined CpG features, etc.).
+
+::: {.callout}
+[Contrast]{.label}
+Bisulfite gives *per-CpG* methylation percentage; cfMeDIP-seq gives *per-window relative enrichment*. Not interchangeable.
+:::
+
+::: {.notes}
+The choice of windowing scheme effectively defines what your features are — different choices give measurably different downstream stats.
+:::
+
+## Density dependence and CpG-poor blindness {visibility="hidden"}
+
+::: {.eyebrow}
+Limitation 2 · what the signal encodes (hidden)
+:::
+
+Content retained in source but hidden from the presentation.
+
+## Cross-reactivity, GC bias, and background {.smaller}
+
+::: {.eyebrow}
+Limitation 3 · what else the bead catches
+:::
+
+- **5hmC cross-reactivity.** The antibody binds 5hmC with reduced affinity. In plasma, 5hmC is much less abundant than 5mC, so the practical impact is modest — but for tissues with high 5hmC (e.g. brain-derived cfDNA, hepatic contributions) it is non-trivial.
+- **GC bias.** PCR amplification and antibody preference both favour GC-rich fragments. Two layers of GC enrichment compound.
+- **Non-specific background.** Some unmethylated fragments stick to the beads regardless. How much, and how reproducibly, has to be assessed per dataset.
+
+::: {.callout}
+[Bottom line]{.label}
+If **DMR detection** is the goal, these three factors are sources of unwanted variability *only insofar as they vary from sample to sample*. Effects that are constant across the cohort produce a systematic offset but cancel out in the differential comparison.
+:::
+
+## Low input, duplicates, and batch structure {.smaller}
+
+::: {.eyebrow}
+Limitation 4 · technical confounders
+:::
+
+### Library-level
+
+- Low cfDNA input (1–10 ng) requires more PCR cycles &rarr; **PCR duplicates** are common. UMI/dedup logic is part of the pipeline, not optional.
+- **Library complexity** caps how much sequencing depth is informative.
+- Adapter dimers and short artefacts compete for IP and sequencing capacity.
+
+### Cohort-level
+
+- **Antibody lot**, IP day, library batch, sequencing run, plasma collection tube — each can leave a footprint as strong as a biological signal.
+- Case-control studies that process cases and controls in different batches are *indistinguishable* from studies that found nothing — design matters before you ever open R.
+- Mitigations: randomization across batches, batch-aware normalization, leave-one-batch-out validation.
+
+## What the assay simply cannot resolve
+
+::: {.eyebrow}
+Limitation 5 · structural blind spots
+:::
+
+- **Single-CpG methylation percentage.** No base-level resolution.
+- **Hemi-methylation.** Denaturation to ssDNA erases strand pairing before IP.
+- **Allele-specific methylation.** Not directly readable; requires haplotype-aware extra work and is generally out of scope.
+- **5mC vs 5hmC.** The antibody does not cleanly separate them.
+- **Tumour fraction without orthogonal information.** Methylation signal alone cannot quantify tumour content; pairing with fragmentomics or somatic variants is the usual move.
+
+## Next: actually looking at the data {.section-divider}
+
+::: {.rule}
+:::
+
+::: {.lede}
+With this design-level reading in hand, we can ask what the count matrix looks like, what the per-sample QC metrics say, and which patterns are biology vs. artefact.
+:::
+
+
+
+<!--
+
+ quarto render _cfMeDIP_MIPSA_talk.qmd  > _cfMeDIP_MIPSA_talk.log   &
+
+-->

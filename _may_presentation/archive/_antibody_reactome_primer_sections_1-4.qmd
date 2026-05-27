@@ -1,0 +1,725 @@
+---
+title: "The Antibody Reactome"
+subtitle: "A Data & Analysis Primer"
+author: ""
+date: ""
+format:
+  revealjs:
+    theme: default
+    slide-number: c/t
+    transition: fade
+    background-transition: fade
+    progress: true
+    chalkboard: false
+    width: 1280
+    height: 720
+    margin: 0.06
+    incremental: false
+    code-overflow: wrap
+    fig-align: center
+    title-slide-attributes:
+      data-background-color: "#0B1F3A"
+      data-color: "#FFFFFF"
+---
+
+```{=html}
+<style>
+:root {
+  --r-main-color: #1A2A3A;
+  --r-heading-color: #1A2A3A;
+  --r-link-color: #065A82;
+  --r-selection-background-color: #F2A413;
+  --primary: #065A82;
+  --secondary: #1C7293;
+  --accent: #F2A413;
+  --navy: #0B1F3A;
+  --ink: #1A2A3A;
+  --muted: #5C6B7A;
+  --light: #EEF2F6;
+}
+
+.reveal .slide-number { font-size: 0.55em; color: #5C6B7A; }
+.reveal section { font-size: 0.78em; }
+
+/* Title slide */
+.reveal .title-slide h1.title {
+  color: #FFFFFF; font-size: 3.2em; font-weight: 700; letter-spacing: -0.01em;
+}
+.reveal .title-slide p.subtitle {
+  color: #F2A413; font-size: 1.05em; font-weight: 600;
+  letter-spacing: 0.15em; text-transform: uppercase;
+}
+
+/* Section divider slides */
+.reveal section.divider {
+  background: #0B1F3A; color: #FFFFFF; text-align: left;
+}
+.reveal section.divider h1 {
+  color: #FFFFFF; font-size: 2.6em; border: none;
+}
+.reveal section.divider .eyebrow {
+  color: #F2A413; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; font-size: 0.7em; margin-bottom: 0.4em;
+}
+
+/* Section number badge above slide title */
+.reveal h2 .badge {
+  display: inline-block; background: #065A82; color: #FFFFFF;
+  border-radius: 50%; width: 1.4em; height: 1.4em; line-height: 1.4em;
+  text-align: center; font-size: 0.7em; font-weight: 700;
+  margin-right: 0.5em; vertical-align: middle;
+}
+
+/* Eyebrow above slide title */
+.eyebrow-small {
+  color: #1C7293; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; font-size: 0.55em; margin-bottom: 0.3em;
+}
+
+/* Card-style block with left accent rail */
+.card {
+  border-left: 4px solid #065A82; padding: 0.35em 0 0.35em 0.8em;
+  margin: 0.5em 0;
+}
+.card .card-title {
+  font-weight: 700; color: #1A2A3A; font-size: 1.05em; margin-bottom: 0.15em;
+}
+.card .card-body { color: #5C6B7A; font-size: 0.95em; }
+
+/* Highlight panel — pale background */
+.panel {
+  background: #EEF2F6; border-left: 4px solid #F2A413;
+  padding: 0.7em 1em; margin: 0.6em 0; border-radius: 2px;
+}
+.panel.dark {
+  background: #0B1F3A; color: #FFFFFF; border-left-color: #F2A413;
+}
+.panel.dark .panel-eyebrow { color: #F2A413; }
+.panel .panel-eyebrow {
+  color: #1C7293; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; font-size: 0.55em; margin-bottom: 0.3em;
+}
+.panel .panel-title {
+  font-weight: 700; font-size: 1.1em; margin-bottom: 0.25em;
+}
+
+/* Big stat callout */
+.stat {
+  text-align: center; padding: 0.5em;
+  background: #EEF2F6; border: 1px solid #D5DDE5; border-radius: 4px;
+}
+.stat .stat-number {
+  font-size: 3.5em; font-weight: 700; color: #065A82; line-height: 1;
+}
+.stat .stat-label {
+  font-style: italic; color: #5C6B7A; font-size: 0.85em; margin-top: 0.3em;
+}
+
+/* Flow step boxes */
+.flow {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0.4em; margin: 0.8em 0;
+}
+.flow .step {
+  background: #065A82; color: #FFFFFF; padding: 0.5em 0.8em;
+  border-radius: 4px; text-align: center; flex: 1; min-width: 0;
+}
+.flow .step.s2 { background: #1C7293; }
+.flow .step.s3 { background: #3A8FAE; }
+.flow .step.s4 { background: #F2A413; }
+.flow .step .step-name { font-weight: 700; font-size: 1.2em; }
+.flow .step .step-sub  { font-size: 0.7em; opacity: 0.92; margin-top: 0.2em; }
+.flow .chev { color: #5C6B7A; font-size: 1.6em; font-weight: 700; }
+
+/* Numbered process grid (2x2) */
+.proc-grid {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 0.6em; margin: 0.6em 0;
+}
+.proc-grid .proc {
+  display: flex; gap: 0.7em;
+  border: 1px solid #D5DDE5; border-radius: 4px; padding: 0.7em;
+}
+.proc-grid .proc .num {
+  background: #065A82; color: #FFFFFF; border-radius: 50%;
+  width: 2em; height: 2em; line-height: 2em; text-align: center;
+  font-weight: 700; font-size: 1.1em; flex-shrink: 0;
+}
+.proc-grid .proc .body .t { font-weight: 700; color: #1A2A3A; margin-bottom: 0.15em; }
+.proc-grid .proc .body .b { color: #5C6B7A; font-size: 0.85em; }
+
+/* 3-column source cards (used in §2.2 and §4.2) */
+.col-cards {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.6em;
+  margin: 0.6em 0;
+}
+.col-cards .ccard {
+  background: #FFFFFF; border: 1px solid #D5DDE5; border-radius: 4px;
+  padding: 0.7em; border-top: 4px solid #065A82;
+}
+.col-cards .ccard .tag {
+  color: #065A82; font-weight: 700; font-size: 1.05em; margin-bottom: 0.3em;
+}
+.col-cards .ccard .body { color: #1A2A3A; font-size: 0.9em; }
+
+/* Variant: light background, centered numbered circle */
+.col-cards.centered .ccard {
+  background: #EEF2F6; border-top: none; text-align: center;
+}
+.col-cards.centered .ccard .num {
+  display: inline-block; background: #065A82; color: #FFFFFF;
+  border-radius: 50%; width: 2em; height: 2em; line-height: 2em;
+  font-weight: 700; font-size: 1.3em; margin-bottom: 0.4em;
+}
+.col-cards.centered .ccard .tag { color: #1A2A3A; }
+
+/* Challenge list (vertical accent bars) */
+.challenges .chal {
+  border-left: 3px solid #F2A413; padding: 0.15em 0 0.15em 0.7em;
+  margin: 0.45em 0;
+}
+.challenges .chal .ct { font-weight: 700; color: #1A2A3A; }
+.challenges .chal .cb { color: #5C6B7A; font-style: italic; font-size: 0.9em; }
+
+/* Sparse matrix visualization */
+.matrix-viz {
+  background: #FFFFFF; border: 1.5px solid #1A2A3A;
+  padding: 0; display: grid;
+  grid-template-columns: repeat(14, 1fr); gap: 3px;
+  aspect-ratio: 14/10; max-width: 100%;
+}
+.matrix-viz .cell { background: transparent; }
+.matrix-viz .cell.filled { background: #065A82; }
+.matrix-caption {
+  font-family: "Consolas", monospace; color: #5C6B7A; font-size: 0.7em;
+  text-align: center; margin-top: 0.3em;
+}
+
+/* Timeline (early-detection window) */
+.timeline {
+  position: relative; height: 90px; margin: 1.5em 0 1em;
+}
+.timeline .line {
+  position: absolute; top: 50%; left: 0; right: 0; height: 2px;
+  background: #1A2A3A;
+}
+.timeline .dot {
+  position: absolute; top: calc(50% - 9px); width: 18px; height: 18px;
+  border-radius: 50%;
+}
+.timeline .dot.early { left: 12%; background: #F2A413; }
+.timeline .dot.late  { left: 65%; background: #065A82; }
+.timeline .label {
+  position: absolute; top: -1em; transform: translateX(-50%);
+  font-weight: 700; font-size: 0.85em; text-align: center;
+  line-height: 1.15;
+}
+.timeline .label.early { left: 12%; }
+.timeline .label.late  { left: 65%; }
+.timeline .gap {
+  position: absolute; top: calc(50% + 18px);
+  left: 14%; right: 38%; text-align: center; color: #5C6B7A;
+  font-style: italic; font-size: 0.85em;
+  border-top: 1px dashed #5C6B7A; padding-top: 0.25em;
+}
+
+/* Wavy vs step-up reactivity contrast */
+.contrast {
+  display: grid; grid-template-rows: 1fr 1fr; gap: 0.8em;
+  height: 100%;
+}
+.contrast .row .title-line { font-weight: 700; margin-bottom: 0.1em; }
+.contrast .row .sub { color: #5C6B7A; font-style: italic; font-size: 0.8em; }
+
+/* Big key takeaway at slide bottom */
+.takeaway {
+  text-align: center; color: #065A82; font-weight: 700; font-style: italic;
+  font-size: 1.05em; margin-top: 0.8em; padding-top: 0.5em;
+  border-top: 1px solid #D5DDE5;
+}
+
+/* Stop default reveal h2 from getting an underline */
+.reveal h2 { border: none; }
+</style>
+```
+
+# {.divider data-background-color="#0B1F3A"}
+
+::: {.eyebrow}
+Section 1
+:::
+
+## What is an Antibody? {.divider}
+
+::: {.columns}
+
+::: {.column width="60%"}
+
+The immune system's job is to distinguish *self* from *non-self* — and to neutralize anything foreign. Antibodies are the precision instruments it uses to do that.
+
+::: {.card}
+::: {.card-title}
+Y-shaped protein
+:::
+::: {.card-body}
+Produced by B cells. Two binding sites at the tips of the Y.
+:::
+:::
+
+::: {.card}
+::: {.card-title}
+Recognises an antigen
+:::
+::: {.card-body}
+The molecular target the antibody binds.
+:::
+:::
+
+::: {.card}
+::: {.card-title}
+Binds at an epitope
+:::
+::: {.card-body}
+The specific 5–20 aa region of the antigen actually contacted.
+:::
+:::
+
+:::
+
+::: {.column width="40%"}
+
+::: {.stat}
+::: {.stat-number}
+~10^15^
+:::
+::: {.stat-label}
+unique antibodies the immune system can, in principle, produce
+:::
+:::
+
+:::
+
+:::
+
+# From DNA to Antibodies & Antigens {.divider data-background-color="#0B1F3A"}
+
+::: {.eyebrow}
+Section 2
+:::
+
+## [§2.1]{.eyebrow-small} The Central Dogma as the Starting Point
+
+*Both antibodies and antigens are proteins — and proteins are the end product of the same fundamental biological process.*
+
+::: {.flow}
+::: {.step .s1}
+::: {.step-name} DNA :::
+::: {.step-sub} encoded sequence :::
+:::
+::: {.chev} ▸ :::
+::: {.step .s2}
+::: {.step-name} RNA :::
+::: {.step-sub} transcribed :::
+:::
+::: {.chev} ▸ :::
+::: {.step .s3}
+::: {.step-name} Peptide :::
+::: {.step-sub} translated · amino acids :::
+:::
+::: {.chev} ▸ :::
+::: {.step .s4}
+::: {.step-name} Protein :::
+::: {.step-sub} folded · functional :::
+:::
+:::
+
+::: {.panel}
+::: {.panel-title}
+A note on peptide vs protein
+:::
+A peptide is a short amino acid chain; a protein is a longer, folded one. The distinction is one of length and structural complexity, not kind. Antigens and antibodies are both proteins — what differs is their origin, function, and the immune logic that connects them.
+:::
+
+## [§2.2]{.eyebrow-small} What is an Antigen?
+
+*Any molecule — almost always a protein or a fragment of one — that the immune system can recognize and respond to.*
+
+::: {.col-cards}
+::: {.ccard}
+::: {.tag} Pathogens :::
+::: {.body} Viral coat proteins, bacterial surface proteins, toxins :::
+:::
+::: {.ccard}
+::: {.tag} The host itself :::
+::: {.body} In autoimmunity, the immune system generates antibodies against its own proteins :::
+:::
+::: {.ccard}
+::: {.tag} Environmental :::
+::: {.body} Allergens — pollen, food proteins, and other exogenous triggers :::
+:::
+:::
+
+::: {.panel .dark}
+::: {.panel-eyebrow} Key insight :::
+::: {.panel-title}
+Antibody reactivity is fundamentally a peptide-level phenomenon — even when the antigen is a full-length protein.
+:::
+The immune system responds to specific regions — *epitopes* — typically short stretches of 5–20 amino acids that happen to be physically accessible and structurally recognizable.
+:::
+
+## [§2.3]{.eyebrow-small} What is an Antibody, Molecularly Speaking?
+
+*An antibody is a protein, encoded in DNA, produced by B cells. The remarkable thing is how its antigen-binding region comes into being.*
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+**V(D)J Recombination**
+
+Antibody genes are not fixed in the germline. Gene segments are randomly shuffled and joined within B cells.
+
+::: {style="display:flex;gap:0.4em;margin:0.6em 0;"}
+::: {style="background:#065A82;color:#fff;width:2.5em;height:2em;border-radius:4px;text-align:center;line-height:2em;font-weight:700;font-size:1.4em;"}
+V
+:::
+::: {style="background:#1C7293;color:#fff;width:2.5em;height:2em;border-radius:4px;text-align:center;line-height:2em;font-weight:700;font-size:1.4em;"}
+D
+:::
+::: {style="background:#F2A413;color:#fff;width:2.5em;height:2em;border-radius:4px;text-align:center;line-height:2em;font-weight:700;font-size:1.4em;"}
+J
+:::
+:::
+
+*…randomly shuffled & joined*
+
+:::
+
+::: {.column width="50%"}
+
+**…then Mutation & Selection**
+
+Rounds of somatic mutation refine binding affinity in response to antigen exposure across the organism's lifetime.
+
+::: {.panel}
+::: {.panel-title}
+Biographically informative
+:::
+The antibody sequence is partly determined by the genome and partly by a stochastic, exposure-driven process — making the reactome biographically informative in a way the genome alone is not.
+:::
+
+:::
+
+:::
+
+## [§2.4]{.eyebrow-small} How the DNA → Peptide → Protein Chain Enables Measurement
+
+*Because every protein is ultimately encoded in DNA, an immunological binding experiment can be converted into a sequencing experiment.*
+
+::: {.proc-grid}
+
+::: {.proc}
+::: {.num} 1 :::
+::: {.body}
+::: {.t} Design in silico :::
+::: {.b} Take any set of protein sequences (proteome, viral, allergens), tile into overlapping peptides, synthesize the corresponding DNA computationally. :::
+:::
+:::
+
+::: {.proc}
+::: {.num} 2 :::
+::: {.body}
+::: {.t} Express from DNA :::
+::: {.b} Cell-free transcription and translation produce the actual peptide or protein library in the lab. :::
+:::
+:::
+
+::: {.proc}
+::: {.num} 3 :::
+::: {.body}
+::: {.t} Attach DNA barcode :::
+::: {.b} MIPSA self-assembly covalently links a unique DNA identifier to each expressed protein. :::
+:::
+:::
+
+::: {.proc}
+::: {.num} 4 :::
+::: {.body}
+::: {.t} Read out by sequencing :::
+::: {.b} Antibody-bound antigens (and their barcodes) are pulled down. Sequencing the barcodes tells you which antigens were bound, and in what quantity. :::
+:::
+:::
+
+:::
+
+::: {.takeaway}
+The measurement currency is DNA throughout — the biology happens in the middle, but the bookkeeping is entirely nucleotide-based.
+:::
+
+# What is the Antibody Reactome? {.divider data-background-color="#0B1F3A"}
+
+::: {.eyebrow}
+Section 3
+:::
+
+## [§3]{.eyebrow-small} What is the Antibody Reactome?
+
+::: {.columns}
+
+::: {.column width="55%"}
+
+The complete set of antigen-binding reactivities present in a biological sample — typically blood serum or plasma — at a given point in time.
+
+::: {.panel}
+::: {.panel-title}
+A snapshot of immunological history
+:::
+- Every pathogen encountered
+- Every vaccine received
+- Every self-protein mistakenly targeted
+- Every allergen that triggered a response
+:::
+
+*If the genome is the blueprint and the transcriptome is what's being expressed, the reactome is a record of exposures and responses — written in the language of binding specificities.*
+
+:::
+
+::: {.column width="45%"}
+
+::: {.eyebrow-small}
+For a data scientist
+:::
+
+**A high-dimensional, sparse count matrix**
+
+```{=html}
+<div class="matrix-caption">rows = individuals · columns = antigens</div>
+<div class="matrix-viz">
+  <!-- 10 rows × 14 cols = 140 cells; ~28 filled for sparsity -->
+  <!-- Row 0 --> <div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div>
+  <!-- Row 1 --> <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  <!-- Row 2 --> <div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div>
+  <!-- Row 3 --> <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  <!-- Row 4 --> <div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  <!-- Row 5 --> <div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell filled"></div>
+  <!-- Row 6 --> <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  <!-- Row 7 --> <div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  <!-- Row 8 --> <div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div>
+  <!-- Row 9 --> <div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell"></div><div class="cell filled"></div><div class="cell"></div><div class="cell"></div>
+</div>
+<div class="matrix-caption" style="margin-top:0.5em;font-style:italic;">entries reflect whether (and at what level) an individual has antibodies that bind a given antigen</div>
+```
+
+:::
+
+:::
+
+# Why is it Interesting? {.divider data-background-color="#0B1F3A"}
+
+::: {.eyebrow}
+Section 4
+:::
+
+## [§4.1]{.eyebrow-small} An Omic with Memory
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+Unlike gene expression, which fluctuates with conditions, **antibody reactivities are relatively durable**.
+
+*An infection years ago can leave a detectable antibody signature today.*
+
+::: {.panel .dark}
+::: {.panel-eyebrow} Unusual among omics :::
+::: {.panel-title}
+The reactome carries longitudinal information in a cross-sectional measurement.
+:::
+:::
+
+:::
+
+::: {.column width="50%"}
+
+```{=html}
+<div style="padding-left:1em;">
+  <div style="font-weight:700;font-size:0.95em;color:#5C6B7A;">Gene expression</div>
+  <div style="font-style:italic;font-size:0.78em;color:#5C6B7A;margin-bottom:0.3em;">fluctuates with conditions</div>
+  <svg viewBox="0 0 400 50" style="width:100%;height:50px;">
+    <polyline points="0,25 30,15 60,35 90,12 120,38 150,18 180,32 210,15 240,30 270,20 300,35 330,18 360,28 400,22"
+              fill="none" stroke="#5C6B7A" stroke-width="2"/>
+  </svg>
+  <div style="margin-top:1.2em;font-weight:700;font-size:0.95em;color:#065A82;">Antibody reactome</div>
+  <div style="font-style:italic;font-size:0.78em;color:#5C6B7A;margin-bottom:0.3em;">durable — exposures leave persistent signatures</div>
+  <svg viewBox="0 0 400 80" style="width:100%;height:80px;">
+    <polyline points="0,65 110,65 110,40 250,40 250,15 400,15"
+              fill="none" stroke="#065A82" stroke-width="3"/>
+    <circle cx="110" cy="65" r="6" fill="#F2A413"/>
+    <circle cx="250" cy="40" r="6" fill="#F2A413"/>
+    <text x="110" y="78" text-anchor="middle" font-size="9" fill="#5C6B7A" font-style="italic">↑ exposure</text>
+    <text x="250" y="78" text-anchor="middle" font-size="9" fill="#5C6B7A" font-style="italic">↑ exposure</text>
+  </svg>
+  <div style="text-align:center;font-family:Consolas,monospace;color:#5C6B7A;font-size:0.7em;margin-top:0.3em;">time →</div>
+</div>
+```
+
+:::
+
+:::
+
+## [§4.2]{.eyebrow-small} Encodes Exposure History at Population Scale
+
+*At the population level, the reactome is a rich epidemiological signal.*
+
+::: {.col-cards .centered}
+
+::: {.ccard}
+::: {.num} 1 :::
+::: {.tag} Pathogen exposure :::
+::: {.body} Which pathogens has a community been exposed to? Reactivity patterns across individuals reveal community-level infection histories. :::
+:::
+
+::: {.ccard}
+::: {.num} 2 :::
+::: {.tag} Vaccine effectiveness :::
+::: {.body} Which vaccines are working? Antibody signatures track real-world immune response, not just intended response. :::
+:::
+
+::: {.ccard}
+::: {.num} 3 :::
+::: {.tag} Demographic clustering :::
+::: {.body} How do immune responses cluster across age, geography, and other demographic groups? :::
+:::
+
+:::
+
+::: {.takeaway}
+Patterns of reactivity across individuals → community-scale immunological insight.
+:::
+
+## [§4.3]{.eyebrow-small} Can Detect Disease — Including Before Symptoms
+
+::: {.columns}
+
+::: {.column width="45%"}
+
+**Autoantibodies**
+
+*Antibodies that mistakenly target the body's own proteins.*
+
+::: {style="margin-top:1em;"}
+**Associated diseases**
+
+- Lupus
+- Rheumatoid arthritis
+- Certain cancers
+- …and a wide range of others
+:::
+
+:::
+
+::: {.column width="55%"}
+
+**The early-detection window**
+
+::: {.timeline}
+::: {.label .early} Autoantibodies<br>appear :::
+::: {.label .late} Clinical<br>diagnosis :::
+::: {.line} :::
+::: {.dot .early} :::
+::: {.dot .late} :::
+::: {.gap} ◀ years ▶ :::
+:::
+
+::: {.panel}
+The reactome is a candidate for early detection — **years before symptoms**.
+:::
+
+:::
+
+:::
+
+## [§4.4]{.eyebrow-small} It is a Hard Measurement Problem
+
+*Until recently, measuring the antibody reactome comprehensively was not feasible. The breakthrough came with sequencing-based display methods.*
+
+::: {.columns}
+
+::: {.column width="50%"}
+
+::: {.eyebrow-small} From microarrays to sequencing :::
+
+::: {.panel}
+::: {.panel-title}
+Protein microarrays
+:::
+*Thousands of antigens · expensive · limited content* — the old way.
+:::
+
+::: {.panel .dark}
+::: {.panel-title}
+PhIP-Seq · MIPSA
+:::
+Sequencing-based display: hundreds of thousands of antigens probed simultaneously across many samples; readout is a count matrix from NGS.
+:::
+
+:::
+
+::: {.column width="50%"}
+
+::: {.eyebrow-small} What makes the data problem hard :::
+
+::: {.challenges}
+
+::: {.chal}
+::: {.ct} Very wide matrix :::
+::: {.cb} Hundreds of thousands of antigens :::
+:::
+
+::: {.chal}
+::: {.ct} Moderate sample size :::
+::: {.cb} Far fewer samples than antigens :::
+:::
+
+::: {.chal}
+::: {.ct} Extreme sparsity :::
+::: {.cb} Most cells are zero or near-zero :::
+:::
+
+::: {.chal}
+::: {.ct} Heavy-tailed counts :::
+::: {.cb} Distribution far from Gaussian :::
+:::
+
+::: {.chal}
+::: {.ct} Background to estimate :::
+::: {.cb} From mock-IP controls run alongside each experiment :::
+:::
+
+:::
+
+:::
+
+:::
+
+# {.divider data-background-color="#0B1F3A"}
+
+::: {style="text-align:center;color:#FFFFFF;"}
+
+## End of Sections 1–4 {style="color:#FFFFFF;border:none;"}
+
+::: {style="color:#F2A413;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;font-size:0.6em;margin-top:1em;"}
+Source
+:::
+
+infinity-bio.netlify.app/_1-antibody_reactome_primer
+
+:::
+
+<!--
+
+quarto render _antibody_reactome_primer_sections_1-4.qmd  > _antibody_reactome_primer_sections_1-4.log   &
+
+-->
+
+

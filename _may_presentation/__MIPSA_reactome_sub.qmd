@@ -1,0 +1,206 @@
+## From plasma to a count matrix {.smaller}
+
+::: {.eyebrow}
+the assay workflow
+:::
+
+```{=html}
+<div class="diagram">
+<svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arF2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 z" fill="#6B2E2A"/>
+    </marker>
+  </defs>
+  <g font-family="IBM Plex Sans" font-size="11" fill="#1B1A17" text-anchor="middle">
+    <rect x="10"  y="60" width="100" height="60" rx="3" fill="#ECE6D7" stroke="#1B1A17" stroke-width="1"/>
+    <text x="60"  y="82">MIPSA library</text>
+    <text x="60"  y="98" font-size="9" fill="#4A4742">~10&#8308; protein-DNA</text>
+
+    <line x1="110" y1="90" x2="128" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="130" y="60" width="120" height="60" rx="3" fill="#ECE6D7" stroke="#1B1A17" stroke-width="1"/>
+    <text x="190" y="78">Mix with plasma</text>
+    <text x="190" y="93">overnight at 4°C</text>
+    <text x="190" y="108" font-size="9" fill="#4A4742">antibodies bind antigens</text>
+
+    <line x1="250" y1="90" x2="268" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="270" y="60" width="120" height="60" rx="3" fill="#6B2E2A" stroke="#6B2E2A" stroke-width="1"/>
+    <text x="330" y="78" fill="#F4F0E6" font-weight="600">Anti-Ig IP</text>
+    <text x="330" y="93" fill="#F4F0E6" font-size="10">protein A/G + anti-IgG</text>
+    <text x="330" y="108" font-size="9" fill="#F4F0E6">pull antibody complexes</text>
+
+    <line x1="390" y1="90" x2="408" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="410" y="60" width="100" height="60" rx="3" fill="#ECE6D7" stroke="#1B1A17" stroke-width="1"/>
+    <text x="460" y="82">Wash</text>
+    <text x="460" y="98" font-size="9" fill="#4A4742">remove unbound library</text>
+
+    <line x1="510" y1="90" x2="528" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="530" y="60" width="100" height="60" rx="3" fill="#ECE6D7" stroke="#1B1A17" stroke-width="1"/>
+    <text x="580" y="82">Elute, PCR</text>
+    <text x="580" y="98" font-size="9" fill="#4A4742">amplify UCI barcodes</text>
+
+    <line x1="630" y1="90" x2="648" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="650" y="60" width="100" height="60" rx="3" fill="#ECE6D7" stroke="#1B1A17" stroke-width="1"/>
+    <text x="700" y="82">Sequence</text>
+    <text x="700" y="98" font-size="9" fill="#4A4742">Illumina, count UCIs</text>
+
+    <line x1="750" y1="90" x2="768" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="770" y="60" width="120" height="60" rx="3" fill="#FEF5E7" stroke="#D68910" stroke-width="1.5"/>
+    <text x="830" y="78">Count matrix</text>
+    <text x="830" y="93" font-size="9" fill="#6E4C09">UCIs &#215; samples</text>
+  </g>
+</svg>
+</div>
+```
+
+- **One IP per sample** pulls down the antibodies in that plasma and whatever library members they bound.
+- **Mock IPs** (no plasma) run alongside give the per-experiment background — what sticks to the beads regardless of sample.
+- Final readout is a familiar **count matrix**: rows = library members (UCIs), columns = samples, entries = sequencing reads.
+
+## The library is the universe {.smaller}
+
+::: {.eyebrow}
+Limitation 1 · what can the assay see?
+:::
+
+- A MIPSA experiment can only detect antibodies against antigens that are **in the library**.
+- Library design decisions are upstream of everything:
+  - Which proteome(s)? Human ORFeome only? Plus viral, bacterial, allergens, tumour antigens?
+  - Which **isoforms**? Most libraries carry one canonical isoform per gene.
+  - **Splicing variants, fusion proteins, mutant epitopes** are not present unless explicitly designed in.
+- Anything not in the library is invisible — and there is no "no signal" inference you can draw about absent antigens.
+
+::: {.callout}
+[The most common over-interpretation]{.label}
+"Patient X has no antibodies against Y" usually means "the library did not include Y, or the form of Y the antibody recognises." The library catalogue is part of the result.
+:::
+
+## Linear vs conformational; native vs not {.smaller}
+
+::: {.eyebrow}
+Limitation 2 · what proteins really look like in the assay
+:::
+
+MIPSA's full-length proteins are made in a cell-free system. That improves over PhIP-Seq's short peptides — but the proteins in the tube are not the proteins in the body.
+
+- **Most native folding probably occurs**, but it has not been systematically benchmarked for every ORF in any library. Some proteins almost certainly do not fold properly without their cellular context.
+- **No post-translational modifications** in standard cell-free systems: no glycosylation, phosphorylation, citrullination, etc. Antibodies that specifically recognise a PTM (a major class of autoantibodies) will not bind their target here.
+- **Membrane proteins, large multi-domain proteins, complexes** are all problematic.
+- **Conformational epitopes** are *partially* recovered relative to peptide tiles, but practical coverage is library-dependent and rarely measured directly.
+
+::: {.notes}
+Be honest about uncertainty. MIPSA is a young technology and the field has not yet systematically characterised which fractions of the proteome fold correctly in its cell-free system. The right framing: better than peptide tiles for conformational coverage; how much better is an open question per library.
+:::
+
+## What the bead actually catches {.smaller}
+
+::: {.eyebrow}
+Limitation 3 · isotype and abundance
+:::
+
+- **Protein A/G beads** efficiently capture IgG, with mild subclass biases. They capture IgM, IgA, and IgE poorly.
+- Most published MIPSA / PhIP-Seq studies are **IgG reactome studies** even when they don't say so explicitly.
+- **Dynamic range is finite.** Each antibody binds its own cognate antigens, so high-titre antibodies don't directly "outcompete" rare ones for binding sites. But abundant antibodies (against common pathogens, vaccines) generate very large counts that consume a disproportionate share of the per-sample sequencing budget — pushing rare specificities closer to the noise floor where mock-IP controls matter most.
+- **Polyreactive and "sticky" antibodies** exist and generate broad, low-specificity signals across many library members.
+
+::: {.callout}
+[A useful sanity check]{.label}
+In any adult IgG dataset, look for known anti-EBV, anti-CMV, and anti-flu hits. If they're not there, something is wrong upstream.
+:::
+
+## Counts are not affinities {.smaller}
+
+::: {.eyebrow}
+Limitation 4 · what the count actually encodes
+:::
+
+A read count for a given UCI in a given sample reflects roughly:
+
+::: {.callout}
+[Count &#8733;]{.label}
+(antibody concentration) &#215; (antibody affinity) &#215; (avidity) &#215; (library-member starting abundance) &#215; (1 &minus; loss during wash) &#215; (sequencing depth allocation)
+:::
+
+- Two of these — antibody concentration and antibody affinity — are confounded in any single sample.
+- High counts ≠ high-affinity binding. They could just mean an abundant low-affinity antibody.
+- Library-member starting abundance varies; without correction, well-represented members look like they pull more antibody than they really do.
+- **Differential** counts across samples are more interpretable than absolute counts — but only after appropriate normalisation, and only between probes for the same antigen.
+
+::: {.notes}
+This is the MIPSA analogue of "density × abundance, not percentage" from the cfMeDIP-seq talk. Both are IP-based, both produce counts that are not the underlying biological quantity, both need per-feature normalisation.
+:::
+
+## Technical confounders {.smaller}
+
+::: {.eyebrow}
+Limitation 5 · what varies between runs
+:::
+
+The PhIP-Seq literature has documented several sources of run-to-run variability — most should be expected in MIPSA too:
+
+- **Library version and lot.** UCI representation isn't perfectly even; different library preparations may differ in which barcodes are well-represented at the start.
+- **Bead lot, IP day, plasma processing.** Same considerations as any IP-based assay.
+- **PCR cycles and amplification bias.** Barcode-region GC content and adapter chemistry can introduce per-barcode amplification biases.
+- **Sequencing depth allocation.** Usually addressed by counts-per-million-style normalisation, but very low-depth samples remain unreliable.
+- **Mock-IP variability.** Background changes per batch — so the *same* batch's mock IP is the right control, not a historical one.
+
+::: {.callout}
+[The same question as for cfMeDIP-seq]{.label}
+How do technical groupings (plate, day, lot) line up with biological groupings (case, control, exposure)? If they overlap, batch effect and biology are indistinguishable.
+:::
+
+## What MIPSA simply cannot resolve {visibility="hidden"}
+
+::: {.eyebrow}
+Limitation 6 · structural blind spots
+:::
+
+- **PTM-dependent epitopes** (e.g. citrullinated antigens in rheumatoid arthritis) — invisible without a custom PTM-aware library.
+- **Carbohydrate, lipid, and small-molecule antigens** — not protein, not in the library.
+- **Antibodies recognising native multimeric complexes** — the cell-free system rarely assembles complexes.
+- **Affinity, on-rate, off-rate** — the assay gives a single count, not a binding curve.
+- **Functional consequence** (neutralising vs non-neutralising) — needs orthogonal assays (e.g. neutralisation, ADCC).
+
+[Knowing what an assay *cannot* answer is the cheapest way to avoid over-interpreting it.]{.footnote}
+
+## Next: actually looking at the data {.section-divider}
+
+::: {.rule}
+:::
+
+::: {.lede}
+With this design-level reading in hand, we can ask what the count matrix looks like, what the per-sample QC metrics say, which probes co-vary on the same antigen, and which patterns are real biology versus library, batch, or background.
+:::
+
+## Further reading {.smaller}
+
+::: {.eyebrow}
+References worth checking
+:::
+
+::: {.refs}
+
+- **Credle JJ et al. (2022)** *Unbiased discovery of autoantibodies associated with severe COVID-19 via genome-scale self-assembled DNA-barcoded protein libraries.* Nat Biomed Eng 6(8):992–1003.  
+  <span class="note">[The MIPSA paper.]</span>
+
+- **Larman HB et al. (2011)** *Autoantigen discovery with a synthetic human peptidome.* Nat Biotechnol 29(6):535–541.  
+  <span class="note">[The original PhIP-Seq paper.]</span>
+
+- **Mohan D et al. (2018)** *PhIP-Seq characterization of serum antibodies using oligonucleotide-encoded peptidomes.* Nat Protoc 13(9):1958–1978.  
+  <span class="note">[Practical PhIP-Seq protocol.]</span>
+
+- **Recent PhIP-Seq reviews** in Frontiers in Bioinformatics (2024) and Molecular & Cellular Proteomics (2024) discuss methods, applications, and limitations including conformational epitopes, PTMs, and non-specific binding.
+
+- **BEER** — Bayesian Estimation in PhIP-Seq (Chen et al.) — for detecting and quantifying reactivity in PhIP-Seq-style data. Likely adaptable to MIPSA counts.
+
+- **edgeR** (Robinson, McCarthy, Smyth) — negative-binomial framework for count data; used for per-tile or per-UCI hit calling.
+
+:::
+
+[Verify these against your preferred citation manager before presenting — I have not opened every paper myself.]{.footnote}
