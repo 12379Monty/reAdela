@@ -1,6 +1,5 @@
 ---
-title: "Same Bead, Different Question"
-subtitle: "A walk-through of cfMeDIP-seq and MIPSA count data"
+title: "A walk-through the cfMeDIP-seq platform for methylome profiling"
 author: ""
 format:
   revealjs:
