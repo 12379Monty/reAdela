@@ -108,7 +108,7 @@ Adela's cfMeDIP-seq Technology.
 
 #  Presentations {-}
 
-*  [cfMeDIP](may_presentation/_cfMeDIP_talk.html)
+*  [the cfMeDIP-seq platform for methylome profiling](may_presentation/_cfMeDIP_talk.html)
 
 * [Basic Introduction to Reactomics](may_presentation/_antibody_reactome_primer_sections_1-4.html)
 * [Introduction to Reactomics](may_presentation/_MIPSA_reactome_intro.html)
