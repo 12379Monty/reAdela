@@ -1,0 +1,782 @@
+---
+title: "The Antibody Reactome"
+subtitle: "A data and analysis primer"
+author: ""
+format:
+  revealjs:
+    theme: default
+    slide-number: c/t
+    progress: true
+    transition: fade
+    transition-speed: fast
+    controls: true
+    center: false
+    width: 1280
+    height: 760
+    margin: 0.06
+    self-contained: true
+    embed-resources: true
+    chalkboard: false
+    menu: false
+---
+
+```{=html}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Serif:ital,wght@0,400;0,500;0,600;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg:        #F4F0E6;
+    --bg-deep:   #ECE6D7;
+    --ink:       #1B1A17;
+    --ink-soft:  #4A4742;
+    --rule:      #B8AE94;
+    --accent:    #6B2E2A;
+    --accent-2:  #2C5F5D;
+    --hl-yellow: #E8C547;
+    --font-serif: "IBM Plex Serif", Georgia, serif;
+    --font-sans:  "IBM Plex Sans", system-ui, sans-serif;
+    --font-mono:  "IBM Plex Mono", ui-monospace, monospace;
+  }
+  .reveal-viewport, body, .reveal { background: var(--bg) !important; }
+  .reveal { font-family: var(--font-sans); color: var(--ink); font-weight: 400; }
+  .reveal h1, .reveal h2, .reveal h3, .reveal h4 {
+    font-family: var(--font-serif); color: var(--ink);
+    font-weight: 500; letter-spacing: -0.01em;
+    text-transform: none; margin: 0 0 0.5em 0; line-height: 1.15;
+  }
+  .reveal h1 { font-size: 2.0em; font-weight: 600; }
+  .reveal h2 { font-size: 1.4em; }
+  .reveal h3 { font-size: 1.05em; color: var(--ink-soft); font-style: italic; font-weight: 400; }
+  .reveal section { text-align: left; }
+  .reveal p, .reveal li { line-height: 1.4; }
+  .reveal ul, .reveal ol { display: block; margin-left: 1.1em; }
+  .reveal li { margin: 0.3em 0; }
+  .reveal strong { color: var(--accent); font-weight: 600; }
+  .reveal em { color: var(--ink-soft); }
+  .reveal a { color: var(--accent-2); text-decoration: underline; text-underline-offset: 3px; }
+  .rule { width: 60px; height: 1px; background: var(--rule); margin: 0 0 1.0em 0; }
+  .eyebrow {
+    font-family: var(--font-mono); font-size: 0.6em;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.6em;
+  }
+  .section-divider .part-num {
+    font-family: var(--font-mono); font-size: 0.7em;
+    color: var(--accent); letter-spacing: 0.2em; margin-bottom: 1em;
+  }
+  .section-divider .lede {
+    font-family: var(--font-serif); font-style: italic;
+    color: var(--ink-soft); margin-top: 1em; max-width: 32em;
+  }
+  .callout {
+    border-left: 3px solid var(--accent); background: var(--bg-deep);
+    padding: 0.55em 0.9em; font-size: 0.78em; margin-top: 0.6em;
+  }
+  .callout .label {
+    font-family: var(--font-mono); font-size: 0.7em;
+    letter-spacing: 0.1em; color: var(--accent);
+    text-transform: uppercase; display: block; margin-bottom: 0.25em;
+  }
+  .reveal code {
+    font-family: var(--font-mono); background: var(--bg-deep);
+    padding: 0.1em 0.3em; font-size: 0.85em;
+  }
+  /* Molecule row */
+  .mol-row {
+    display: flex; gap: 2em; align-items: flex-start;
+    justify-content: center; margin-top: 0.8em;
+  }
+  .mol-row figure { text-align: center; margin: 0; flex: 0 0 auto; }
+  .mol-row figure svg { display: block; margin: 0 auto; height: 160px; width: auto; }
+  .mol-name {
+    font-family: var(--font-serif); font-style: italic;
+    font-size: 0.7em; color: var(--ink-soft);
+    margin-top: 0.3em;
+  }
+  .mol-symbol {
+    font-family: var(--font-mono); font-size: 0.75em;
+    color: var(--ink); letter-spacing: 0.05em; margin-top: 0.1em;
+  }
+  /* Generic diagram block */
+  .diagram { display: block; text-align: center; margin: 0.6em 0; }
+  .diagram svg { display: block; margin: 0 auto; max-width: 100%; height: auto; }
+  /* Tables */
+  .reveal table { border-collapse: collapse; font-size: 0.75em; margin-top: 0.4em; }
+  .reveal th, .reveal td {
+    border-bottom: 1px solid var(--rule);
+    padding: 0.35em 0.7em; text-align: left;
+  }
+  .reveal th {
+    font-family: var(--font-mono); font-weight: 500;
+    font-size: 0.85em; color: var(--accent); letter-spacing: 0.05em;
+  }
+  /* Footnote */
+  .footnote {
+    font-family: var(--font-mono); font-size: 0.5em;
+    color: var(--ink-soft); margin-top: 0.8em;
+    border-top: 1px solid var(--rule); padding-top: 0.4em;
+  }
+  .reveal .controls { color: var(--accent); }
+  .reveal .progress { color: var(--accent); height: 2px; }
+  .reveal .slide-number {
+    font-family: var(--font-mono); color: var(--ink-soft);
+    background: transparent; font-size: 0.7em;
+  }
+  /* Flowchart container — let the SVG breathe full slide width */
+  .flowchart-wrap { width: 100%; margin-top: 0.4em; }
+  .flowchart-wrap svg { width: 100%; height: auto; display: block; }
+
+  /* Two-column inline layout */
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8em; align-items: start; }
+  .two-col.narrow-right { grid-template-columns: 1.3fr 1fr; }
+  .two-col.narrow-left  { grid-template-columns: 1fr 1.3fr; }
+
+  /* Inline stat callout (editorial) */
+  .stat-box {
+    border-top: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+    padding: 0.6em 0.4em; text-align: center;
+  }
+  .stat-box .num {
+    font-family: var(--font-serif); font-size: 2.6em;
+    color: var(--accent); font-weight: 500; line-height: 1;
+  }
+  .stat-box .cap {
+    font-family: var(--font-serif); font-style: italic;
+    color: var(--ink-soft); font-size: 0.7em; margin-top: 0.35em;
+  }
+</style>
+```
+
+# {.section-divider}
+
+::: {.part-num}
+PART I
+:::
+
+::: {.rule}
+:::
+
+## What is an antibody? {.section-divider}
+
+::: {.lede}
+The precision instrument the immune system uses to tell self from non-self.
+:::
+
+## A Y-shaped protein with a vast vocabulary *(roughly 10¹⁵ words)* {.smaller}
+
+::: {.eyebrow}
+Slide 1 · the antibody as molecule
+:::
+
+The immune system's job is to distinguish *self* from *non-self* — and to neutralize anything foreign. Antibodies are how it does that.
+
+- An antibody is a **Y-shaped protein** produced by B cells, with two binding sites at the tips of the Y.
+- Each binding site recognizes a specific molecular target — an **antigen**.
+- The actual region of the antigen contacted is called an **epitope**: typically just 5–20 amino acids.
+
+::: {.two-col .narrow-left}
+
+::: {}
+
+Antibodies are generated through quasi-random recombination and mutation. The immune system can, in principle, produce an astronomically large diversity of binding specificities. This is not a bug — it is how the system stays ready for anything.
+
+:::
+
+::: {.stat-box}
+::: {.num}
+~10¹⁵
+:::
+::: {.cap}
+unique antibodies the immune system can, in principle, produce
+:::
+:::
+
+:::
+
+::: {.notes}
+The ~10^15 number is theoretical diversity, not observed circulating diversity at any moment — but it sets the scale for why the immune repertoire can plausibly cover almost anything the organism will encounter.
+:::
+
+# {.section-divider}
+
+::: {.part-num}
+PART II
+:::
+
+::: {.rule}
+:::
+
+## From DNA to antibodies and antigens {.section-divider}
+
+::: {.lede}
+The same biological process produces both the recogniser and the recognised — and this is what makes everything measurable.
+:::
+
+## The central dogma is the starting point {.smaller}
+
+::: {.eyebrow}
+Slide 2 · DNA → RNA → peptide → protein
+:::
+
+Both antibodies and antigens are proteins, and proteins are the end product of one fundamental process: **DNA is transcribed into RNA, which is translated into a chain of amino acids — a peptide — which folds into a functional protein.**
+
+```{=html}
+<div class="diagram">
+<svg viewBox="0 0 900 130" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans">
+  <!-- Four boxes with thin outlines, editorial style -->
+  <g stroke="#1B1A17" stroke-width="1.5" fill="none">
+    <rect x="20"  y="30" width="170" height="70"/>
+    <rect x="250" y="30" width="170" height="70"/>
+    <rect x="480" y="30" width="170" height="70"/>
+    <rect x="710" y="30" width="170" height="70"/>
+  </g>
+  <!-- Labels -->
+  <text x="105" y="62" text-anchor="middle" font-family="IBM Plex Serif" font-size="20" font-weight="500" fill="#1B1A17">DNA</text>
+  <text x="105" y="84" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4A4742">encoded sequence</text>
+  <text x="335" y="62" text-anchor="middle" font-family="IBM Plex Serif" font-size="20" font-weight="500" fill="#1B1A17">RNA</text>
+  <text x="335" y="84" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4A4742">transcribed</text>
+  <text x="565" y="62" text-anchor="middle" font-family="IBM Plex Serif" font-size="20" font-weight="500" fill="#1B1A17">peptide</text>
+  <text x="565" y="84" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4A4742">translated · amino acids</text>
+  <text x="795" y="62" text-anchor="middle" font-family="IBM Plex Serif" font-size="20" font-weight="500" fill="#6B2E2A">protein</text>
+  <text x="795" y="84" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4A4742">folded · functional</text>
+  <!-- Arrows -->
+  <g stroke="#6B2E2A" stroke-width="1.5" fill="#6B2E2A">
+    <line x1="195" y1="65" x2="245" y2="65"/>
+    <polygon points="245,65 238,61 238,69"/>
+    <line x1="425" y1="65" x2="475" y2="65"/>
+    <polygon points="475,65 468,61 468,69"/>
+    <line x1="655" y1="65" x2="705" y2="65"/>
+    <polygon points="705,65 698,61 698,69"/>
+  </g>
+</svg>
+</div>
+```
+
+::: {.callout}
+[Peptide vs protein]{.label}
+A **peptide** is a short amino acid chain; a **protein** is a longer, folded one. The distinction is one of length and structural complexity, not kind. Antigens and antibodies are both proteins — what differs is their origin, function, and the immune logic that connects them.
+:::
+
+::: {.notes}
+This slide exists to anchor a key idea later: because the whole chain runs through DNA, every step is in principle addressable with sequencing. The peptide/protein distinction will matter when we discuss peptide-tile libraries vs full-length ORFeome libraries.
+:::
+
+## What is an antigen? {.smaller}
+
+::: {.eyebrow}
+Slide 3 · what the immune system sees
+:::
+
+An antigen is any molecule — almost always a protein or a fragment of one — that the immune system can recognize and respond to. Antigens come from:
+
+- **Pathogens.** Viral coat proteins, bacterial surface proteins, toxins.
+- **The host itself.** In autoimmunity, the immune system generates antibodies against its own proteins.
+- **Environmental sources.** Allergens such as pollen, food proteins, and other exogenous triggers.
+
+The immune system does *not* respond to a whole protein uniformly. It responds to specific regions of that protein — **epitopes** — typically short 5–20 amino acid stretches that happen to be physically accessible and structurally recognizable.
+
+::: {.callout}
+[The single most important point]{.label}
+Antibody reactivity is fundamentally a **peptide-level phenomenon** — even when the antigen presented is a full-length protein.
+:::
+
+::: {.notes}
+This is the conceptual hinge for everything downstream — if reactivity lives at the peptide level, then library design naturally moves toward peptide tiles, and the analysis problem becomes one of aggregating evidence across tiles that share an underlying epitope.
+:::
+
+## What is an antibody, molecularly speaking? {.smaller}
+
+::: {.eyebrow}
+Slide 4 · how diversity is generated
+:::
+
+An antibody is a protein, encoded in DNA, produced by B cells. The remarkable thing is that the genes encoding the **antigen-binding region** are not fixed in the germline. They are assembled on the fly.
+
+### V(D)J recombination
+
+Gene segments are randomly shuffled and joined.
+
+```{=html}
+<div class="diagram" style="margin: 0.4em 0;">
+<svg viewBox="0 0 480 90" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans">
+  <!-- V D J segments -->
+  <g stroke="#1B1A17" stroke-width="1.5" fill="none">
+    <rect x="20"  y="20" width="60" height="35"/>
+    <rect x="110" y="20" width="40" height="35"/>
+    <rect x="180" y="20" width="60" height="35"/>
+  </g>
+  <text x="50"  y="43" text-anchor="middle" font-family="IBM Plex Serif" font-size="18" font-weight="500" fill="#1B1A17">V</text>
+  <text x="130" y="43" text-anchor="middle" font-family="IBM Plex Serif" font-size="18" font-weight="500" fill="#1B1A17">D</text>
+  <text x="210" y="43" text-anchor="middle" font-family="IBM Plex Serif" font-size="18" font-weight="500" fill="#1B1A17">J</text>
+  <text x="130" y="78" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4A4742">germline gene segments</text>
+  <!-- Arrow to recombined -->
+  <g stroke="#6B2E2A" stroke-width="1.5" fill="#6B2E2A">
+    <line x1="255" y1="37" x2="305" y2="37"/>
+    <polygon points="305,37 298,33 298,41"/>
+  </g>
+  <text x="280" y="25" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#6B2E2A">recombine</text>
+  <!-- Joined product -->
+  <g stroke="#6B2E2A" stroke-width="1.5" fill="none">
+    <rect x="320" y="20" width="140" height="35"/>
+  </g>
+  <text x="390" y="43" text-anchor="middle" font-family="IBM Plex Serif" font-size="14" font-style="italic" font-weight="500" fill="#6B2E2A">V—D—J</text>
+  <text x="390" y="78" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4A4742">unique combination</text>
+</svg>
+</div>
+```
+
+### …then somatic mutation and selection
+
+Rounds of mutation refine binding affinity in response to antigen exposure across the organism's lifetime.
+
+::: {.callout}
+[Why the reactome is biographical]{.label}
+The antibody sequence is partly determined by the genome and partly by a stochastic, exposure-driven process happening within the lifetime of the organism. This is what makes the antibody reactome **biographically informative** in a way the genome alone is not.
+:::
+
+## How the DNA → peptide → protein chain enables measurement {.smaller}
+
+::: {.eyebrow}
+Slide 5 · the bookkeeping is DNA throughout
+:::
+
+Because every protein — including every antigen — is ultimately encoded in DNA, the whole experimental chain is in principle addressable with sequencing.
+
+1. **Design the antigen library *in silico*.** Take any set of protein sequences (a human proteome, all known viral proteins, a set of allergens); tile them into overlapping peptides; synthesize the corresponding DNA sequences computationally.
+2. **Express the proteins from that DNA.** Cell-free transcription and translation produce the actual peptide or protein library in the lab.
+3. **Attach a unique DNA barcode to each library member.** This is what MIPSA does via its self-assembly mechanism — covalently linking a DNA identifier to each expressed protein.
+4. **Read out by sequencing.** When antibodies in a sample bind their target antigens, those antigens (and their attached barcodes) are pulled down. Sequencing the barcodes tells you *which* antigens were bound, and in what quantities.
+
+::: {.callout}
+[The foundational insight]{.label}
+The **measurement currency is DNA throughout** — from library design, to barcoding, to readout. The biology happens in the middle (proteins binding proteins), but the experimental bookkeeping is entirely nucleotide-based. An immunological binding experiment becomes a sequencing experiment.
+:::
+
+::: {.notes}
+This is *the* slide for MIPSA's existence. Everything else in the platform follows from the fact that you can encode the antigen library, the barcoding, and the readout in DNA throughout — making the whole thing compatible with high-throughput sequencing infrastructure.
+:::
+
+# {.section-divider}
+
+::: {.part-num}
+PART III
+:::
+
+::: {.rule}
+:::
+
+## What is the antibody reactome? {.section-divider}
+
+::: {.lede}
+Not a blueprint, not what's being expressed — a record of exposures and responses.
+:::
+
+## A snapshot of immunological history {.smaller}
+
+::: {.eyebrow}
+Slide 6 · defining the reactome
+:::
+
+The **antibody reactome** is the complete set of antigen-binding reactivities present in a biological sample — typically blood serum or plasma — at a given point in time.
+
+::: {.two-col .narrow-left}
+
+::: {}
+
+Think of it as a snapshot of immunological history:
+
+- every pathogen encountered,
+- every vaccine received,
+- every self-protein the immune system has mistakenly targeted,
+- every allergen that has triggered a response.
+
+If the genome is the **blueprint** and the transcriptome is **what's being expressed**, the reactome is something different — it's a **record of exposures and responses**, written in the language of binding specificities.
+
+:::
+
+::: {}
+
+For a data scientist, the useful framing is concrete:
+
+```{=html}
+<div class="diagram" style="margin: 0;">
+<svg viewBox="0 0 320 230" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans">
+  <!-- Frame -->
+  <rect x="50" y="20" width="260" height="180" fill="none" stroke="#1B1A17" stroke-width="1.5"/>
+  <!-- Axis labels -->
+  <text x="180" y="14" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4A4742">antigens →</text>
+  <text x="44" y="110" text-anchor="middle" font-family="IBM Plex Mono" font-size="10" fill="#4A4742" transform="rotate(-90 44 110)">individuals →</text>
+  <!-- Sparse cells: 13 cols x 9 rows -->
+  <g fill="#6B2E2A">
+    <!-- row 0 --><rect x="70"  y="26" width="14" height="14"/><rect x="125" y="26" width="14" height="14"/><rect x="225" y="26" width="14" height="14"/>
+    <!-- row 1 --><rect x="90"  y="46" width="14" height="14"/><rect x="180" y="46" width="14" height="14"/>
+    <!-- row 2 --><rect x="110" y="66" width="14" height="14"/><rect x="160" y="66" width="14" height="14"/><rect x="265" y="66" width="14" height="14"/>
+    <!-- row 3 --><rect x="55"  y="86" width="14" height="14"/><rect x="145" y="86" width="14" height="14"/><rect x="245" y="86" width="14" height="14"/>
+    <!-- row 4 --><rect x="195" y="106" width="14" height="14"/><rect x="285" y="106" width="14" height="14"/>
+    <!-- row 5 --><rect x="75"  y="126" width="14" height="14"/><rect x="210" y="126" width="14" height="14"/>
+    <!-- row 6 --><rect x="120" y="146" width="14" height="14"/><rect x="165" y="146" width="14" height="14"/><rect x="270" y="146" width="14" height="14"/>
+    <!-- row 7 --><rect x="60"  y="166" width="14" height="14"/><rect x="100" y="166" width="14" height="14"/><rect x="230" y="166" width="14" height="14"/>
+    <!-- row 8 --><rect x="155" y="183" width="14" height="14"/><rect x="255" y="183" width="14" height="14"/><rect x="290" y="183" width="14" height="14"/>
+  </g>
+  <text x="180" y="222" text-anchor="middle" font-family="IBM Plex Serif" font-style="italic" font-size="11" fill="#4A4742">sparse high-dimensional count matrix</text>
+</svg>
+</div>
+```
+
+:::
+
+:::
+
+# {.section-divider}
+
+::: {.part-num}
+PART IV
+:::
+
+::: {.rule}
+:::
+
+## Why is it interesting? {.section-divider}
+
+::: {.lede}
+Four reasons the reactome is worth measuring — and one reason it's hard.
+:::
+
+## An omic with memory {.smaller}
+
+::: {.eyebrow}
+Slide 7 · why durability matters
+:::
+
+Unlike gene expression, which fluctuates with conditions, antibody reactivities are relatively **durable**. An infection years ago can leave a detectable antibody signature today.
+
+```{=html}
+<div class="diagram">
+<svg viewBox="0 0 760 200" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans">
+  <!-- Gene expression panel -->
+  <text x="20" y="22" font-family="IBM Plex Serif" font-size="14" font-weight="500" fill="#1B1A17">Gene expression</text>
+  <text x="20" y="38" font-family="IBM Plex Serif" font-style="italic" font-size="11" fill="#4A4742">fluctuates with conditions</text>
+  <line x1="20" y1="80" x2="720" y2="80" stroke="#B8AE94" stroke-width="0.75"/>
+  <polyline points="20,80 60,65 100,90 140,60 180,92 220,68 260,85 300,62 340,88 380,72 420,84 460,65 500,90 540,68 580,85 620,72 660,82 700,76 720,80"
+            fill="none" stroke="#4A4742" stroke-width="1.5"/>
+  <!-- Reactome panel -->
+  <text x="20" y="118" font-family="IBM Plex Serif" font-size="14" font-weight="500" fill="#6B2E2A">Antibody reactome</text>
+  <text x="20" y="134" font-family="IBM Plex Serif" font-style="italic" font-size="11" fill="#4A4742">durable — exposures leave persistent signatures</text>
+  <line x1="20" y1="180" x2="720" y2="180" stroke="#B8AE94" stroke-width="0.75"/>
+  <polyline points="20,180 220,180 220,160 460,160 460,140 720,140"
+            fill="none" stroke="#6B2E2A" stroke-width="2"/>
+  <!-- Exposure markers -->
+  <circle cx="220" cy="180" r="5" fill="#E8C547" stroke="#6B2E2A" stroke-width="1"/>
+  <circle cx="460" cy="160" r="5" fill="#E8C547" stroke="#6B2E2A" stroke-width="1"/>
+  <text x="220" y="200" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#4A4742">↑ exposure</text>
+  <text x="460" y="200" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" fill="#4A4742">↑ exposure</text>
+  <text x="740" y="184" text-anchor="end" font-family="IBM Plex Mono" font-size="9" fill="#4A4742">time →</text>
+</svg>
+</div>
+```
+
+::: {.callout}
+[Unusual among omics]{.label}
+The reactome carries **longitudinal information in a cross-sectional measurement**. A single blood draw, in principle, encodes years of immunological history.
+:::
+
+## It encodes exposure history at population scale {.smaller}
+
+::: {.eyebrow}
+Slide 8 · the epidemiological signal
+:::
+
+At the population level, the reactome is a rich epidemiological signal. Patterns of reactivity across individuals reveal:
+
+- **Pathogen exposure.** Which pathogens has a community been exposed to? Reactivity patterns across individuals reveal community-level infection histories.
+- **Vaccine effectiveness.** Which vaccines are working? Antibody signatures track real-world immune response, not just intended response.
+- **Demographic clustering.** How do immune responses cluster across age, geography, and other demographic groups?
+
+::: {.callout}
+[The framing]{.label}
+A cross-sectional cohort measurement of the antibody reactome is, in effect, a longitudinal sero-epidemiology study compressed into a single time point.
+:::
+
+::: {.notes}
+The implication for study design is that you can extract a great deal of exposure-history information from a comparatively modest cohort without needing the years of follow-up that a traditional longitudinal design would require.
+:::
+
+## It can detect disease — including before symptoms {.smaller}
+
+::: {.eyebrow}
+Slide 9 · autoantibodies and early detection
+:::
+
+**Autoantibodies** — antibodies that mistakenly target the body's own proteins — are associated with a wide range of diseases: lupus, rheumatoid arthritis, certain cancers, and many others. In some cases they appear **years before clinical diagnosis**, making the reactome a candidate for early detection.
+
+```{=html}
+<div class="diagram">
+<svg viewBox="0 0 720 160" xmlns="http://www.w3.org/2000/svg" font-family="IBM Plex Sans">
+  <!-- Main timeline -->
+  <line x1="60" y1="90" x2="660" y2="90" stroke="#1B1A17" stroke-width="1.5"/>
+  <!-- Early marker -->
+  <circle cx="160" cy="90" r="8" fill="#E8C547" stroke="#6B2E2A" stroke-width="1.5"/>
+  <text x="160" y="60" text-anchor="middle" font-family="IBM Plex Serif" font-size="13" font-weight="500" fill="#1B1A17">autoantibodies</text>
+  <text x="160" y="76" text-anchor="middle" font-family="IBM Plex Serif" font-size="13" font-weight="500" fill="#1B1A17">appear</text>
+  <!-- Late marker -->
+  <circle cx="520" cy="90" r="8" fill="#6B2E2A"/>
+  <text x="520" y="60" text-anchor="middle" font-family="IBM Plex Serif" font-size="13" font-weight="500" fill="#1B1A17">clinical</text>
+  <text x="520" y="76" text-anchor="middle" font-family="IBM Plex Serif" font-size="13" font-weight="500" fill="#1B1A17">diagnosis</text>
+  <!-- Years bracket between -->
+  <line x1="172" y1="120" x2="508" y2="120" stroke="#6B2E2A" stroke-width="1" stroke-dasharray="3 3"/>
+  <g stroke="#6B2E2A" stroke-width="1.5" fill="#6B2E2A">
+    <polygon points="172,120 180,116 180,124"/>
+    <polygon points="508,120 500,116 500,124"/>
+  </g>
+  <text x="340" y="116" text-anchor="middle" font-family="IBM Plex Serif" font-style="italic" font-size="12" fill="#6B2E2A">years</text>
+  <!-- Window label -->
+  <text x="340" y="148" text-anchor="middle" font-family="IBM Plex Mono" font-size="9" letter-spacing="0.1em" fill="#4A4742">THE EARLY-DETECTION WINDOW</text>
+</svg>
+</div>
+```
+
+::: {.callout}
+[Why this matters clinically]{.label}
+Autoantibody signatures move the detectable disease state earlier on the timeline — opening the possibility of intervention before clinical symptoms manifest. This is the promise; the data problem is what makes it hard.
+:::
+
+## It is a hard measurement problem {.smaller}
+
+::: {.eyebrow}
+Slide 10 · the data challenge
+:::
+
+Until recently, measuring the antibody reactome comprehensively was not feasible. Protein microarrays could probe thousands of antigens but were expensive and limited in content. The real breakthrough came with **sequencing-based display methods** — PhIP-Seq, and more recently MIPSA — which probe hundreds of thousands of antigens simultaneously across many samples.
+
+### What makes the data problem genuinely interesting
+
+- A **very wide matrix** — hundreds of thousands of antigens.
+- A **moderate number of samples** — far fewer than antigens.
+- **Extreme sparsity** — most cells are zero or near-zero.
+- **Heavy-tailed count distributions** — far from Gaussian.
+- A **background noise structure** that must be estimated from **mock-IP controls** run alongside every experiment.
+
+::: {.callout}
+[Looking ahead]{.label}
+These are exactly the kinds of problems where the choice of statistical framework matters — and where assumptions, if left unexamined, can quietly corrupt the results. Section 5 takes up the **probe-aggregation problem** that follows from this structure.
+:::
+
+::: {.notes}
+This is a natural endpoint for Sections 1–4. The material on probe aggregation, the RMA analogy, and the negative-binomial framing belongs in a Section-5 follow-on deck. We've set the stage: the reactome is biologically interesting, technologically newly accessible, and statistically non-trivial.
+:::
+
+## From plasma to a count matrix {.smaller}
+
+::: {.eyebrow}
+the assay workflow
+:::
+
+```{=html}
+<div class="diagram">
+<svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arF2" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto">
+      <path d="M0,0 L8,3 L0,6 z" fill="#6B2E2A"/>
+    </marker>
+  </defs>
+  <g font-family="IBM Plex Sans" font-size="11" fill="#1B1A17" text-anchor="middle">
+    <rect x="10"  y="60" width="100" height="60" rx="3" fill="#ECE6D7" stroke="#1B1A17" stroke-width="1"/>
+    <text x="60"  y="82">MIPSA library</text>
+    <text x="60"  y="98" font-size="9" fill="#4A4742">~10&#8308; protein-DNA</text>
+
+    <line x1="110" y1="90" x2="128" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="130" y="60" width="120" height="60" rx="3" fill="#ECE6D7" stroke="#1B1A17" stroke-width="1"/>
+    <text x="190" y="78">Mix with plasma</text>
+    <text x="190" y="93">overnight at 4°C</text>
+    <text x="190" y="108" font-size="9" fill="#4A4742">antibodies bind antigens</text>
+
+    <line x1="250" y1="90" x2="268" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="270" y="60" width="120" height="60" rx="3" fill="#6B2E2A" stroke="#6B2E2A" stroke-width="1"/>
+    <text x="330" y="78" fill="#F4F0E6" font-weight="600">Anti-Ig IP</text>
+    <text x="330" y="93" fill="#F4F0E6" font-size="10">protein A/G + anti-IgG</text>
+    <text x="330" y="108" font-size="9" fill="#F4F0E6">pull antibody complexes</text>
+
+    <line x1="390" y1="90" x2="408" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="410" y="60" width="100" height="60" rx="3" fill="#ECE6D7" stroke="#1B1A17" stroke-width="1"/>
+    <text x="460" y="82">Wash</text>
+    <text x="460" y="98" font-size="9" fill="#4A4742">remove unbound library</text>
+
+    <line x1="510" y1="90" x2="528" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="530" y="60" width="100" height="60" rx="3" fill="#ECE6D7" stroke="#1B1A17" stroke-width="1"/>
+    <text x="580" y="82">Elute, PCR</text>
+    <text x="580" y="98" font-size="9" fill="#4A4742">amplify UCI barcodes</text>
+
+    <line x1="630" y1="90" x2="648" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="650" y="60" width="100" height="60" rx="3" fill="#ECE6D7" stroke="#1B1A17" stroke-width="1"/>
+    <text x="700" y="82">Sequence</text>
+    <text x="700" y="98" font-size="9" fill="#4A4742">Illumina, count UCIs</text>
+
+    <line x1="750" y1="90" x2="768" y2="90" stroke="#6B2E2A" stroke-width="1.5" marker-end="url(#arF2)"/>
+
+    <rect x="770" y="60" width="120" height="60" rx="3" fill="#FEF5E7" stroke="#D68910" stroke-width="1.5"/>
+    <text x="830" y="78">Count matrix</text>
+    <text x="830" y="93" font-size="9" fill="#6E4C09">UCIs &#215; samples</text>
+  </g>
+</svg>
+</div>
+```
+
+- **One IP per sample** pulls down the antibodies in that plasma and whatever library members they bound.
+- **Mock IPs** (no plasma) run alongside give the per-experiment background — what sticks to the beads regardless of sample.
+- Final readout is a familiar **count matrix**: rows = library members (UCIs), columns = samples, entries = sequencing reads.
+
+## The library is the universe {.smaller}
+
+::: {.eyebrow}
+Limitation 1 · what can the assay see?
+:::
+
+- A MIPSA experiment can only detect antibodies against antigens that are **in the library**.
+- Library design decisions are upstream of everything:
+  - Which proteome(s)? Human ORFeome only? Plus viral, bacterial, allergens, tumour antigens?
+  - Which **isoforms**? Most libraries carry one canonical isoform per gene.
+  - **Splicing variants, fusion proteins, mutant epitopes** are not present unless explicitly designed in.
+- Anything not in the library is invisible — and there is no "no signal" inference you can draw about absent antigens.
+
+::: {.callout}
+[The most common over-interpretation]{.label}
+"Patient X has no antibodies against Y" usually means "the library did not include Y, or the form of Y the antibody recognises." The library catalogue is part of the result.
+:::
+
+## Linear vs conformational; native vs not {.smaller}
+
+::: {.eyebrow}
+Limitation 2 · what proteins really look like in the assay
+:::
+
+MIPSA's full-length proteins are made in a cell-free system. That improves over PhIP-Seq's short peptides — but the proteins in the tube are not the proteins in the body.
+
+- **Most native folding probably occurs**, but it has not been systematically benchmarked for every ORF in any library. Some proteins almost certainly do not fold properly without their cellular context.
+- **No post-translational modifications** in standard cell-free systems: no glycosylation, phosphorylation, citrullination, etc. Antibodies that specifically recognise a PTM (a major class of autoantibodies) will not bind their target here.
+- **Membrane proteins, large multi-domain proteins, complexes** are all problematic.
+- **Conformational epitopes** are *partially* recovered relative to peptide tiles, but practical coverage is library-dependent and rarely measured directly.
+
+::: {.notes}
+Be honest about uncertainty. MIPSA is a young technology and the field has not yet systematically characterised which fractions of the proteome fold correctly in its cell-free system. The right framing: better than peptide tiles for conformational coverage; how much better is an open question per library.
+:::
+
+## What the bead actually catches {.smaller}
+
+::: {.eyebrow}
+Limitation 3 · isotype and abundance
+:::
+
+- **Protein A/G beads** efficiently capture IgG, with mild subclass biases. They capture IgM, IgA, and IgE poorly.
+- Most published MIPSA / PhIP-Seq studies are **IgG reactome studies** even when they don't say so explicitly.
+- **Dynamic range is finite.** Each antibody binds its own cognate antigens, so high-titre antibodies don't directly "outcompete" rare ones for binding sites. But abundant antibodies (against common pathogens, vaccines) generate very large counts that consume a disproportionate share of the per-sample sequencing budget — pushing rare specificities closer to the noise floor where mock-IP controls matter most.
+- **Polyreactive and "sticky" antibodies** exist and generate broad, low-specificity signals across many library members.
+
+::: {.callout}
+[A useful sanity check]{.label}
+In any adult IgG dataset, look for known anti-EBV, anti-CMV, and anti-flu hits. If they're not there, something is wrong upstream.
+:::
+
+## Counts are not affinities {.smaller}
+
+::: {.eyebrow}
+Limitation 4 · what the count actually encodes
+:::
+
+A read count for a given UCI in a given sample reflects roughly:
+
+::: {.callout}
+[Count &#8733;]{.label}
+(antibody concentration) &#215; (antibody affinity) &#215; (avidity) &#215; (library-member starting abundance) &#215; (1 &minus; loss during wash) &#215; (sequencing depth allocation)
+:::
+
+- Two of these — antibody concentration and antibody affinity — are confounded in any single sample.
+- High counts ≠ high-affinity binding. They could just mean an abundant low-affinity antibody.
+- Library-member starting abundance varies; without correction, well-represented members look like they pull more antibody than they really do.
+- **Differential** counts across samples are more interpretable than absolute counts — but only after appropriate normalisation, and only between probes for the same antigen.
+
+::: {.notes}
+This is the MIPSA analogue of "density × abundance, not percentage" from the cfMeDIP-seq talk. Both are IP-based, both produce counts that are not the underlying biological quantity, both need per-feature normalisation.
+:::
+
+## Technical confounders {.smaller}
+
+::: {.eyebrow}
+Limitation 5 · what varies between runs
+:::
+
+The PhIP-Seq literature has documented several sources of run-to-run variability — most should be expected in MIPSA too:
+
+- **Library version and lot.** UCI representation isn't perfectly even; different library preparations may differ in which barcodes are well-represented at the start.
+- **Bead lot, IP day, plasma processing.** Same considerations as any IP-based assay.
+- **PCR cycles and amplification bias.** Barcode-region GC content and adapter chemistry can introduce per-barcode amplification biases.
+- **Sequencing depth allocation.** Usually addressed by counts-per-million-style normalisation, but very low-depth samples remain unreliable.
+- **Mock-IP variability.** Background changes per batch — so the *same* batch's mock IP is the right control, not a historical one.
+
+::: {.callout}
+[The same question as for cfMeDIP-seq]{.label}
+How do technical groupings (plate, day, lot) line up with biological groupings (case, control, exposure)? If they overlap, batch effect and biology are indistinguishable.
+:::
+
+## What MIPSA simply cannot resolve {visibility="hidden"}
+
+::: {.eyebrow}
+Limitation 6 · structural blind spots
+:::
+
+- **PTM-dependent epitopes** (e.g. citrullinated antigens in rheumatoid arthritis) — invisible without a custom PTM-aware library.
+- **Carbohydrate, lipid, and small-molecule antigens** — not protein, not in the library.
+- **Antibodies recognising native multimeric complexes** — the cell-free system rarely assembles complexes.
+- **Affinity, on-rate, off-rate** — the assay gives a single count, not a binding curve.
+- **Functional consequence** (neutralising vs non-neutralising) — needs orthogonal assays (e.g. neutralisation, ADCC).
+
+[Knowing what an assay *cannot* answer is the cheapest way to avoid over-interpreting it.]{.footnote}
+
+## Next: actually looking at the data {.section-divider}
+
+::: {.rule}
+:::
+
+::: {.lede}
+With this design-level reading in hand, we can ask what the count matrix looks like, what the per-sample QC metrics say, which probes co-vary on the same antigen, and which patterns are real biology versus library, batch, or background.
+:::
+
+## Further reading {.smaller}
+
+::: {.eyebrow}
+References worth checking
+:::
+
+::: {.refs}
+
+- **Credle JJ et al. (2022)** *Unbiased discovery of autoantibodies associated with severe COVID-19 via genome-scale self-assembled DNA-barcoded protein libraries.* Nat Biomed Eng 6(8):992–1003.  
+  <span class="note">[The MIPSA paper.]</span>
+
+- **Larman HB et al. (2011)** *Autoantigen discovery with a synthetic human peptidome.* Nat Biotechnol 29(6):535–541.  
+  <span class="note">[The original PhIP-Seq paper.]</span>
+
+- **Mohan D et al. (2018)** *PhIP-Seq characterization of serum antibodies using oligonucleotide-encoded peptidomes.* Nat Protoc 13(9):1958–1978.  
+  <span class="note">[Practical PhIP-Seq protocol.]</span>
+
+- **Recent PhIP-Seq reviews** in Frontiers in Bioinformatics (2024) and Molecular & Cellular Proteomics (2024) discuss methods, applications, and limitations including conformational epitopes, PTMs, and non-specific binding.
+
+- **BEER** — Bayesian Estimation in PhIP-Seq (Chen et al.) — for detecting and quantifying reactivity in PhIP-Seq-style data. Likely adaptable to MIPSA counts.
+
+- **edgeR** (Robinson, McCarthy, Smyth) — negative-binomial framework for count data; used for per-tile or per-UCI hit calling.
+
+:::
+
+[Verify these against your preferred citation manager before presenting — I have not opened every paper myself.]{.footnote}
+
+<!--
+
+ quarto render _antibody_reactome_primer_sections_1-4.qmd  > _antibody_reactome_primer_sections_1-4.log  &
+
+-->

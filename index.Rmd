@@ -106,11 +106,12 @@ Adela's cfMeDIP-seq Technology.
 }
 ```
 
-#  Presentations
+#  Presentations {-}
 
-*  [cfMeDIP](_may_presentation/_cfMeDIP_MIPSA_talk.html)
+*  [cfMeDIP](may_presentation/_cfMeDIP_talk.html)
 
-* [MIPSA]((_may_presentation/_antibody_reactome_primer_sections_1-4.html)
+* [Basic Introduction to Reactomics](may_presentation/_antibody_reactome_primer_sections_1-4.html)
+* [Introduction to Reactomics](may_presentation/_MIPSA_reactome_intro.html)
 
 
 <br/>
@@ -280,8 +281,32 @@ TO BE COMPLETED
 
 # Technical Assessments {.tabset}
 
-1. Proof of concept study
-2. Pan-cancer compendium of variability
+<p><p/>
+1. Proof of concept study - Shen et al. 2018   [@Shen2018]
+   - a superficial dog and pony  show with very little
+verifiable truth
+
+<p><p/>
+2. feature selection and modeling - Halla-aho et al. 2022   [@Hallaaho2022]
+   - the lack of reproducibility may be due to the feature selection
+strategy. 
+
+
+<p><p/>
+3. spike-in control normalization -  Wilson et al. 2022 [@Wilson2022]
+   - spike-in fragments are used for quantification and normalization.
+   - there is no verification that the spike-in fragments can assume
+the role they are asked to fill.
+
+<p><p/>
+4. Fragment length distribution - Stutheit-Zhao (2024) [@Stutheit-Zhao2024]
+   - ??
+
+<p><p/>
+5. Pan-cancer compendium of variability = Zeng et al. 2026 (Nature) [@Zeng2026]
+   - a large number of datasets assembled for this analysis
+allows for an honest assessment of variability,
+both within and between sites
 
 ## Home {-}
 
@@ -297,11 +322,134 @@ TO BE COMPLETED
 ```{r,  eval=F, child="protocol-assess/_Shen_2018_Nature_Critical_Review.md"}
 ```
 
+##      {#featureSelectionAndModeling}
+
+2. feature selection and modeling 
+
+[Halla-aho et al. 2022](protocol-assess/_Halla-aho_2022_Critical_Review.html)
+
+
+```{r,  eval=F, child="protocol-assess/_Halla-aho_2022_Critical_Review.md"}
+```
+
+<br/>
+
+##       {#spike-inControlNormalization}
+
+3. spike-in control normalization 
+
+<p><p/>
+* Wilson et al. 2022 [@Wilson2022]
+   - [slides](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review_slides/_Wilson2022_SpikeIns.html)
+   - [Rmarkdown](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
+      - contents of the paper are detailed.
+      - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
+   - [Rmarkdown for summary similar to Stutheit-Zhao (2024)](./spoke_ins/Wilson_2022_Technical_Review.html) -
+see Section \ref(#frag-len-dist).
+
+<p><p/>
+* Additional markdowns 
+   -  [framework](spike_ins/_spike_in_normalization_cfMeDIP_report.html)
+   -  [biological validation](spike_ins/_Wilson_2022_Critical_Analysis_Biological_Validation.html)
+   -  [NGS_Normalization_Methods_Review](spike_ins/NGS_Normalization_Methods_Review.html)
+
+<p><p/>
+* Published Data 
+   -  **GEO Accession GSE166259:**
+      - Raw HCT116 cell line data (public)
+      - Processed AML patient data (public)
+
+   -  **EGA Accession EGAS00001005069:**
+      - Raw AML patient data (controlled access)
+      - Available via University Health Network Genomics Data Access Committee
+
+   -  **Zenodo Deposits:**
+      -  Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
+      -  spiky package: https://doi.org/10.18129/B9.bioc.spiky
+
+<p><p/>
+* Wilson et al. 2022 [@Wilson2022]  does not use
+sharp metrics or suitable evaluation data to assess the
+success of the normalization procedure.                         
+   - For model performance, 
+*Used held-out spike-ins to assess prediction accuracy*
+      - this tells us nothing about the relevant performance -
+are the sample normalized methylation profiles better than
+the un-normalized methylation profiles.
+      - the usefulness of the normalization step can only be judged
+by examining the  normalized methylation profiles of samples with
+some designed or known truth.
+
+<br/>
+
+* **As a normalization method the spike-in control normalization
+remains unproven.**
+
+ 
+<br/>
+
+##     {#FragmentLengthDistribution}
+
+4. Fragment length distribution
+
+* Stutheit-Zhao (2024) [@Stutheit-Zhao2024] show that the 
+distribution of fragment lengths adds information to sequence
+data when trying to discriminate  between cancer and non-cancer samples.
+   - [Rmarkdown](./fragment_length/Stutheit-Zhao_2024_Technical_Review.html)
+   - This article contributes more examples of innovative analyses that
+are not vetted to any reasonable degree.  There are three methodologies
+introduced:
+      - 1- Methylation Probability Estimation to get a
+Cancer-Specific Methylation (CSM) Score
+         - fitting a model with an unmethylated component to a data set which
+only targets methylated DNA fragments is an interesting approach.
+         - How does it work?  Why does it work?  We are provided no clue.
+      - 2- Using reference distribution of fragment length for
+normal and cancer populations to obtain a Fragment length score.
+         - Using fragment lengths from samples processed on a different
+platform is another interesting choice.
+      - 3-  The two scores are combined with the weighting determined by 
+a logistic regression fit the linear combination of both.
+         - the assumption of independent additive effects should be checked.
+
+
+
+`r CAPTION <-
+paste("Figure 2B from Stutheit-Zhao (2024).",
+"  The figure indicates that this fragment length feature",
+"adds very little predictive power, if any, to the methylation index.",
+"  Recall that this fragment length feature is computed using",
+" a reference distribution of fragment length collected",
+" using  a different platform."
+)`
+
+    
+```{r index-fig-2b, fig.cap = CAPTION, include=T, fig.align='center', eval=T}
+
+knitr::include_graphics( "fragment_length/Figure2B.png", dpi=50)
+
+```                   
+
+
+<br/>
+<br/>
+
+<p><p/>
+* The analyses have apparent flaws so one should not generalize these
+results too broadly, if al all.
+   - Fragmentation patterns in cfDNA have proven to be informative
+in detecting the presence of cancer in many contexts.  Using a bad
+reference may be he problem here.
+   - **To Do: a literature review on the ways fragmentation patterns 
+can be recorded.**
+
+
+
 <br/>
 
 ##    {#pan-cancer-variability}
 
-2. Pan-cancer compendium of variability
+5. Pan-cancer compendium of variability
 
 [Zeng et al. 2026 (Nature) [@Zeng2026]](protocol-assess/_Zeng_2026_Technical_Review.html)  
 
@@ -322,9 +470,6 @@ TO BE COMPLETED
 
 1. Protocol, Pipeline and Classifier Methods 
 2. Software
-3. feature selection and modeling 
-4. spike-in control normalization 
-5. Fragment length distribution
 6. GRAIL vs cfMeDIP=seq
 7. DNA Methylation Company Landscape
 
@@ -385,129 +530,7 @@ and Classifiers is traced.
 whose methods are implemented in the Bioconductor MEDIPS package.  
    - [Tutorial updated October 2024](https://bioconductor.posit.co/packages/3.20/bioc/vignettes/MEDIPS/inst/doc/MEDIPS.pdf)
 
-
-##      {#featureSelectionAndModeling}
-
-3. feature selection and modeling 
-
-[Halla-aho et sl. 2022](protocol-assess/_Halla-aho_2022_Critical_Review.html)
-
-
-```{r,  eval=F, child="protocol-assess/_Halla-aho_2022_Critical_Review.md"}
-```
-
 <br/>
-
-##       {#spike-inControlNormalization}
-
-4. spike-in control normalization 
-
-<p><p/>
-* Wilson et al. 2022 [@Wilson2022]
-   - [slides](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review_slides/_Wilson2022_SpikeIns.html)
-   - [Rmarkdown](spike_ins/_Wilson_2022_Spike_in_Controls_Technical_Review.html)
-      - contents of the paper are detailed.
-      - [Figures](spike_ins/_Wilson_2022_Figures_Captions.html)
-   - [Rmarkdown for summary similar to Stutheit-Zhao (2024)](./spoke_ins/Wilson_2022_Technical_Review.html) -
-see Section \ref(#frag-len-dist).
-
-<p><p/>
-* Additional markdowns 
-   -  [framework](spike_ins/_spike_in_normalization_cfMeDIP_report.html)
-   -  [biological validation](spike_ins/_Wilson_2022_Critical_Analysis_Biological_Validation.html)
-   -  [NGS_Normalization_Methods_Review](spike_ins/NGS_Normalization_Methods_Review.html)
-
-<p><p/>
-* Published Data 
-   -  **GEO Accession GSE166259:**
-      - Raw HCT116 cell line data (public)
-      - Processed AML patient data (public)
-
-   -  **EGA Accession EGAS00001005069:**
-      - Raw AML patient data (controlled access)
-      - Available via University Health Network Genomics Data Access Committee
-
-   -  **Zenodo Deposits:**
-      -  Code for reproducing all analyses: https://doi.org/10.5281/zenodo.4683791
-      -  spiky package: https://doi.org/10.18129/B9.bioc.spiky
-
-<p><p/>
-* Wilson et al. 2022 [@Wilson2022]  does not use
-sharp metrics or suitable evaluation data to assess the
-success of the normalization procedure.                         
-   - For model performance, 
-*Used held-out spike-ins to assess prediction accuracy*
-      - this tells us nothing about the relevant performance -
-are the sample normalized methylation profiles better than
-the un-normalized methylation profiles.
-      - the usefulness of the normalization step can only be judged
-by examining the  normalized methylation profiles of samples with
-some designed or known truth.
-
-<br/>
-
-* **As a normalization method the spike-in control normalization
-remains unproven.**
-
- 
-<br/>
-
-##     {#FragmentLengthDistribution}
-
-5. Fragment length distribution
-
-* Stutheit-Zhao (2024) [@Stutheit-Zhao2024] show that the 
-distribution of fragment lengths adds information to sequence
-data when trying to discriminate  between cancer and non-cancer samples.
-   - [Rmarkdown](./fragment_length/Stutheit-Zhao_2024_Technical_Review.html)
-   - This article contributes more examples of innovative analyses that
-are not vetted to any reasonable degree.  There are three methodologies
-introduced:
-      - 1- Methylation Probability Estimation to get a
-Cancer-Specific Methylation (CSM) Score
-         - fitting a model with an unmethylated component to a data set which
-only targets methylated DNA fragments is an interesting approach.
-         - How does it work?  Why does it work?  We are provided no clue.
-      - 2- Using reference distribution of fragment length for
-normal and cancer populations to obtain a Fragment length score.
-         - Using fragment lengths from samples processed on a different
-platform is another interesting choice.
-      - 3-  The two scores are combined with the weighting determined by 
-a logistic regression fit the linear combination of both.
-         - the assumption of independent additive effects should be checked.
-
-
-
-`r CAPTION <-
-paste("Figure 2B from Stutheit-Zhao (2024).",
-"  The figure indicates that this fragment length feature",
-"adds very little predictive power, if any, to the methylation index.",
-"  Recall that this fragment length feature is computed using",
-" a reference distribution of fragment length collected",
-" using  a different platform."
-)`
-
-    
-```{r index-fig-2b, fig.cap = CAPTION, include=T, fig.align='center', eval=T}
-
-knitr::include_graphics( "fragment_length/Figure2B.png", dpi=50)
-
-```                   
-
-
-<br/>
-<br/>
-
-<p><p/>
-* The analyses have apparent flaws so one should not generalize these
-results too broadly, if al all.
-   - Fragmentation patterns in cfDNA have proven to be informative
-in detecting the presence of cancer in many contexts.  Using a bad
-reference may be he problem here.
-   - **To Do: a literature review on the ways fragmentation patterns 
-can be recorded.**
-
-
 
 <br/>
 
